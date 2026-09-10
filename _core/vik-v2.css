@@ -1,0 +1,2532 @@
+/* ══════════════════════════════════════════════════════════════
+   VIK JOSÉ IGNACIO · DESIGN SYSTEM V2
+   Hoja unica. La pagina no depende de _core ni de nada fuera de
+   esta carpeta: fuentes, logos, imagenes, video y codigo viven al
+   lado de este archivo.
+
+   LA DIRECCION
+   V1 era una publicacion nocturna: fondo tinta, fotografia a
+   sangre, texto en hueso. V2 es una publicacion impresa: papel
+   claro, mucho blanco, laminas apoyadas sobre el papel y el negro
+   reservado a tres momentos — la portada, una banda de cine y el
+   pie. El mismo material, leido a plena luz.
+
+   LO QUE NO SE TOCA
+   · Los seis colores del manual.
+   · Los cinco roles tipograficos, con sus usos.
+   · El tono: premium, cultural, hotelero.
+
+   LO QUE CAMBIA
+   · El suelo — de tinta a papel.
+   · El aire — el ritmo vertical crece un tercio.
+   · La esquina — un radio corto y constante.
+   · La composicion — reticulas asimetricas, imagenes que se pisan,
+     epigrafes en vertical, papeleria de la casa puesta en pagina.
+
+   Sistema original: Nicolás Castillo · @donhkoland
+   ══════════════════════════════════════════════════════════════ */
+
+
+/* ══ 1 · TIPOGRAFIAS ════════════════════════════════════════════
+   Cinco roles, cinco archivos. Ningun peso por encima de 400
+   existe en el sistema, asi que nada puede sintetizar una negrita. */
+@font-face{font-family:"Old Standard VIK";src:url("../assets/fonts/oldstandardtt-regular.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Apercu Mono Pro";src:url("../assets/fonts/apercumonopro-regular.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Highway Gothic Expanded";src:url("../assets/fonts/highwaygothicexpanded.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Selva Script";src:url("../assets/fonts/selvascriptpro.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"DM Sans";src:url("../assets/fonts/dmsans-regular.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"DM Sans";src:url("../assets/fonts/dmsans-light.woff2") format("woff2");font-weight:300;font-display:swap}
+
+
+/* ══ 2 · TOKENS ═════════════════════════════════════════════════ */
+:root{
+  /* paleta VIK — los seis del manual, ni uno mas */
+  --canvas:#EEF3DC;
+  --vik:#002FA7;
+  --ink:#1E1E1E;
+  --bone:#F8F8F0;
+  --navy:#070850;
+  --burgundy:#5B0318;
+
+  /* la tinta, por pasos */
+  --i-90:rgba(30,30,30,.9);
+  --i-70:rgba(30,30,30,.7);
+  --i-55:rgba(30,30,30,.55);
+  --i-40:rgba(30,30,30,.4);
+  --i-26:rgba(30,30,30,.26);
+  --hair:rgba(30,30,30,.13);
+  --hair-soft:rgba(30,30,30,.07);
+
+  /* la esquina */
+  /* ESQUINA VIVA. Nada se redondea: ni una lamina, ni una foto, ni
+     un boton. Los tokens se quedan a cero en vez de borrarse de
+     cada regla — el dia que haya que probar otra cosa se cambia
+     una linea y no cuarenta.
+
+     El circulo sigue existiendo donde es una forma y no una
+     esquina: el punto que late en la tira viva, el pin del mapa y
+     el anillo del cursor. */
+  --r-xl:0;
+  --r-l:0;
+  --r-m:0;
+  --r-pill:0;
+
+  /* la reticula */
+  --max:1320px;
+  --gap:clamp(14px,1.5vw,26px);
+  --pad-x:clamp(1.35rem,4.6vw,4.75rem);
+  --pad-y:clamp(6rem,10vw,11rem);
+  --vw:100vw;
+  --nav-h:88px;
+
+  /* la sombra: una sola, muy baja. Papel apoyado, no tarjeta
+     flotando. */
+  /* Y sin sombra. Con la esquina viva, una lamina que flota se lee
+     sin resolver: una superficie se separa de otra con una
+     hairline, que es como se separan en toda la publicacion. */
+  --lift:none;
+  --lift-up:none;
+
+  --ease:cubic-bezier(.25,.1,.25,1);
+  --slow:cubic-bezier(.16,1,.3,1);
+
+  /* El grano. Turbulencia fractal desaturada, servida como data
+     URI: no pide un archivo, no se cachea mal y se puede cambiar la
+     frecuencia sin volver a exportar nada. Se declara una vez y lo
+     usan la portada, la decision y la banda — si el video se
+     revela distinto en cada bloque, deja de ser una publicacion. */
+  /* La intensidad del grano, como valor heredado: la escribe el
+     bloque y la pseudo la lee. Una lamina chica recibe la misma
+     cantidad de grano por pixel que una a sangre, y al ocupar un
+     septimo del area se lee al doble de densidad. --grain-s la
+     baja un 21% para las cajas del collage, la galeria y el
+     mosaico, que es lo que hace falta para que las seis parezcan
+     el mismo rodaje. */
+  --grain-o:.72;
+  --grain-o-s:.57;
+
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+
+/* ══ 3 · RESET ══════════════════════════════════════════════════ */
+*{box-sizing:border-box;letter-spacing:0}
+html{background:var(--bone);font-size:16px;scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;background:var(--bone);color:var(--ink);
+  font-family:"DM Sans",sans-serif;font-weight:400;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+body.is-locked{overflow:hidden}
+a{text-decoration:none;color:inherit}
+button{font:inherit;border:0;background:none;cursor:pointer;color:inherit}
+img,video{display:block;max-width:100%}
+h1,h2,h3,h4,p,ul,ol,figure,dl,dd{margin:0;padding:0}
+ul,ol{list-style:none}
+::selection{background:var(--vik);color:#fff}
+h1,h2,h3,h4,h5,h6,b,strong,th,dt,legend,optgroup,label,summary,
+button,input,select,textarea,em,i,cite,q{font-weight:400}
+em{font-style:italic}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+
+/* ══ 4 · TIPOGRAFIA ═════════════════════════════════════════════
+   La escala editorial: un titular se cierra (.94) y un parrafo se
+   abre (1.82). Ningun texto pasa de 62 caracteres de medida.      */
+.display{
+  font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(2.7rem,6.6vw,6rem);line-height:.94;letter-spacing:-.028em;text-wrap:balance}
+.h2{
+  font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(2.05rem,4.6vw,3.9rem);line-height:.99;letter-spacing:-.026em;text-wrap:balance}
+.h3{
+  font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.28rem,1.9vw,1.7rem);line-height:1.12;letter-spacing:-.014em}
+.display em,.h2 em,.h3 em,.lead em,.film-t em,.statement-t em{
+  font-family:"Selva Script",Georgia,serif;font-style:normal}
+
+.lead{
+  font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.14rem,1.75vw,1.5rem);line-height:1.46;letter-spacing:-.012em;
+  color:var(--i-70);max-width:44ch}
+.body{font-size:.95rem;line-height:1.82;font-weight:300;color:var(--i-55);max-width:60ch}
+.body + .body{margin-top:1.15rem}
+
+/* La etiqueta del sistema: Highway Gothic, caja alta, 9.3px, .22em.
+   Es la unica medida de tracking que no se negocia. */
+.kicker{
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;line-height:.8;
+  display:inline-flex;align-items:center;gap:.9rem;color:var(--i-40)}
+.kicker::before{content:"";width:26px;height:1px;background:currentColor;opacity:.6}
+.kicker.bare::before{display:none}
+
+/* La firma de un lugar. Estancia, Playa, Bahia, La Susana, Pavilion,
+   The Shack — donde una propiedad se firma, se firma asi. */
+.lw{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  text-transform:uppercase;letter-spacing:.2em;line-height:1.15}
+
+.spec{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.72rem;letter-spacing:.04em;line-height:1.6;color:var(--i-40)}
+
+/* El epigrafe en vertical: el recurso que convierte una foto en una
+   lamina. Se lee de abajo hacia arriba, contra el canto. */
+.vcap{
+  position:absolute;left:-1.7rem;bottom:0;
+  writing-mode:vertical-rl;transform:rotate(180deg);
+  font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.66rem;letter-spacing:.06em;color:var(--i-40);white-space:nowrap;pointer-events:none}
+.vcap.right{left:auto;right:-1.7rem}
+
+
+/* ══ 5 · CROMO DE PAGINA ════════════════════════════════════════ */
+.grain{pointer-events:none;position:fixed;inset:0;z-index:100;opacity:.022;mix-blend-mode:multiply;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.75'/%3E%3C/svg%3E")}
+
+.loader{position:fixed;inset:0;z-index:8500;background:var(--bone);
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2rem;
+  transition:opacity .8s var(--slow),visibility .8s}
+.loader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.loader .ll{font-family:"Highway Gothic Expanded",sans-serif;font-size:.58rem;letter-spacing:.35em;
+  text-transform:uppercase;color:var(--i-40);opacity:0;animation:fu .6s .2s var(--slow) forwards}
+.loader .lb{width:1px;height:0;background:var(--i-26);animation:lg .9s .5s var(--slow) forwards}
+@keyframes fu{100%{opacity:1}}
+@keyframes lg{100%{height:80px}}
+
+.progress{position:fixed;top:0;left:0;z-index:95;height:2px;width:100%;
+  transform-origin:left;transform:scaleX(0);background:var(--vik)}
+
+/* El cursor pisa dos suelos. Sobre papel es tinta; cuando entra en
+   una superficie oscura pasa a hueso. La clase la pone el JS
+   mirando lo que hay bajo el puntero, no adivinando por scroll. */
+.cursor{position:fixed;z-index:9999;pointer-events:none;top:0;left:0;
+  will-change:transform;transform:translateZ(0);backface-visibility:hidden}
+.cdot{width:6px;height:6px;border-radius:50%;background:var(--ink);
+  transform:translate(-50%,-50%);transition:background .3s var(--ease)}
+.cring{width:32px;height:32px;border:1px solid rgba(30,30,30,.42);border-radius:50%;
+  transform:translate(-50%,-50%);
+  transition:width .3s var(--ease),height .3s var(--ease),opacity .3s,border-color .3s var(--ease)}
+.cring.grow{width:54px;height:54px;opacity:.45}
+body.on-dark .cdot{background:#fff}
+body.on-dark .cring{border-color:rgba(255,255,255,.62)}
+@media(hover:none){.cursor{display:none}}
+
+
+/* ══ 6 · REVEALS ════════════════════════════════════════════════
+   Tres primitivas, ninguna pasa de 1.2s.
+     .r      — sube y aparece
+     .lines  — el titular sube por lineas desde una mascara
+     .clip   — la imagen se destapa de abajo hacia arriba          */
+.r{opacity:0;transform:translateY(24px);
+  transition:opacity .9s var(--slow),transform .9s var(--slow)}
+.r.in{opacity:1;transform:none}
+.r.fade{transform:none}
+.r.d1{transition-delay:.1s}.r.d2{transition-delay:.2s}.r.d3{transition-delay:.3s}
+
+.lines .ln{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
+.lines .ln > span{display:block;transform:translateY(105%);transition:transform 1.05s var(--slow)}
+.lines.in .ln > span{transform:none}
+.lines .ln:nth-child(2) > span{transition-delay:.07s}
+.lines .ln:nth-child(3) > span{transition-delay:.14s}
+.lines .ln:nth-child(4) > span{transition-delay:.21s}
+.lines .w{display:inline-block}
+
+.clip{clip-path:inset(0 0 100% 0);transition:clip-path 1.15s var(--slow)}
+.clip > img,.clip > video{transform:scale(1.06);transition:transform 1.5s var(--slow)}
+.clip.in{clip-path:inset(0 0 0 0)}
+.clip.in > img,.clip.in > video{transform:none}
+
+
+/* ══ 7 · BOTONES ════════════════════════════════════════════════
+   Dos. La capsula, que es la accion, y la linea, que es el enlace.
+   Ninguno tiene caja de color salvo la reserva.                   */
+.pill{
+  display:inline-flex;align-items:center;gap:.85rem;
+  padding:1.05rem 1.9rem;border-radius:var(--r-pill);
+  border:1px solid var(--hair);color:var(--ink);
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;line-height:1;white-space:nowrap;
+  transition:background .45s var(--slow),color .45s var(--slow),
+             border-color .45s var(--slow),transform .45s var(--slow)}
+.pill .arw{transition:transform .4s var(--ease)}
+.pill:hover{background:var(--ink);color:var(--bone);border-color:var(--ink)}
+.pill:hover .arw{transform:translateX(5px)}
+.pill.solid{background:var(--vik);border-color:var(--vik);color:#fff}
+.pill.solid:hover{background:var(--navy);border-color:var(--navy)}
+.pill.light{border-color:rgba(255,255,255,.42);color:#fff}
+.pill.light:hover{background:#fff;color:var(--ink);border-color:#fff}
+.pill.paper{background:#fff;border-color:#fff;color:var(--ink)}
+.pill.paper:hover{background:var(--vik);border-color:var(--vik);color:#fff}
+
+.link{
+  position:relative;display:inline-flex;align-items:center;gap:.7rem;padding:.2rem 0;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:inherit}
+.link::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;
+  transform:scaleX(1);transform-origin:left;transition:transform .4s var(--ease)}
+.link:hover::after{transform:scaleX(0);transform-origin:right}
+.link .arw{transition:transform .4s var(--ease)}
+.link:hover .arw{transform:translateX(5px)}
+
+
+/* ══ 8 · LA BARRA ═══════════════════════════════════════════════
+   Dos estados. Sobre la portada, blanca y transparente. En cuanto
+   la pagina se mueve, papel translucido con una hairline debajo —
+   que es lo que hace que el scroll se lea como una publicacion.   */
+.nav{position:fixed;inset:0 0 auto;z-index:8100;
+  display:flex;align-items:center;justify-content:space-between;gap:0;
+  padding:1.75rem var(--pad-x);color:#fff;
+  transition:padding .5s var(--ease),background .4s,backdrop-filter .4s,color .4s}
+.nav.scrolled{
+  padding:1.05rem var(--pad-x);color:var(--ink);
+  background:rgba(248,248,240,.78);
+  backdrop-filter:blur(24px) saturate(1.25);-webkit-backdrop-filter:blur(24px) saturate(1.25);
+  border-bottom:1px solid var(--hair)}
+/* La marca se queda con el espacio que sobra y el resto se apoya a
+   la derecha. Asi el indice no se mueve cuando entra la reserva ni
+   cuando cambia el alto de la barra: lo que crece es el hueco de la
+   izquierda, no la fila. */
+.nav-left{display:flex;align-items:center;gap:1rem;flex:1 1 auto;min-width:0;
+  transition:opacity .3s}
+body.menu-open .nav-left,body.menu-open .nav-book{opacity:0;pointer-events:none}
+/* La reserva no acompana a la portada: ahi ya esta el mostrador
+   entero. Entra al dejarla, que es cuando deja de haber una forma
+   de reservar a la vista.
+
+   Al salir se pliega, no se apaga. Bajando solo la opacidad seguia
+   ocupando su ancho y el de su hueco, asi que sobre la portada el
+   idioma quedaba a cien pixeles del borde y la marca a cuarenta:
+   la barra se leia descentrada. Plegada a cero, los dos extremos
+   cierran contra el mismo --pad-x. El hueco previo viaja con el
+   boton — es suyo, y solo existe cuando el boton existe. */
+.nav-book{opacity:0;pointer-events:none;
+  max-width:0;margin-left:0;padding-left:0;padding-right:0;border-width:0;
+  overflow:hidden;white-space:nowrap;
+  transition:background .4s var(--ease),color .4s var(--ease),
+             border-color .4s var(--ease),opacity .45s var(--ease),
+             max-width .55s var(--slow),margin-left .55s var(--slow),
+             padding .55s var(--slow)}
+.nav.past-hero .nav-book{opacity:1;pointer-events:auto;
+  max-width:14rem;margin-left:1.9rem;padding-left:1.55rem;padding-right:1.55rem;
+  border-width:1px}
+.nav-mark{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:.86rem;letter-spacing:.2em;text-transform:uppercase;line-height:1;white-space:nowrap}
+.nav-tag{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8px;letter-spacing:.2em;text-transform:uppercase;opacity:.45;
+  padding-left:.9rem;border-left:1px solid currentColor;white-space:nowrap;
+  transition:opacity .3s var(--ease)}
+a.nav-tag:hover{opacity:1}
+.nav-end{display:flex;align-items:center;gap:0;flex:0 0 auto}
+
+/* El idioma: tres siglas, la cara de una etiqueta. */
+.nav-lang{position:relative;display:inline-flex;align-items:center}
+/* El envoltorio del desplegable era un bloque con interlineado
+   normal: sumaba cinco pixeles de descendente alrededor del boton y
+   bajaba el idioma respecto de la fila. Como caja flexible, mide lo
+   que mide su contenido. */
+.nav-lang .pick{display:flex;align-items:center}
+.nav-lang select{position:absolute;opacity:0;pointer-events:none;height:0}
+/* El mismo relleno vertical que los nombres del indice: sin el,
+   el idioma se apoyaba cuatro pixeles mas abajo que la fila. */
+.pick-lang .pick-btn{display:inline-flex;align-items:center;gap:.4rem;padding:.25rem 0;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;line-height:1;
+  color:inherit;opacity:.62;transition:opacity .25s}
+.pick-lang .pick-btn::after{content:"";width:0;height:0;
+  border-left:3px solid transparent;border-right:3px solid transparent;
+  border-top:3.5px solid currentColor}
+.pick-lang .pick-btn:hover{opacity:1}
+.pick-lang .pick-list{top:calc(100% + .9rem);left:auto;right:0;min-width:8.5rem;
+  background:#fff;border:1px solid var(--hair)}
+.pick-lang .pick-list button{color:var(--i-55);
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.6px;letter-spacing:.16em;text-transform:uppercase;padding:.7rem .85rem}
+.pick-lang .pick-list button:hover,
+.pick-lang .pick-list button[aria-selected=true]{color:var(--ink);background:rgba(30,30,30,.05)}
+@media (max-width:560px){.nav-lang{display:none}}
+
+/* El indice de la pagina vive en la barra. Debajo de tableta
+   desaparece entero: ocho nombres en una fila estrecha no se leen,
+   y para eso esta la hamburguesa, que lleva los mismos destinos. */
+.nav-mid{display:flex;align-items:center;gap:clamp(1rem,2vw,2rem);
+  flex:0 0 auto;justify-content:flex-end}
+/* line-height explicito en los dos: sin el, el enlace hereda el
+   interlineado del cuerpo, su caja queda mas alta que la del
+   idioma y los dos textos se apoyan en lineas distintas aunque las
+   cajas esten centradas. */
+.nav-mid a{position:relative;white-space:nowrap;padding:.25rem 0;line-height:1;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;
+  opacity:.62;transition:opacity .25s}
+.nav-mid a:hover,.nav-mid a.active{opacity:1}
+.nav-mid a.active::after{content:"";position:absolute;left:0;right:0;bottom:-3px;
+  height:1px;background:currentColor}
+/* Por encima de 1250 el indice esta en la barra y la hamburguesa
+   sobra: dos formas de llegar al mismo sitio, una al lado de la
+   otra. Por debajo se invierte — cae el indice y entra la
+   hamburguesa, que lleva los mismos destinos en el mismo orden. */
+@media (max-width:1250px){.nav-mid{display:none}}
+
+/* La reserva es la unica capsula permanente de la pagina. */
+.nav-book{
+  display:inline-flex;align-items:center;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  padding:.78rem 0;border-radius:var(--r-pill);
+  /* El relleno lateral y el trazo los pone el estado, no la forma:
+     son justo lo que hay que llevar a cero para que la capsula se
+     pliegue. Escritos aqui en atajo, pisaban al plegado — esta
+     regla va despues. */
+  border-style:solid;border-color:rgba(255,255,255,.5);
+  transition:background .4s var(--ease),color .4s var(--ease),border-color .4s var(--ease)}
+.nav-book:hover{background:#fff;color:var(--ink);border-color:#fff}
+.nav.scrolled .nav-book{border-color:rgba(30,30,30,.28)}
+.nav.scrolled .nav-book:hover{background:var(--ink);color:var(--bone);border-color:var(--ink)}
+
+.menu-toggle{display:flex;flex-direction:column;gap:5px;padding:.5rem;
+  margin-left:1.9rem;margin-right:-.5rem}
+.menu-toggle span{display:block;width:20px;height:1px;background:currentColor;
+  transition:transform .35s var(--ease),opacity .25s var(--ease)}
+.menu-toggle.is-open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.menu-toggle.is-open span:nth-child(2){opacity:0}
+.menu-toggle.is-open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+body.menu-open .menu-toggle{color:var(--ink)}
+/* Por encima de 1250 el indice esta en la barra y la hamburguesa
+   sobra: dos caminos al mismo sitio, uno al lado del otro. */
+@media (min-width:1251px){.menu-toggle{display:none}}
+
+/* El menu completo, en papel. La lista sigue en Highway Gothic —
+   un nombre se firma igual en claro que en oscuro. */
+.menu{position:fixed;inset:0;z-index:8000;background:var(--bone);color:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:safe center;gap:2.5rem;
+  padding:calc(var(--nav-h) + 1.5rem) var(--pad-x) 2rem;
+  clip-path:inset(0 0 100% 0);transition:clip-path .75s var(--ease);
+  pointer-events:none;overflow-y:auto;overscroll-behavior:contain}
+.menu.is-open{clip-path:inset(0 0 0 0);pointer-events:all}
+/* Los nombres se juntan. Highway Gothic Expanded llena su linea de
+   arriba abajo y no deja aire propio: todo el ritmo lo pone el
+   hueco, y con el hueco grande la lista se leia como ocho enlaces
+   sueltos en vez de como un indice. */
+.menu-list{display:flex;flex-direction:column;align-items:center;
+  gap:clamp(2px,.5vh,8px);text-align:center}
+.menu-list li{overflow:hidden}
+.menu-link{
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:clamp(1.3rem,3vw,2.5rem);letter-spacing:.1em;text-transform:uppercase;
+  line-height:1.06;margin-right:-.1em;display:inline-block;
+  opacity:0;transform:translateY(100%);
+  transition:opacity .5s var(--ease),transform .5s var(--ease),color .25s}
+.menu.is-open .menu-link{opacity:1;transform:none}
+.menu-list li:nth-child(1) .menu-link{transition-delay:.16s}
+.menu-list li:nth-child(2) .menu-link{transition-delay:.20s}
+.menu-list li:nth-child(3) .menu-link{transition-delay:.24s}
+.menu-list li:nth-child(4) .menu-link{transition-delay:.28s}
+.menu-list li:nth-child(5) .menu-link{transition-delay:.32s}
+.menu-list li:nth-child(6) .menu-link{transition-delay:.36s}
+.menu-list li:nth-child(7) .menu-link{transition-delay:.40s}
+.menu-list li:nth-child(8) .menu-link{transition-delay:.44s}
+.menu-link:hover{color:var(--vik)}
+.menu-sub{display:flex;flex-wrap:wrap;justify-content:center;gap:1.5rem;
+  opacity:0;transition:opacity .5s .55s var(--ease)}
+.menu.is-open .menu-sub{opacity:1}
+.menu-sub a{font-family:"Highway Gothic Expanded",sans-serif;font-size:9.3px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--i-40);transition:color .25s}
+.menu-sub a:hover{color:var(--vik)}
+.menu-brand{font-family:"Highway Gothic Expanded",sans-serif;font-size:.5rem;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--i-26);
+  opacity:0;transition:opacity .5s .65s var(--ease)}
+.menu.is-open .menu-brand{opacity:1}
+
+
+/* ══ 9 · SECCION Y CABECERA ═════════════════════════════════════
+   La cabecera es una reticula de 12 con la etiqueta a la izquierda
+   y el titulo empezando en la quinta columna. Es la que da el
+   ritmo de lectura de toda la pagina.                             */
+.sec{position:relative;padding:var(--pad-y) var(--pad-x)}
+.sec.canvas{background:var(--canvas)}
+.sec.paper{background:#fff}
+.sec.vik{background:var(--vik);color:#fff}
+.sec.tight-b{padding-bottom:clamp(3rem,5vw,5rem)}
+/* Un modulo que es casi todo imagen no necesita el aire de uno que
+   es casi todo texto: la propia fotografia ya separa. */
+.sec.tight{padding-top:clamp(3.5rem,5.5vw,5.5rem);padding-bottom:clamp(3rem,4.5vw,4.5rem)}
+.wrap{max-width:var(--max);margin:0 auto}
+
+/* La apertura de modulo. Abre sin regla: el rotulo y el aire de la
+   seccion ya dicen donde empieza el articulo, y la hairline de lado
+   a lado sumaba una linea por modulo que troceaba la pagina en vez
+   de articularla. El corte queda a cargo del blanco. */
+.head{max-width:var(--max);margin:0 auto clamp(3rem,5.5vw,5.5rem);
+  padding-top:clamp(1.35rem,2.2vw,2rem);
+  display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(1.5rem,3vw,3rem);align-items:start}
+/* La etiqueta se alinea con la primera linea del titulo, no con la
+   ultima: en un titulo de tres lineas, alineada abajo, se lee como
+   un pie de foto perdido. */
+/* Sin la regla, .bare solo recorta el aire de apertura. */
+.head.bare{padding-top:0}
+.head .h-label{grid-column:1 / 4;padding-top:.55rem}
+.head .h-main{grid-column:5 / 12}
+.head .h-main .lead{margin-top:1.6rem}
+.head.center{justify-items:center;text-align:center}
+.head.center .h-label{grid-column:1 / 13;justify-self:center}
+.head.center .h-main{grid-column:3 / 11}
+.head.center .lead{margin-left:auto;margin-right:auto}
+
+
+/* ══ 10 · LA PORTADA ════════════════════════════════════════════
+   Cine a sangre y una sola cosa encima: el mostrador, centrado en
+   los dos ejes. Sin titular, sin bajada, sin indicador de scroll.
+
+   El titular no se perdio — bajo al manifiesto, despues de las
+   siete puertas. Una portada que dice "un destino, tres formas"
+   antes de haber mostrado ninguna esta pidiendo confianza; dicha
+   despues, con las tres a la vista, es una conclusion. Y una
+   portada con una sola caja es mas rotunda que una con caja y
+   discurso.                                                       */
+.hero{position:relative;min-height:100svh;overflow:hidden;background:var(--ink);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  padding:calc(var(--nav-h) + 3rem) var(--pad-x) clamp(3rem,6vw,5rem)}
+.hero-media{position:absolute;inset:0;z-index:0}
+.hero-media video,.hero-media img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;filter:saturate(.86) contrast(1.03);
+  transition:opacity .42s var(--ease)}
+/* NUNCA UN HUECO EN LA PORTADA.
+   Debajo del clip hay una fotografia que no se apaga jamas, y el
+   clip encima arranca transparente: solo se vuelve opaco cuando el
+   propio video avisa que esta pintando fotogramas.
+
+   Sin esa capa, al cambiar de pelicula el elemento se queda un
+   instante sin fuente y sin fotograma — y ese instante es la caja
+   gris. Con ella no hay instante que valga: lo que se ve entre un
+   plano y el siguiente es la fotografia del destino elegido.
+
+   Y el fondo del bloque es tinta, para que ni siquiera el primer
+   milisegundo, antes de que la foto decodifique, sea gris. */
+.hero-media{background:var(--ink)}
+.hero-media img{z-index:0}
+.hero-media video{z-index:1;opacity:0}
+.hero-media video.is-live{opacity:1}
+
+/* El cambio de clip pasa por la fotografia, no por un corte seco:
+   entre dos planos de mar el corte se lee como un parpadeo. */
+.hero-media.is-swapping video{opacity:0}
+
+/* El selector de estacion ocupa el sitio de la etiqueta: donde
+   decia "Season" esta el propio control. Lleva la cara de una
+   etiqueta — no la de un campo — y el azul dice que se toca. */
+.season-cell.has-pick .season-k select{position:absolute;opacity:0;pointer-events:none;height:0}
+.pick-season{position:relative}
+.pick-season .pick-btn{display:inline-flex;align-items:center;gap:.45rem;padding:0;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.6px;letter-spacing:.2em;text-transform:uppercase;line-height:.8;
+  color:var(--vik);transition:opacity .25s}
+.pick-season .pick-btn::after{content:"";width:0;height:0;
+  border-left:3px solid transparent;border-right:3px solid transparent;
+  border-top:3.5px solid currentColor;opacity:.7}
+.pick-season .pick-btn:hover{opacity:.6}
+.pick-season .pick-list{top:calc(100% + .7rem);min-width:11rem;
+  background:#fff;border:1px solid var(--hair)}
+.pick-season .pick-list button{color:var(--i-55);
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.6px;letter-spacing:.16em;text-transform:uppercase;padding:.7rem .85rem}
+.pick-season .pick-list button:hover,
+.pick-season .pick-list button[aria-selected=true]{color:var(--ink);background:rgba(30,30,30,.05)}
+/* El velo. Cierra los dos extremos y ahora tambien apaga el centro:
+   con el mostrador de vidrio sobre un mar a contraluz, un centro
+   claro le comia el borde a la caja. La forma no cambia — sigue
+   siendo un tunel —, baja el suelo entero. */
+.hero-media::after{content:"";position:absolute;inset:0;z-index:2;
+  background:linear-gradient(180deg,rgba(12,11,9,.66) 0%,rgba(12,11,9,.4) 30%,rgba(12,11,9,.44) 62%,rgba(12,11,9,.7) 100%)}
+
+
+/* La emulsion. Va sobre el velo, no debajo: un grano por debajo de
+   un degradado se lava y desaparece. En overlay muerde las medias
+   tintas y deja los negros donde estan, que es lo que hace que un
+   plano digital se lea como pelicula y no como un video comprimido.
+
+   Y hierve. Un grano fijo no es grano: es una textura pegada al
+   cristal, y el ojo la lee como suciedad de pantalla porque no
+   acompana a la imagen. El de verdad se rehace en cada fotograma.
+   Aqui se rehace saltando: la lamina mide el doble que su caja y
+   se mueve a tirones — steps(1), sin interpolar — nueve veces por
+   vuelta. Deslizandose se leeria como una cortina de lluvia; a
+   saltos, como emulsion. El doble de tamano es lo que garantiza
+   que ningun salto descubra un borde.
+
+   Los seis bloques con imagen en movimiento lo llevan igual. Si
+   uno se revelara limpio, seria el que se ve digital.
+
+   isolation aisla la mezcla dentro de cada bloque: sin eso el
+   overlay busca el fondo de la pagina y tine el papel de alrededor. */
+.hero-media,.statement-media,.ch,.film,.prop-fig .frame,.gs-frame{isolation:isolate}
+.hero-media::before,.statement-media::before,.ch::before,.film::before,
+.prop-fig .frame::before,.gs-frame::before,.card-fig::after,.vcard::after{
+  content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+  pointer-events:none;background-image:var(--grain);background-size:160px 160px;
+  opacity:var(--grain-o);mix-blend-mode:overlay;
+  animation:grain .8s steps(1) infinite;will-change:transform}
+/* Las cajas chicas, un punto por debajo. */
+.prop-fig .frame,.gs-frame,.card-fig,.vcard{--grain-o:var(--grain-o-s)}
+
+/* Cada uno se cuela entre su velo y su tipografia. */
+.hero-media::before{z-index:3}
+.statement-media::before{z-index:1}
+.ch::before{z-index:3}
+.film::before{z-index:1}
+.prop-fig .frame::before{z-index:2}
+.gs-frame::before{z-index:1}
+/* En la ficha del rail, bajo el numero de orden. */
+.card-fig::after{z-index:1}
+/* La ficha del mosaico ya gasta ::before en su velo, asi que el
+   grano entra por ::after. En -1 queda sobre el velo y bajo el
+   texto, que es exactamente el mismo sitio que ocupa en los otros
+   cinco bloques. */
+.vcard::after{z-index:-1}
+
+@keyframes grain{
+  0%  {transform:translate3d(0,0,0)}
+  11% {transform:translate3d(-7%,-5%,0)}
+  22% {transform:translate3d(5%,-9%,0)}
+  33% {transform:translate3d(-4%,6%,0)}
+  44% {transform:translate3d(8%,3%,0)}
+  55% {transform:translate3d(-9%,-2%,0)}
+  66% {transform:translate3d(3%,8%,0)}
+  77% {transform:translate3d(-2%,-7%,0)}
+  88% {transform:translate3d(6%,-4%,0)}
+}
+
+/* ══ 11 · EL MOSTRADOR ══════════════════════════════════════════
+   Vidrio, esquina larga, etiquetas de 9px y valores en serif. */
+.counter{position:relative;z-index:3;max-width:var(--max);width:100%;margin:0 auto;
+  border-radius:var(--r-xl);
+  background:rgba(28,27,24,.34);border:0;
+  backdrop-filter:blur(26px) saturate(1.15);-webkit-backdrop-filter:blur(26px) saturate(1.15);
+  padding:clamp(1.4rem,2.4vw,2rem) clamp(1.4rem,2.6vw,2.25rem);
+  display:flex;flex-direction:column;gap:1.25rem;color:#fff;
+  box-shadow:0 30px 80px -40px rgba(0,0,0,.7)}
+.counter-t{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:10px;letter-spacing:.24em;text-transform:uppercase}
+.counter-row{display:grid;grid-template-columns:1fr auto 1fr 1px 1fr 1px 1fr auto;
+  align-items:center;gap:clamp(.9rem,1.8vw,1.6rem)}
+.f{display:flex;flex-direction:column;gap:.5rem;min-width:0;position:relative}
+.f label{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.4px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.f input,.f select,.f .date-face{
+  font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1rem,1.35vw,1.24rem);line-height:1.15;letter-spacing:-.01em;color:#fff}
+.f input,.f select{width:100%;background:none;border:0;outline:none;padding:0;
+  color-scheme:dark;appearance:none;-webkit-appearance:none;cursor:pointer}
+.f select option{background:#1E1E1E;color:#F8F8F0}
+/* ── El desplegable de retiro, dibujado ─────────────────────
+   Chrome no aplica letter-spacing dentro de un <option>: la lista
+   abierta salia sin interletrado por mucho que lo pidiera el CSS.
+   Asi que la lista se dibuja: el <select> real sigue en el DOM,
+   invisible pero vivo, y es el que lee el motor de reserva. Si el
+   JS no corre, vuelve a verse el nativo y todo funciona igual. */
+.f.has-pick select[name=property]{position:absolute;opacity:0;pointer-events:none;height:0}
+.pick{position:relative}
+/* La seccion que contiene una lista abierta sube por encima de la
+   sub-barra pegajosa (80) y de la barra de reserva (70). Solo
+   mientras esta abierta. */
+.pick-raise{position:relative;z-index:120}
+.pick-btn{display:flex;align-items:center;gap:.6rem;width:100%;padding:0;text-align:left;
+  font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1rem,1.35vw,1.24rem);line-height:1.15;letter-spacing:-.01em;color:#fff}
+.pick-btn.is-property{
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  text-transform:uppercase;letter-spacing:.3em;
+  font-size:clamp(.7rem,.88vw,.8rem);line-height:1.6}
+.counter.paper .pick-btn{color:var(--ink)}
+.pick-list{position:absolute;top:calc(100% + .85rem);left:0;min-width:max(100%,15rem);z-index:20;
+  background:rgba(20,19,17,.96);border:1px solid rgba(255,255,255,.2);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  padding:.35rem;display:flex;flex-direction:column;
+  opacity:0;visibility:hidden;transform:translateY(-6px);
+  transition:opacity .3s var(--ease),transform .3s var(--ease),visibility .3s}
+.counter.paper .pick-list{background:#fff;border-color:var(--hair)}
+.pick.open .pick-list{opacity:1;visibility:visible;transform:none}
+.pick-list button{padding:.8rem .9rem;text-align:left;color:rgba(255,255,255,.62);
+  font-family:"Old Standard VIK",Georgia,serif;font-size:1rem;
+  transition:color .25s,background .25s}
+.counter.paper .pick-list button{color:var(--i-55)}
+/* Cada nombre de casa, con el interletrado del logotipo. */
+.pick-list button[data-prop]{
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  text-transform:uppercase;letter-spacing:.3em;font-size:.72rem;line-height:1.6}
+.pick-list button:hover,.pick-list button[aria-selected=true]{color:#fff;background:rgba(255,255,255,.08)}
+.counter.paper .pick-list button:hover,
+.counter.paper .pick-list button[aria-selected=true]{color:var(--ink);background:rgba(30,30,30,.05)}
+
+/* Un nombre de propiedad se firma como se firma un logotipo:
+   Highway Gothic Expanded, caja alta y bien abierto de letra. Lo que
+   no es un nombre — "Help me choose" — es una pregunta, y va en la
+   serif del resto de los campos, igual que "2 Adults".
+
+   El desplegable pinta su valor con la fuente del <select>, no con
+   la del <option>, asi que la cara la cambia el JS segun lo elegido:
+   .is-property cuando hay una casa, serif cuando no. */
+.f select[name=property] option[data-prop],
+.f select[name=property].is-property{
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  text-transform:uppercase;letter-spacing:.28em;
+  font-size:clamp(.7rem,.88vw,.8rem);line-height:1.6}
+.f-sep{width:1px;height:34px;background:rgba(255,255,255,.22);justify-self:center}
+.f-arw{color:rgba(255,255,255,.5);font-size:1.05rem;justify-self:center}
+/* El input sigue siendo el input — valida, abre el calendario del
+   sistema y lo lee la reserva. Encima se dibuja la fecha en serif
+   y el campo real queda transparente sobre ella. */
+.f.has-face .date-face{white-space:nowrap;pointer-events:none}
+.f.has-face input[type=date]{position:absolute;left:0;bottom:0;width:100%;height:1.6em;
+  opacity:0;cursor:pointer}
+.counter-note{display:flex;flex-wrap:wrap;gap:.6rem 1.6rem;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.4px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.42)}
+.counter-note span{display:inline-flex;align-items:center;gap:.5rem}
+.counter-note span::before{content:"";width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.5)}
+
+/* El mismo mostrador en papel, para el cierre comercial. */
+.counter.paper{background:#fff;border-color:var(--hair);color:var(--ink);
+  backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:var(--lift-up)}
+.counter.paper .f label{color:var(--i-40)}
+.counter.paper .f input,.counter.paper .f select,.counter.paper .f .date-face{
+  color:var(--ink);color-scheme:light}
+.counter.paper .f select option{background:#fff;color:var(--ink)}
+.counter.paper .f-sep{background:var(--hair)}
+.counter.paper .f-arw{color:var(--i-26)}
+.counter.paper .counter-note{color:var(--i-40)}
+.counter.paper .counter-note span::before{background:var(--vik)}
+
+
+/* ══ 11b · LA BARRA DE RESERVA ══════════════════════════════════
+   Pegada al pie. Entra al dejar la portada y se retira cuando el
+   bloque de reserva llega: la misma pregunta dos veces en el mismo
+   pantallazo es una de mas.                                       */
+/* Por encima del mapa. Leaflet trabaja en su propia escala —sus
+   paneles llegan a ochocientos y la barra de puntos esta en mil
+   cien— y esta barra vivia en setenta: al llegar al mapa, el mapa
+   le pasaba por encima y la reserva desaparecia justo donde el
+   lector esta decidiendo a que casa ir.
+
+   La escala de la pagina, de abajo hacia arriba: contenido, mapa
+   (1100), barra de reserva (7000), menu (8000), barra de navegacion
+   (8100), cargador (8500), cursor. Todo lo fijo por encima de todo
+   lo que se desplaza. */
+.bookbar{position:fixed;left:0;right:0;bottom:0;z-index:7000;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:clamp(1rem,3vw,3rem);padding:.9rem var(--pad-x);
+  background:rgba(248,248,240,.9);
+  backdrop-filter:blur(22px) saturate(1.2);-webkit-backdrop-filter:blur(22px) saturate(1.2);
+  border-top:1px solid var(--hair);
+  transform:translateY(101%);transition:transform .55s var(--slow);
+  pointer-events:none}
+.bookbar.is-on{transform:none;pointer-events:auto}
+.bookbar-t{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:var(--i-40);
+  white-space:nowrap}
+.bookbar-row{display:flex;align-items:center;gap:clamp(1rem,2.6vw,2.75rem)}
+.bookbar .f label{color:var(--i-40)}
+.bookbar .f input,.bookbar .f select,.bookbar .f .date-face{
+  color:var(--ink);color-scheme:light;font-size:clamp(.88rem,1.05vw,1rem)}
+.bookbar .f select option{background:#fff;color:var(--ink)}
+.bookbar .pill{padding:.85rem 1.6rem}
+@media (max-width:820px){
+  .bookbar{padding:.75rem var(--pad-x)}
+  .bookbar-t{display:none}
+  .bookbar-row{flex:1;justify-content:space-between;gap:1rem}
+}
+@media (max-width:560px){
+  .bookbar .f:nth-child(3){display:none}
+  .bookbar .pill{padding:.85rem 1.2rem}
+}
+
+/* ══ 13 · LA TIRA VIVA ══════════════════════════════════════════
+   Seis columnas, hairlines, la cifra en serif y la nota en mono.
+   Los datos llegan de Open-Meteo, sin clave.                      */
+.strip{display:grid;grid-template-columns:repeat(6,1fr);background:var(--bone);
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair);
+  padding:0 max(0px,calc((100% - var(--max)) / 2))}
+.fact{display:flex;flex-direction:column;gap:.6rem;min-width:0;
+  padding:clamp(1.35rem,2vw,1.9rem) clamp(1rem,1.6vw,1.6rem);
+  border-right:1px solid var(--hair-soft);transition:background .45s var(--ease)}
+.fact:last-child{border-right:0}
+/* Todo el color que necesita un dato. */
+.fact:hover{background:rgba(0,47,167,.045)}
+.fact .k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.6px;letter-spacing:.2em;text-transform:uppercase;color:var(--i-40);
+  display:inline-flex;align-items:center;gap:.55rem}
+.fact .v{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.2rem,1.7vw,1.55rem);line-height:1;transition:opacity .45s var(--ease)}
+.fact .v small{font-family:"DM Sans",sans-serif;font-size:.7rem;color:var(--i-40);font-weight:300}
+.fact .s{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.68rem;
+  line-height:1.5;color:var(--i-40);text-wrap:pretty}
+.strip.is-loading .v{opacity:.35}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--vik);display:inline-block;
+  animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+
+/* ══ 15 · EL COLLAGE DE PROPIEDADES ═════════════════════════════
+   Tres fotografias, tres tamanos distintos, tres enlaces. Cada
+   imagen es una casa y ninguna mide lo mismo que otra: la jerarquia
+   la pone el encuadre, no un titulo encima.
+
+   La composicion es libre solo en apariencia. Debajo hay una reja
+   de doce columnas y tres filas, y lo que la hace parecer suelta
+   son tres cosas: los bloques no arrancan en la misma columna, la
+   segunda foto baja un poco respecto de la primera, y la medalla
+   se apoya justo en la costura entre las dos.                     */
+.collage{position:relative;max-width:var(--max);margin:0 auto;
+  display:grid;grid-template-columns:repeat(12,1fr);
+  column-gap:clamp(14px,1.6vw,28px);row-gap:0;align-items:start}
+
+/* El envoltorio de las tres fotos no existe para el escritorio: en
+   contents desaparece de la maqueta y sus hijas siguen colgando de
+   la reja de doce, cada una con su columna y su fila. Solo cobra
+   forma en movil, donde se convierte en la tira. */
+.collage-figs{display:contents}
+
+/* Una propiedad. El enlace es la foto entera. */
+.prop-fig{position:relative;display:block;overflow:visible;color:inherit}
+/* display:block explicito: el marco es un <span> dentro de un <a>,
+   y en linea no existen ni aspect-ratio ni overflow — la caja no
+   llegaba a dibujarse. */
+.prop-fig .frame{display:block;position:relative;overflow:hidden;background:var(--canvas)}
+.prop-fig img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 1.4s var(--slow)}
+/* La casa en movimiento. El clip se apoya sobre la fotografia y
+   entra por fundido cuando arranca de verdad: la imagen es lo que
+   se ve mientras baja, y lo que queda si no baja nunca. Ninguna de
+   las tres deja hueco en blanco esperando red. */
+.prop-fig .frame video{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;opacity:0;
+  transition:opacity .9s var(--ease),transform 1.4s var(--slow)}
+.prop-fig .frame video.is-playing{opacity:1}
+.prop-fig:hover img,.prop-fig:hover video{transform:scale(1.035)}
+/* El nombre corre por el canto izquierdo, en vertical. Es lo unico
+   que dice de que casa es cada foto — y con el raton encima se
+   pone azul, que es todo el senalamiento que necesita un enlace
+   que ocupa media pagina. */
+.prop-fig .vcap{transition:color .4s var(--ease)}
+.prop-fig:hover .vcap{color:var(--vik)}
+
+/* Los tres tamanos. Nunca dos iguales. */
+.f-a{grid-column:2 / 7;  grid-row:1}
+.f-a .frame{aspect-ratio:16 / 9}
+.f-b{grid-column:8 / 13; grid-row:1;margin-top:clamp(2rem,4.5vw,4.5rem)}
+.f-b .frame{aspect-ratio:3 / 2}
+.f-c{grid-column:6 / 9;  grid-row:2;margin-top:clamp(2.5rem,5vw,5.5rem)}
+.f-c .frame{aspect-ratio:3 / 4}
+/* Un recorte vertical sobre una foto apaisada se come el encuadre
+   y deja medio cielo. La imagen se ancla por debajo del centro,
+   que es donde esta la casa en todas las tomas de la coleccion. */
+.f-c img,.f-c video{object-position:center 68%}
+/* Las tres casas no llegaron del mismo rodaje y no pesan igual: la
+   mas saturada se adelanta y rompe la composicion. Cada una se
+   corrige contra las otras dos, no contra un ideal. Va sobre la
+   foto tambien, no solo sobre el clip: si no, el fundido de entrada
+   se ve como un cambio de color. */
+.f-a img,.f-a video{filter:saturate(.91) contrast(.91)}
+.f-b img,.f-b video{filter:saturate(.79) contrast(.79)}
+
+/* Las tres copias ocupan la misma celda, una encima de otra. La
+   reja se queda con la altura de la mas larga, asi que al cambiar
+   de casa no se mueve nada de sitio — que es la diferencia entre
+   un cambio de copia y un salto de maqueta.
+
+   La que no toca no se esconde con display:none: se apaga. Sigue
+   en el flujo, sostiene la altura, y un lector de pantalla la
+   encuentra igual. */
+.collage-copy .cc{grid-area:1 / 1;
+  opacity:0;pointer-events:none;
+  transform:translateY(6px);
+  transition:opacity .5s var(--ease),transform .6s var(--slow)}
+.collage-copy .cc.is-on{opacity:1;pointer-events:auto;transform:none}
+
+/* El bloque de texto pertenece a la primera foto: mismo borde
+   izquierdo, justo debajo. */
+.collage-copy{grid-column:1 / 5;grid-row:2;margin-top:clamp(1.5rem,2.6vw,2.6rem);
+  display:grid;grid-template-rows:auto auto;align-items:start}
+.collage-copy .name{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.4rem,2.2vw,1.85rem);line-height:1.1;letter-spacing:-.015em;display:block}
+/* La bajada va en mono, como en la lamina de referencia: es un pie
+   de foto largo, no un parrafo de lectura. */
+.collage-copy .note{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.72rem;line-height:2;letter-spacing:.01em;color:var(--i-70);
+  margin-top:1.1rem;max-width:44ch}
+.collage-copy .link{grid-row:2;justify-self:start;margin-top:1.9rem}
+
+/* El segundo enlace vive a la derecha de la foto vertical, a media
+   altura: es lo que cierra la composicion por abajo. */
+.collage-link{grid-column:10 / 13;grid-row:2;align-self:center;justify-self:start}
+
+/* ══ 17 · EL RAIL DE FICHAS ═════════════════════════════════════
+   Deriva lenta y arrastre. La ficha deja de ser una foto con texto
+   encima y pasa a ser una lamina blanca con la foto arriba y el
+   texto debajo — que es como se lee una ficha impresa.            */
+.rail{overflow:hidden;cursor:grab;user-select:none;position:relative;
+  left:50%;right:50%;margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2);
+  width:var(--vw);padding:.75rem 0 2rem}
+.rail.is-dragging{cursor:grabbing}
+/* Nada dentro del rail se arrastra por su cuenta: ni la foto ni el
+   enlace. Es lo que hacia que el gesto sacara una imagen fantasma
+   en vez de mover la tira. */
+.rail img,.rail a{-webkit-user-drag:none;user-drag:none;
+  -webkit-touch-callout:none}
+.rail *{user-select:none;-webkit-user-select:none}
+/* Sin hueco entre fichas. Siete laminas separadas se leen como siete
+   objetos sueltos; pegadas, como una tira de contactos — que es lo
+   que son: el mismo destino en siete encuadres. */
+.rail-track{display:flex;gap:0;padding:0 var(--pad-x);align-items:stretch;will-change:transform}
+.rail-head{max-width:var(--max);margin:0 auto clamp(2rem,3.2vw,3rem);
+  display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap}
+.rail-hint{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.6px;letter-spacing:.2em;text-transform:uppercase;color:var(--i-26);
+  display:inline-flex;align-items:center;gap:.7rem}
+.rail-hint::after{content:"";width:34px;height:1px;background:currentColor}
+
+/* Sin trazo. Con las fichas pegadas, un borde por lado dibuja una
+   linea doble entre foto y foto — y una tira de contactos no lleva
+   filete entre cuadros. El unico corte que queda es el que hace la
+   propia fotografia contra la de al lado.
+
+   Y mas grande: al desaparecer huecos y marcos, lo que gana ancho
+   es la imagen. */
+/* Apaisada, 16:9, que es como esta rodado el material — en 5:4 se
+   le cortaban los costados, que es donde vive el paisaje. Para que
+   la lamina no pierda altura al ensancharse el encuadre, la ficha
+   crece con el: mas ancha da la misma presencia con una proporcion
+   de cine. */
+.card{flex:0 0 clamp(420px,56vw,980px);background:transparent;border:0;border-radius:var(--r-l);
+  overflow:hidden;display:flex;flex-direction:column}
+.card-fig{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--canvas);display:block;
+  isolation:isolate}
+.card-fig img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--slow)}
+/* Las siete se mueven. El clip
+   se apoya sobre la imagen y entra por fundido cuando arranca de
+   verdad, asi que la ficha nunca esta vacia esperando red — y si el
+   video no llega, lo que queda es el encuadre elegido, no un hueco. */
+.card-fig video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  display:block;opacity:0;
+  transition:opacity .9s var(--ease),transform 1.4s var(--slow)}
+.card-fig video.is-playing{opacity:1}
+/* Las siete laminas, un punto por debajo: 12% menos de saturacion y
+   9% menos de contraste. Sobre blanco y pegadas entre si, siete
+   fotografias a plena fuerza se pelean por el mismo aire — bajadas
+   a la vez, la tira se lee como una sola toma larga. Va sobre la
+   imagen y sobre el clip, para que el fundido no cambie el color. */
+.card-fig img,.card-fig video{filter:saturate(.88) contrast(.91)}
+.card:hover .card-fig img,.card:hover .card-fig video{transform:scale(1.045)}
+/* Las fichas se tocan por la foto, no por el texto: el relleno
+   lateral es lo unico que separa un cuerpo del siguiente. */
+.card-body{padding:clamp(1.5rem,2.2vw,2rem) clamp(2rem,3vw,3.2rem) clamp(1.5rem,2.2vw,2rem) 0;
+  display:flex;flex-direction:column;gap:.95rem;flex:1}
+.card-loc{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.68rem;color:var(--i-40)}
+.card-name{font-size:1rem}
+.card p{font-size:.93rem;line-height:1.72;font-weight:300;color:var(--i-55)}
+/* Tres capsulas al pie de una ficha son tres botones que no llevan
+   a ningun sitio. En la misma mono que la linea de arriba, sobre un
+   filete contrastado y separadas por otro, vuelven a ser lo que
+   son: una ficha tecnica. */
+.tags{display:flex;flex-direction:column;align-items:stretch;gap:0;margin-top:auto;
+  padding-top:.4rem}
+.tags span{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.68rem;color:var(--i-55);padding:.62rem 0;line-height:1.3}
+/* Texto, filete, texto, filete, texto. El primero abre sin linea:
+   una regla arriba lo convertiria en un pie de tabla, y esto es una
+   lista de tres cosas. */
+.tags span + span{border-top:1px solid var(--i-40)}
+
+
+/* ══ 17b · EL MANIFIESTO ════════════════════════════════════════
+   El titular que estaba en la portada, ahora aqui, centrado en los
+   dos ejes. Es el unico bloque simetrico de una pagina hecha de
+   asimetrias, y esa excepcion es lo que lo convierte en una
+   declaracion en vez de una seccion mas.
+
+   A sangre y sin esquina redondeada, a proposito: la banda de la
+   estacion es una lamina apoyada sobre el papel, esta es un corte
+   en el papel. Dos negros con dos gramaticas, para que no se lean
+   como el mismo bloque repetido.                                  */
+.statement{position:relative;overflow:hidden;background:var(--ink);color:#fff;
+  min-height:clamp(560px,86vh,860px);
+  display:flex;align-items:center;justify-content:center;
+  padding:clamp(4.5rem,9vw,8rem) var(--pad-x);
+  left:50%;right:50%;width:var(--vw);
+  margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2)}
+.statement-media{position:absolute;inset:0;z-index:0}
+.statement-media video,.statement-media img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;filter:saturate(.8) contrast(1.04)}
+/* Mas velo que en la portada: aqui si hay tipografia que sostener,
+   y esta puesta justo sobre el centro del encuadre, que es lo que
+   siempre se mueve mas. */
+.statement-media::after{content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse 92% 82% at 50% 50%,rgba(10,9,7,.62),rgba(10,9,7,.8) 72%)}
+.statement-in{position:relative;z-index:2;max-width:min(var(--max),920px);
+  display:flex;flex-direction:column;align-items:center;text-align:center}
+.statement-in .kicker{color:rgba(255,255,255,.6)}
+/* Tres lineas, y las tres las decide el marcado con <br>. Sin
+   balance: el reparto automatico peleaba con los cortes escritos y
+   dejaba "it." colgando en una cuarta linea. */
+/* Tres lineas, y las tres las decide el <br> del marcado. nowrap es
+   lo que lo garantiza: sin el, la tercera linea se partia sola y
+   dejaba "it." colgando en una cuarta. El cuerpo se mide contra el
+   ancho de ventana para que la linea mas larga entre siempre. */
+.statement-t{font-family:"Old Standard VIK",Georgia,serif;color:#fff;
+  font-size:clamp(1.75rem,5.6vw,4.8rem);line-height:1;letter-spacing:-.028em;
+  margin-top:1.9rem;max-width:none;white-space:nowrap}
+.statement-t em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.statement-d{margin-top:1.9rem;max-width:52ch;font-weight:300;
+  font-size:1rem;line-height:1.8;color:rgba(255,255,255,.7)}
+.statement-actions{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-top:2.6rem}
+
+
+/* ══ 18 · LA DECISION ═══════════════════════════════════════════
+   Tres laminas con hueco entre ellas. La que esta bajo el cursor
+   se abre y las otras dos ceden ancho; en tacto, las tres estan
+   abiertas y la tira se desliza.                                  */
+/* A sangre y sin hueco: las tres laminas ocupan el ancho de la
+   ventana y se tocan. La decision es una sola imagen partida en
+   tres, no tres fichas separadas. */
+.chooser{display:flex;gap:0;max-width:none;margin:0;padding:0;
+  width:100%;height:clamp(460px,66vh,700px)}
+/* Sin linea entre laminas. A ancho completo y pegadas, la
+   fotografia que se encuentra con la de al lado es toda la
+   division que hace falta. */
+/* Un 9% menos de grano que las otras laminas a sangre. Aqui la
+   fotografia es la que decide, y tres planos juntos acumulan mas
+   textura de la que acumula uno solo. */
+.ch{--grain-o:.655;
+  position:relative;flex:1 1 0;min-width:0;overflow:hidden;color:var(--bone);
+  transition:flex-grow .85s var(--slow),filter .6s var(--ease)}
+.chooser:hover .ch{flex-grow:.78;filter:saturate(.72) brightness(.74)}
+.chooser .ch:hover{flex-grow:1.9;filter:none}
+.ch img,.ch video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transform:scale(1.04);transition:transform 1.6s var(--slow),opacity .8s var(--ease)}
+.ch video{opacity:0;z-index:1}
+.ch video.is-playing{opacity:1}
+.ch:hover img,.ch:hover video{transform:scale(1)}
+.ch::after{content:"";position:absolute;inset:0;z-index:2;
+  background:linear-gradient(to top,rgba(10,9,7,.93) 0%,rgba(10,9,7,.54) 46%,rgba(10,9,7,.26) 100%);
+  transition:opacity .6s var(--ease)}
+/* Sin hueco de reja: cada pieza trae su propio margen y puede
+   llevarlo a cero. Con gap, lo que se pliega deja el hueco puesto y
+   el nombre no llega nunca a apoyarse. */
+.ch-body{position:absolute;left:0;right:0;bottom:0;z-index:3;
+  padding:clamp(1.4rem,2.2vw,2.15rem);display:flex;flex-direction:column;gap:0;align-items:flex-start}
+.ch-mark{font-size:clamp(.95rem,1.25vw,1.25rem);color:#fff}
+.ch-place{margin-top:.55rem;font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.62)}
+/* En reposo, la lamina lleva el nombre y el sitio, y nada mas: los
+   tres nombres se apoyan en la misma linea de base y las tres
+   fotografias quedan enteras.
+
+   La razon y la firma se pliegan a cero — no se ocultan, que es lo
+   que reservaba tres lineas de aire permanente y dejaba el nombre
+   flotando a media altura. Al abrirse empujan, y el nombre sube con
+   ellas: el movimiento cuenta que ahi habia algo guardado.
+
+   Tres lineas exactas de tope, para que la firma no baile de una
+   lamina a otra. */
+.ch-lede{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.05rem,1.45vw,1.42rem);line-height:1.32;color:#fff;max-width:26ch;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  max-height:0;margin-top:0;opacity:0;transform:translateY(10px);
+  transition:max-height .7s var(--slow),margin-top .7s var(--slow),
+             opacity .5s var(--ease) .12s,transform .6s var(--slow) .12s}
+.ch-cta{overflow:hidden;max-height:0;margin-top:0;opacity:0;transform:translateY(10px);
+  transition:max-height .7s var(--slow),margin-top .7s var(--slow),
+             opacity .5s var(--ease) .2s,transform .6s var(--slow) .2s}
+.ch:hover .ch-lede{max-height:calc(1.32em * 3);margin-top:1.05rem;opacity:1;transform:none}
+.ch:hover .ch-cta{max-height:4rem;margin-top:1.15rem;opacity:1;transform:none}
+@media (hover:none),(pointer:coarse){
+  /* Sin cursor no hay reposo que valga: las tres estan abiertas. */
+  .chooser:hover .ch,.chooser .ch:hover{flex-grow:1;filter:none}
+  .ch-lede{max-height:calc(1.32em * 3);margin-top:1.05rem;opacity:1;transform:none}
+  .ch-cta{max-height:4rem;margin-top:1.15rem;opacity:1;transform:none}
+}
+
+
+/* ══ 20 · LA GALERIA DEL IDEARIO ════════════════════════════════
+   Seis ideas. Puestas en seis fichas iguales se leen como una
+   tabla y nadie las lee. Puestas como galeria — el indice a la
+   izquierda, una sola fotografia a la derecha que cambia con lo
+   que se esta leyendo — se leen de una.
+
+   La imagen no decide nada: obedece. Se enciende la que
+   corresponde a la entrada que cruza el centro de la ventana, o a
+   la que tiene el raton encima. Y la columna de imagen se queda
+   pegada, asi que el cambio ocurre sin mover nada de sitio.       */
+.gallery{max-width:var(--max);margin:0 auto;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(2rem,5vw,5.5rem);align-items:start}
+
+.gallery-list{border-top:1px solid var(--hair)}
+.gx{display:grid;grid-template-columns:3.2rem 1fr;gap:0 clamp(1rem,2vw,2rem);
+  padding:clamp(1.6rem,2.6vw,2.4rem) 0;border-bottom:1px solid var(--hair);
+  cursor:default;transition:padding-left .55s var(--slow)}
+.gx.is-on{padding-left:.9rem}
+.gx-n{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.7rem;
+  color:var(--i-26);padding-top:.35rem;transition:color .4s var(--ease)}
+.gx.is-on .gx-n{color:var(--vik)}
+.gx-k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.4px;letter-spacing:.2em;text-transform:uppercase;color:var(--i-40);
+  display:block;margin-bottom:.9rem}
+.gx-t{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.35rem,2.2vw,1.95rem);line-height:1.08;letter-spacing:-.018em;
+  color:var(--i-40);transition:color .5s var(--ease)}
+.gx.is-on .gx-t{color:var(--ink)}
+.gx-t em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+/* El parrafo solo esta donde se esta leyendo. Los seis a la vez
+   son un muro; uno solo es una galeria. */
+.gx-p{font-size:.92rem;line-height:1.75;font-weight:300;color:var(--i-55);
+  max-width:46ch;
+  display:grid;grid-template-rows:0fr;overflow:hidden;
+  opacity:0;margin-top:0;
+  transition:grid-template-rows .6s var(--slow),opacity .45s var(--ease),margin-top .6s var(--slow)}
+.gx-p > *{min-height:0}
+.gx.is-on .gx-p{grid-template-rows:1fr;opacity:1;margin-top:1rem}
+.gx-inline{display:none}
+
+/* La lamina. Se queda pegada mientras el indice corre al lado.
+
+   Apaisada pero no panoramica: 5:4. El material rodado en
+   horizontal entra de lleno y la caja se mira de igual a igual con
+   un indice largo, cosa que el 16:9 no hacia.
+
+   Arranca en la hairline que abre la lista, a ras del 01, y desde
+   ahi se queda pegada bajo la barra. Sin margen propio: su borde
+   superior es la misma linea que la de la primera entrada. Nada de
+   translate ni de caja de alto de ventana — los dos empujaban la
+   lamina fuera de su reja y la montaban sobre el titular. */
+.gallery-stage{position:sticky;top:calc(var(--nav-h) + 2.4rem);
+  border-top:1px solid transparent}
+.gs-frame{position:relative;aspect-ratio:5/4;overflow:hidden;background:var(--canvas)}
+.gs{position:absolute;inset:0;margin:0;opacity:0;
+  transition:opacity .7s var(--slow),transform 1.4s var(--slow);transform:scale(1.04)}
+.gs.is-on{opacity:1;transform:none}
+.gs img,.gs video{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block}
+/* La pelicula se apoya sobre su propio fotograma: mientras carga se
+   ve la imagen, y si no arranca nunca, tambien. */
+.gs video{opacity:0;transition:opacity .8s var(--ease)}
+.gs video.is-playing{opacity:1}
+.gs .vcap{left:auto;right:.9rem;bottom:.9rem;
+  writing-mode:horizontal-tb;transform:none;
+  color:rgba(255,255,255,.82);background:rgba(14,14,12,.5);
+  padding:.4rem .6rem;backdrop-filter:blur(4px)}
+
+@media (max-width:900px){
+  /* En una columna la lamina pegajosa no tiene contra que correr:
+     cada entrada lleva su imagen debajo, como en papel. */
+  .gallery{grid-template-columns:1fr;gap:0}
+  .gallery-stage{display:none}
+  .gx{grid-template-columns:2.6rem 1fr}
+  .gx-p{grid-template-rows:1fr;opacity:1;margin-top:1rem}
+  .gx-t{color:var(--ink)}
+  .gx-inline{display:block;grid-column:2 / 3;margin-top:1.4rem;
+    aspect-ratio:5/4;overflow:hidden;background:var(--canvas)}
+  .gx-inline img{width:100%;height:100%;object-fit:cover}
+}
+
+/* ══ 21 · LA BANDA DE CINE ══════════════════════════════════════
+   Contenida, no a sangre. La franja de papel alrededor es la que
+   hace que el negro se lea como una lamina y no como un cambio de
+   sitio.                                                          */
+.film{position:relative;max-width:var(--max);margin:0 auto;border-radius:var(--r-xl);
+  overflow:hidden;background:var(--ink);color:var(--bone);
+  min-height:clamp(520px,72vh,760px);display:flex;align-items:flex-end}
+/* Sin sobre-alto. El 12% de arriba y de abajo existia solo para
+   darle recorrido al parallax; sin deriva, es recorte y nada mas. */
+.film-bg{position:absolute;inset:0}
+/* Llena la caja. En contain el plano entraba entero pero la caja es
+   mas ancha que 16:9, asi que sobraban dos columnas negras a los
+   lados — un marco que nadie dibujo.
+
+   El recorte que queda es del 6%: con el sobre-alto del parallax
+   fuera, la caja y el plano ya casi coinciden. Antes se perdia el
+   24%, que es lo que se veia cortado. */
+.film-bg video,.film-bg img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;filter:saturate(.82)}
+.film::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(10,9,7,.5) 0%,rgba(10,9,7,.66) 44%,rgba(10,9,7,.93) 100%)}
+.film{--film-pad:clamp(1.5rem,3.6vw,3.75rem)}
+.film-in{position:relative;z-index:2;width:100%;
+  padding:clamp(2.5rem,5vw,4.5rem) var(--film-pad)}
+.film-in .kicker{color:rgba(255,255,255,.5)}
+/* Dos lineas, y las dos las decide el <br> del marcado. El tope de
+   20ch partia la segunda por su cuenta y dejaba "come." sola en una
+   tercera; nowrap es lo que garantiza el corte escrito. El cuerpo
+   se mide contra el ancho de ventana para que la linea mas larga
+   entre siempre. */
+.film-t{font-family:"Old Standard VIK",Georgia,serif;color:#fff;
+  font-size:clamp(1.2rem,4.4vw,3.2rem);line-height:1.02;letter-spacing:-.022em;
+  margin-top:1.4rem;max-width:none;white-space:nowrap}
+.film-d{margin-top:1.4rem;max-width:52ch;font-size:.94rem;line-height:1.8;font-weight:300;
+  color:rgba(255,255,255,.62)}
+
+/* El calendario se sale del relleno de la banda para que sus reglas
+   crucen la lamina entera, de canto a canto. Una hairline que se
+   detiene antes del borde no divide nada: flota. En papel, la linea
+   de una tabla llega al filo de la caja — es lo que dice que las
+   filas pertenecen al mismo cuerpo.
+
+   Y el realce del raton la sigue: si la linea llega al borde y el
+   fondo no, al pasar por encima aparece un rectangulo mas corto que
+   su propia division. Lo que se enciende es la fila, no un trozo de
+   ella.
+
+   El texto no se mueve: lo que la caja gana por fuera lo devuelve
+   como relleno propio, con la misma medida. */
+.season{margin-top:clamp(2.5rem,4vw,3.5rem);
+  margin-left:calc(var(--film-pad) * -1);margin-right:calc(var(--film-pad) * -1);
+  border-top:1px solid rgba(255,255,255,.2)}
+.season-row{display:grid;
+  grid-template-columns:9rem 10rem minmax(0,1fr) auto;gap:.2rem clamp(1rem,2vw,2rem);
+  align-items:baseline;
+  padding:1.1rem var(--film-pad);border-bottom:1px solid rgba(255,255,255,.14);
+  transition:background .4s var(--ease),padding-left .4s var(--ease)}
+.season-row:hover{background:rgba(255,255,255,.05);
+  padding-left:calc(var(--film-pad) + .9rem)}
+.season-row .w{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.6px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.42)}
+.season-row .n{font-family:"Old Standard VIK",Georgia,serif;font-size:1.15rem;color:#fff;line-height:1.2}
+.season-row .d{font-size:.88rem;line-height:1.7;font-weight:300;color:rgba(255,255,255,.5)}
+/* La fila de hoy. No se pinta de color: se enciende. El resto de la
+   tabla ya esta en gris, asi que devolverle el blanco a una sola
+   fila alcanza para senalarla — y el punto azul dice que el dato
+   es de ahora, no de la maqueta.
+
+   La cuenta atras cierra la fila por la derecha. En la columna del
+   nombre entraba en diez rem y el texto se cortaba a la mitad: se
+   leia "Now ·" y nada mas. Al final de la fila tiene todo el ancho
+   que necesita, y la fila ya reparte el mismo relleno a los dos
+   lados, asi que su distancia al canto es la misma que la de la
+   fecha al canto opuesto. */
+.season-row.is-now{background:rgba(255,255,255,.05)}
+.season-row.is-now .n{color:#fff}
+.season-row.is-now .w{color:rgba(255,255,255,.72)}
+.season-row.is-now .d{color:rgba(255,255,255,.72)}
+.season-mark{grid-column:4 / 5;grid-row:1;justify-self:end;align-self:baseline;
+  display:inline-flex;align-items:center;gap:.55rem;white-space:nowrap;
+  font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.68rem;
+  color:rgba(255,255,255,.62)}
+.season-mark::before{content:"";width:5px;height:5px;border-radius:50%;
+  background:var(--vik);box-shadow:0 0 0 3px rgba(0,47,167,.28)}
+
+
+
+/* ══ 22 · EL INDICE DE LA MESA ══════════════════════════════════
+   Al pasar por encima la fila no se llena de color: se desplaza, y
+   el nombre se vuelve azul. La miniatura sigue al raton.          */
+.index{border-top:1px solid var(--hair);max-width:var(--max);margin:0 auto}
+.index-row{position:relative;display:grid;
+  grid-template-columns:5rem minmax(0,1.25fr) minmax(0,1fr) auto;align-items:center;
+  min-height:7.5rem;border-bottom:1px solid var(--hair);
+  transition:padding-left .55s var(--slow)}
+.index-row > *{padding:1.2rem}
+.index-row:hover{padding-left:1rem}
+.index-n{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;color:var(--i-26);transition:color .4s}
+.index-row:hover .index-n{color:var(--vik)}
+.index-name{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.25rem,2.4vw,2rem);line-height:1.08;letter-spacing:-.014em;transition:color .4s var(--ease)}
+.index-row:hover .index-name{color:var(--vik)}
+.index-meta{color:var(--i-40);font-size:.86rem;font-weight:300;line-height:1.5}
+.index-cta{justify-self:end}
+
+/* La miniatura que sigue al raton. Solo con puntero fino. */
+/* La miniatura sigue al raton por toda la pagina, mapa incluido. */
+.hover-img{position:fixed;top:0;left:0;z-index:7010;width:clamp(180px,17vw,250px);aspect-ratio:4/5;
+  border-radius:var(--r-m);overflow:hidden;pointer-events:none;
+  opacity:0;transform:translate(-50%,-50%) scale(.94);
+  transition:opacity .4s var(--ease),transform .5s var(--slow)}
+.hover-img.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.hover-img img,.hover-img video{position:absolute;inset:0;
+  width:100%;height:100%;object-fit:cover;display:block}
+/* La pelicula se apoya sobre su propio fotograma. La miniatura vive
+   medio segundo bajo el raton: si esperara a que el video decodifique
+   para mostrar algo, la mitad de las veces no mostraria nada. */
+.hover-img video{opacity:0;transition:opacity .45s var(--ease)}
+.hover-img video.is-playing{opacity:1}
+@media (hover:none),(pointer:coarse){.hover-img{display:none}}
+/* Ni donde la ficha ya lleva la foto dentro: dos imagenes de la
+   misma cosa, una fija y otra persiguiendo el raton. */
+@media (max-width:1250px){.hover-img{display:none}}
+/* Fuera de la maqueta de fichas, la foto inyectada no pinta nada.
+   Se declara escondida por defecto y la tira la enciende: asi el
+   motor puede ponerla siempre y quien decide es el ancho, que es lo
+   unico que cambia cuando se estira la ventana. */
+.index-fig{display:none}
+
+
+/* ══ 22b · EL MAPA ══════════════════════════════════════════════
+   El mapa del styleguide, tal cual: a sangre, satelital por defecto,
+   con los puntos de la casa y una barra de leyenda al pie. Es el
+   unico bloque de la pagina que no es papel — un mapa oscuro es la
+   convencion, y ademas deja que la imagen satelital sea lo que se
+   mira.                                                            */
+/* Sin aire por debajo. El mapa es lo ultimo de la seccion y va a
+   sangre: el relleno inferior dejaba una banda negra de doscientos
+   pixeles entre la barra de puntos y el papel del modulo siguiente,
+   que se leia como un bloque vacio y no como el final de un mapa. */
+.map-section{background:var(--ink);color:var(--bone);padding-bottom:0}
+.map-section .kicker{color:rgba(248,248,240,.4)}
+.map-section .h2{color:#fff}
+.map-section .lead{color:rgba(248,248,240,.6)}
+
+.map-full{position:relative;left:50%;right:50%;
+  margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2);width:var(--vw);
+  /* el alto sigue a la ventana: 700px fijos se leen como una torre
+     en tableta */
+  height:min(700px,78vh,58vw);min-height:400px;
+  background:#0e0e0c;overflow:hidden;
+  border-top:1px solid rgba(248,248,240,.16);border-bottom:1px solid rgba(248,248,240,.16)}
+
+/* FIRMA DEL PROVEEDOR · Leaflet ancla su credito al pie del mapa.
+   El mapa se estira por debajo del recorte: las teselas siguen
+   detras de la barra y la firma cae fuera del cuadro. Nunca se
+   oculta con display:none — vuelve sola quitando el desfase. El
+   credito no se pierde: vive en el pie de la pagina, que es donde
+   se nombra a OpenStreetMap y Esri. */
+.leaf-map{--sig:34px;position:absolute;left:0;right:0;top:0;bottom:calc(var(--sig) * -1)}
+.leaf-map .leaflet-control-attribution{opacity:0;pointer-events:none}
+
+.map-view{position:absolute;top:18px;left:18px;z-index:1100;display:flex;
+  background:rgba(14,14,12,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(248,248,240,.16)}
+.map-view button{padding:.65rem 1rem;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9px;letter-spacing:.16em;text-transform:uppercase;
+  color:rgba(248,248,240,.6);transition:color .25s,background .25s}
+.map-view button+button{border-left:1px solid rgba(248,248,240,.16)}
+.map-view button.active{background:var(--vik);color:#fff}
+.map-view button:not(.active):hover{color:#fff}
+
+.map-bar{position:absolute;left:0;right:0;bottom:0;z-index:1100;display:flex;align-items:stretch;
+  background:linear-gradient(0deg,rgba(14,14,12,.97),rgba(14,14,12,.6));
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-top:1px solid rgba(248,248,240,.16)}
+.mb-list{display:flex;align-items:stretch;flex:1;overflow-x:auto;scrollbar-width:none}
+.mb-list::-webkit-scrollbar{display:none}
+.mb-list li{flex:1 1 0;min-width:max-content;display:flex;align-items:center;justify-content:center;
+  gap:.6rem;padding:1.2rem 1rem;white-space:nowrap;cursor:pointer;color:rgba(248,248,240,.7);
+  border-right:1px solid rgba(248,248,240,.16);transition:color .25s,background .25s}
+.mb-list li:last-child{border-right:0}
+.mb-list li:hover{color:#fff;background:rgba(0,47,167,.4)}
+.mb-list li .d{width:8px;height:8px;border-radius:50%;background:var(--vik);flex:0 0 auto}
+.mb-list li.home .d{background:#fff;box-shadow:0 0 0 3px rgba(0,47,167,.6)}
+.mb-list li .n{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+
+/* El plano de OSM viene en su verde y su ocre; sobre el negro del
+   modulo pide gris. El satelite no se toca — su color es el dato. */
+.leaf-map.is-plain .leaflet-tile-pane{
+  filter:grayscale(1) brightness(.85) contrast(1.05) invert(.92) hue-rotate(180deg)}
+
+/* Piel de Leaflet */
+/* Leaflet trae cuatro radios propios en su hoja — los controles de
+   zoom, el selector de capas, el bocadillo y su punta. Ninguno pasa
+   por nuestros tokens, asi que la esquina viva se rompia justo en
+   el unico modulo que no escribimos nosotros. Se apagan de una vez
+   y para lo que venga: cualquier pieza suya, presente o futura. */
+[class^="leaflet-"],[class*=" leaflet-"]{border-radius:0!important}
+.leaflet-container{background:#0e0e0c;font-family:"DM Sans",sans-serif}
+.leaflet-bar{border:none;box-shadow:none}
+.leaflet-container,.leaflet-bar a{font-weight:400!important}
+.leaflet-bar a{background:var(--ink);color:var(--bone);
+  border-color:rgba(248,248,240,.16)!important;width:32px;height:32px;line-height:32px}
+.leaflet-bar a:hover{background:#242320;color:#fff}
+.poi{background:none!important;border:none!important}
+.poi-dot{position:absolute;left:0;top:0;width:12px;height:12px;border-radius:50%;
+  background:var(--vik);border:2px solid var(--bone);box-shadow:0 0 0 4px rgba(0,47,167,.22)}
+.poi-label{position:absolute;left:20px;top:-3px;white-space:nowrap;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone);
+  background:rgba(14,14,12,.78);padding:4px 7px;backdrop-filter:blur(4px)}
+.poi-home .poi-dot{width:16px;height:16px;background:#fff;border:2px solid var(--vik);
+  box-shadow:0 0 0 5px rgba(0,47,167,.28)}
+.poi-home .poi-dot::after{content:"";position:absolute;inset:-2px;border-radius:50%;
+  border:2px solid var(--vik);animation:homePulse 2.1s var(--ease) infinite}
+.poi-home .poi-label{color:#fff;background:var(--vik);letter-spacing:.16em}
+@keyframes homePulse{0%{transform:scale(1);opacity:.9}70%{transform:scale(2.6);opacity:0}100%{opacity:0}}
+
+.leaflet-popup-content-wrapper{background:var(--ink);color:var(--bone);border-radius:0;
+  border:1px solid rgba(248,248,240,.16);padding:0;overflow:hidden}
+.leaflet-popup-tip{background:var(--ink);border:1px solid rgba(248,248,240,.16)}
+.leaflet-popup-content{margin:0!important;width:256px!important;font-family:"DM Sans",sans-serif}
+.leaflet-container a.leaflet-popup-close-button{color:rgba(248,248,240,.5)}
+.pop-media{position:relative;height:118px;background-size:cover;background-position:center}
+.pop-media::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 45%,rgba(20,20,18,.7))}
+.pop-body{padding:13px 16px 16px}
+.pop-body b{font-family:"Old Standard VIK",Georgia,serif;font-size:1.25rem;display:block;
+  margin-bottom:.2rem;color:var(--bone)}
+.pop-detail{display:block;font-size:.8rem;color:rgba(248,248,240,.6);font-weight:300;line-height:1.5}
+.pop-metaline{display:flex;flex-wrap:wrap;gap:.4rem 1rem;margin-top:.75rem;padding-top:.7rem;
+  border-top:1px solid rgba(248,248,240,.16);
+  font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.7rem;color:rgba(248,248,240,.6)}
+.pop-metaline i{color:var(--vik);font-style:normal}
+/* Un globo puede llevar dos acciones o una sola. Con flex y flex:1
+   en cada hija, la que quede sola ocupa la fila entera sin ninguna
+   regla extra. */
+.leaflet-popup-content .pop-actions{display:flex;gap:.45rem;margin-top:.9rem}
+.leaflet-popup-content .pop-actions a{flex:1;text-align:center;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:#fff;
+  background:var(--vik);padding:.6rem .5rem;transition:background .25s}
+.leaflet-popup-content .pop-actions a:hover{background:var(--navy)}
+.leaflet-popup-content .pop-actions a.alt{background:none;
+  border:1px solid rgba(248,248,240,.16);color:var(--bone)}
+.leaflet-popup-content .pop-actions a.alt:hover{background:rgba(248,248,240,.08)}
+
+@media (max-width:860px){
+  .map-full{height:min(560px,70vh);min-height:340px}
+  .mb-list li{padding:1rem .9rem}
+  /* Plano y satelite median treinta pixeles de alto: es el unico
+     control de la pagina que se quedo con medida de raton. El area
+     crece sin mover el dibujo — el relleno se reparte y la capsula
+     conserva su cara. */
+  .map-view button{min-height:44px;display:inline-flex;align-items:center}
+}
+
+/* ══ 23 · EL MOSAICO ════════════════════════════════════════════
+   Ritmo dos-uno / uno-dos: la reja siempre cierra. */
+.mosaic{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--gap);
+  max-width:var(--max);margin:0 auto}
+/* El ancho lo pone una clase, no la posicion: en el mosaico hay
+   doce fichas y solo cuatro en pantalla, asi que nth-child cuenta
+   mal — contaria tambien las que estan fuera de plaza. */
+.mosaic > .is-wide{grid-column:span 2}
+.vcard{position:relative;border-radius:var(--r-l);overflow:hidden;isolation:isolate;
+  padding:clamp(1.8rem,3vw,2.6rem);display:flex;flex-direction:column;
+  min-height:clamp(300px,32vw,430px);color:var(--bone);
+  background-size:cover;background-position:center;
+  transition:transform .55s var(--slow)}
+.vcard:hover{transform:none}
+.vcard > video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.vcard::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(10,9,7,.12),rgba(10,9,7,.84))}
+.vcard.film-card{background:#141312}
+.vcard-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:auto}
+.vcard-when{display:inline-flex;align-items:center;gap:.6rem;
+  font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.78rem}
+.vcard-when .live-dot{background:#fff}
+.vcard-status{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  padding:.5rem .85rem;border:1px solid rgba(255,255,255,.35);border-radius:var(--r-pill);color:#fff}
+.vcard h3{margin:1.3rem 0 .6rem;font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.35rem,2.1vw,1.85rem);line-height:1.04;letter-spacing:-.018em;color:#fff}
+.vcard p{font-size:.92rem;line-height:1.68;font-weight:300;color:rgba(248,248,240,.78);max-width:46ch}
+.vcard-actions{margin-top:1.7rem}
+
+
+/* ══ 24 · LA PRENSA ═════════════════════════════════════════════ */
+.logo-rail{overflow:hidden;padding:1.5rem 0;cursor:grab;user-select:none;position:relative;
+  left:50%;right:50%;margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2);width:var(--vw);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
+.logo-rail .rail-track{gap:clamp(3rem,5vw,5.5rem);align-items:center}
+.logo-item{flex:0 0 auto;display:flex;align-items:center;opacity:.26;transition:opacity .5s var(--ease)}
+.logo-rail:hover .logo-item{opacity:.16}
+.logo-item:hover{opacity:.72}
+.logo-item img{height:clamp(23px,2.3vw,32px);width:auto;max-width:clamp(230px,23vw,370px);
+  object-fit:contain;filter:brightness(0)}
+
+/* Sin regla arriba: el rail de logotipos ya separa. Una hairline
+   mas debajo de una tira de marcas es una linea de mas. */
+.quotes{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(2.5rem,5vw,5.5rem);
+  max-width:var(--max);margin:clamp(1.5rem,2.5vw,2.25rem) auto 0}
+/* La etiqueta se apoya en el borde izquierdo de la primera columna:
+   es lo unico que nombra el bloque. El titulo sobraba — las marcas
+   son el titular. */
+.press-label{display:flex;max-width:var(--max);margin:clamp(2.5rem,4.5vw,4rem) auto 0}
+.quote{padding:1.9rem 0;display:flex;flex-direction:column;gap:1.35rem;align-items:flex-start}
+.quote q{font-family:"Selva Script",Georgia,serif;quotes:none;
+  font-size:clamp(1.1rem,1.5vw,1.42rem);line-height:1.42;color:var(--i-90);max-width:30ch}
+.quote cite{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--i-40);font-style:normal;
+  display:flex;gap:.7rem;align-items:baseline;margin-top:auto}
+.quote cite .d{opacity:.6}
+
+
+/* ══ 25 · LA RESERVA Y EL CIERRE ════════════════════════════════ */
+.reserve-grid{max-width:var(--max);margin:0 auto clamp(2.5rem,4vw,3.5rem);
+  display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(1.5rem,3vw,3rem);align-items:end}
+.reserve-grid .r-main{grid-column:1 / 8}
+.reserve-grid .r-note{grid-column:9 / 13;justify-self:end;text-align:right}
+.reserve-t{margin-top:1.6rem}
+.reserve-alts{display:flex;flex-wrap:wrap;gap:1rem;margin:2.25rem auto 0;max-width:var(--max)}
+
+.close{max-width:860px;margin:0 auto;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:1.4rem}
+.close .kicker{color:rgba(255,255,255,.6)}
+.close-lines{display:flex;flex-direction:column;gap:.5rem;margin:.5rem 0 1rem}
+.close-lines p{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.05rem,1.9vw,1.5rem);line-height:1.38;color:rgba(255,255,255,.45);
+  transition:color .5s var(--ease)}
+.close-lines p:hover{color:#fff}
+.close-t{color:#fff}
+.close-actions{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;margin-top:1.6rem}
+.close-note{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.45);margin-top:1.75rem}
+
+
+/* ══ 26 · EL PIE ════════════════════════════════════════════════
+   Se queda oscuro: un pie es el final de la publicacion, y el
+   negro lo cierra.                                                */
+.footer{background:var(--ink);color:var(--bone)}
+/* Las dos columnas arrancan arriba, no abajo. Alineadas al pie, la
+   marca quedaba flotando a media altura respecto del rotulo del
+   boletin y el pie abria con dos cosas que no se miraban. */
+.footer-top{max-width:var(--max);margin:0 auto;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2rem,6vw,7rem);
+  align-items:start;padding:clamp(4.5rem,7vw,6.5rem) var(--pad-x) 3.5rem}
+
+/* La marca se compone contra "The Vik letter": mismo renglon y la
+   misma altura de caja que el rotulo de enfrente, para que las dos
+   columnas abran en la misma linea. Quince pixeles la dejaban por
+   encima del rotulo y la simetria se perdia por cuatro puntos. */
+.footer-mark{display:flex;align-items:center;min-height:12px}
+.footer-mark img{height:11px;width:auto;filter:brightness(0) invert(1);display:block}
+.footer-tagline{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.1rem,2vw,1.5rem);line-height:1.3;color:rgba(248,248,240,.5);
+  margin-top:1.5rem;max-width:30ch}
+.footer-news{display:flex;flex-direction:column;gap:1rem}
+/* El rotulo del boletin se apoya en la misma caja de doce que la
+   marca: es lo que hace que las dos lineas coincidan sin depender
+   del interlineado que herede cada una. */
+.footer-news .footer-col-title{display:flex;align-items:center;min-height:12px;
+  margin-bottom:0}
+.footer-news form{display:flex;align-items:center;gap:1rem;
+  border-bottom:1px solid rgba(248,248,240,.22);padding-bottom:.6rem}
+.footer-news input{flex:1;min-width:0;background:none;border:0;color:var(--bone);
+  font-family:"DM Sans",sans-serif;font-size:.95rem;outline:none;padding:.35rem 0}
+.footer-news input::placeholder{color:rgba(248,248,240,.28)}
+.footer-social{display:flex;gap:1.75rem;margin-top:.4rem}
+.footer-grid{max-width:var(--max);margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2.5rem clamp(1.5rem,4vw,4rem);
+  padding:3.5rem var(--pad-x);border-top:1px solid rgba(255,255,255,.08)}
+.footer-col-title{font-family:"Highway Gothic Expanded",sans-serif;font-size:9.3px;
+  letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.4);margin-bottom:1.4rem}
+.footer-links{display:flex;flex-direction:column;gap:.9rem}
+.footer-links a{font-size:.88rem;line-height:1.35;color:rgba(248,248,240,.5);
+  transition:color .25s,padding-left .3s var(--ease)}
+.footer-links a:hover{color:#fff;padding-left:.35rem}
+.footer-bottom{max-width:var(--max);margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;gap:1.5rem 3rem;flex-wrap:wrap;
+  padding:1.75rem var(--pad-x) 2rem;border-top:1px solid rgba(255,255,255,.08)}
+.footer-copy,.footer-legal a{font-family:"Highway Gothic Expanded",sans-serif;font-size:9.3px;
+  letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.24);line-height:1.9}
+.footer-legal{display:flex;gap:1.75rem;flex-wrap:wrap}
+.footer-legal a{transition:color .25s}
+.footer-legal a:hover{color:#fff}
+
+
+/* ══ 27 · MOVIMIENTO REDUCIDO ═══════════════════════════════════ */
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;animation-iteration-count:1!important;
+    transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .r,.lines .ln > span{opacity:1;transform:none}
+  .clip{clip-path:none}
+  /* El grano se queda, quieto: es textura, no movimiento. */
+  .hero-media::before,.statement-media::before,.ch::before,.film::before,
+  .prop-fig .frame::before,.gs-frame::before,.card-fig::after,.vcard::after{
+    animation:none;opacity:calc(var(--grain-o) * .7)}
+}
+
+
+/* ══ 28 · RESPONSIVE ════════════════════════════════════════════
+   Tres escalones. El editorial se pliega de fuera hacia dentro:
+   primero se sueltan las columnas asimetricas, despues los
+   montajes se vuelven pila, y al final todo es una columna con el
+   mismo aire proporcional.                                        */
+
+@media (max-width:1180px){
+  .head .h-label{grid-column:1 / 13}
+  .head .h-main{grid-column:1 / 13;margin-top:1.5rem}
+  .head.center .h-main{grid-column:1 / 13}
+  .f-a{grid-column:1 / 8}
+  .f-b{grid-column:7 / 13}
+  .collage-copy{grid-column:1 / 6}
+  .f-c{grid-column:7 / 11}
+  .collage-link{grid-column:11 / 13}
+  .tiles{grid-template-columns:repeat(2,1fr)}
+  .strip{grid-template-columns:repeat(3,1fr)}
+  .fact:nth-child(3n){border-right:0}
+  .fact:nth-child(-n+3){border-bottom:1px solid var(--hair-soft)}
+}
+
+@media (max-width:1024px){
+  :root{--nav-h:80px}
+  /* El mostrador aguanta en una sola linea todo lo que puede. Es un
+     mostrador: llegada, salida, casa, huespedes y reservar, leidos
+     de un tiron. Partido en dos filas deja de leerse como una
+     operacion y pasa a ser un formulario.
+
+     Solo se aprieta la reja: los campos ceden ancho antes que la
+     fila ceda su forma. */
+  .counter-row{column-gap:clamp(.9rem,1.6vw,1.4rem)}
+  .counter-row .f{min-width:0}
+  .counter .pill{padding-left:1.4rem;padding-right:1.4rem}
+  .reserve-grid .r-main,.reserve-grid .r-note{grid-column:1 / 13}
+  .reserve-grid .r-note{justify-self:start;text-align:left;margin-top:1.25rem}
+  /* Dos columnas: la ventana a la izquierda, todo lo demas a la
+     derecha. La cuenta atras sigue al nombre, que es lo que
+     describe — en la primera columna quedaria bajo la fecha, que
+     es justo el dato que contradice. */
+  .season-row{grid-template-columns:7rem minmax(0,1fr);row-gap:.35rem}
+  .season-row .d{grid-column:2 / 3}
+  /* Sin cuarta columna donde apoyarse, cierra la ficha desde la
+     izquierda en vez de colgar de un borde que ya no existe. */
+  .season-mark{grid-column:2 / 3;grid-row:auto;justify-self:start;margin-top:.15rem}
+  .statement{min-height:clamp(520px,78vh,720px)}
+  .footer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media (max-width:860px){
+  /* Primer salto: la fila de campos se mantiene y baja solo el
+     boton, a todo el ancho de la caja. Es la accion, y en una linea
+     propia se lee como el final de la operacion — no como un campo
+     mas que quedo suelto. */
+  .counter-row{grid-template-columns:1fr auto 1fr 1px 1fr 1px 1fr;row-gap:1.3rem}
+  .counter .pill{grid-column:1 / -1;justify-self:stretch;width:100%;
+    justify-content:center;margin-top:.2rem}
+
+  .statement-in{max-width:100%}
+  /* En una columna el collage deja de ser collage y pasa a ser una
+     secuencia: foto, foto, texto, foto. Lo unico que se conserva es
+     que ninguna mide lo mismo y que la medalla sigue pisando la
+     costura entre las dos primeras. */
+  .f-a{grid-column:1 / 12;grid-row:1}
+  .f-b{grid-column:3 / 13;grid-row:2;margin-top:clamp(1.5rem,4vw,2.5rem)}
+  .collage-copy{grid-column:1 / 13;grid-row:3;margin-top:clamp(2rem,5vw,3rem)}
+  .f-c{grid-column:1 / 8;grid-row:4;margin-top:clamp(2rem,5vw,3rem)}
+  .collage-link{grid-column:1 / 13;grid-row:5;align-self:start;margin-top:1.6rem}
+  .tiles{grid-template-columns:1fr}
+  .mosaic{grid-template-columns:1fr}
+  .mosaic > *{grid-column:auto!important}
+  .quotes{grid-template-columns:1fr}
+  /* El epigrafe deja de correr por el canto: en una columna no hay
+     canto que aprovechar. Se pone debajo de la foto, en horizontal,
+     que es lo unico que dice de que casa es cada imagen. */
+  .prop-fig .vcap{position:static;writing-mode:horizontal-tb;transform:none;
+    display:block;margin-top:.85rem;white-space:normal}
+  .vcap{display:none}
+  .footer-top{grid-template-columns:1fr;gap:3rem}
+  /* Tres laminas altas apiladas es un scroll largo para una sola
+     decision. Se vuelve una tira que se desliza, con el mismo
+     encaje suave que las demas. */
+  .chooser{height:auto;overflow-x:auto;scroll-snap-type:x proximity;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .chooser::-webkit-scrollbar{display:none}
+  .ch{flex:0 0 min(78vw,460px);aspect-ratio:3/4;scroll-snap-align:center}
+}
+
+@media (max-width:640px){
+  /* En 375px la barra no tiene sitio para las dos marcas y la
+     capsula: la marca del grupo se cae, el nombre del destino se
+     achica y la reserva se queda — es la unica que hace algo. */
+  .nav-tag{display:none}
+  .nav-mark{font-size:.7rem;letter-spacing:.16em}
+  .nav-book{letter-spacing:.18em}
+  .nav.past-hero .nav-book{margin-left:.85rem;padding-left:1.1rem;padding-right:1.1rem}
+  .menu-toggle{margin-left:.85rem}
+  .strip{grid-template-columns:repeat(2,1fr)}
+  .fact:nth-child(3n){border-right:1px solid var(--hair-soft)}
+  .fact:nth-child(2n){border-right:0}
+  .fact{border-bottom:1px solid var(--hair-soft)}
+  /* Segundo salto, ya en telefono: los cuatro campos en dos pares.
+     Uno debajo de otro son cuatro renglones y quinientos sesenta
+     pixeles de vidrio tapando la portada; de a dos, la caja mide la
+     mitad y sigue leyendose de un vistazo — llegada y salida hacen
+     pareja, casa y huespedes tambien.
+
+     Y se van los filetes verticales. Separaban campos que estaban
+     en la misma linea; apilados, quedaban colgando entre fila y
+     fila como una marca que no divide nada. Igual la flecha entre
+     fechas: sin las dos fechas una al lado de la otra, no apunta a
+     ninguna parte. */
+  .counter-row{grid-template-columns:1fr 1fr;row-gap:1.15rem;column-gap:1.2rem}
+  .counter-row .f-arw,.counter-row .f-sep{display:none}
+  .counter-row .f:nth-child(5),.counter-row .f:nth-child(7){grid-column:auto}
+  .counter{padding:1.25rem 1.25rem 1.4rem}
+  .counter-t{margin-bottom:.15rem}
+  /* En telefono si ocupa el ancho: ahi una accion a toda la caja es
+     la convencion y el pulgar la agradece. Con altura de boton, no
+     de campo. */
+  /* Con dos columnas, el boton cruza las dos: grid-column:auto lo
+     dejaba en la primera, del ancho de un campo. */
+  .counter .pill{grid-column:1 / -1;justify-self:stretch;width:100%;
+    justify-content:center;padding:1.25rem 1.5rem;margin-top:.6rem}
+  /* La mesa no pasa por aqui: a 1250 ya se convirtio en tira y su
+     ficha se dibuja alla. Lo que habia en este corte era la mesa
+     apilada de antes, y de ella sobrevivia una linea peligrosa —
+     grid-column:2/3 sobre nombre, dato y reserva. Con la ficha ya
+     en una sola columna, esos tres se iban a una segunda columna
+     que no existe, y la ficha se partia en dos justo en telefono. */
+  .statement-t{font-size:clamp(1.5rem,7.4vw,2.6rem)}
+  .ch{flex-basis:min(84vw,380px);aspect-ratio:4/5}
+  .footer-grid{grid-template-columns:1fr}
+}
+
+/* ══ 29 · EL MOVIL ══════════════════════════════════════════════
+   Una pagina de veinte pantallas no se lee: se abandona. En una
+   columna, cada modulo que en escritorio es una composicion se
+   convierte en una pila, y la pila multiplica el scroll por el
+   numero de piezas.
+
+   La respuesta no es achicar. Es cambiar el eje: lo que estaba
+   compuesto en horizontal se recorre en horizontal. Una tira de
+   contactos, un pliego que se pasa — gestos de publicacion, no de
+   aplicacion. El dedo ya sabe hacerlo y nadie tiene que explicarlo.
+
+   El encaje es proximity, no mandatory. Con encaje obligatorio un
+   pulgar que duda queda atrapado y la tira se siente pegajosa; el
+   texto largo tiene que poder pararse donde el lector quiera.
+
+   Y todas sangran hasta los dos bordes pero arrancan en el margen
+   del texto: el relleno lateral hace las dos cosas a la vez, y
+   scroll-padding es lo que hace que la pieza encajada respete ese
+   mismo eje en vez de pegarse al canto.                           */
+@media (max-width:1250px){
+
+  /* El corte es el mismo que el del indice: donde aparece la
+     hamburguesa, aparecen las tiras. Dos reglas distintas para la
+     misma pregunta — cuanto ancho hay — dejaban una franja de
+     cuatrocientos pixeles con menu de telefono y maqueta de
+     escritorio, que era la unica zona de la pagina sin criterio.  */
+  /* Con raton, la tira dice que se agarra. */
+  .strip,.collage-figs,.gallery-list,.mosaic,.index,.season,.chooser{cursor:grab}
+  .strip.is-dragging,.collage-figs.is-dragging,.gallery-list.is-dragging,
+  .mosaic.is-dragging,.index.is-dragging,.season.is-dragging,
+  .chooser.is-dragging{cursor:grabbing}
+  .is-dragging *{cursor:grabbing!important}
+  @media (pointer:coarse){
+    .strip,.collage-figs,.gallery-list,.mosaic,.index,.season,.chooser{cursor:default}
+  }
+
+  .strip,.collage-figs,.gallery-list,.mosaic,.index,.season{
+    display:flex;flex-wrap:nowrap;align-items:stretch;
+    grid-template-columns:none;
+    margin-left:calc(var(--pad-x) * -1);margin-right:calc(var(--pad-x) * -1);
+    padding-inline:var(--pad-x);
+    overflow-x:auto;overscroll-behavior-x:contain;
+    scroll-snap-type:x proximity;scroll-padding-inline:var(--pad-x);
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none}
+  .strip::-webkit-scrollbar,.collage-figs::-webkit-scrollbar,
+  .gallery-list::-webkit-scrollbar,.mosaic::-webkit-scrollbar,
+  .index::-webkit-scrollbar,.season::-webkit-scrollbar{display:none}
+  .fact,.collage-figs .prop-fig,.gx,.vcard,.index-row,.season-row{
+    flex:0 0 auto;scroll-snap-align:start;min-width:0}
+
+  /* ── Los datos vivos, bajo la portada ────────────────────────
+     Seis cifras en dos columnas son tres filas y un bloque alto de
+     tabla. En una tira se leen como lo que son: un parte, corrido
+     de izquierda a derecha, con la division vertical que ya tenian
+     en escritorio.
+
+     Esta ya nacia a sangre — cuelga de <main>, que no lleva relleno
+     lateral — asi que no necesita los margenes negativos de las
+     otras. Con ellos se salia veintidos pixeles por cada lado y
+     arrastraba la pagina entera. */
+  .strip{gap:0;margin-left:0;margin-right:0}
+  .fact{flex-basis:min(45vw,210px);
+    border-right:1px solid var(--hair-soft)!important;border-bottom:0!important}
+  .fact:last-child{border-right:0!important}
+
+  /* ── El collage ──────────────────────────────────────────────
+     Tres casas. En pila eran mil doscientos pixeles de scroll para
+     tres fotos; en tira, un gesto. Los tamanos desiguales del
+     escritorio no sobreviven al movil: aqui la jerarquia la pone el
+     orden, no la medida, y tres proporciones distintas una al lado
+     de otra se leerian como un error de maqueta. */
+  .collage-figs{display:flex;gap:var(--gap);grid-column:1 / -1}
+  .collage-figs .prop-fig{flex-basis:min(78vw,430px);
+    grid-column:auto!important;grid-row:auto!important;margin-top:0!important}
+  .collage-figs .prop-fig .frame{aspect-ratio:4/5}
+  /* Los dos botones se montaban uno sobre otro: viven en padres
+     distintos — uno dentro del bloque de texto y el otro suelto en
+     la reja — y con la fila en automatico los dos caian en la misma
+     celda.
+
+     display:contents disuelve el bloque de texto: sus hijos pasan a
+     colgar de la reja del collage y ya se pueden colocar a mano.
+     Las tres copias comparten la fila 2, apiladas como antes; los
+     dos enlaces se reparten la fila 3, uno en cada punta.
+
+     Es la unica forma de alinearlos sin mover el marcado, que en
+     escritorio los quiere en sitios distintos de la composicion. */
+  .collage-copy{display:contents}
+  .collage-copy .cc{grid-column:1 / -1;grid-row:2;margin-top:clamp(1.5rem,2.6vw,2.6rem)}
+  .collage-copy .link{grid-column:1 / 7;grid-row:3}
+  .collage-link{grid-column:7 / -1!important;grid-row:3!important;justify-self:end}
+  /* Los dos con la misma medida y el mismo origen. Escrito por
+     separado, el enlace suelto se quedaba con el margen negativo
+     del area de toque y caia diecinueve pixeles mas arriba que su
+     pareja. Van juntos en una regla, y la separacion respecto del
+     texto la pone la copia, no ellos. */
+  .collage .collage-copy .link,
+  .collage .collage-link{align-self:center;margin-top:0;margin-bottom:0}
+  .collage-copy .cc{margin-bottom:1.6rem}
+
+  /* ── El ideario ──────────────────────────────────────────────
+     Seis entradas apiladas eran tres mil cien pixeles: casi cuatro
+     pantallas para seis ideas. En tira, cada una es una ficha de
+     catalogo — numero, rotulo, titulo, razon y lamina. */
+  /* El indice ya es una tira: la lamina pegajosa sobra y estorba.
+     Su display:none vivia en el corte de 900 mientras la tira
+     empezaba en 1250, asi que entre medio quedaban las dos — el
+     indice corriendo en horizontal y debajo una segunda imagen de
+     casi setecientos pixeles que ademas se pega al hacer scroll y
+     se monta sobre lo que viene. Las dos formas de la galeria
+     empiezan y terminan en el mismo sitio. */
+  .gallery{display:block}
+  .gallery-stage{display:none}
+  .gallery-list{gap:var(--gap);border-top:0}
+  .gx{flex-basis:min(76vw,400px);
+    display:flex;flex-direction:column;gap:0;
+    padding:0;border-bottom:0;border-top:1px solid var(--hair)}
+  .gx.is-on{padding-left:0}
+  .gx-n{padding-top:.9rem}
+  .gx-body{margin-top:.7rem}
+  .gx-k{margin-bottom:.6rem}
+  .gx-t{color:var(--ink);font-size:1.2rem}
+  .gx-p{grid-template-rows:1fr;opacity:1;margin-top:.8rem;font-size:.86rem}
+  /* Apaisada, 4:3. En 4:5 la lamina de cada ficha se comia dos
+     tercios de la pantalla y el indice quedaba de pie de foto: en
+     una tira, la imagen acompana al texto, no al reves. */
+  .gx-inline{display:block;order:9;margin-top:1.1rem;
+    aspect-ratio:4/3;overflow:hidden;background:var(--canvas)}
+  .gx-inline img{width:100%;height:100%;object-fit:cover}
+
+  /* ── Las experiencias ────────────────────────────────────────  */
+  .mosaic{gap:var(--gap)}
+  .vcard{flex-basis:min(78vw,400px);grid-column:auto!important;min-height:0;aspect-ratio:3/4}
+
+  /* ── La mesa ─────────────────────────────────────────────────
+     Sin cursor no hay miniatura que siga al raton, asi que la foto
+     que en escritorio aparece al pasar por encima aqui vive dentro
+     de la ficha. El motor la pone al arrancar: el dato ya estaba en
+     el marcado, en data-hover-img. */
+  .index{gap:var(--gap);border-top:0}
+  /* EL ORDEN DE LA FICHA.
+     En pila la ficha se leia numero, nombre, dato, reserva y recien
+     al final la fotografia — cuatro renglones de texto antes de
+     saber de que sitio se habla. Y la foto quedaba tan abajo que en
+     una tira horizontal casi no entraba en cuadro.
+
+     Ahora es una reja de cuatro renglones: numero, lamina, nombre,
+     dato. Primero se ve el sitio y despues se lee como se llama,
+     que es el orden en que se mira una publicacion.
+
+     La reserva comparte celda con la lamina — en una reja dos
+     piezas pueden ocupar el mismo hueco — y se alinea a su base.
+     Es lo unico que deja anclarla al pie de la foto sin tener que
+     saber cuanto mide la foto. */
+  .index-row{flex-basis:min(66vw,340px);
+    display:grid!important;grid-template-columns:minmax(0,1fr);
+    align-content:start;
+    gap:0;padding:0!important;border-bottom:0;border-top:1px solid var(--hair)}
+  .index-row:hover{padding-left:0!important}
+  /* El relleno de escritorio separaba celdas de una fila; aqui la
+     ficha es una columna y ese relleno solo desalinea la lamina
+     respecto del texto. Todo arranca en el mismo canto. */
+  .index-row > *{padding:0}
+  /* La columna se escribe en las cinco. Con el renglon puesto a
+     mano y la columna en automatico, la reja coloca por orden de
+     marcado: lamina y reserva pedian las dos el renglon 2, la
+     primera se quedaba la celda y la segunda abria una columna
+     implicita. Esa columna nueva se dimensiona por su contenido —
+     la fotografia, que trae novecientos pixeles — asi que se comia
+     el ancho entero y el minmax(0,1fr) del texto se aplastaba
+     hasta una palabra por renglon. */
+  .index-n   {grid-column:1;grid-row:1;padding-top:.9rem}
+  .index-fig {grid-column:1;grid-row:2}
+  .index-name{grid-column:1;grid-row:3;margin-top:.85rem}
+  .index-meta{grid-column:1;grid-row:4;margin-top:.35rem}
+  /* Sobre la fotografia, no debajo: es la accion de esa lamina y
+     ahi es donde esta mirando el pulgar. */
+  .index-cta{grid-column:1;grid-row:2;align-self:end;justify-self:start!important;
+    position:relative;z-index:2;color:#fff;
+    margin:0 0 2.2rem 2.2rem}
+  /* El filete, pegado al rotulo.
+     El area de toque de 44px se consigue engordando el relleno del
+     enlace, y el filete se dibuja en el canto de ese relleno: sobre
+     la fotografia quedaban catorce pixeles de aire entre RESERVE y
+     su linea, y las dos se leian como piezas distintas.
+
+     Sube los .7rem que separan el relleno tactil del que lleva el
+     enlace en su medida normal, asi que queda a la misma distancia
+     del texto que en cualquier otro enlace de la pagina. El area de
+     toque no se toca: siguen siendo los mismos 44px. */
+  .index-cta .link::after{bottom:.7rem}
+  /* La ficha lleva su foto siempre que sea ficha. Antes dependia de
+     si habia puntero grueso: en una ventana angosta de escritorio
+     quedaba una tarjeta de solo texto en una caja de trescientos
+     cuarenta, que es justo lo que se veia roto. */
+  .index-fig{display:block;width:100%;margin-top:1rem;position:relative;
+    aspect-ratio:4/5;overflow:hidden;background:var(--canvas)}
+  .index-fig img{width:100%;height:100%;object-fit:cover;display:block}
+  /* El velo. Seis fotografias distintas bajo un mismo rotulo
+     blanco: sobre la del mar de CieloMar el enlace desaparecia.
+     Solo el tercio de abajo, que es donde se apoya. */
+  .index-fig::after{content:"";position:absolute;left:0;right:0;bottom:0;height:42%;
+    background:linear-gradient(0deg,rgba(10,9,7,.68),rgba(10,9,7,0))}
+
+  /* ── El calendario ───────────────────────────────────────────  */
+  /* La tira se mide contra el relleno de la banda, no contra el de
+     la pagina: son dos valores distintos y aqui manda el de la
+     banda, que es su contenedor. Con --pad-x arrancaba dos pixeles
+     dentro del canto de la lamina. */
+  .season{gap:var(--gap);border-top:0;margin-top:clamp(2rem,5vw,3rem);
+    margin-left:calc(var(--film-pad) * -1);margin-right:calc(var(--film-pad) * -1);
+    padding-inline:var(--film-pad);scroll-padding-inline:var(--film-pad)}
+  .season-row{flex-basis:min(62vw,320px);
+    display:flex!important;flex-direction:column;align-items:flex-start;gap:.5rem;
+    padding:1.1rem 0 0;border-bottom:0;border-top:1px solid rgba(255,255,255,.2)}
+  /* En tira, la cuenta atras sube junto al nombre en vez de cerrar
+     la ficha: es lo primero que se busca al llegar a la temporada
+     de hoy, no lo ultimo. */
+  .season-mark{order:-1;margin-top:0;grid-column:auto;grid-row:auto}
+  .season-row:hover{padding-left:0;background:none}
+  .season-row.is-now{background:none;border-top-color:rgba(255,255,255,.6)}
+
+}
+
+@media (max-width:860px){
+  /* ── LA FICHA DEL ECOSISTEMA EN ANGOSTO ──────────────────────
+     Medi­a clamp(420px,56vw,980px): por debajo de 750 de ventana el
+     minimo gana y la ficha se queda clavada en 420. En un telefono
+     de 375 eso es una lamina mas ancha que la pantalla — nunca se
+     ve una ficha entera, y como la tira va por transformacion y no
+     por scroll, tampoco hay forma de asomarse al resto.
+
+     Con min() manda siempre la ventana, como en las otras seis
+     tiras de la pagina. El tope de 520 es lo que deja asomar la
+     siguiente en tableta: una tira donde solo entra una ficha no se
+     lee como tira. */
+  .card{flex-basis:min(84vw,520px)}
+
+  /* La banda deja de intentar ser lamina: en vertical, el texto
+     encima de un plano apaisado no cabe sin taparlo entero. La
+     pelicula se apoya arriba y el calendario corre debajo, sobre
+     el mismo negro. Por encima de 860 la lamina vuelve a entrar
+     entera y el titular puede ir encima. */
+  .film{min-height:0;display:block}
+  .film-bg{position:relative;inset:auto;width:100%;aspect-ratio:4/5}
+  .film-in{position:relative;z-index:2;padding-top:clamp(1.8rem,5vw,2.4rem)}
+}
+
+
+/* ══ 30 · EL INDICE Y EL PIE EN MOVIL ═══════════════════════════ */
+@media (max-width:1250px){
+
+  /* Centrado, los nombres flotaban sin eje y el dedo tenia que
+     buscar cada uno. Alineado a la izquierda, con su numero y una
+     hairline por linea, es un indice de publicacion: se recorre con
+     la mirada en vertical y cada nombre tiene su franja de toque de
+     borde a borde.
+
+     El numero no esta en el marcado — lo cuenta el CSS. Agregar un
+     destino no obliga a renumerar nada a mano. */
+  .menu{align-items:stretch;justify-content:flex-start;gap:0;
+    padding:calc(var(--nav-h) + 2.2rem) var(--pad-x) 2.5rem}
+  .menu-list{align-items:stretch;text-align:left;gap:0;
+    counter-reset:idx;border-top:1px solid var(--hair)}
+  .menu-list li{border-bottom:1px solid var(--hair);overflow:hidden}
+  /* El margen negativo compensa el interletrado sobrante de la
+     ultima letra cuando el nombre esta centrado. Alineado a la
+     izquierda y a caja completa, ese mismo margen se lo lleva dos
+     pixeles fuera de la pantalla. */
+  .menu-link{display:flex;align-items:baseline;gap:1rem;margin-right:0;
+    padding:.92rem 0;font-size:clamp(1.05rem,5.2vw,1.5rem);letter-spacing:.08em}
+  .menu-link::before{counter-increment:idx;
+    content:counter(idx,decimal-leading-zero);
+    font-family:"Apercu Mono Pro","Courier New",monospace;
+    font-size:.62rem;letter-spacing:.1em;color:var(--i-26);
+    transform:translateY(-.32em)}
+
+  /* El mundo VIK deja de ser una fila suelta de ocho enlaces y pasa
+     a ser una seccion con su rotulo, como cualquier otra del
+     documento. */
+  .menu-sub{justify-content:flex-start;gap:.75rem 1.4rem;margin-top:2rem}
+  .menu-sub::before{content:"The VIK world";flex:0 0 100%;
+    font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+    font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--i-26);margin-bottom:.35rem}
+  .menu-brand{margin-top:auto;padding-top:2rem;text-align:left}
+}
+
+@media (max-width:860px){
+
+  /* ── El pie ──────────────────────────────────────────────────
+     Mil cuatrocientos ochenta pixeles: casi dos pantallas de
+     enlaces para cerrar la pagina. Un pie no se lee, se consulta, y
+     tiene que caber de un vistazo.
+
+     Las cuatro columnas se quedan en dos en vez de apilarse en una,
+     que es lo que lo estiraba. El interlineado se cierra, el cuerpo
+     baja un punto y los rellenos se recortan a la mitad. No se
+     pierde nada: entran los mismos dieciocho enlaces.             */
+  .footer-top{padding:clamp(2.6rem,7vw,3.4rem) var(--pad-x) 2.2rem;gap:2.2rem}
+  .footer-tagline{font-size:1rem;margin-top:1rem;max-width:26ch}
+  .footer-social{margin-top:0}
+  .footer-bottom{padding:1.2rem var(--pad-x) 1.6rem;gap:.7rem 1.5rem}
+  .footer-legal{gap:.9rem 1.2rem}
+}
+
+
+/* ══ 31 · EL DEDO ═══════════════════════════════════════════════
+   Donde el indice es hamburguesa se asume dedo, y un dedo no
+   acierta un blanco de veintinueve pixeles. Cuarenta y cuatro es
+   la medida minima de las dos guias de accesibilidad y del sistema
+   operativo; por debajo, el error deja de ser del usuario.
+
+   Se agranda el area, no la pieza: relleno y margen negativo en la
+   misma medida, asi el dibujo no cambia ni un pixel y lo que crece
+   es lo que el dedo puede tocar.                                  */
+@media (max-width:1250px){
+  .menu-toggle{padding:1rem;margin-right:-1rem}
+  .nav.past-hero .nav-book{padding-top:1.05rem;padding-bottom:1.05rem}
+  .pill{padding-top:1.05rem;padding-bottom:1.05rem}
+  .rail-hint{display:none}
+
+  /* Los desplegables dibujados. Probe primero con una capa
+     invisible por encima; elementFromPoint devolvia nada, asi que
+     no se tocaba. Lo que se mide es lo que existe: altura real y
+     margen negativo para que el dibujo no se mueva. */
+  .pick-btn{min-height:44px;align-items:center}
+  .pick-season .pick-btn,.pick-lang .pick-btn{padding:.95rem 0;margin:-.95rem 0}
+  .bookbar .pill,.counter .pill,.pill.solid{min-height:44px}
+
+  /* Los campos que siguen siendo select del navegador. */
+  .f select,.counter select,.bookbar select{min-height:44px}
+
+  /* El enlace de texto es la accion principal dentro de cada ficha
+     y mide dieciseis pixeles de alto: es la altura de su renglon.
+     Se le da el area sin tocar el dibujo — el relleno crece hacia
+     los dos lados y el margen negativo lo devuelve a su sitio. */
+  .link{min-height:44px;padding-top:.9rem;padding-bottom:.9rem;
+    margin-top:-.9rem;margin-bottom:-.9rem}
+
+  /* La marca de la barra es un enlace al principio de la pagina y
+     mide lo que mide su renglon. */
+  .nav-left > a{display:inline-flex;align-items:center;min-height:44px;
+    padding:.7rem 0;margin:-.7rem 0}
+
+  /* Las dos vistas del mapa son pestanas, y una pestana de treinta
+     y un pixeles se falla tanto como cualquier otro blanco chico. */
+  .map-view button{min-height:44px;padding-top:0;padding-bottom:0}
+
+  /* El selector de estacion vive dentro de una tira de datos que no
+     puede crecer, asi que crece solo su area. */
+  .pick-season .pick-btn{min-height:44px}
+
+  /* Las filas de la mesa y del calendario ya son fichas enteras:
+     el enlace ocupa la ficha y no hace falta agrandar nada. */
+}
+
+
+/* ══ 32 · EL PIE PLEGADO ════════════════════════════════════════
+   Dieciocho enlaces en cuatro columnas es un mapa del sitio, y un
+   mapa del sitio se consulta: se abre el cajon que interesa y no
+   se leen los otros tres. En una columna, en cambio, se convierte
+   en dos pantallas de scroll que hay que atravesar para llegar al
+   copyright.
+
+   Asi que los cuatro grupos son cajones. El rotulo se queda a la
+   vista — es el indice — y los enlaces esperan dentro.
+
+   Van abiertos en el marcado. Si el motor no llega a correr, el pie
+   se lee entero, que es exactamente como estaba antes; lo unico que
+   se pierde es el plegado. Un pie que depende de JavaScript para
+   mostrar sus enlaces es un pie roto.                              */
+.foot-acc > summary{list-style:none;cursor:default}
+.foot-acc > summary::-webkit-details-marker{display:none}
+
+@media (max-width:1250px){
+  .footer-grid{grid-template-columns:1fr!important;gap:0;
+    padding:.6rem var(--pad-x) 1.4rem}
+
+  /* Cada cajon es una franja de borde a borde, con su hairline. El
+     pie ya es oscuro, asi que la division va en blanco al ocho por
+     ciento — la misma que separa sus tres bandas. */
+  .foot-acc{border-bottom:1px solid rgba(255,255,255,.08)}
+  .foot-acc > summary{cursor:pointer;position:relative;
+    display:flex;align-items:center;min-height:52px;
+    margin-bottom:0;padding-right:2rem;
+    transition:color .25s var(--ease)}
+  .foot-acc[open] > summary{color:rgba(248,248,240,.75)}
+
+  /* El signo. Un mas que se convierte en menos girando su propia
+     barra: dos lineas, una que gira noventa grados. Nada de flechas
+     — una flecha promete otra pagina y esto abre en el sitio. */
+  .foot-acc > summary::before,
+  .foot-acc > summary::after{content:"";position:absolute;right:.15rem;top:50%;
+    width:11px;height:1px;background:currentColor;opacity:.55;
+    transition:transform .38s var(--slow),opacity .25s}
+  .foot-acc > summary::after{transform:translateY(-50%) rotate(90deg)}
+  .foot-acc[open] > summary::after{transform:translateY(-50%) rotate(0deg);opacity:0}
+  .foot-acc > summary::before{transform:translateY(-50%)}
+
+  .foot-acc .footer-links{gap:0;padding-bottom:.9rem}
+  .foot-acc .footer-links a{font-size:.86rem;line-height:1.3;
+    padding:.72rem 0;min-height:44px;display:flex;align-items:center}
+  .foot-acc .footer-links a:hover{padding-left:.35rem}
+
+  /* La banda de arriba tambien se aprieta: la firma y el boletin no
+     necesitan el aire de una portada. Es la parte mas alta del pie
+     una vez plegados los cajones, asi que es donde queda grasa. */
+  .footer-top{padding:clamp(1.9rem,5vw,2.4rem) var(--pad-x) 1.4rem;gap:1.4rem}
+  .footer-tagline{font-size:.92rem;line-height:1.25;margin-top:.7rem;max-width:22ch}
+  .footer-news{gap:.7rem}
+  .footer-news form{padding-bottom:.45rem}
+  .footer-mark img{height:13px}
+
+  /* El cierre legal en una sola banda apretada: son avisos, no
+     lectura. */
+  .footer-bottom{padding:1rem var(--pad-x) 1.3rem;gap:.5rem 1.1rem}
+  .footer-copy{line-height:1.6}
+  .footer-legal{gap:.55rem 1.1rem}
+}
+
+
+/* ══ 33 · LA SEMANA ═════════════════════════════════════════════
+   El formato de la agenda de Dining, con siete dias en vez de
+   cinco fechas: lamina 3:4 de 280 a 440, dos pixeles de aire entre
+   una y otra, y el dato al pie sobre el degradado.
+
+   La medida importa. La ficha anterior era la mitad de alta y el
+   nombre en serif no tenia donde respirar: en 3:4 el titulo cabe
+   en dos lineas y la fotografia sigue siendo la mitad de la ficha.
+
+   A sangre por los cuatro lados, apoyada contra los modulos
+   vecinos.                                                       */
+/* Sin filete arriba ni abajo. La hairline de la publicacion es
+   tinta sobre papel: puesta al canto de una banda negra deja de
+   separar y se convierte en una linea negra sobre el papel del
+   modulo anterior. Lo que separa esta banda es su propio negro. */
+.agenda{position:relative;left:50%;right:50%;
+  margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2);
+  width:var(--vw);overflow:hidden;background:var(--ink);color:var(--bone)}
+/* Sin cabecera suelta: el titulo vive en la primera lamina. */
+.agenda__rail{padding:0}
+/* Pegadas. Los dos pixeles de aire dibujaban una linea clara entre
+   lamina y lamina, y una tira de contactos no lleva filete entre
+   cuadros: lo que separa una foto de la siguiente es la foto.
+
+   Y se solapan un pixel. Con gap:0 seguian apareciendo costuras al
+   pasar por encima: el ancho de cada ficha es una medida elastica y
+   cae en fracciones de pixel, asi que entre una y otra se abria un
+   hueco de medio punto por el que se veia el fondo. Montandolas, no
+   queda por donde. */
+.agenda__rail .rail-track{gap:0;padding:0;background:#141312}
+/* Dos pixeles de solape, no uno.
+
+   La tira se mueve con un translate3d de valor fraccionario — es lo
+   que hace que la deriva sea suave y no un temblor de pixel en
+   pixel — y al resamplear la capa el navegador difumina el canto de
+   cada ficha. Lo que se veia no era un hueco entre laminas: era el
+   borde de cada una, medio pixel de transparencia por lado. Con un
+   pixel de solape quedaba justo al limite; con dos, la vecina
+   siempre tiene pixel opaco que poner encima. */
+.agenda__rail .ev + .ev{margin-left:-2px}
+/* Y el fotograma se estira esos dos pixeles hacia la izquierda,
+   para que lo que tape la costura sea la imagen y no el fondo de la
+   ficha. */
+.agenda__rail .ev + .ev .ev__media{left:-2px;right:0;width:calc(100% + 2px)}
+
+.ev{position:relative;flex:0 0 clamp(280px,32vw,440px);
+  aspect-ratio:3/4;overflow:hidden;display:block;
+  background:#141312;color:var(--bone);text-align:left;
+  user-select:none;-webkit-user-drag:none}
+.ev__media{position:absolute;inset:0;display:block}
+/* Sin correccion de color. El resto de la pagina baja saturacion y
+   contraste para que laminas de rodajes distintos convivan; aqui
+   no: son siete piezas de la misma semana y tienen que verse como
+   salieron de camara.
+
+   Y sin nada al pasar por encima. La ficha ya tiene su puerta —el
+   boton de reserva— y una imagen que se acerca sola compite con
+   ella por la misma atencion. Lo que se toca es el boton.
+
+   Centrada por defecto: el recorte 3:4 sobre una toma apaisada se
+   queda con la franja del medio, que es donde suele estar el
+   asunto. */
+/* Un 3% de alejamiento al pasar por encima. La lamina parte apenas
+   cerrada — 1.03 — y al hover vuelve a su medida: el ojo lee que la
+   imagen se abre, y nunca se descubre el borde.
+
+   Al reves no se puede: escalar por debajo de 1 sobre una imagen
+   que llena la caja deja ver el fondo de la ficha en los cuatro
+   cantos. El movimiento es el mismo; lo que cambia es de donde
+   parte. */
+.ev__media img,.ev__media video{width:100%;height:100%;object-fit:cover;display:block;
+  object-position:center center;transform:scale(1.03);
+  transition:transform .9s var(--slow)}
+.ev:hover .ev__media img,.ev:hover .ev__media video{transform:scale(1)}
+/* La lamina clara no es un dia: no responde. */
+.ev--type:hover .ev__media img{transform:scale(1.03)}
+/* La pelicula se apoya sobre su propio fotograma y entra por
+   fundido: mientras decodifica se ve la imagen, y si no arranca
+   nunca, tambien. */
+.ev__media video{position:absolute;inset:0;opacity:0;
+  transition:opacity .5s var(--ease)}
+.ev__media video.is-playing{opacity:1}
+
+/* Las siete iguales, sin excepciones. Habia corrido el encuadre del
+   kayak para meter el bote en cuadro, pero una lamina desplazada
+   entre seis centradas se nota antes que el bote. */
+.ev__media::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(10,9,7,.88) 0%,rgba(10,9,7,.15) 58%,
+    rgba(10,9,7,.3) 100%)}
+.ev__body{position:relative;z-index:2;height:100%;display:flex;
+  flex-direction:column;justify-content:flex-end;gap:.6rem;
+  padding:clamp(1.4rem,2.5vw,2rem)}
+.ev__kind{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(248,248,240,.6);margin-right:-.22em}
+.ev__when{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.72rem;
+  color:var(--bone);opacity:.8}
+.ev__when b{font-weight:400}
+.ev__name{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.3rem,2.2vw,1.85rem);line-height:1.12;color:#fff;
+  max-width:16ch}
+
+/* La lamina entera lleva a su ficha. La capa cubre la ficha y se
+   queda por debajo del boton de reserva, que necesita su propio
+   clic: dos destinos en la misma pieza, y el mas chico gana donde
+   se superponen. */
+.ev__open{position:absolute;inset:0;z-index:3;display:block}
+.ev__book{position:relative;z-index:4}
+.ev{cursor:pointer}
+.ev--type{cursor:default}
+
+/* La senal de que se puede entrar es minima a proposito: el rotulo
+   se enciende, el nombre se corre tres pixeles y aparece un filete
+   debajo, creciendo desde la izquierda. Nada se mueve de sitio y la
+   fotografia no se toca — en una tira de siete, una animacion que
+   se note es siete animaciones peleandose. */
+.ev__kind,.ev__when,.ev__name{transition:color .35s var(--ease),
+  transform .45s var(--slow),opacity .35s var(--ease)}
+.ev__name{position:relative;display:inline-block}
+.ev__name::after{content:"";position:absolute;left:0;bottom:-.3rem;
+  width:100%;height:1px;background:currentColor;opacity:.5;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .5s var(--slow)}
+.ev:hover .ev__name{transform:translateX(3px)}
+.ev:hover .ev__name::after{transform:scaleX(1)}
+.ev:hover .ev__kind{color:rgba(248,248,240,.92)}
+.ev:hover .ev__when{opacity:1}
+.ev--type:hover .ev__name{transform:none}
+.ev--type:hover .ev__name::after{transform:scaleX(0)}
+.ev--type:hover .ev__kind{color:rgba(30,30,30,.5)}
+
+/* La reserva. Una agenda que dice que pasa y no deja anotarse es un
+   cartel: cada dia lleva su puerta.
+
+   En reposo es una capsula de trazo fino; ya reservado deja de ser
+   un boton y pasa a ser un estado — sin borde, con el punto azul
+   delante. La diferencia entre poder hacer algo y ya haberlo hecho
+   tiene que verse sin leer. */
+.ev__book{margin-top:1rem;align-self:flex-start;
+  display:inline-flex;align-items:center;gap:.5rem;min-height:36px;
+  padding:.55rem 1.1rem;background:none;cursor:pointer;
+  border:1px solid rgba(248,248,240,.4);border-radius:var(--r-pill);
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--bone);
+  transition:background .35s var(--ease),color .35s var(--ease),
+             border-color .35s var(--ease)}
+/* Al pasar por encima, azul. El hueso era correcto pero mudo: se
+   leia como un cambio de brillo. El azul es el unico color de la
+   casa que dice "esto se toca", y ya lo dice en la estacion en
+   curso y en el dia de hoy. */
+.ev__book:hover{background:var(--vik);color:#fff;border-color:var(--vik)}
+.ev__book.is-booked{border-color:transparent;padding-left:0;cursor:default;
+  color:rgba(248,248,240,.7)}
+.ev__book.is-booked:hover{background:none;color:rgba(248,248,240,.7)}
+.ev__book.is-booked i{width:6px;height:6px;border-radius:50%;flex:0 0 auto;
+  background:var(--vik);box-shadow:0 0 0 3px rgba(0,47,167,.3)}
+
+/* Lo que esta pasando ahora. Un trazo azul por dentro del canto:
+   la ficha no cambia de tamano ni empuja a las de al lado, solo se
+   enciende. Es el mismo azul que marca la temporada en curso. */
+.ev.is-now{outline:2px solid var(--vik);outline-offset:-2px}
+.ev.is-now .ev__when{opacity:1;color:#fff}
+
+/* La ficha sin imagen: el dia ocupa el lugar de la fotografia. En
+   una fila de fotos, lo que corta es el silencio. */
+.ev--type{background:var(--canvas);color:var(--ink)}
+.ev--type .ev__body{justify-content:space-between}
+.ev__head,.ev__foot{display:flex;flex-direction:column}
+.ev--type .ev__num{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:clamp(3.4rem,7vw,5.6rem);line-height:.86;letter-spacing:.02em;
+  color:var(--ink);margin-right:-.02em}
+.ev--type .ev__month{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(30,30,30,.55);display:block;margin-top:.6rem}
+.ev--type .ev__kind{color:rgba(30,30,30,.5)}
+.ev--type .ev__rule{display:block;height:1px;background:var(--hair);margin:.9rem 0}
+.ev--type .ev__name{color:var(--ink)}
+.ev--type.is-now{outline-color:var(--vik)}
+
+
+/* ══ 34 · EL FILTRO DE EXPERIENCIAS ═════════════════════════════
+   Etiquetas, no botones. Una fila de capsulas sobre un mosaico de
+   cuatro fichas seria mas interfaz que contenido; en la misma mono
+   que el resto de los rotulos, con la activa en tinta plena, es un
+   indice.                                                        */
+.mo-bar{max-width:var(--max);margin:0 auto clamp(1.5rem,2.4vw,2.2rem);
+  display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+.mo-filter{display:flex;flex-wrap:wrap;align-items:center;gap:0;min-width:0}
+
+/* El filete entre etiquetas mide lo que mide la letra, no lo que
+   mide su relleno. Alto completo, las divisiones se leian como una
+   reja de tabla y el filtro pesaba mas que el mosaico que ordena.
+   Recortado al cuerpo del rotulo, vuelve a ser una separacion.
+
+   El area de toque no se toca: el relleno sigue ahi, lo que se
+   acorta es la linea. */
+.mo-tab{position:relative;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--i-40);background:none;border:0;cursor:pointer;
+  padding:.7rem .95rem;transition:color .3s var(--ease)}
+.mo-tab:first-child{padding-left:0}
+.mo-tab + .mo-tab::before{content:"";position:absolute;left:0;top:50%;
+  width:1px;height:9px;transform:translateY(-50%);background:var(--hair)}
+.mo-tab:hover{color:var(--i-70)}
+.mo-tab.is-on{color:var(--vik)}
+
+/* La salida a la pagina completa. Al otro extremo de la fila: el
+   filtro ordena lo que hay aqui, esto lleva a lo que no cabe. */
+.mo-all{flex:0 0 auto;color:var(--i-55)}
+.mo-all:hover{color:var(--vik)}
+
+/* La ficha descartada no se borra: se retira. Con display:none la
+   reja da un salto seco y el modulo entero cambia de alto de
+   golpe; asi se va y deja su sitio con el mismo tiempo que tarda
+   en irse. */
+.vcard{transition:transform .55s var(--slow),opacity .45s var(--ease),
+       flex-basis .5s var(--slow),margin .5s var(--slow)}
+.vcard.is-out{display:none}
+
+/* El cambio de terna: la reja se apaga, se rehace y vuelve. Cambiar
+   en caliente hace que las fichas salten de sitio a la vista, y el
+   salto es justo lo que rompe la ilusion de que hay un solo bloque
+   que cambia de tema. */
+.mosaic{transition:opacity .22s var(--ease)}
+.mosaic.is-swapping{opacity:0;pointer-events:none}
+
+/* ── La cuarta plaza ──────────────────────────────────────────
+   No es una experiencia: es la salida. Por eso no lleva
+   fotografia. Sobre el papel de la seccion, con una hairline y el
+   texto en tinta, es lo contrario de las otras tres — y esa
+   diferencia es la que la senala sin necesidad de un boton. */
+.vcard--cta{background:none;color:var(--ink);border:1px solid var(--hair);
+  justify-content:space-between;text-decoration:none;
+  transition:border-color .4s var(--ease),background .4s var(--ease)}
+.vcard--cta::before,.vcard--cta::after{content:none}
+.vcard--cta:hover{border-color:var(--ink);background:rgba(30,30,30,.03)}
+.cta-k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:var(--i-40)}
+/* El nombre del filtro va en Selva. Es la unica pieza del mosaico
+   que no es una experiencia sino la salida hacia el resto, y la
+   letra la separa de las tres fichas que tiene al lado.
+
+   Dos ajustes que la fuente pide y la serif no: el interletrado
+   vuelve a cero — una escritura ligada no admite tracking negativo,
+   los enlaces se pisan — y el interlineado se abre, porque los
+   descendentes de esta cara bajan mucho mas que los de la serif y
+   con 1.02 se cortaban contra el renglon de abajo. */
+.cta-t{font-family:"Selva Script",Georgia,serif;font-style:normal;
+  font-size:clamp(1.6rem,3vw,2.6rem);line-height:1.14;letter-spacing:0;
+  color:var(--ink);margin-top:auto}
+.cta-n{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.72rem;color:var(--i-40);margin-top:.55rem}
+.cta-go{margin-top:1.6rem;color:var(--vik)}
+
+
+/* ══ 35 · EL CLUB ═══════════════════════════════════════════════
+   El cierre ya no pide elegir un retiro: a esta altura el lector
+   vio las tres casas tres veces. Invita al club, que es lo unico
+   que no aparecio antes, y trae su propio material rodado.        */
+.club-sec{background:var(--ink);color:var(--bone);padding-top:0;padding-bottom:0}
+.club{position:relative;left:50%;right:50%;width:var(--vw);
+  margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2);
+  overflow:hidden;isolation:isolate;
+  min-height:clamp(560px,84vh,860px);display:flex;align-items:center;
+  --grain-o:.66}
+.club-bg{position:absolute;inset:0}
+.club-bg video{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;filter:saturate(.8) contrast(1.02)}
+.club-bg::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(105deg,rgba(8,8,7,.92) 0%,rgba(8,8,7,.78) 42%,rgba(8,8,7,.62) 100%)}
+/* La emulsion, con la misma geometria que en el resto de la
+   pagina: mide el doble de su caja y se centra fuera de ella.
+
+   Escrita con inset:0 sobre la caja exacta, el salto de la
+   animacion — nueve por ciento en cada direccion — descubria el
+   borde de la lamina, y lo que se veia era una banda barriendo el
+   video. El grano no fallaba: le faltaba de donde moverse. */
+.club::after{content:"";position:absolute;top:-50%;left:-50%;
+  width:200%;height:200%;z-index:1;pointer-events:none;
+  background-image:var(--grain);background-size:160px 160px;
+  opacity:var(--grain-o);mix-blend-mode:overlay;
+  animation:grain .8s steps(1) infinite;will-change:transform}
+
+/* Dos columnas. En una sola, el argumento y el indice se apilaban
+   contra el borde izquierdo y la mitad derecha de la lamina quedaba
+   en blanco sobre el video — que es lo unico que no puede pasar en
+   un bloque cuyo fondo es la imagen.
+
+   A la izquierda lo que persuade: nombre, titular, razon y las dos
+   acciones. A la derecha lo que enumera. Y el degradado del fondo
+   se abre en diagonal justo para eso: oscuro donde va el texto,
+   abierto donde va la lista. */
+.club-in{position:relative;z-index:2;max-width:var(--max);width:100%;
+  margin:0 auto;padding:clamp(4rem,8vw,7rem) var(--pad-x);
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);
+  gap:clamp(2.5rem,6vw,6rem);align-items:start}
+/* Todo contra el mismo eje. La marca, el titular, la razon, las
+   acciones y la firma arrancan en la misma vertical: en una
+   composicion sobre imagen, ese borde compartido es la unica reja
+   que el lector percibe. */
+.club-a{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
+.club-a > *{margin-left:0}
+.club-mark,.club-t,.club-d,.club-actions,.club-note{align-self:stretch}
+.club-actions{justify-content:flex-start}
+.club-b{padding-top:.5rem}
+.club-k{display:block;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);margin-bottom:1.1rem}
+.club-in .kicker{color:rgba(255,255,255,.55)}
+/* El nombre del club se escribe como se escribe la marca en la
+   barra: mismo cuerpo, mismo interletrado, misma caja alta. No es
+   un rotulo de seccion — es una marca, y las marcas de la casa se
+   componen todas igual. */
+.club-mark{display:block;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:.86rem;letter-spacing:.2em;text-transform:uppercase;
+  line-height:1;white-space:nowrap;color:#fff}
+/* Dos lineas que se tocan. En un serif de 3,6rem, 1.02 de
+   interlineado deja un canal entre renglones que parte el titular
+   en dos frases; a .94 las dos lineas se leen como una sola cosa,
+   que es lo que son.
+
+   Y se separa de la marca. Pegado, "Club Polo Vik" parecia el
+   arranque del titular en vez de su firma: el aire es lo que
+   distingue una marca de un renglon mas. */
+.club-t{font-family:"Old Standard VIK",Georgia,serif;color:#fff;
+  font-size:clamp(1.9rem,5vw,3.6rem);line-height:.94;letter-spacing:-.024em;
+  margin-top:clamp(2.2rem,3.4vw,3.2rem);max-width:none;white-space:nowrap}
+.club-t em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.club-d{margin-top:1.5rem;max-width:52ch;font-size:.95rem;line-height:1.8;
+  font-weight:300;color:rgba(255,255,255,.66)}
+
+/* Las cinco disciplinas. Una lista numerada con filete, como la
+   tabla de estaciones: es el mismo gesto — un indice de lo que hay
+   dentro — y repetirlo ata los dos extremos de la pagina. */
+.club-list{list-style:none;margin:0;padding:0;
+  border-top:1px solid rgba(255,255,255,.2)}
+/* En su propia columna la lista es mas angosta: el nombre y la
+   razon se ponen uno debajo del otro en vez de competir por el
+   ancho con una descripcion que no cabe. */
+.club-list li{display:grid;grid-template-columns:2.6rem minmax(0,1fr);
+  gap:.2rem clamp(1rem,2vw,2rem);align-items:baseline;
+  padding:.95rem 0;border-bottom:1px solid rgba(255,255,255,.14);
+  transition:padding-left .4s var(--ease),background .4s var(--ease)}
+.club-list li:hover{background:rgba(255,255,255,.05);padding-left:.9rem}
+.cl-n{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.68rem;color:rgba(255,255,255,.34)}
+.cl-t{font-family:"Old Standard VIK",Georgia,serif;font-size:1.12rem;color:#fff}
+.cl-d{grid-column:2 / 3;font-size:.86rem;line-height:1.6;font-weight:300;
+  color:rgba(255,255,255,.5);margin-top:.15rem}
+
+.club-actions{display:flex;flex-wrap:wrap;align-items:center;
+  gap:1rem clamp(1.5rem,3vw,2.5rem);margin-top:clamp(2.2rem,3.6vw,3rem)}
+/* La unica accion en color de toda la pagina. Es el unico sitio que
+   invita a algo que no es reservar una noche, y sobre un plano de
+   polo el azul de la casa es lo unico que no se confunde con el
+   pasto ni con el cielo. */
+.club-actions .pill.light{background:var(--vik);border-color:var(--vik);color:#fff}
+.club-actions .pill.light:hover{background:var(--navy);border-color:var(--navy);color:#fff}
+.club-alt{color:rgba(255,255,255,.6)}
+.club-alt:hover{color:#fff}
+.club-note{margin-top:1.8rem;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,255,255,.32)}
+
+@media (max-width:900px){
+  /* En una columna vuelve a ser una pila, pero con el indice
+     debajo del argumento y no al reves: primero por que, despues
+     que. */
+  .club{min-height:0}
+  .club-in{grid-template-columns:1fr;gap:clamp(2.2rem,6vw,3rem)}
+  .club-b{padding-top:0}
+  .club-t{font-size:clamp(1.5rem,7vw,2.4rem);white-space:normal}
+  .club-list li{row-gap:.3rem}
+  .club-bg::after{background:linear-gradient(180deg,rgba(8,8,7,.72) 0%,rgba(8,8,7,.9) 55%)}
+}
+
+@media (max-width:1250px){
+  /* ── La semana en angosto ─────────────────────────────────
+     La lamina baja de 440 a 300 como maximo, para que al lado de
+     la que se mira asome la siguiente: una tira donde solo entra
+     una ficha no se lee como tira, se lee como un bloque suelto y
+     nadie la arrastra.
+
+     El cuerpo se aprieta con ella. El nombre en serif es lo unico
+     que se sostiene: es el dato que importa. */
+  .ev{flex-basis:clamp(228px,66vw,300px)}
+  .ev__body{gap:.45rem;padding:clamp(1.1rem,3.4vw,1.5rem)}
+  .ev__name{font-size:clamp(1.15rem,4.6vw,1.5rem);max-width:13ch}
+  .ev__when{font-size:.68rem}
+  .ev__book{margin-top:.85rem;min-height:40px;padding:.6rem 1rem}
+
+  /* La lamina clara: el numero manda menos y el titulo entra en dos
+     lineas en vez de tres. */
+  .ev--type .ev__num{font-size:clamp(2.8rem,13vw,4.2rem)}
+  .ev--type .ev__rule{margin:.7rem 0}
+  /* En angosto el filtro se desliza y la salida baja a su propia
+     linea: doce etiquetas y un enlace no entran en una fila de
+     telefono sin apretarse hasta ser ilegibles. */
+  .mo-bar{flex-direction:column;align-items:stretch;gap:.4rem}
+  .mo-filter{margin-left:calc(var(--pad-x) * -1);margin-right:calc(var(--pad-x) * -1);
+    padding-inline:var(--pad-x);flex-wrap:nowrap;overflow-x:auto;
+    overscroll-behavior-x:contain;scrollbar-width:none}
+  .mo-filter::-webkit-scrollbar{display:none}
+  .mo-tab{flex:0 0 auto;min-height:44px}
+  .mo-all{align-self:flex-start;min-height:44px}
+}
+
+
+/* ══ 36 · LA SEMANA EN TACTO ════════════════════════════════════
+   La semana ya no lleva pelicula en ninguna ficha: son fotografias
+   y punto. Lo unico que queda por resolver aqui es el area de
+   toque del boton, que con medida de raton se queda corto.       */
+@media (hover:none),(pointer:coarse){
+  /* El area de toque manda sobre el dibujo. */
+  .ev__book{min-height:44px}
+}
+
+
+/* ══ 37 · LOS TESTIMONIOS, SOLO EN ESCRITORIO ═══════════════════
+   La fila de logotipos se queda: es un sello, se lee de un vistazo
+   y ocupa lo que ocupa una linea.
+
+   Las tres citas no. Apiladas en una columna son tres parrafos
+   largos entre el mapa y la reserva — el punto donde el lector ya
+   decidio y solo quiere el formulario. En escritorio conviven en
+   tres columnas y se leen de reojo; en vertical se convierten en
+   una parada.                                                     */
+@media (max-width:860px){
+  #press .quotes,
+  #press .press-label{display:none}
+  /* Sin las citas, la seccion es solo la fila: se aprieta. */
+  #press{padding-top:clamp(2.5rem,6vw,4rem);padding-bottom:clamp(2.5rem,6vw,4rem)}
+}

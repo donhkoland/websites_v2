@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- ══════════════════════════════════════════════════════════════════
+     DESTINATION · VIK JOSÉ IGNACIO
+     ──────────────────────────────────────────────────────────────────
+     El lugar, antes que las casas. vik-jose-ignacio/ es la portada del
+     ecosistema y argumenta las tres casas; esta pagina argumenta el
+     sitio donde estan: el pueblo, las dos playas, la laguna, Garzon y
+     el ano entero.
+
+     Todo lo visual sale de la libreria: _core/vik-core.css y
+     _core/vik-modules.css. No hay una sola regla propia.
+     ══════════════════════════════════════════════════════════════ -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F8F8F0">
+<meta name="author" content="Nicolás Castillo">
+<meta name="designer" content="Nicolás Castillo · @donhkoland">
+<meta name="developer" content="Nicolás Castillo · @donhkoland">
+<meta name="copyright" content="VIK Retreats">
+<title>Destination · VIK José Ignacio</title>
+<meta name="description" content="José Ignacio, Uruguay — a fishing village on a headland between two beaches, with the countryside behind it. The place, the year and how far everything is.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Destination · VIK José Ignacio">
+<meta property="og:description" content="A fishing village on a headland between two beaches, with four thousand acres of countryside behind it.">
+<meta property="og:image" content="../_assets/img/t/bahia_dscf5297-min-w1600.jpg">
+<link rel="stylesheet" href="../_core/leaflet.min.css">
+<link rel="stylesheet" href="../_core/vik-v2.min.css?v=1">
+<link rel="stylesheet" href="../_core/vik-v2-lib.min.css?v=2">
+</head>
+<body>
+
+<div data-vik-chrome data-page="destination" data-tag="José Ignacio"></div>
+
+<main id="top">
+
+  <!-- ══ 01 · EL SITIO ═══════════════════════════════════════
+       La portada de una pagina interior no lleva mostrador: la
+       reserva vive en la barra de abajo y en el cierre. Aqui manda
+       el sitio, a sangre, con una sola frase encima.            -->
+  <section class="statement" id="opening" data-ground="dark">
+    <div class="statement-media">
+      <video autoplay muted loop playsinline preload="metadata"
+             poster="../_assets/video/playa-poster.webp"
+             data-src="../_assets/video/playa.mp4"></video>
+    </div>
+    <div class="statement-in">
+      <span class="kicker bare">José Ignacio · Maldonado · Uruguay</span>
+      <h1 class="statement-t lines" data-lines="br">A village on a headland,<br>between two <em>different seas</em>.</h1>
+      <p class="statement-d">Two hundred people live here in winter. There are no traffic lights, the streets are sand, and the lighthouse still works. Everything VIK does in Uruguay happens within twelve kilometres of it.</p>
+      <div class="statement-actions">
+        <a class="pill light" href="#around"><span>What is around</span><span class="arw">&#8594;</span></a>
+        <a class="pill light" href="#year"><span>When to come</span><span class="arw">&#8594;</span></a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ 02 · LAS DOS PLAYAS ═════════════════════════════════ -->
+  <section class="sec canvas" id="place">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">The place</span></div>
+      <div class="h-main">
+        <h2 class="h2 lines">Two beaches, <em>one headland</em>.</h2>
+        <p class="lead">José Ignacio is a point of land that pushes into the Atlantic, with a beach on each side of it. The two beaches are not variations of one another — they behave like different bodies of water, and the whole rhythm of a day here follows which one you are on.</p>
+        <p>Playa Mansa faces west into the bay. The water is flat, the sunsets happen over it, and lunch tends to turn into the whole afternoon. Playa Brava faces the open ocean on the other side: surf, wind, colder water and the light coming in from the east at six in the morning.</p>
+        <p>Behind the village the coast stops abruptly and the countryside begins — pasture, eucalyptus windbreaks, horses and almost no one. Twenty minutes inland it is a different country, and it is the half of the destination most visitors never see.</p>
+        <div class="statement-actions">
+          <a class="link" href="#around"><span>The places around it</span><span class="arw">&#8594;</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ 03 · LA COSTA ═══════════════════════════════════════
+       Doce kilometros en una tira de contactos. Seis encuadres del
+       mismo sitio, pegados: es una costa, no seis postales.     -->
+  <section class="sec paper tight" id="coast">
+    <div class="rail-head r">
+      <div>
+        <span class="kicker">The coast</span>
+        <h2 class="h2 lines" style="margin-top:1.5rem">Twelve kilometres, <em>end to end.</em></h2>
+      </div>
+      <span class="rail-hint">Drag to explore</span>
+    </div>
+
+    <div class="rail" data-rail="auto" data-rail-speed="0.32">
+      <a class="card" href="#around">
+        <span class="card-fig"><img src="../_assets/img/t/bahia_dscf5297-min-w1600.jpg" alt="Playa Mansa"></span>
+        <span class="card-body">
+          <span class="card-loc">Playa Mansa</span>
+          <span class="card-name lw">The calm side</span>
+          <p>Flat water facing west into the bay. The sunsets happen over it and lunch turns into the afternoon.</p>
+          <span class="tags"><span>Bay</span><span>Sunset</span><span>Swimming</span></span>
+        </span>
+      </a>
+
+      <a class="card" href="#around">
+        <span class="card-fig"><img src="../_assets/img/t/playa_80c9a60ef2cc735699a0e504cbfa54955f3113fe-w1600.jpg" alt="The point"></span>
+        <span class="card-body">
+          <span class="card-loc">The point</span>
+          <span class="card-name lw">Playa VIK above it</span>
+          <p>Where the headland pushes into the Atlantic, with the ocean on three sides of the house.</p>
+          <span class="tags"><span>Ocean</span><span>Architecture</span><span>Art</span></span>
+        </span>
+      </a>
+
+      <a class="card" href="../bahia-vik/">
+        <span class="card-fig"><img src="../_assets/img/t/bahia_duna-0340-w1600.jpg" alt="The dunes"></span>
+        <span class="card-body">
+          <span class="card-loc">The dunes</span>
+          <span class="card-name lw">Bahía sits inside them</span>
+          <p>Design bungalows set into the sand on Playa Mansa. The easiest of the three with children.</p>
+          <span class="tags"><span>Design</span><span>Social</span><span>Wellness</span></span>
+        </span>
+      </a>
+
+      <a class="card" href="../estancia-vik/">
+        <span class="card-fig"><img src="../_assets/img/t/estancia_estancia-img_7582-min-1-w1600.jpg" alt="The countryside"></span>
+        <span class="card-body">
+          <span class="card-loc">Inland</span>
+          <span class="card-name lw">Twenty minutes and it changes</span>
+          <p>Pasture, eucalyptus windbreaks, horses and almost no one. The half of the destination most visitors never see.</p>
+          <span class="tags"><span>Horses</span><span>Open fire</span><span>Space</span></span>
+        </span>
+      </a>
+
+      <a class="card" href="#around">
+        <span class="card-fig"><img src="../_assets/img/t/bahia_16_bv-1106-scaled-w1600.jpg" alt="The bay"></span>
+        <span class="card-body">
+          <span class="card-loc">The bay</span>
+          <span class="card-name lw">Flat water, late light</span>
+          <p>In January it is still bright at nine in the evening, and the whole coast faces the same way.</p>
+          <span class="tags"><span>Light</span><span>Kayak</span><span>Evening</span></span>
+        </span>
+      </a>
+
+      <a class="card" href="../dining/">
+        <span class="card-fig"><img src="../_assets/img/t/estancia_gardens-img_1111-min-w1600.jpg" alt="The gardens"></span>
+        <span class="card-body">
+          <span class="card-loc">The gardens</span>
+          <span class="card-name lw">What the kitchens cut</span>
+          <p>Half a hectare behind the house. Most of what reaches the table on the Estancia comes from it.</p>
+          <span class="tags"><span>Kitchen garden</span><span>Seasonal</span><span>Farm to table</span></span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+
+  <!-- ══ 04 · LO QUE HAY ALREDEDOR ═══════════════════════════
+       Un indice, no fichas: siete sitios con su distancia. La
+       fotografia la trae el motor al pasar por encima, y en tira
+       entra dentro de la ficha.                                 -->
+  <section class="sec" id="around">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">What is around</span></div>
+      <div class="h-main">
+        <h2 class="h2 lines">Seven places, <em>none of them far.</em></h2>
+        <p class="lead">Distances below are by road from the village. Nothing on this list needs a plan more elaborate than a car and an afternoon — and your Journey Designer arranges every one of them.</p>
+      </div>
+    </div>
+
+    <div class="index r d1">
+      <a class="index-row" href="#map" data-hover-img="../_assets/img/t/bahia_dscf5297-min-w900.jpg"><span class="index-n">01</span><span class="index-name">Playa Mansa</span><span class="index-meta">The calm side &middot; flat water and the sunset</span><span class="index-cta"><span class="link"><span>On the map</span><span class="arw">&#8594;</span></span></span></a>
+      <a class="index-row" href="#map" data-hover-img="../_assets/img/t/playa_80c9a60ef2cc735699a0e504cbfa54955f3113fe-w900.jpg"><span class="index-n">02</span><span class="index-name">Playa Brava</span><span class="index-meta">The open ocean &middot; surf, wind and first light</span><span class="index-cta"><span class="link"><span>On the map</span><span class="arw">&#8594;</span></span></span></a>
+      <a class="index-row" href="#map" data-hover-img="../_assets/img/t/bahia_16_bv-1106-scaled-w900.jpg"><span class="index-n">03</span><span class="index-name">The lighthouse</span><span class="index-meta">5 min &middot; the village landmark, still working</span><span class="index-cta"><span class="link"><span>On the map</span><span class="arw">&#8594;</span></span></span></a>
+      <a class="index-row" href="../dining/" data-hover-img="../_assets/img/t/bahia_cp-bahiavik-0562-scaled-w900.jpg"><span class="index-n">04</span><span class="index-name">La Barra</span><span class="index-meta">18 min &middot; the fishing boats and the bridge</span><span class="index-cta"><span class="link"><span>Where the fish lands</span><span class="arw">&#8594;</span></span></span></a>
+      <a class="index-row" href="#map" data-hover-img="../_assets/img/t/estancia_gardens-img_1111-min-w900.jpg"><span class="index-n">05</span><span class="index-name">Pueblo Garzón</span><span class="index-meta">26 min &middot; the inland village and the farm</span><span class="index-cta"><span class="link"><span>On the map</span><span class="arw">&#8594;</span></span></span></a>
+      <a class="index-row" href="#map" data-hover-img="../_assets/img/t/bahia_duna-0340-w900.jpg"><span class="index-n">06</span><span class="index-name">Laguna Garzón</span><span class="index-meta">30 min &middot; the lagoon and the ring bridge</span><span class="index-cta"><span class="link"><span>On the map</span><span class="arw">&#8594;</span></span></span></a>
+      <a class="index-row" href="../estancia-vik/" data-hover-img="../_assets/img/t/estancia_estancia-img_7582-min-1-w900.jpg"><span class="index-n">07</span><span class="index-name">The countryside</span><span class="index-meta">40 min &middot; four thousand acres and the horses</span><span class="index-cta"><span class="link"><span>See Estancia VIK</span><span class="arw">&#8594;</span></span></span></a>
+    </div>
+  </section>
+
+
+  <!-- ══ 05 · EL ANO ═════════════════════════════════════════
+       La lamina a sangre con el calendario encima. Es el mismo
+       modulo que en Jose Ignacio: el motor marca la temporada en
+       curso y cuenta los dias que faltan para la siguiente.     -->
+  <section class="sec canvas" id="year">
+    <div class="film" data-ground="dark">
+      <div class="film-bg">
+        <video autoplay muted loop playsinline preload="none"
+               poster="../_assets/video/millahue-poster.webp"
+               data-src="../_assets/video/millahue.mp4"></video>
+      </div>
+      <div class="film-in">
+        <span class="kicker">When to come</span>
+        <h2 class="film-t lines" data-lines="br">The village is four<br>different places <em>a year</em>.</h2>
+        <p class="film-d">Nothing about José Ignacio holds still across the calendar. In January it is the busiest address on the continent; by April the shops close and the countryside takes over. Neither version is the real one — they are simply two different holidays, and knowing which you want is most of the decision.</p>
+
+        <div class="season" data-season-table>
+          <div class="season-row" data-months="12,1"><span class="w">Dec &ndash; Jan</span><span class="n">Peak</span><span class="d">Vibrant, social, full. Every table booked and something on every night.</span></div>
+          <div class="season-row" data-months="2"><span class="w">February</span><span class="n">Full summer</span><span class="d">Long days on the water and the beach clubs at their best.</span></div>
+          <div class="season-row" data-months="3"><span class="w">March</span><span class="n">Shoulder</span><span class="d">Warm water, empty sand. The month the people who live here prefer.</span></div>
+          <div class="season-row" data-months="4,5,6,7,8,9,10,11"><span class="w">Apr &ndash; Nov</span><span class="n">Countryside</span><span class="d">The coast closes and Estancia comes into its own. Horses, fire, space.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══ 06 · LO QUE DECIDE EL DIA ═══════════════════════════ -->
+  <section class="sec" id="what">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">What shapes it</span></div>
+      <div class="h-main">
+        <h2 class="h2 lines">Three things decide <em>what a day here is.</em></h2>
+      </div>
+    </div>
+
+    <div class="mosaic r d1">
+      <article class="vcard" data-ground="dark" style="background-image:url(../_assets/img/t/bahia_dscf5297-min-w900.jpg)">
+        <div class="vcard-top"><span class="vcard-when">01 &middot; The wind</span><span class="vcard-status">Daily</span></div>
+        <h3>It picks the beach.</h3>
+        <p>A south-west wind flattens Mansa and ruins Brava; a north-easterly does the reverse. Locals check it before deciding anything.</p>
+      </article>
+      <article class="vcard" data-ground="dark" style="background-image:url(../_assets/img/t/bahia_16_bv-1106-scaled-w900.jpg)">
+        <div class="vcard-top"><span class="vcard-when">02 &middot; The light</span><span class="vcard-status">All year</span></div>
+        <h3>It picks the hour.</h3>
+        <p>Sunrise belongs to the ocean side, sunset to the bay. Between them the day is genuinely long — in January it is still bright at nine.</p>
+      </article>
+      <article class="vcard" data-ground="dark" style="background-image:url(../_assets/img/t/estancia_estancia-img_7582-min-1-w900.jpg)">
+        <div class="vcard-top"><span class="vcard-when">03 &middot; The road</span><span class="vcard-status">Ruta 10 &middot; Ruta 9</span></div>
+        <h3>It picks the day.</h3>
+        <p>Ruta 10 runs the coast and Ruta 9 runs behind it. Everything here sits on one of the two, which is why nothing is more than forty minutes away.</p>
+      </article>
+    </div>
+  </section>
+
+
+  <!-- ══ 07 · EL MAPA ════════════════════════════════════════ -->
+  <section class="sec map-section" id="map" data-ground="dark">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">The map</span></div>
+      <div class="h-main">
+        <h2 class="h2 lines">Everything, <em>at real distance.</em></h2>
+        <p class="lead">The three houses, the venue, the beach club and the landmarks worth the drive. Touch a name to fly the map, and use the satellite view to see how close together the coast actually is.</p>
+      </div>
+    </div>
+
+    <div class="map-full r">
+      <div id="leafMap" class="leaf-map" aria-label="Map of José Ignacio"></div>
+      <div class="map-view" role="tablist" aria-label="Map view">
+        <button type="button" data-view="map">Map</button>
+        <button type="button" class="active" data-view="sat">Satellite</button>
+      </div>
+      <div class="map-bar"><ul id="mapLegend" class="mb-list"></ul></div>
+    </div>
+  </section>
+
+
+  <!-- ══ 08 · LAS DISTANCIAS ═════════════════════════════════
+       La tira de datos: cuatro cifras reales, con la division
+       vertical que ya llevan en Jose Ignacio.                   -->
+  <section class="strip" aria-label="Getting here">
+    <div class="fact"><span class="k">From Punta del Este &middot; PDP</span><span class="v">40&ndash;50 min</span><span class="s">by road</span></div>
+    <div class="fact"><span class="k">From Montevideo &middot; MVD</span><span class="v">2 h 10</span><span class="s">by road</span></div>
+    <div class="fact"><span class="k">Coast to countryside</span><span class="v">40 min</span><span class="s">Estancia VIK</span></div>
+    <div class="fact"><span class="k">Transfers</span><span class="v">Arranged</span><span class="s">by your Journey Designer</span></div>
+  </section>
+
+
+  <!-- ══ 09 · LO QUE COMPARTEN ═══════════════════════════════
+       Cuatro fichas en el ritmo dos-uno / uno-dos del mosaico: la
+       primera y la ultima a doble ancho, para que la reja cierre. -->
+  <section class="sec" id="houses">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">Inside the destination</span></div>
+      <div class="h-main">
+        <h2 class="h2 lines">Three houses, and <em>everything they share.</em></h2>
+        <p class="lead">Where you sleep changes the holiday; it does not limit it. Dining, wellness, horses, art and the venue run across all three, whichever one you book.</p>
+      </div>
+    </div>
+
+    <div class="mosaic r d1">
+      <article class="vcard is-wide" data-ground="dark" data-film="../_assets/video/estancia.mp4" style="background-image:url(../_assets/video/estancia-poster.webp)">
+        <div class="vcard-top"><span class="vcard-when"><span class="live-dot"></span>Three retreats</span><span class="vcard-status">Estancia &middot; Playa &middot; Bahía</span></div>
+        <h3>The same destination, told three ways.</h3>
+        <p>Countryside, architecture and the dunes. A few kilometres apart, and three completely different weeks. The chooser lays the case for each one side by side.</p>
+        <div class="vcard-actions"><a class="link" href="../stay/" data-stay><span>Help me choose</span><span class="arw">&#8594;</span></a></div>
+      </article>
+
+      <article class="vcard" data-ground="dark" style="background-image:url(../_assets/img/t/playa_parillero_playa-vik-934-w900.jpg)">
+        <div class="vcard-top"><span class="vcard-when">Dining</span><span class="vcard-status">Four tables</span></div>
+        <h3>Where flavour meets nourishment.</h3>
+        <p>La Susana, Zodiaco, El Asador and CieloMar — open to guests of any house.</p>
+        <div class="vcard-actions"><a class="link" href="../dining/"><span>See the four</span><span class="arw">&#8594;</span></a></div>
+      </article>
+
+      <article class="vcard" data-ground="dark" style="background-image:url(../_assets/img/t/playa_spa-img_0817-w900.jpg)">
+        <div class="vcard-top"><span class="vcard-when">Wellness</span><span class="vcard-status">The Shack</span></div>
+        <h3>Move, then recover.</h3>
+        <p>Movement, treatment and thermal water, bookable from all three houses.</p>
+        <div class="vcard-actions"><a class="link" href="../vik-wellness/"><span>Explore wellness</span><span class="arw">&#8594;</span></a></div>
+      </article>
+
+      <article class="vcard is-wide" data-ground="dark" style="background-image:url(../_assets/img/t/estancia_sculpture-img_1789-w900.jpg)">
+        <div class="vcard-top"><span class="vcard-when">Experiences</span><span class="vcard-status">All year</span></div>
+        <h3>Horses, water, fire and art.</h3>
+        <p>Riding across the pampas, fishing the lagoon, walking the collection with the house curator, and the culinary programme in the garden. Arranged from wherever you are staying.</p>
+        <div class="vcard-actions"><a class="link" href="../experiences/"><span>See the programme</span><span class="arw">&#8594;</span></a></div>
+      </article>
+    </div>
+  </section>
+
+
+  <!-- ══ 10 · EL CIERRE ══════════════════════════════════════
+       Tres frases y una consecuencia. No repite la pregunta de la
+       barra de reserva: la contesta.                            -->
+  <section class="sec club-sec" id="close" data-ground="dark">
+    <div class="close r">
+      <span class="kicker bare">Next step</span>
+      <div class="close-lines">
+        <p>If you want the bay, and the light that ends the day over it</p>
+        <p>If you want the ocean side, and the wind that comes with it</p>
+        <p>If you want the country behind both, and the horses on it</p>
+      </div>
+      <h2 class="h2 close-t lines">Then pick the <em>house</em>.</h2>
+      <div class="close-actions">
+        <a class="pill light" href="../stay/" data-stay><span>Help Me Choose</span><span class="arw">&#8594;</span></a>
+        <a class="link" href="../contact/"><span>Contact a Journey Designer</span><span class="arw">&#8594;</span></a>
+      </div>
+      <p class="close-note">guestexperience@vikretreats.com</p>
+    </div>
+  </section>
+
+</main>
+
+<div data-vik-checkout></div>
+
+<div data-vik-footer></div>
+
+<script>
+/* Los assets y los diccionarios viven un nivel arriba, en
+   _assets/. El nucleo lo lee de aqui. */
+window.VIK_BASE = "../_assets/";
+</script>
+<script src="../_core/lenis.min.js"></script>
+<script src="../_core/leaflet.js"></script>
+<script src="../_core/vik-chrome-v2.js?v=1"></script>
+<script src="../_core/vik-v2.min.js?v=1"></script>
+<script src="../_core/vik-v2-lib.min.js?v=1"></script>
+</body>
+</html>

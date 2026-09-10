@@ -1,0 +1,121 @@
+house,category,room,slot,file,status
+Estancia VIK,Master Suites,Master Suite VIK,01,assets/img/rooms/estancia/master-suite-vik-01.jpg,genuine
+Estancia VIK,Master Suites,Master Suite VIK,02,assets/img/rooms/estancia/master-suite-vik-02.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Master Suites,Master Suite VIK,03,assets/img/rooms/estancia/master-suite-vik-03.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Master Suites,Master Suite Daglio,01,assets/img/rooms/estancia/master-suite-daglio-01.jpg,genuine
+Estancia VIK,Master Suites,Master Suite Daglio,02,assets/img/rooms/estancia/master-suite-daglio-02.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Master Suites,Master Suite Daglio,03,assets/img/rooms/estancia/master-suite-daglio-03.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Master Suites,Master Suite Legrand,01,assets/img/rooms/estancia/master-suite-legrand-01.jpg,genuine
+Estancia VIK,Master Suites,Master Suite Legrand,02,assets/img/rooms/estancia/master-suite-legrand-02.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Master Suites,Master Suite Legrand,03,assets/img/rooms/estancia/master-suite-legrand-03.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Master Suites,Master Suite Seveso,01,assets/img/rooms/estancia/master-suite-seveso-01.jpg,genuine
+Estancia VIK,Master Suites,Master Suite Seveso,02,assets/img/rooms/estancia/master-suite-seveso-02.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Master Suites,Master Suite Seveso,03,assets/img/rooms/estancia/master-suite-seveso-03.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Amengual Suite,01,assets/img/rooms/estancia/amengual-suite-01.jpg,genuine
+Estancia VIK,Suites,Amengual Suite,02,assets/img/rooms/estancia/amengual-suite-02.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Amengual Suite,03,assets/img/rooms/estancia/amengual-suite-03.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Barea Suite,01,assets/img/rooms/estancia/barea-suite-01.jpg,genuine
+Estancia VIK,Suites,Barea Suite,02,assets/img/rooms/estancia/barea-suite-02.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Barea Suite,03,assets/img/rooms/estancia/barea-suite-03.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Cardozo Suite,01,assets/img/rooms/estancia/cardozo-suite-01.jpg,genuine
+Estancia VIK,Suites,Cardozo Suite,02,assets/img/rooms/estancia/cardozo-suite-02.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Cardozo Suite,03,assets/img/rooms/estancia/cardozo-suite-03.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Badaro Suite,01,assets/img/rooms/estancia/badaro-suite-01.jpg,genuine
+Estancia VIK,Suites,Badaro Suite,02,assets/img/rooms/estancia/badaro-suite-02.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Badaro Suite,03,assets/img/rooms/estancia/badaro-suite-03.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Musso Suite,01,assets/img/rooms/estancia/musso-suite-01.jpg,genuine
+Estancia VIK,Suites,Musso Suite,02,assets/img/rooms/estancia/musso-suite-02.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Musso Suite,03,assets/img/rooms/estancia/musso-suite-03.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Trujillo Suite,01,assets/img/rooms/estancia/trujillo-suite-01.jpg,genuine
+Estancia VIK,Suites,Trujillo Suite,02,assets/img/rooms/estancia/trujillo-suite-02.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Trujillo Suite,03,assets/img/rooms/estancia/trujillo-suite-03.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Turell Suite,01,assets/img/rooms/estancia/turell-suite-01.jpg,genuine
+Estancia VIK,Suites,Turell Suite,02,assets/img/rooms/estancia/turell-suite-02.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Turell Suite,03,assets/img/rooms/estancia/turell-suite-03.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Duarte Suite,01,assets/img/rooms/estancia/duarte-suite-01.jpg,genuine
+Estancia VIK,Suites,Duarte Suite,02,assets/img/rooms/estancia/duarte-suite-02.jpg,STAND-IN — needs the real photograph
+Estancia VIK,Suites,Duarte Suite,03,assets/img/rooms/estancia/duarte-suite-03.jpg,STAND-IN — needs the real photograph
+Playa VIK,Casas,The Casas,01,assets/img/rooms/playa/the-casas-01.jpg,genuine
+Playa VIK,Casas,The Casas,02,assets/img/rooms/playa/the-casas-02.jpg,STAND-IN — needs the real photograph
+Playa VIK,Casas,The Casas,03,assets/img/rooms/playa/the-casas-03.jpg,STAND-IN — needs the real photograph
+Playa VIK,Casas,Casa Blanca,01,assets/img/rooms/playa/casa-blanca-01.jpg,genuine
+Playa VIK,Casas,Casa Blanca,02,assets/img/rooms/playa/casa-blanca-02.jpg,STAND-IN — needs the real photograph
+Playa VIK,Casas,Casa Blanca,03,assets/img/rooms/playa/casa-blanca-03.jpg,STAND-IN — needs the real photograph
+Playa VIK,Casas,Garden View Living,01,assets/img/rooms/playa/garden-view-living-01.jpg,genuine
+Playa VIK,Casas,Garden View Living,02,assets/img/rooms/playa/garden-view-living-02.jpg,STAND-IN — needs the real photograph
+Playa VIK,Casas,Garden View Living,03,assets/img/rooms/playa/garden-view-living-03.jpg,STAND-IN — needs the real photograph
+Playa VIK,Suites,Sculpture Suites,01,assets/img/rooms/playa/sculpture-suites-01.jpg,genuine
+Playa VIK,Suites,Sculpture Suites,02,assets/img/rooms/playa/sculpture-suites-02.jpg,STAND-IN — needs the real photograph
+Playa VIK,Suites,Sculpture Suites,03,assets/img/rooms/playa/sculpture-suites-03.jpg,STAND-IN — needs the real photograph
+Playa VIK,Suites,Ocean Suite,01,assets/img/rooms/playa/ocean-suite-01.jpg,genuine
+Playa VIK,Suites,Ocean Suite,02,assets/img/rooms/playa/ocean-suite-02.jpg,STAND-IN — needs the real photograph
+Playa VIK,Suites,Ocean Suite,03,assets/img/rooms/playa/ocean-suite-03.jpg,STAND-IN — needs the real photograph
+Playa VIK,Suites,Terrace Suite,01,assets/img/rooms/playa/terrace-suite-01.jpg,genuine
+Playa VIK,Suites,Terrace Suite,02,assets/img/rooms/playa/terrace-suite-02.jpg,STAND-IN — needs the real photograph
+Playa VIK,Suites,Terrace Suite,03,assets/img/rooms/playa/terrace-suite-03.jpg,STAND-IN — needs the real photograph
+Playa VIK,Suites,Garden Suite,01,assets/img/rooms/playa/garden-suite-01.jpg,genuine
+Playa VIK,Suites,Garden Suite,02,assets/img/rooms/playa/garden-suite-02.jpg,STAND-IN — needs the real photograph
+Playa VIK,Suites,Garden Suite,03,assets/img/rooms/playa/garden-suite-03.jpg,STAND-IN — needs the real photograph
+Playa VIK,Suites,Sunset Suite,01,assets/img/rooms/playa/sunset-suite-01.jpg,genuine
+Playa VIK,Suites,Sunset Suite,02,assets/img/rooms/playa/sunset-suite-02.jpg,STAND-IN — needs the real photograph
+Playa VIK,Suites,Sunset Suite,03,assets/img/rooms/playa/sunset-suite-03.jpg,STAND-IN — needs the real photograph
+Playa VIK,Suites,Art Suite,01,assets/img/rooms/playa/art-suite-01.jpg,genuine
+Playa VIK,Suites,Art Suite,02,assets/img/rooms/playa/art-suite-02.jpg,STAND-IN — needs the real photograph
+Playa VIK,Suites,Art Suite,03,assets/img/rooms/playa/art-suite-03.jpg,STAND-IN — needs the real photograph
+Playa VIK,Casas,Casa Living,01,assets/img/rooms/playa/casa-living-01.jpg,genuine
+Playa VIK,Casas,Casa Living,02,assets/img/rooms/playa/casa-living-02.jpg,STAND-IN — needs the real photograph
+Playa VIK,Casas,Casa Living,03,assets/img/rooms/playa/casa-living-03.jpg,genuine
+Playa VIK,Casas,Casa Bedroom,01,assets/img/rooms/playa/casa-bedroom-01.jpg,genuine
+Playa VIK,Casas,Casa Bedroom,02,assets/img/rooms/playa/casa-bedroom-02.jpg,STAND-IN — needs the real photograph
+Playa VIK,Casas,Casa Bedroom,03,assets/img/rooms/playa/casa-bedroom-03.jpg,STAND-IN — needs the real photograph
+Playa VIK,Casas,Casa Garden,01,assets/img/rooms/playa/casa-garden-01.jpg,genuine
+Playa VIK,Casas,Casa Garden,02,assets/img/rooms/playa/casa-garden-02.jpg,STAND-IN — needs the real photograph
+Playa VIK,Casas,Casa Garden,03,assets/img/rooms/playa/casa-garden-03.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Adobe,01,assets/img/rooms/bahia/bungalow-adobe-01.jpg,genuine
+Bahía VIK,Bungalows,Bungalow Adobe,02,assets/img/rooms/bahia/bungalow-adobe-02.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Adobe,03,assets/img/rooms/bahia/bungalow-adobe-03.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Corten,01,assets/img/rooms/bahia/bungalow-corten-01.jpg,genuine
+Bahía VIK,Bungalows,Bungalow Corten,02,assets/img/rooms/bahia/bungalow-corten-02.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Corten,03,assets/img/rooms/bahia/bungalow-corten-03.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Madera,01,assets/img/rooms/bahia/bungalow-madera-01.jpg,genuine
+Bahía VIK,Bungalows,Bungalow Madera,02,assets/img/rooms/bahia/bungalow-madera-02.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Madera,03,assets/img/rooms/bahia/bungalow-madera-03.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Piedra,01,assets/img/rooms/bahia/bungalow-piedra-01.jpg,genuine
+Bahía VIK,Bungalows,Bungalow Piedra,02,assets/img/rooms/bahia/bungalow-piedra-02.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Piedra,03,assets/img/rooms/bahia/bungalow-piedra-03.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Quincha,01,assets/img/rooms/bahia/bungalow-quincha-01.jpg,genuine
+Bahía VIK,Bungalows,Bungalow Quincha,02,assets/img/rooms/bahia/bungalow-quincha-02.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Quincha,03,assets/img/rooms/bahia/bungalow-quincha-03.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Titanio,01,assets/img/rooms/bahia/bungalow-titanio-01.jpg,genuine
+Bahía VIK,Bungalows,Bungalow Titanio,02,assets/img/rooms/bahia/bungalow-titanio-02.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Titanio,03,assets/img/rooms/bahia/bungalow-titanio-03.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Vidrio,01,assets/img/rooms/bahia/bungalow-vidrio-01.jpg,genuine
+Bahía VIK,Bungalows,Bungalow Vidrio,02,assets/img/rooms/bahia/bungalow-vidrio-02.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Vidrio,03,assets/img/rooms/bahia/bungalow-vidrio-03.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Zinc Negro,01,assets/img/rooms/bahia/bungalow-zinc-negro-01.jpg,genuine
+Bahía VIK,Bungalows,Bungalow Zinc Negro,02,assets/img/rooms/bahia/bungalow-zinc-negro-02.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Zinc Negro,03,assets/img/rooms/bahia/bungalow-zinc-negro-03.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Zinc Marrón,01,assets/img/rooms/bahia/bungalow-zinc-marron-01.jpg,genuine
+Bahía VIK,Bungalows,Bungalow Zinc Marrón,02,assets/img/rooms/bahia/bungalow-zinc-marron-02.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Zinc Marrón,03,assets/img/rooms/bahia/bungalow-zinc-marron-03.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Duna,01,assets/img/rooms/bahia/bungalow-duna-01.jpg,genuine
+Bahía VIK,Bungalows,Bungalow Duna,02,assets/img/rooms/bahia/bungalow-duna-02.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Duna,03,assets/img/rooms/bahia/bungalow-duna-03.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Chapa Azul,01,assets/img/rooms/bahia/bungalow-chapa-azul-01.jpg,genuine
+Bahía VIK,Bungalows,Bungalow Chapa Azul,02,assets/img/rooms/bahia/bungalow-chapa-azul-02.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Bungalows,Bungalow Chapa Azul,03,assets/img/rooms/bahia/bungalow-chapa-azul-03.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Suites,Suite Eva,01,assets/img/rooms/bahia/suite-eva-01.jpg,genuine
+Bahía VIK,Suites,Suite Eva,02,assets/img/rooms/bahia/suite-eva-02.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Suites,Suite Eva,03,assets/img/rooms/bahia/suite-eva-03.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Suites,Suite Guerra,01,assets/img/rooms/bahia/suite-guerra-01.jpg,genuine
+Bahía VIK,Suites,Suite Guerra,02,assets/img/rooms/bahia/suite-guerra-02.jpg,genuine
+Bahía VIK,Suites,Suite Guerra,03,assets/img/rooms/bahia/suite-guerra-03.jpg,genuine
+Bahía VIK,Suites,Suite Patrone,01,assets/img/rooms/bahia/suite-patrone-01.jpg,genuine
+Bahía VIK,Suites,Suite Patrone,02,assets/img/rooms/bahia/suite-patrone-02.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Suites,Suite Patrone,03,assets/img/rooms/bahia/suite-patrone-03.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Suites,Suite Escardó,01,assets/img/rooms/bahia/suite-escardo-01.jpg,genuine
+Bahía VIK,Suites,Suite Escardó,02,assets/img/rooms/bahia/suite-escardo-02.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Suites,Suite Escardó,03,assets/img/rooms/bahia/suite-escardo-03.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Suites,Suite López Lage,01,assets/img/rooms/bahia/suite-lopez-lage-01.jpg,genuine
+Bahía VIK,Suites,Suite López Lage,02,assets/img/rooms/bahia/suite-lopez-lage-02.jpg,STAND-IN — needs the real photograph
+Bahía VIK,Suites,Suite López Lage,03,assets/img/rooms/bahia/suite-lopez-lage-03.jpg,STAND-IN — needs the real photograph

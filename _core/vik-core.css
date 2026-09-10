@@ -1,0 +1,645 @@
+/* ══════════════════════════════════════════════════════════════
+   VIK JOSÉ IGNACIO · CORE
+   Tokens, typefaces, shell, nav, footer, buttons, section base.
+   Extracted from: VIK Retreats Brand Landing + Guest Journey.
+   Do not add new colours or typefaces here.
+
+   Authored by Nicolás Castillo · @donhkoland
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Typefaces ─────────────────────────────────────────────── */
+/* PROJECT RULE — no typeface is ever forced to bold.
+   Only Light (300) and Regular (400) are loaded. Nothing above 400
+   exists in this system, so nothing can synthesise a bold weight. */
+@font-face{font-family:"Old Standard VIK";src:url("../_assets/fonts/oldstandardtt-regular.woff") format("woff");font-weight:400;font-display:swap}
+@font-face{font-family:"Apercu Mono Pro";src:url("../_assets/fonts/apercumonopro-regular.woff") format("woff");font-weight:400;font-display:swap}
+@font-face{font-family:"Highway Gothic Expanded";src:url("../_assets/fonts/highwaygothicexpanded.woff") format("woff");font-weight:400;font-display:swap}
+@font-face{font-family:"Selva Script";src:url("../_assets/fonts/selvascriptpro.woff") format("woff");font-weight:400;font-display:swap}
+@font-face{font-family:"DM Sans";src:url("../_assets/fonts/dmsans-regular.ttf") format("truetype");font-weight:400;font-display:swap}
+@font-face{font-family:"DM Sans";src:url("../_assets/fonts/dmsans-light.ttf") format("truetype");font-weight:300;font-display:swap}
+
+/* ── Tokens ────────────────────────────────────────────────── */
+:root{
+  --canvas:#EEF3DC;
+  --vik:#002FA7;
+  --ink:#1E1E1E;
+  --bone:#F8F8F0;
+  --navy:#070850;
+  --burgundy:#5B0318;
+  --line:rgba(248,248,240,.16);
+  --line-dark:rgba(30,30,30,.13);
+  --ease:cubic-bezier(.25,.1,.25,1);
+  --slow:cubic-bezier(.16,1,.3,1);
+  --hard:cubic-bezier(.77,0,.175,1);
+  --pad-x:3.5rem;
+  --pad-y:8rem;
+  --max:1240px;
+  /* Real viewport width minus the scrollbar. vik-motion keeps this in
+     sync so full-bleed modules never trigger a horizontal scroll. */
+  --vw:100vw;
+}
+
+/* ── Reset ─────────────────────────────────────────────────── */
+*{box-sizing:border-box;letter-spacing:0}
+html{background:var(--ink);font-size:16px;scroll-behavior:smooth}
+body{
+  margin:0;min-height:100vh;
+  color:var(--bone);background:var(--ink);
+  font-family:"DM Sans",sans-serif;font-weight:400;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision;
+}
+body.is-locked{overflow:hidden}
+a,button{color:inherit;font-weight:400}
+a{text-decoration:none}
+button{font:inherit;border:0;background:none;font-weight:400;cursor:pointer}
+img,video{display:block;max-width:100%}
+h1,h2,h3,h4,p,ul,ol,figure{margin:0;padding:0}
+ul,ol{list-style:none}
+::selection{background:var(--vik);color:#fff}
+
+/* PROJECT RULE · nothing is ever bold.
+   Every element the browser would auto-embolden is pinned to 400.
+   Light (300) stays available and is opted into explicitly. */
+h1,h2,h3,h4,h5,h6,b,strong,th,dt,legend,optgroup,label,summary,
+button,input,select,textarea,em,i,cite,q,mark,address{font-weight:400}
+
+/* ── Type classes ──────────────────────────────────────────── */
+.ui-label{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;text-transform:uppercase;line-height:.8;font-weight:400;letter-spacing:.22em}
+.mono-copy{font-family:"DM Sans",sans-serif;font-size:.93rem;line-height:1.75;font-weight:400}
+.mono{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.8rem;letter-spacing:.05em}
+.serif-title{font-family:"Old Standard VIK",Georgia,serif;font-weight:400;line-height:1.02;letter-spacing:-0.01em}
+.serif{font-family:"Old Standard VIK",Georgia,serif;font-weight:400}
+.script{font-family:"Selva Script",Georgia,serif;font-style:normal;font-weight:400}
+/* PROPERTY SIGNATURE · the one rule for a place name.
+   Estancia, Playa, Bahía, La Susana, Pavilion, The Shack — anywhere a
+   property or venue signs itself, it is set this way. Doubled up on
+   purpose: a bare .lw loses to hosts like `.vcard h3`, which is how
+   these kept reverting to the serif. Size stays with the context. */
+.lw,.lw.lw{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  text-transform:uppercase;letter-spacing:.2em;line-height:1.15;font-weight:400;font-style:normal}
+
+.text-vik{color:var(--vik)}
+.muted-light{color:rgba(248,248,240,.56)}
+.muted-dark{color:rgba(30,30,30,.6)}
+.gpu{transform:translateZ(0);will-change:transform}
+/* present to assistive tech, absent to the eye */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0 0 0 0);white-space:nowrap;border:0}
+em{font-style:italic}
+
+/* ── Shell / chrome ────────────────────────────────────────── */
+.site-shell{position:relative;background:var(--ink)}
+.grain{pointer-events:none;position:fixed;inset:0;z-index:100;opacity:.035;mix-blend-mode:screen;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.75'/%3E%3C/svg%3E")}
+.loader{position:fixed;inset:0;z-index:8500;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2rem;transition:opacity .8s var(--slow),visibility .8s}
+.loader.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.ll{font-family:"Highway Gothic Expanded",sans-serif;font-size:.58rem;letter-spacing:.35em;text-transform:uppercase;color:#fff;opacity:0;animation:fu .6s .2s var(--slow) forwards;font-weight:400}
+.lb{width:1px;height:0;background:rgba(255,255,255,.35);animation:lg .9s .5s var(--slow) forwards}
+@keyframes fu{100%{opacity:1}}
+@keyframes lg{100%{height:80px}}
+.progress{position:fixed;top:0;left:0;z-index:95;height:2px;width:100%;transform-origin:left;transform:scaleX(0);background:var(--vik)}
+
+/* ── Cursor ────────────────────────────────────────────────── */
+.cursor{position:fixed;z-index:9999;pointer-events:none;mix-blend-mode:difference;top:0;left:0;
+  /* capa propia: sin esto el anillo recompone su mezcla con cada
+     fotograma del video que tiene debajo, y titila */
+  will-change:transform;transform:translateZ(0);isolation:isolate;
+  backface-visibility:hidden}
+/* Sobre medios en movimiento la mezcla por diferencia no se
+   sostiene: el anillo pasa a color plano. */
+body:has(video) .cursor{mix-blend-mode:normal}
+body:has(video) .cring{border-color:rgba(248,248,240,.9);
+  box-shadow:0 0 0 1px rgba(10,9,7,.35)}
+body:has(video) .cdot{box-shadow:0 0 0 1px rgba(10,9,7,.35)}
+.cdot{width:6px;height:6px;background:#fff;border-radius:50%;transform:translate(-50%,-50%)}
+.cring{width:32px;height:32px;border:1px solid #fff;border-radius:50%;transform:translate(-50%,-50%);transition:width .3s var(--ease),height .3s var(--ease),opacity .3s}
+.cring.grow{width:52px!important;height:52px!important;opacity:.4!important}
+@media(hover:none){.cursor{display:none}body{cursor:auto}button{cursor:pointer}}
+
+/* ── Reveal ────────────────────────────────────────────────── */
+.r{opacity:0;transform:translateY(24px);transition:opacity .9s var(--slow),transform .9s var(--slow)}
+.r.in{opacity:1;transform:none}
+/* A full-bleed block cannot use the travelling reveal: while it is
+   still offset the page background shows through as a band above
+   it. These fade only. */
+.r.r-fade{transform:none}
+.r.d1{transition-delay:.1s}.r.d2{transition-delay:.2s}.r.d3{transition-delay:.3s}.r.d4{transition-delay:.4s}.r.d5{transition-delay:.5s}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .9s var(--slow),transform .9s var(--slow)}
+.reveal.in{opacity:1;transform:none}
+
+/* ── Nav ───────────────────────────────────────────────────── */
+.nav{position:fixed;inset:0 0 auto;z-index:8100;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:2rem var(--pad-x);transition:padding .5s var(--ease),background .4s,backdrop-filter .4s}
+.nav.scrolled{padding:1.25rem var(--pad-x);background:rgba(30,30,30,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.nav.scrolled.light{background:rgba(255,255,255,.96)}
+.nav-left{display:flex;align-items:center;gap:1rem;color:#fff;transition:color .4s,opacity .4s}
+.nav.scrolled.light .nav-left{color:var(--ink)}
+body.menu-open .nav-left{opacity:0;pointer-events:none;transition:opacity .3s}
+.nav-logo{height:12.9px;width:auto;display:block;filter:brightness(0) invert(1);transition:filter .4s}
+/* Every mark in the bar stands 12.9px, group or location. */
+.nav-logo.is-location{height:12.9px}
+/* The destination has no wordmark file in the manual, so it is set —
+   same face, same tracking, matched to the wordmarks' cap height. */
+.nav-mark{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:.86rem;letter-spacing:.2em;text-transform:uppercase;line-height:1;
+  color:#fff;display:block;white-space:nowrap;transition:color .4s}
+.nav.scrolled.light .nav-mark{color:var(--ink)}
+.nav.scrolled.light .nav-logo{filter:brightness(0)}
+/* The mark beside the place is the parent brand, so on every page
+   that is not the group it is a link to the group. It stays quiet
+   until you go near it — a second bright thing next to the
+   wordmark would compete with it. */
+.nav-tag{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;opacity:.42;padding-left:.9rem;border-left:1px solid rgba(255,255,255,.2);white-space:nowrap;transition:opacity .3s var(--ease)}
+a.nav-tag:hover{opacity:.9}
+.nav-end{display:flex;justify-content:flex-end;align-items:center;gap:1.75rem;flex:0 0 auto}
+/* El boton de reserva dice la frase entera mientras haya sitio, y una
+   sola palabra cuando no. En un telefono "Book Your Stay" se parte en
+   cuatro lineas o empuja la hamburguesa fuera de la pantalla; "Book"
+   hace lo mismo en 30px. */
+.nav-book .nb-short{display:none}
+.nav-book .nb-long,.nav-book .nb-short{white-space:nowrap}
+body.menu-open .nav-book{opacity:0;pointer-events:none;transition:opacity .3s}
+
+/* Hamburger */
+.menu-toggle{display:flex;flex-direction:column;gap:5px;padding:.5rem;border:none;border-radius:0;background:none;cursor:pointer}
+.menu-toggle span{display:block;width:22px;height:1px;background:#fff;transition:background .4s,transform .35s var(--ease),opacity .25s var(--ease)}
+.nav.scrolled.light .menu-toggle span{background:var(--ink)}
+body.menu-open .menu-toggle span{background:#fff!important}
+.menu-toggle.is-open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.menu-toggle.is-open span:nth-child(2){opacity:0;transform:scaleX(0)}
+.menu-toggle.is-open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+/* ── Language switcher ─────────────────────────────────────── */
+.lang{position:relative}
+.lang-btn{display:inline-flex;align-items:center;gap:.5rem;font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;color:inherit;padding:.4rem 0}
+.lang-btn .chev{transition:transform .3s var(--ease);font-size:.7em;opacity:.7}
+.lang.open .lang-btn .chev{transform:rotate(180deg)}
+.lang-menu{position:absolute;top:calc(100% + .9rem);right:0;min-width:130px;background:rgba(30,30,30,.96);backdrop-filter:blur(20px);border:1px solid var(--line);padding:.4rem;display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .3s var(--ease),transform .3s var(--ease),visibility .3s;z-index:130}
+.lang.open .lang-menu{opacity:1;visibility:visible;transform:none}
+.lang-menu button{display:flex;justify-content:space-between;gap:1rem;align-items:center;padding:.65rem .8rem;font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.16em;text-transform:uppercase;color:rgba(248,248,240,.6);transition:color .25s,background .25s;text-align:left}
+.lang-menu button:hover{color:#fff;background:rgba(248,248,240,.06)}
+.lang-menu button.active{color:#fff}
+.lang-menu button.active::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--vik)}
+
+/* ── Quick menu ────────────────────────────────────────────── */
+/* THE OPEN MENU IS THE TOP OF THE PAGE.
+   Leaflet stacks its own panes and controls up to 1000 of its own
+   accord, so a map anywhere on the page was painting over the
+   menu. Nothing in this system needs to sit above an open menu —
+   the only thing allowed higher is the bar that closes it, and
+   the cursor, which is not a surface. */
+.quick-menu{position:fixed;inset:0;z-index:8000;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2.5rem;padding:calc(var(--nav-h,93px) + 1rem) 0 2rem;clip-path:inset(0 0 100% 0);transition:clip-path .75s var(--ease);pointer-events:none;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none;color:var(--bone)}
+/* En un portatil de 760 de alto los ocho nombres, los lugares y la
+   marca no entran. Con overflow:hidden el panel centraba igual y
+   recortaba por arriba: el primer nombre terminaba debajo del logo.
+   Ahora rueda. Y el centrado es 'safe': centra cuando entra, y
+   cuando no entra arranca desde arriba en vez de dejar la mitad de
+   la lista fuera de alcance del scroll. */
+.quick-menu{justify-content:safe center}
+.quick-menu::-webkit-scrollbar{display:none}
+.quick-menu.is-open{clip-path:inset(0 0 0% 0);pointer-events:all}
+/* El aire entre nombres se mide contra el alto de la pantalla, no
+   contra un numero fijo. A 41px de caja alta, 18px dejaba los nombres
+   casi tocandose: la Highway Gothic Expanded llena su linea de arriba
+   abajo y no deja aire propio, asi que todo el ritmo lo pone el gap.
+
+   Con vh, una pantalla alta respira y una de portatil no desborda —
+   ocho nombres a 54px mas siete huecos entran en 768 de alto con el
+   indice debajo. */
+.menu-list{text-align:center;display:flex;flex-direction:column;align-items:center;
+  gap:clamp(20px,3.2vh,38px)}
+.menu-list li{overflow:hidden}
+/* HIGHWAY GOTHIC · DISPLAY
+   The menu lists the sections, and a section name is a name — so it
+   is signed in the same face every other name in this system is
+   signed in, at the top of the display scale.
+
+   Tracking is a function of size here, never a constant: .22em holds
+   a 9px label open, .2em signs a name at title size, .1em is all a
+   45px word takes before the letters stop reading as one word. The
+   trailing letter's tracking is pulled back, because the browser adds
+   it after the last glyph where the eye reads it as a gap and a
+   centred list stops looking centred. */
+.menu-link{
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:clamp(1.35rem,3.1vw,2.6rem);
+  color:var(--bone);display:inline-block;
+  font-weight:400;letter-spacing:.1em;text-transform:uppercase;line-height:1.3;
+  margin-right:-.1em;
+  opacity:0;transform:translateY(100%);
+  transition:opacity .5s var(--ease),transform .5s var(--ease),color .25s;
+}
+.quick-menu.is-open .menu-link{opacity:1;transform:none}
+.menu-list li:nth-child(1) .menu-link{transition-delay:.16s}
+.menu-list li:nth-child(2) .menu-link{transition-delay:.20s}
+.menu-list li:nth-child(3) .menu-link{transition-delay:.24s}
+.menu-list li:nth-child(4) .menu-link{transition-delay:.28s}
+.menu-list li:nth-child(5) .menu-link{transition-delay:.32s}
+.menu-list li:nth-child(6) .menu-link{transition-delay:.36s}
+.menu-list li:nth-child(7) .menu-link{transition-delay:.40s}
+.menu-list li:nth-child(8) .menu-link{transition-delay:.44s}
+.menu-link:hover{color:var(--canvas)}
+/* La fila de lugares se reparte en .menu-sub__in, no en .menu-sub:
+   el envoltorio se agrego para poder plegar el panel con
+   grid-template-rows, y desde entonces .menu-sub tiene un solo
+   hijo. El gap se aplicaba entre ese hijo y nadie, y los ocho
+   nombres quedaban pegados como una sola linea de texto.
+   El reparto queda en los dos: las copias sueltas de La Susana y
+   Pavilion cuelgan los enlaces directamente de .menu-sub y con
+   una sola de las dos reglas se romperia una de las dos. */
+.menu-sub,.menu-sub__in{display:flex;gap:1.75rem;flex-wrap:wrap;justify-content:center}
+.menu-sub{opacity:0;transition:opacity .5s .55s var(--ease)}
+.quick-menu.is-open .menu-sub{opacity:1}
+.menu-sub a{display:inline-flex;align-items:center;min-height:22px;font-family:"Highway Gothic Expanded",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.4);white-space:nowrap;transition:color .25s}
+.menu-sub a:hover{color:#fff}
+/* ── Los lugares ─────────────────────────────────────────────
+   Por encima de 1024 son una fila centrada, que es como se dibujo el
+   menu. Debajo se pliegan detras de un titulo: ocho direcciones y
+   ocho secciones en la misma pantalla compiten por el mismo ojo, y
+   las direcciones ganan por peso sin ganar en jerarquia. El titulo
+   las deja disponibles sin dejarlas gritando. */
+.menu-places__t{display:none}
+/* La reserva y el idioma solo bajan al menu en telefono; en el resto
+   viven en la barra, que es donde hay sitio. */
+.menu-foot{display:none}
+
+@media (max-width:1024px){
+/* ── Los lugares, plegados ───────────────────────────────────
+   Ocho direcciones detras de un titulo. El titulo es una regla con
+   dos extremos — el nombre y la cuenta — y el signo que abre, dibujado
+   con la misma cruz que usa el acordeon para que el gesto se reconozca
+   de una pagina a otra.
+
+   El alto lo anima grid-template-rows de 0fr a 1fr, que es la unica
+   forma de animar un alto automatico sin inventar un maximo. */
+  .menu-places{width:100%;opacity:0;transition:opacity .5s .5s var(--ease)}
+  .quick-menu.is-open .menu-places{opacity:1}
+  .menu-places__t{width:100%;display:flex;align-items:center;gap:1rem;
+  padding:1.15rem 0;text-align:left;color:rgba(248,248,240,.62);
+  border-top:1px solid rgba(248,248,240,.14);
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+  letter-spacing:.22em;text-transform:uppercase;
+  transition:color .3s var(--ease)}
+  .menu-places__t:hover,.menu-places__t[aria-expanded="true"]{color:#fff}
+  .menu-places__t .c{margin-left:auto;font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.68rem;letter-spacing:0;opacity:.55}
+  .menu-places__sign{position:relative;width:12px;height:12px;flex:0 0 auto;opacity:.7}
+  .menu-places__sign::before,.menu-places__sign::after{content:"";position:absolute;
+  background:currentColor;transition:transform .4s var(--ease),opacity .35s var(--ease)}
+  .menu-places__sign::before{left:0;right:0;top:50%;height:1px;transform:translateY(-50%)}
+  .menu-places__sign::after{top:0;bottom:0;left:50%;width:1px;transform:translateX(-50%)}
+  .menu-places__t[aria-expanded="true"] .menu-places__sign::after{transform:translateX(-50%) scaleY(0)}
+/* De lado a lado. La fila de arriba de 1024 se centra, y esa regla
+   traia un justify-content:center que aqui encoge la unica columna
+   de la reja al ancho del nombre mas largo. Plegado se nota poco;
+   abierto deja las ocho direcciones en una tira estrecha en medio
+   de la pantalla. */
+  .menu-places .menu-sub{display:grid;grid-template-columns:1fr;
+  grid-template-rows:0fr;gap:0;justify-content:normal;overflow:hidden;
+  transition:grid-template-rows .55s var(--slow)}
+  .menu-places__t[aria-expanded="true"] + .menu-sub{grid-template-rows:1fr}
+  .menu-sub__in{min-height:0}
+/* Cada nombre entra un instante despues del anterior, y solo cuando el
+   panel ya se esta abriendo. Plegado no hay nada que escalonar. */
+  .menu-places .menu-sub a{opacity:0;transform:translateY(8px);
+  transition:opacity .4s var(--ease),transform .45s var(--slow),color .25s}
+  .menu-places__t[aria-expanded="true"] + .menu-sub a{opacity:1;transform:none}
+  .menu-places__t[aria-expanded="true"] + .menu-sub a:nth-child(1){transition-delay:.06s}
+  .menu-places__t[aria-expanded="true"] + .menu-sub a:nth-child(2){transition-delay:.10s}
+  .menu-places__t[aria-expanded="true"] + .menu-sub a:nth-child(3){transition-delay:.14s}
+  .menu-places__t[aria-expanded="true"] + .menu-sub a:nth-child(4){transition-delay:.18s}
+  .menu-places__t[aria-expanded="true"] + .menu-sub a:nth-child(5){transition-delay:.22s}
+  .menu-places__t[aria-expanded="true"] + .menu-sub a:nth-child(6){transition-delay:.26s}
+  .menu-places__t[aria-expanded="true"] + .menu-sub a:nth-child(7){transition-delay:.30s}
+  .menu-places__t[aria-expanded="true"] + .menu-sub a:nth-child(8){transition-delay:.34s}
+
+/* ── El pie del menu ─────────────────────────────────────────
+   La reserva y el idioma. En pantallas grandes viven en la barra y
+   aqui no hacen falta; en un telefono la barra no tiene sitio para
+   ninguno de los dos y este es su lugar. */
+  .menu-foot{display:none}
+  .menu-book{display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:1.15rem 1.4rem;background:var(--vik);color:#fff;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:10.5px;
+  letter-spacing:.2em;text-transform:uppercase;
+  transition:background .3s var(--ease)}
+  .menu-book:hover{background:#001F70}
+  .menu-book .arw{transition:transform .4s var(--ease)}
+  .menu-book:hover .arw{transform:translateX(4px)}
+  .menu-langs{display:flex;align-items:center;gap:1rem;
+  padding-top:1rem;border-top:1px solid rgba(248,248,240,.14)}
+  .menu-langs__k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(248,248,240,.45)}
+/* El mismo control de idioma del sistema — mismo selector, asi lo
+   cablea vik-i18n sin saber que hay dos — pero aqui es una fila de
+   tres siglas y no un panel flotante. */
+  .menu-langs .lang-menu{position:static;min-width:0;background:none;border:0;padding:0;
+  flex-direction:row;gap:.35rem;margin-left:auto;
+  opacity:1;visibility:visible;transform:none;backdrop-filter:none}
+  .menu-langs .lang-menu button{padding:.55rem .8rem;justify-content:center;
+  border:1px solid rgba(248,248,240,.18);min-height:40px;
+  font-size:9.3px;letter-spacing:.16em;color:rgba(248,248,240,.6)}
+  .menu-langs .lang-menu button .ln{display:none}
+  .menu-langs .lang-menu button.active{color:#fff;border-color:var(--bone);background:none}
+  .menu-langs .lang-menu button.active::after{display:none}
+
+}
+
+.menu-brand{font-family:"Highway Gothic Expanded",sans-serif;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.22);opacity:0;transition:opacity .5s .65s var(--ease)}
+.quick-menu.is-open .menu-brand{opacity:1}
+
+/* ── The lower menu on mobile and tablet ──────────────────
+   Eight secondary links wrapping in a centred row is a shape nobody
+   can read: the line breaks land wherever the words happen to end.
+   Below 1024px they stop being a row and become an index — one name
+   per line, pinned to the foot of the overlay, each on its own
+   hairline. The same row language the split facts and the map bar
+   use, so the menu closes the way the rest of the system reads.
+
+   The sections stay in the middle of the screen; only the index
+   moves to the bottom. margin-top:auto does the pinning, which keeps
+   it under the last name on a tall screen and hard against the foot
+   on a short one, without a fixed height anywhere. */
+@media (max-width:1024px){
+  .quick-menu{justify-content:flex-start;align-items:stretch;gap:0;
+    /* El alto de la barra lo publica vik-chrome en --nav-h: cambia
+       con el ancho (93 / 108 / 85) y con el idioma, y un numero
+       fijo aqui dejaba el primer nombre debajo del logo. */
+    padding:calc(env(safe-area-inset-top) + var(--nav-h,108px) + 1.25rem) var(--pad-x)
+            calc(env(safe-area-inset-bottom) + 1rem);
+    /* Eight sections and eight places is a lot of list. It fits a
+       375×812 screen with room to spare, but a 667px phone in
+       landscape has no chance — so the overlay scrolls rather than
+       clipping the last name off the bottom, and contains the scroll
+       so the page behind it never moves. */
+    overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+    scrollbar-width:none}
+  .quick-menu::-webkit-scrollbar{display:none}
+/* La lista se queda con el hueco que sobra y centra los nombres
+   dentro. Con margenes auto en la lista y en los lugares el hueco
+   se repartia en tres, y la lista quedaba alta: 111 arriba contra
+   223 abajo. Un solo elemento flexible y el centro es el centro,
+   con el desplegable abierto o cerrado. */
+  .menu-list{flex:1 1 auto;justify-content:center;align-items:center;margin:0}
+
+  /* El bloque de lugares se ancla al pie del panel; la lista de
+     secciones se queda en el medio. margin-top:auto hace el anclaje
+     sin un alto fijo en ningun lado. */
+  .menu-places{margin-top:0;width:100%;flex:0 0 auto}
+/* nowrap explicito: una columna que puede envolverse mide, como
+   maximo, un solo enlace de alto, y el panel plegable la usa para
+   calcular cuanto abrir. Con wrap heredado de la fila, abria 25px
+   y no 8 nombres. */
+  .menu-sub__in{display:flex;flex-direction:column;flex-wrap:nowrap;gap:0;
+  align-items:stretch;justify-content:normal}
+  .menu-sub a{display:flex;align-items:center;justify-content:space-between;
+    padding:.72rem 0;color:rgba(248,248,240,.55);
+    border-bottom:1px solid rgba(248,248,240,.08)}
+  /* the mark that says the line is a link, drawn rather than typed */
+  .menu-sub a::after{content:"";width:16px;height:1px;background:currentColor;
+    opacity:.45;transition:width .35s var(--ease),opacity .35s var(--ease)}
+  .menu-sub a:active::after,.menu-sub a:hover::after{width:26px;opacity:1}
+  .menu-sub a:last-child{border-bottom:0}
+
+  .menu-brand{margin-top:.9rem;text-align:center;display:block}
+}
+
+/* ── Buttons ───────────────────────────────────────────────── */
+.btn-line{position:relative;display:inline-flex;align-items:center;gap:.7rem;padding:.2rem 0;font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:inherit}
+.btn-line::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;transform:scaleX(1);transform-origin:left;transition:transform .4s var(--ease)}
+.btn-line:hover::after{transform:scaleX(0);transform-origin:right}
+.btn-line .arw{transition:transform .4s var(--ease)}
+.btn-line:hover .arw{transform:translateX(5px)}
+.btn-vik{color:var(--vik)}
+.btn-solid{display:inline-flex;align-items:center;gap:.9rem;padding:1.15rem 2rem;background:var(--vik);color:#fff;font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;box-shadow:0 12px 30px rgba(0,47,167,.28);transition:transform .35s var(--slow),box-shadow .35s var(--slow),background .3s}
+.btn-solid:hover{transform:translateY(-3px);box-shadow:0 20px 46px rgba(0,47,167,.4);background:#0038c9}
+.btn-solid .arw{transition:transform .35s var(--ease)}
+.btn-solid:hover .arw{transform:translateX(5px)}
+.btn-outline{display:inline-flex;align-items:center;gap:.9rem;padding:1.15rem 2rem;border:1px solid rgba(248,248,240,.4);color:var(--bone);font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;transition:transform .35s var(--slow),background .3s,color .3s,border-color .3s}
+.btn-outline:hover{transform:translateY(-3px);background:var(--bone);color:var(--ink);border-color:var(--bone)}
+.btn-outline.dark{border-color:rgba(30,30,30,.3);color:var(--ink)}
+.btn-outline.dark:hover{background:var(--ink);color:var(--bone);border-color:var(--ink)}
+.nav-link,.nav-action,.folder-btn{position:relative;font-family:"Highway Gothic Expanded",Arial Narrow,sans-serif;font-size:.52rem;letter-spacing:.18em;line-height:1;text-transform:uppercase;border:none;border-radius:0;padding:0;background:none;color:inherit;cursor:pointer;transition:opacity .25s}
+.nav-link:hover,.nav-action:hover,.folder-btn:hover{opacity:.55}
+.folder-btn{display:inline-flex;align-items:center;gap:.4rem;white-space:nowrap}
+
+/* ── Persistent booking bar ────────────────────────────────── */
+.bookbar{position:fixed;left:0;right:0;bottom:0;z-index:95;display:grid;grid-template-columns:auto 1fr auto;align-items:stretch;background:rgba(18,18,18,.94);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .55s var(--slow);box-shadow:0 -22px 60px rgba(0,0,0,.45)}
+.bookbar.is-visible{transform:none}
+body.menu-open .bookbar{transform:translateY(110%)}
+.bookbar-copy{display:flex;flex-direction:column;justify-content:center;gap:.3rem;padding:.9rem 1.75rem .9rem var(--pad-x);border-right:1px solid var(--line);min-width:0}
+.bookbar-copy .t{font-family:"Old Standard VIK",Georgia,serif;font-size:1.15rem;line-height:1;white-space:nowrap}
+.bookbar-copy .s{font-family:"Highway Gothic Expanded",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.38);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bookbar-fields{display:grid;grid-template-columns:repeat(3,1fr);align-items:stretch;min-width:0}
+.bookbar-field{display:flex;flex-direction:column;justify-content:center;gap:.35rem;padding:.85rem 1.5rem;border-right:1px solid var(--line);min-width:0;transition:background .3s}
+.bookbar-field:hover{background:rgba(248,248,240,.04)}
+.bookbar-field label{font-family:"Highway Gothic Expanded",sans-serif;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.35)}
+.bookbar-field input,.bookbar-field select{background:none;border:0;color:var(--bone);font-family:"Old Standard VIK",Georgia,serif;font-size:1rem;padding:0;outline:none;width:100%;appearance:none;cursor:pointer;color-scheme:dark}
+.bookbar-actions{display:flex;align-items:center;gap:1.5rem;padding:0 var(--pad-x) 0 1.75rem;flex:0 0 auto}
+.bookbar .btn-solid{padding:1rem 1.9rem;box-shadow:none;align-self:stretch;display:inline-flex;align-items:center}
+
+/* Native select popups inherit the OS palette — force the VIK dark one. */
+select,option,optgroup{color-scheme:dark}
+select option,select optgroup{background:#1E1E1E;color:#F8F8F0}
+.section.canvas select,.section.bone select,.section.canvas select option,.section.bone select option{color-scheme:light;background:#EEF3DC;color:#1E1E1E}
+
+/* ── Section base ──────────────────────────────────────────── */
+.section{position:relative;padding:var(--pad-y) var(--pad-x)}
+.section.canvas{background:var(--canvas);color:var(--ink)}
+.section.bone{background:var(--bone);color:var(--ink)}
+.section.vik{background:var(--vik);color:#fff}
+.section-inner{max-width:var(--max);margin:0 auto}
+.section-head{max-width:var(--max);margin:0 auto 4.5rem;display:grid;grid-template-columns:1fr 2fr;gap:clamp(2rem,5vw,6rem);align-items:end}
+.section-head .idx{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.8rem;opacity:.4}
+.section-eyebrow{display:flex;align-items:center;gap:1rem;margin-bottom:1.4rem;opacity:.55}
+.section-eyebrow::before{content:"";width:32px;height:1px;background:currentColor;opacity:.5}
+.section-title{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.75rem,3.2vw,2.8rem);line-height:1.1;letter-spacing:-0.01em;font-weight:400}
+.section-lead{margin:1.6rem 0 0;max-width:52ch;line-height:1.7;font-weight:300;opacity:.72}
+.section-kicker{max-width:32rem}
+/* A head that introduces a full-bleed module sitting outside its
+   own section: kill the padding AND the head margin, or the page
+   background shows through as a band between the two. */
+/* The head margin was collapsing straight through the section's bottom
+   edge and painting the page background as a band. The air belongs to
+   the section as padding, where it takes the section's own colour. */
+.section.flush{padding-bottom:clamp(2.25rem,4.5vw,4rem)}
+.section.flush .section-head{margin-bottom:0}
+hr.rule{border:0;height:1px;background:var(--line);margin:0}
+.section.canvas hr.rule,.section.bone hr.rule{background:var(--line-dark)}
+
+/* ── Footer ────────────────────────────────────────────────── */
+/* Two bands. Band 1: brand + newsletter. Band 2: link columns.
+   Collapses 4 → 2 → 1 without ever crowding. */
+.system-footer{background:var(--ink);color:var(--bone);border-top:1px solid rgba(255,255,255,.08)}
+.footer-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(2rem,6vw,7rem);align-items:end;padding:5rem var(--pad-x) 3.5rem;max-width:calc(var(--max) + var(--pad-x) * 2);margin:0 auto}
+.footer-mark img{height:15px;width:auto;filter:brightness(0) invert(1)}
+.footer-tagline{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.1rem,2vw,1.5rem);line-height:1.3;color:rgba(248,248,240,.5);margin-top:1.5rem;max-width:30ch}
+.footer-news{display:flex;flex-direction:column;gap:1rem}
+.footer-news .footer-col-title{margin:0}
+.footer-news form{display:flex;align-items:center;gap:1rem;border-bottom:1px solid var(--line);padding-bottom:.6rem}
+.footer-news input{flex:1;min-width:0;background:none;border:0;color:var(--bone);font-family:"DM Sans",sans-serif;font-size:.95rem;outline:none;padding:.35rem 0}
+.footer-news input::placeholder{color:rgba(248,248,240,.28)}
+.footer-social{display:flex;gap:1.75rem;margin-top:.4rem}
+
+.footer-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2.5rem clamp(1.5rem,4vw,4rem);padding:3.5rem var(--pad-x);max-width:calc(var(--max) + var(--pad-x) * 2);margin:0 auto;border-top:1px solid rgba(255,255,255,.08)}
+.footer-col-title{font-family:"Highway Gothic Expanded",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.4);margin-bottom:1.4rem}
+.footer-links{display:flex;flex-direction:column;gap:.9rem}
+.footer-links a{font-family:"DM Sans",sans-serif;font-size:.88rem;line-height:1.35;color:rgba(248,248,240,.5);transition:color .25s,padding-left .3s var(--ease)}
+.footer-links a:hover{color:#fff;padding-left:.35rem}
+
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;gap:1.5rem 3rem;flex-wrap:wrap;padding:1.75rem var(--pad-x) 2rem;max-width:calc(var(--max) + var(--pad-x) * 2);margin:0 auto;border-top:1px solid rgba(255,255,255,.08)}
+.footer-copy{font-family:"Highway Gothic Expanded",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.24);line-height:1.9}
+.footer-legal{display:flex;gap:1.75rem;flex-wrap:wrap}
+.footer-legal a{font-family:"Highway Gothic Expanded",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.24);transition:color .25s}
+.footer-legal a:hover{color:#fff}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important}
+}
+@media (max-width:1180px){
+  .bookbar{grid-template-columns:1fr auto}
+  .bookbar-fields{display:none}
+}
+@media (max-width:1024px){
+  :root{--pad-x:2rem;--pad-y:5rem}
+  .section-head,.section-head.aligned{grid-template-columns:1fr;gap:1.5rem;margin-bottom:3rem}
+  .footer-top{grid-template-columns:1fr;gap:2.5rem;align-items:start;padding:4rem var(--pad-x) 3rem}
+  .footer-grid{grid-template-columns:repeat(2,minmax(0,1fr));padding:3rem var(--pad-x)}
+  .footer-bottom{padding-bottom:5.5rem}
+}
+
+/* ══ EL DEDO ═══════════════════════════════════════════════════════
+   Un dedo no es un cursor: no apunta, aplasta. Todo lo que se toca
+   necesita 44px de alto aunque la tipografia mida nueve, y esa altura
+   no puede venir de agrandar la letra — la escala de la Highway
+   Gothic es la marca y no se negocia.
+
+   Asi que hay dos tecnicas, y la eleccion es por sitio:
+     · donde el alto extra no molesta a nadie — una lista vertical,
+       un boton suelto — se agranda la caja con padding;
+     · donde agrandarla moveria el dibujo — la regla del btn-line
+       vive pegada al texto — la caja se queda igual y el area de
+       toque la pone un pseudo-elemento transparente encima.
+
+   Se activa por ancho y por puntero grueso: una ventana angosta de
+   escritorio tambien lo agradece, y una tablet con raton no debe
+   perder el trazado fino. ────────────────────────────────────── */
+@media (max-width:1024px), (pointer:coarse){
+
+  /* el trazo bajo el texto no se mueve: el area crece por encima */
+  .btn-line::before{content:"";position:absolute;left:0;right:0;top:50%;
+    transform:translateY(-50%);height:44px;min-width:44px;pointer-events:auto}
+
+  /* las listas verticales si pueden crecer */
+  .footer-links{gap:0}
+  .footer-links a{display:block;padding:.62rem 0;line-height:1.4}
+  .footer-legal{gap:1.25rem}
+  .footer-legal a{display:inline-flex;align-items:center;min-height:40px}
+  .footer-social{gap:1.5rem}
+
+  /* la barra de arriba */
+  .nav-left > a{display:inline-flex;align-items:center;min-height:44px}
+  .menu-toggle{padding:.85rem .5rem;justify-content:center;min-width:44px}
+  .nav-link,.nav-action{display:inline-flex;align-items:center;min-height:44px}
+  .lang-btn{min-height:44px;padding:0}
+
+  /* el menu: la lista y el indice del pie */
+  /* 44px de caja por nombre. La separacion ya la da la caja: con el
+     texto midiendo 28 dentro de 44 quedan 16px de aire entre nombres,
+     que es la misma respiracion que daba el gap y ahora no se paga
+     dos veces — ocho nombres y ocho lugares tienen que entrar en una
+     pantalla de 812 sin empujar la firma fuera de cuadro. */
+  .menu-link{display:block;padding:8px 0}
+  .menu-list{gap:2px}
+  .menu-sub a{padding:1rem 0}
+
+  /* el selector de idioma */
+  .lang-menu button{min-height:44px}
+
+  /* Los campos. Dos cosas a la vez: el alto para el dedo, y 16px de
+     cuerpo porque iOS hace zoom al enfocar cualquier campo que mida
+     menos — y ese zoom no se deshace solo, deja la pagina corrida a
+     un lado con la barra fuera de cuadro. */
+  input:not([type="checkbox"]):not([type="radio"]),
+  select,textarea{min-height:44px;font-size:16px}
+  textarea{min-height:96px}
+}
+
+@media (max-width:560px){
+  :root{--pad-x:1.5rem;--pad-y:4rem}
+
+  /* ── La barra en un telefono ────────────────────────────
+     El lugar y el grupo son dos nombres, no uno: "VIK JOSE IGNACIO ·
+     VIK RETREATS" en una fila mide 297px y la pantalla da 327 — con
+     el boton, el idioma y la hamburguesa al otro lado, la hamburguesa
+     terminaba fuera de la pantalla.
+
+     Antes se resolvia escondiendo el grupo, que es peor: la marca
+     madre desaparecia justo donde mas hace falta explicarla. Asi que
+     el bloque se apila — el lugar arriba, el grupo debajo — y la
+     division deja de ser una barra vertical para ser el salto de
+     linea. Mide lo que mide el mas ancho de los dos, y la barra
+     vuelve a cerrar con aire de sobra.
+
+     Los dos nombres bajan a 26px de caja. Son identidad, no acciones:
+     apilar dos objetivos de 44 haria una barra de 100px de alto, que
+     en un telefono se come el titular. La hamburguesa y el boton de
+     reserva conservan sus 44. */
+  .nav{padding:.9rem var(--pad-x);gap:.75rem}
+  .nav.scrolled{padding:.75rem var(--pad-x)}
+  /* stretch, no flex-start: en una columna flexible el hijo alineado
+     al inicio se mide por su contenido y se derrama fuera de la caja
+     del padre — que es exactamente como el nombre terminaba encima
+     del boton de reserva. Estirado, hereda el ancho y respeta el
+     recorte. */
+  .nav-left{flex-direction:column;align-items:stretch;gap:.28rem;min-width:0;flex:0 1 auto}
+  .nav-left > a{min-height:26px;display:flex;align-items:center}
+  /* Valvula de ultimo recurso. No deberia dispararse a ningun ancho
+     real, pero si se dispara que ceda el nombre y no la hamburguesa:
+     perder el acceso al menu no tiene arreglo desde la pagina, y un
+     nombre recortado se lee igual. */
+  .nav-mark{overflow:hidden;text-overflow:ellipsis}
+  .nav-book .nb-long{display:none}
+  .nav-book .nb-short{display:inline}
+  .nav-tag{padding-left:0;border-left:0;font-size:7.5px;opacity:.5}
+  .nav-end{gap:1rem}
+
+  /* La reserva y el idioma se mudan al menu. En 375px la barra tiene
+     sitio para el nombre y para la hamburguesa, y para nada mas. Los
+     dos controles no desaparecen: cambian a un sitio donde se pueden
+     decir enteros, con la frase completa y los tres idiomas a la
+     vista en vez de detras de otro desplegable. */
+  .nav-book,.nav .lang{display:none}
+  .menu-foot{display:flex;flex-direction:column;gap:1.25rem;width:100%;
+    margin-top:1.4rem;opacity:0;transition:opacity .5s .58s var(--ease)}
+  .quick-menu.is-open .menu-foot{opacity:1}
+  /* 1.75rem was a serif size. Expanded caps at .1em are far wider
+     per character, and "Journal & Calendar" ran to two lines on a
+     375px screen — one wrapped item breaks the rhythm of a centred
+     list more than a smaller type size does. */
+  .menu-link{font-size:1.35rem;letter-spacing:.08em;margin-right:-.08em}
+  .footer-grid{grid-template-columns:1fr;gap:2rem}
+  .footer-bottom{flex-direction:column;align-items:flex-start;gap:1rem;padding-bottom:6rem}
+  .bookbar{grid-template-columns:1fr;gap:0}
+  .bookbar-copy{border-right:0;border-bottom:1px solid var(--line);padding:.7rem var(--pad-x)}
+  .bookbar-copy .s{display:none}
+  .bookbar-actions{padding:.7rem var(--pad-x);justify-content:space-between;gap:1rem}
+  .bookbar .btn-solid{padding:.8rem 1.2rem}
+}
+
+/* ── Los dos escalones mas chicos ────────────────────────────────
+   Van al final a proposito. Una media query no suma especificidad:
+   puestos antes del bloque de 560, ese bloque los pisaba y el nombre
+   del lugar seguia sin achicarse donde mas falta hacia. ────────── */
+/* El nombre del lugar cede tamano y tracking antes que empujar nada,
+   y antes de dejarse recortar. A 320px — que sigue siendo un telefono
+   real — "VIK JOSE IGNACIO" entero mide 125px y el hueco da 135. */
+@media (max-width:400px){
+  .nav-mark{font-size:.78rem;letter-spacing:.15em}
+  .nav-end{gap:.85rem}
+}
+@media (max-width:360px){
+  .nav-mark{font-size:.66rem;letter-spacing:.09em}
+  .nav-tag{font-size:7px}
+  .nav-end{gap:.5rem}
+}

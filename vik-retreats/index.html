@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F8F8F0">
+<meta name="author" content="Nicolás Castillo">
+<meta name="designer" content="Nicolás Castillo · @donhkoland">
+<meta name="developer" content="Nicolás Castillo · @donhkoland">
+<meta name="copyright" content="VIK Retreats">
+<title>VIK Retreats · Uruguay, Italy and Chile</title>
+<meta name="description" content="VIK Retreats — six destinations across Uruguay, Italy and Chile — Estancia VIK, Playa VIK, Bahía VIK, Galleria VIK, VIK Chile and VIK Wines. Created through art, rooted in nature and culture.">
+<link rel="canonical" href="https://www.vikretreats.com/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="VIK Retreats · Uruguay, Italy and Chile">
+<meta property="og:description" content="Six destinations, three countries, one idea. Choose where your VIK begins.">
+<meta property="og:image" content="../_assets/img/t/bahia_1_bv-0439-scaled-w1600.jpg">
+<link rel="stylesheet" href="../_core/leaflet.min.css">
+<link rel="stylesheet" href="../_core/vik-v2.min.css?v=1">
+<link rel="stylesheet" href="../_core/vik-v2-lib.min.css?v=2">
+</head>
+<body>
+
+<div data-vik-chrome data-site="world" data-logo="retreats"></div>
+
+<!-- ══ MEDIA · QUICK EDIT ══════════════════════════════════════
+     One line per panel. Swap the file and the panel changes.
+     Posters are the film's own first frame, as WebP.
+
+       01 Estancia VIK          ../_assets/video/estancia.mp4
+       02 Playa VIK             ../_assets/video/playa.mp4
+       03 Bahía VIK             ../_assets/video/bahia-vik.mp4
+       04 Galleria VIK   ../_assets/video/milano.mp4
+       05 VIK Chile             ../_assets/video/millahue.mp4
+       06 VIK Wines             ../_assets/video/vikwine.mp4
+
+     Every unused film is archived in ../_assets/video/old/.
+     Rebuild posters and re-encode: the films are 1600px, CRF 26,
+     faststart, no audio track.
+     ═══════════════════════════════════════════════════════════ -->
+
+<main id="top">
+
+  <!-- ══ LA PORTADA DEL GRUPO ═════════════════════════════════
+       La v1 abria directo en la reja de seis: seis fotografias y
+       ninguna frase. Una portada de grupo tiene que decir que es
+       el grupo antes de listar sus casas — si no, es un menu.  -->
+  <section class="hero-page" data-ground="dark">
+    <div class="hp-media">
+      <img class="is-on" src="../_assets/img/t/estancia_chapel-img_0177-min-w1600.jpg" alt="VIK Retreats">
+      <img src="../_assets/img/t/bahia_bg-vina-vik-w1600.jpg" alt="Millahue, Chile">
+      <img src="../_assets/img/t/milano_galleria-w1600.jpg" alt="Galleria VIK, Milano">
+    </div>
+    <div class="hp-inner ed">
+      <div class="ed-folio"><span class="hp-kicker">VIK Retreats<br>Uruguay · Italy · Chile</span></div>
+      <div class="ed-main">
+        <h1 class="hp-title">Six places, and <em>one way of building</em>.</h1>
+        <p class="hp-desc">A valley in Chile, a headland in Uruguay and an arcade in Milan. Each was handed to architects, artists and craftspeople as a landscape to answer — which is why no two of them look like each other, and why all six are unmistakably the same house.</p>
+        <div class="hp-actions">
+          <a class="pill light" href="#world"><span>The six places</span><span class="arw">&#8594;</span></a>
+          <a class="link" href="../vik-jose-ignacio/"><span>Start in José Ignacio</span><span class="arw">&#8594;</span></a>
+        </div>
+      </div>
+    </div>
+    <span class="hp-count"><b>01</b> / 03 &middot; The chapel at Estancia VIK, José Ignacio</span>
+  </section>
+
+  <!-- ══ LAS SEIS CASAS ═══════════════════════════════════════
+       Seis laminas pegadas, no seis fichas sueltas: el grupo es
+       una cosa vista desde seis sitios. Deriva sola y se agarra
+       con el dedo, igual que la tira del ecosistema.           -->
+  <section class="sec paper tight" id="world">
+    <div class="rail-head r">
+      <div>
+        <span class="kicker">The VIK world</span>
+        <h2 class="h2 lines" style="margin-top:1.5rem">Two countries, <em>six front doors.</em></h2>
+      </div>
+      <span class="rail-hint">Drag to explore</span>
+    </div>
+
+    <div class="rail" data-rail="auto" data-rail-speed="0.3">
+      <a class="card" href="../estancia-vik/">
+        <span class="card-fig"><img src="../_assets/video/estancia-poster.webp" alt="Estancia VIK"><video muted loop playsinline preload="none" data-src="../_assets/video/estancia.mp4"></video></span>
+        <span class="card-body">
+          <span class="card-loc">Retreat 01 &middot; José Ignacio, Uruguay</span>
+          <span class="card-name lw">Estancia VIK</span>
+          <p>Four thousand acres, horses and open fire. The Uruguay that existed before the coast was found.</p>
+          <span class="tags"><span>Riders</span><span>Families</span><span>All year</span></span>
+        </span>
+      </a>
+
+      <a class="card" href="../playa-vik/">
+        <span class="card-fig"><img src="../_assets/video/playa-poster.webp" alt="Playa VIK"><video muted loop playsinline preload="none" data-src="../_assets/video/playa.mp4"></video></span>
+        <span class="card-body">
+          <span class="card-loc">Retreat 02 &middot; José Ignacio, Uruguay</span>
+          <span class="card-name lw">Playa VIK</span>
+          <p>Carlos Ott architecture and a serious collection, with the Atlantic on three sides of the house.</p>
+          <span class="tags"><span>Couples</span><span>Art</span><span>Privacy</span></span>
+        </span>
+      </a>
+
+      <a class="card" href="../bahia-vik/">
+        <span class="card-fig"><img src="../_assets/video/bahia-vik-poster.webp" alt="Bahía VIK"><video muted loop playsinline preload="none" data-src="../_assets/video/bahia-vik.mp4"></video></span>
+        <span class="card-body">
+          <span class="card-loc">Retreat 03 &middot; Playa Mansa, Uruguay</span>
+          <span class="card-name lw">Bahía VIK</span>
+          <p>Design bungalows set into the dunes on the calm side. The most social of the three.</p>
+          <span class="tags"><span>Families</span><span>Groups</span><span>Beach</span></span>
+        </span>
+      </a>
+
+      <a class="card" href="https://www.galleriavikmilano.com/" target="_blank" rel="noopener">
+        <span class="card-fig"><img src="../_assets/img/t/milano_galleria-w1600.jpg" alt="Galleria VIK Milano"></span>
+        <span class="card-body">
+          <span class="card-loc">Milano, Italy</span>
+          <span class="card-name lw">Galleria VIK</span>
+          <p>Eighty-nine rooms inside the Galleria Vittorio Emanuele II, each one signed by a different artist.</p>
+          <span class="tags"><span>City</span><span>Art</span><span>Design</span></span>
+        </span>
+      </a>
+
+      <a class="card" href="https://vikchile.com/" target="_blank" rel="noopener">
+        <span class="card-fig"><img src="../_assets/img/t/bahia_bg-vina-vik-w1600.jpg" alt="VIK Chile"></span>
+        <span class="card-body">
+          <span class="card-loc">Millahue, Chile</span>
+          <span class="card-name lw">VIK Chile</span>
+          <p>Eleven thousand acres in the valley where the whole thing started. A titanium roof over the vines.</p>
+          <span class="tags"><span>Wine</span><span>Valley</span><span>Architecture</span></span>
+        </span>
+      </a>
+
+      <a class="card" href="https://www.vikwine.com/" target="_blank" rel="noopener">
+        <span class="card-fig"><img src="../_assets/img/t/estancia_bbq-img_7731-w1600.jpg" alt="VIK Wines"></span>
+        <span class="card-body">
+          <span class="card-loc">Millahue &middot; Colchagua, Chile</span>
+          <span class="card-name lw">VIK Wines</span>
+          <p>The wines that run through every list, every pairing and every cellar in the group.</p>
+          <span class="tags"><span>Terroir</span><span>Cellar</span><span>Tastings</span></span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ══ EL MANIFIESTO ════════════════════════════════════════ -->
+  <section class="statement" id="statement" data-ground="dark">
+    <div class="statement-media" data-ground="dark">
+      <img src="../_assets/img/t/playa_casas-main-scaled-w1600.jpg" alt="">
+    </div>
+    <div class="statement-in" data-ground="dark">
+      <span class="kicker bare">VIK Retreats</span>
+      <h2 class="statement-t lines" data-lines="br">Built the way a<br><em>work of art</em> is built.</h2>
+      <p class="statement-d">VIK began in the valley of Millahue in Chile and reached the Uruguayan coast at José Ignacio, where three retreats now sit within twelve kilometres of one another. Each was given to architects, artists and craftspeople as a landscape to answer. Nothing here is a template applied to a site.</p>
+    </div>
+  </section>
+
+  <!-- ══ LA TIRA ══════════════════════════════════════════════ -->
+  <section class="sec" style="overflow:hidden">
+    <div class="rail-head r">
+      <div>
+        <span class="kicker">Across the group</span>
+        <h2 class="h2 lines" style="margin-top:1.5rem">One hand, <em>six landscapes.</em></h2>
+      </div>
+      <span class="rail-hint">Drag to explore</span>
+    </div>
+    <div class="rail" data-rail="auto" data-rail-speed="0.42">
+      <a class="card" href="../estancia-vik/">
+        <span class="card-fig"><img src="../_assets/img/t/estancia_chapel-img_0177-min-w1600.jpg" alt="The chapel"></span>
+        <span class="card-body"><span class="card-loc">Estancia VIK &middot; Uruguay</span><span class="card-name lw">The chapel</span></span>
+      </a>
+      <a class="card" href="../playa-vik/">
+        <span class="card-fig"><img src="../_assets/img/t/playa_casas-main-scaled-w1600.jpg" alt="The casas"></span>
+        <span class="card-body"><span class="card-loc">Playa VIK &middot; Uruguay</span><span class="card-name lw">The casas on the point</span></span>
+      </a>
+      <a class="card" href="https://www.galleriavikmilano.com/" target="_blank" rel="noopener">
+        <span class="card-fig"><img src="../_assets/img/t/milano_galleria-w1600.jpg" alt="Galleria Vittorio Emanuele II"></span>
+        <span class="card-body"><span class="card-loc">Galleria VIK &middot; Italy</span><span class="card-name lw">The arcade</span></span>
+      </a>
+      <a class="card" href="../bahia-vik/">
+        <span class="card-fig"><img src="../_assets/img/t/bahia_cp-bahiavik-0552-scaled-w1600.jpg" alt="Bahía VIK"></span>
+        <span class="card-body"><span class="card-loc">Bahía VIK &middot; Uruguay</span><span class="card-name lw">The dunes</span></span>
+      </a>
+      <a class="card" href="https://vikchile.com/" target="_blank" rel="noopener">
+        <span class="card-fig"><img src="../_assets/img/t/bahia_bg-vina-vik-w1600.jpg" alt="The vineyard at Millahue"></span>
+        <span class="card-body"><span class="card-loc">VIK Chile &middot; Millahue</span><span class="card-name lw">The vineyard</span></span>
+      </a>
+      <a class="card" href="../estancia-vik/">
+        <span class="card-fig"><img src="../_assets/img/t/estancia_bbq-img_7731-w1600.jpg" alt="Open fire at El Asador"></span>
+        <span class="card-body"><span class="card-loc">El Asador &middot; Uruguay</span><span class="card-name lw">Open fire</span></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ══ EL MAPA ══════════════════════════════════════════════ -->
+  <section class="sec map-section" id="world-map" data-ground="dark">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">The VIK world</span></div>
+      <div class="h-main">
+        <h2 class="h2 lines">Two countries, <em>on the map.</em></h2>
+        <p class="lead">Every VIK place, from the Colchagua valley in Chile to the Uruguayan coast. Touch a name to fly the map.</p>
+      </div>
+    </div>
+    <div class="map-full r">
+      <div id="worldMap" class="leaf-map" aria-label="Map of VIK Retreats in Uruguay and Chile"></div>
+      <div class="map-view" role="tablist" aria-label="Map view">
+        <button type="button" data-view="map">Map</button>
+        <button type="button" class="active" data-view="sat">Satellite</button>
+      </div>
+      <div class="map-bar"><ul id="worldLegend" class="mb-list"></ul></div>
+    </div>
+  </section>
+
+  <!-- ══ EL CIERRE ════════════════════════════════════════════ -->
+  <section class="sec club-sec" id="close" data-ground="dark">
+    <div class="close r">
+      <span class="kicker bare">Where to start</span>
+      <div class="close-lines">
+        <p>If you want the coast, and three houses within twelve kilometres</p>
+        <p>If you want the valley, and eleven thousand acres of vines</p>
+        <p>If you want the city, and an arcade with a glass roof</p>
+      </div>
+      <h2 class="h2 close-t lines">Then pick <em>a country</em>.</h2>
+      <div class="close-actions">
+        <a class="pill light" href="../vik-jose-ignacio/"><span>Uruguay &middot; José Ignacio</span><span class="arw">&#8594;</span></a>
+        <a class="link" href="mailto:guestexperience@vikretreats.com"><span>Contact a Journey Designer</span><span class="arw">&#8594;</span></a>
+      </div>
+      <p class="close-note">guestexperience@vikretreats.com</p>
+    </div>
+  </section>
+
+</main>
+
+<div><div data-vik-footer data-site="world"></div></div>
+
+<script>
+/* Los assets y los diccionarios viven un nivel arriba, en
+   _assets/. El nucleo lo lee de aqui. */
+window.VIK_BASE = "../_assets/";
+</script>
+<script>
+/* ══ MEASUREMENT · the only block to edit ══════════════════════
+   Everything the brief asked for is already collected: seconds
+   (elapsed and engaged), distance travelled (scroll depth, screens,
+   sections in order, panels opened, kilometres panned on the map),
+   actions, where they came from (referrer, channel, utm, click ids,
+   first touch) and what format they came in (device, viewport,
+   pointer, dpr, connection, language, timezone).
+
+   Point it at whatever you use. Any combination works; leave a
+   line out and that destination is simply not used.             */
+VIKMetrics.config({
+  site    : "vikretreats.com",
+  gtm     : true,      // pushes into window.dataLayer for Tag Manager
+  ga4     : null,      // "G-XXXXXXXXXX" — also needs the gtag snippet
+  endpoint: null,      // "/collect" — batched, flushed with sendBeacon
+  debug   : false      // true prints every event to the console
+});
+
+/* GOOGLE MAPS · the map runs on Leaflet until a key is supplied.
+   Uncomment, add the key, and the same places, legend and events
+   move across without another change.
+VIKWorld.map({ provider:"google", key:"AIza…", mapId:"…" });
+*/
+</script>
+<script src="../_core/lenis.min.js"></script>
+<script src="../_core/leaflet.js"></script>
+<script src="../_core/vik-chrome-v2.js?v=1"></script>
+<script src="../_core/vik-v2.min.js?v=1"></script>
+<script src="../_core/vik-v2-lib.min.js?v=1"></script>
+</body>
+</html>

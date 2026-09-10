@@ -1,0 +1,962 @@
+[
+ {
+  "house": "estancia",
+  "houseName": "Estancia VIK",
+  "name": "Master Suite VIK",
+  "slug": "master-suite-vik",
+  "category": "master",
+  "meta": "Master · East Wing, upper level",
+  "copy": "King bed, 85 m² bathroom, living room with fireplace, and a private terrace with river and landscape views. Work by Hugo Longa.",
+  "sources": [
+   "estancia/vik-master-suite.jpg",
+   "estancia/gardens-img_1111-min.jpg",
+   "estancia/entrance-img_0003-min.jpg"
+  ],
+  "files": [
+   "rooms/estancia/master-suite-vik-01.jpg",
+   "rooms/estancia/master-suite-vik-02.jpg",
+   "rooms/estancia/master-suite-vik-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "estancia",
+  "houseName": "Estancia VIK",
+  "name": "Master Suite Daglio",
+  "slug": "master-suite-daglio",
+  "category": "master",
+  "meta": "Master · upper level",
+  "copy": "Named for the architect of the house. Fireplace, private terrace and an outdoor shower onto the bucolic landscape.",
+  "sources": [
+   "estancia/daglio-img_0263.jpg",
+   "estancia/bbq-img_7731.jpg",
+   "estancia/gardens-img_1111-min.jpg"
+  ],
+  "files": [
+   "rooms/estancia/master-suite-daglio-01.jpg",
+   "rooms/estancia/master-suite-daglio-02.jpg",
+   "rooms/estancia/master-suite-daglio-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "estancia",
+  "houseName": "Estancia VIK",
+  "name": "Master Suite Legrand",
+  "slug": "master-suite-legrand",
+  "category": "master",
+  "meta": "Master · upper level",
+  "copy": "Double aspect — morning light on one side, the long evening on the other. Outdoor shower on the patio.",
+  "sources": [
+   "estancia/legrand_1.jpg",
+   "estancia/chapel-img_0177-min.jpg",
+   "estancia/bbq-img_7731.jpg"
+  ],
+  "files": [
+   "rooms/estancia/master-suite-legrand-01.jpg",
+   "rooms/estancia/master-suite-legrand-02.jpg",
+   "rooms/estancia/master-suite-legrand-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "estancia",
+  "houseName": "Estancia VIK",
+  "name": "Master Suite Seveso",
+  "slug": "master-suite-seveso",
+  "category": "master",
+  "meta": "Master · upper level",
+  "copy": "A master suite at the quiet end of the wing, facing the open field.",
+  "sources": [
+   "estancia/seveso-img_9629.jpg",
+   "estancia/north-garden-to-living-room-1.jpg",
+   "estancia/chapel-img_0177-min.jpg"
+  ],
+  "files": [
+   "rooms/estancia/master-suite-seveso-01.jpg",
+   "rooms/estancia/master-suite-seveso-02.jpg",
+   "rooms/estancia/master-suite-seveso-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "estancia",
+  "houseName": "Estancia VIK",
+  "name": "Amengual Suite",
+  "slug": "amengual-suite",
+  "category": "suite",
+  "meta": "Guest · ground level",
+  "copy": "One artist, one room, floor to ceiling. Private access to the exterior patios.",
+  "sources": [
+   "estancia/amengal-img_8677.jpg",
+   "estancia/sculpture-img_1789.jpg",
+   "estancia/north-garden-to-living-room-1.jpg"
+  ],
+  "files": [
+   "rooms/estancia/amengual-suite-01.jpg",
+   "rooms/estancia/amengual-suite-02.jpg",
+   "rooms/estancia/amengual-suite-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "estancia",
+  "houseName": "Estancia VIK",
+  "name": "Barea Suite",
+  "slug": "barea-suite",
+  "category": "suite",
+  "meta": "Guest · ground level",
+  "copy": "Painted in full by Barea, opening onto the gardens and the pool.",
+  "sources": [
+   "estancia/barea-img_0313.jpg",
+   "estancia/estancia-img_0005.jpg",
+   "estancia/sculpture-img_1789.jpg"
+  ],
+  "files": [
+   "rooms/estancia/barea-suite-01.jpg",
+   "rooms/estancia/barea-suite-02.jpg",
+   "rooms/estancia/barea-suite-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "estancia",
+  "houseName": "Estancia VIK",
+  "name": "Cardozo Suite",
+  "slug": "cardozo-suite",
+  "category": "suite",
+  "meta": "Guest · ground level",
+  "copy": "Over the south gardens, with the horses visible from the bed.",
+  "sources": [
+   "estancia/cardozo-img_9671.jpg",
+   "estancia/estanciavik-0323-min.jpg",
+   "estancia/estancia-img_0005.jpg"
+  ],
+  "files": [
+   "rooms/estancia/cardozo-suite-01.jpg",
+   "rooms/estancia/cardozo-suite-02.jpg",
+   "rooms/estancia/cardozo-suite-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "estancia",
+  "houseName": "Estancia VIK",
+  "name": "Badaro Suite",
+  "slug": "badaro-suite",
+  "category": "suite",
+  "meta": "Guest · ground level",
+  "copy": "Warm, low and enclosed — the suite guests ask for in winter.",
+  "sources": [
+   "estancia/badaro-img_7678.jpg",
+   "estancia/pool-img_1630-min.jpg",
+   "estancia/estanciavik-0323-min.jpg"
+  ],
+  "files": [
+   "rooms/estancia/badaro-suite-01.jpg",
+   "rooms/estancia/badaro-suite-02.jpg",
+   "rooms/estancia/badaro-suite-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "estancia",
+  "houseName": "Estancia VIK",
+  "name": "Musso Suite",
+  "slug": "musso-suite",
+  "category": "suite",
+  "meta": "Guest · ground level",
+  "copy": "Musso's work across every surface, including the ceiling.",
+  "sources": [
+   "estancia/musso-img_0204.jpg",
+   "estancia/entrance-to-living-room.jpeg",
+   "estancia/pool-img_1630-min.jpg"
+  ],
+  "files": [
+   "rooms/estancia/musso-suite-01.jpg",
+   "rooms/estancia/musso-suite-02.jpg",
+   "rooms/estancia/musso-suite-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "estancia",
+  "houseName": "Estancia VIK",
+  "name": "Trujillo Suite",
+  "slug": "trujillo-suite",
+  "category": "suite",
+  "meta": "Guest · ground level",
+  "copy": "Bold and graphic — the most photographed room in the house.",
+  "sources": [
+   "estancia/trujillo-img_0201.jpg",
+   "estancia/gameroom-img_4145-min.jpg",
+   "estancia/entrance-to-living-room.jpeg"
+  ],
+  "files": [
+   "rooms/estancia/trujillo-suite-01.jpg",
+   "rooms/estancia/trujillo-suite-02.jpg",
+   "rooms/estancia/trujillo-suite-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "estancia",
+  "houseName": "Estancia VIK",
+  "name": "Turell Suite",
+  "slug": "turell-suite",
+  "category": "suite",
+  "meta": "Guest · ground level",
+  "copy": "Light handled as a material. Best at the end of the afternoon.",
+  "sources": [
+   "estancia/turell_old1.jpg",
+   "estancia/estancia-img_0004.jpg",
+   "estancia/gameroom-img_4145-min.jpg"
+  ],
+  "files": [
+   "rooms/estancia/turell-suite-01.jpg",
+   "rooms/estancia/turell-suite-02.jpg",
+   "rooms/estancia/turell-suite-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "estancia",
+  "houseName": "Estancia VIK",
+  "name": "Duarte Suite",
+  "slug": "duarte-suite",
+  "category": "suite",
+  "meta": "Guest · ground level",
+  "copy": "Opening straight onto the north garden and the long lawn.",
+  "sources": [
+   "estancia/duarte-dsc_0061.jpg",
+   "estancia/entrance-img_0003-min.jpg",
+   "estancia/estancia-img_0004.jpg"
+  ],
+  "files": [
+   "rooms/estancia/duarte-suite-01.jpg",
+   "rooms/estancia/duarte-suite-02.jpg",
+   "rooms/estancia/duarte-suite-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "playa",
+  "houseName": "Playa VIK",
+  "name": "The Casas",
+  "slug": "the-casas",
+  "category": "casa",
+  "meta": "Playa VIK · two and three bedrooms",
+  "copy": "Six casas flanking the Sculpture, each with a fireplace, a private garden and fully retractable windows onto it.",
+  "sources": [
+   "playa/casas-main-scaled.jpg",
+   "playa/pool-img_0520.jpg",
+   "playa/gym_img_1967.jpg"
+  ],
+  "files": [
+   "rooms/playa/the-casas-01.jpg",
+   "rooms/playa/the-casas-02.jpg",
+   "rooms/playa/the-casas-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "playa",
+  "houseName": "Playa VIK",
+  "name": "Casa Blanca",
+  "slug": "casa-blanca",
+  "category": "casa",
+  "meta": "Playa VIK · casa",
+  "copy": "Bright, low and open to the garden, with the ocean audible from the bed.",
+  "sources": [
+   "playa/casa_blanca_img_0860.jpg",
+   "playa/home-img_1789.jpg",
+   "playa/casas-main-scaled.jpg"
+  ],
+  "files": [
+   "rooms/playa/casa-blanca-01.jpg",
+   "rooms/playa/casa-blanca-02.jpg",
+   "rooms/playa/casa-blanca-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "playa",
+  "houseName": "Playa VIK",
+  "name": "Garden View Living",
+  "slug": "garden-view-living",
+  "category": "casa",
+  "meta": "Playa VIK · casa",
+  "copy": "The living space opening straight into the private garden through a retractable wall.",
+  "sources": [
+   "playa/gardenview-living-scaled.jpg",
+   "playa/sculpture-img_1227.jpg",
+   "playa/dscf3708-hdr-scaled.jpg"
+  ],
+  "files": [
+   "rooms/playa/garden-view-living-01.jpg",
+   "rooms/playa/garden-view-living-02.jpg",
+   "rooms/playa/garden-view-living-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "playa",
+  "houseName": "Playa VIK",
+  "name": "Sculpture Suites",
+  "slug": "sculpture-suites",
+  "category": "suite",
+  "meta": "Playa VIK · main building",
+  "copy": "Suites within the Sculpture, under the double-curved titanium roof and above the art collection.",
+  "sources": [
+   "playa/1_3_-acommodations-op3-1-scaled.jpg",
+   "playa/dscf3708-hdr-scaled.jpg",
+   "playa/spa-img_0817.jpg"
+  ],
+  "files": [
+   "rooms/playa/sculpture-suites-01.jpg",
+   "rooms/playa/sculpture-suites-02.jpg",
+   "rooms/playa/sculpture-suites-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "playa",
+  "houseName": "Playa VIK",
+  "name": "Ocean Suite",
+  "slug": "ocean-suite",
+  "category": "suite",
+  "meta": "Playa VIK · suite",
+  "copy": "Facing the water, with Patagonian ebony floors running out to the terrace.",
+  "sources": [
+   "playa/dscf3708-hdr-scaled.jpg",
+   "playa/gym_img_1967.jpg",
+   "playa/casas-main-scaled.jpg"
+  ],
+  "files": [
+   "rooms/playa/ocean-suite-01.jpg",
+   "rooms/playa/ocean-suite-02.jpg",
+   "rooms/playa/ocean-suite-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "playa",
+  "houseName": "Playa VIK",
+  "name": "Terrace Suite",
+  "slug": "terrace-suite",
+  "category": "suite",
+  "meta": "Playa VIK · suite",
+  "copy": "Opening onto the pool terrace and the long view down Playa Mansa.",
+  "sources": [
+   "playa/dscf3770-hdr-scaled.jpg",
+   "playa/dscf4068-hdr-scaled.jpg",
+   "playa/parillero_playa-vik-934.jpg"
+  ],
+  "files": [
+   "rooms/playa/terrace-suite-01.jpg",
+   "rooms/playa/terrace-suite-02.jpg",
+   "rooms/playa/terrace-suite-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "playa",
+  "houseName": "Playa VIK",
+  "name": "Garden Suite",
+  "slug": "garden-suite",
+  "category": "suite",
+  "meta": "Playa VIK · suite",
+  "copy": "Set into the planted roofscape, quiet and entirely private.",
+  "sources": [
+   "playa/dscf3917-hdr-scaled.jpg",
+   "playa/dscf3708-hdr-scaled.jpg",
+   "playa/sculpture-img_1227.jpg"
+  ],
+  "files": [
+   "rooms/playa/garden-suite-01.jpg",
+   "rooms/playa/garden-suite-02.jpg",
+   "rooms/playa/garden-suite-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "playa",
+  "houseName": "Playa VIK",
+  "name": "Sunset Suite",
+  "slug": "sunset-suite",
+  "category": "suite",
+  "meta": "Playa VIK · suite",
+  "copy": "Positioned for the hour Playa VIK is known for.",
+  "sources": [
+   "playa/dscf4068-hdr-scaled.jpg",
+   "playa/gameroom_02.jpg",
+   "playa/dscf3917-hdr-scaled.jpg"
+  ],
+  "files": [
+   "rooms/playa/sunset-suite-01.jpg",
+   "rooms/playa/sunset-suite-02.jpg",
+   "rooms/playa/sunset-suite-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "playa",
+  "houseName": "Playa VIK",
+  "name": "Art Suite",
+  "slug": "art-suite",
+  "category": "suite",
+  "meta": "Playa VIK · suite",
+  "copy": "Built around a single commissioned work, as every VIK room is.",
+  "sources": [
+   "playa/dscf4341-hdr-scaled.jpg",
+   "playa/gardenview-living-scaled.jpg",
+   "playa/pool-img_0520.jpg"
+  ],
+  "files": [
+   "rooms/playa/art-suite-01.jpg",
+   "rooms/playa/art-suite-02.jpg",
+   "rooms/playa/art-suite-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "playa",
+  "houseName": "Playa VIK",
+  "name": "Casa Living",
+  "slug": "casa-living",
+  "category": "casa",
+  "meta": "Playa VIK · casa",
+  "copy": "The shared living space of the casa, with fireplace and garden access.",
+  "sources": [
+   "playa/1-11-de-12-scaled.jpg",
+   "playa/sculpture-img_1227.jpg",
+   "playa/gardenview-living-scaled.jpg"
+  ],
+  "files": [
+   "rooms/playa/casa-living-01.jpg",
+   "rooms/playa/casa-living-02.jpg",
+   "rooms/playa/casa-living-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   true
+  ]
+ },
+ {
+  "house": "playa",
+  "houseName": "Playa VIK",
+  "name": "Casa Bedroom",
+  "slug": "casa-bedroom",
+  "category": "casa",
+  "meta": "Playa VIK · casa",
+  "copy": "One of the two or three bedrooms within each casa.",
+  "sources": [
+   "playa/1-19-de-44-scaled.jpg",
+   "playa/dscf3917-hdr-scaled.jpg",
+   "playa/sculpture-img_1227.jpg"
+  ],
+  "files": [
+   "rooms/playa/casa-bedroom-01.jpg",
+   "rooms/playa/casa-bedroom-02.jpg",
+   "rooms/playa/casa-bedroom-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "playa",
+  "houseName": "Playa VIK",
+  "name": "Casa Garden",
+  "slug": "casa-garden",
+  "category": "casa",
+  "meta": "Playa VIK · casa",
+  "copy": "Bougainvillea dividing one casa from the next, under the living roof.",
+  "sources": [
+   "playa/1-26-de-44-scaled.jpg",
+   "playa/gameroom_02.jpg",
+   "playa/sculpture-img_1227.jpg"
+  ],
+  "files": [
+   "rooms/playa/casa-garden-01.jpg",
+   "rooms/playa/casa-garden-02.jpg",
+   "rooms/playa/casa-garden-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Bungalow Adobe",
+  "slug": "bungalow-adobe",
+  "category": "bungalow",
+  "meta": "Bahía VIK · bungalow",
+  "copy": "Hand-built earth walls and a grass roof, with the dune between you and the bay. Two suites and a living room, all connectable.",
+  "sources": [
+   "bahia/adobe-0098.jpg",
+   "bahia/cp-bahiavik-0552-scaled.jpg",
+   "bahia/16_bv-1106-scaled.jpg"
+  ],
+  "files": [
+   "rooms/bahia/bungalow-adobe-01.jpg",
+   "rooms/bahia/bungalow-adobe-02.jpg",
+   "rooms/bahia/bungalow-adobe-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Bungalow Corten",
+  "slug": "bungalow-corten",
+  "category": "bungalow",
+  "meta": "Bahía VIK · bungalow",
+  "copy": "Weathered steel that keeps changing colour through the season.",
+  "sources": [
+   "bahia/corten-0368.jpg",
+   "bahia/dsc_3451-min.jpg",
+   "bahia/cp-bahiavik-0552-scaled.jpg"
+  ],
+  "files": [
+   "rooms/bahia/bungalow-corten-01.jpg",
+   "rooms/bahia/bungalow-corten-02.jpg",
+   "rooms/bahia/bungalow-corten-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Bungalow Madera",
+  "slug": "bungalow-madera",
+  "category": "bungalow",
+  "meta": "Bahía VIK · bungalow",
+  "copy": "All timber, warm and close, with a deck straight onto the sand path.",
+  "sources": [
+   "bahia/madera-0122.jpg",
+   "bahia/cp-bahiavik-0562-scaled.jpg",
+   "bahia/dsc_3451-min.jpg"
+  ],
+  "files": [
+   "rooms/bahia/bungalow-madera-01.jpg",
+   "rooms/bahia/bungalow-madera-02.jpg",
+   "rooms/bahia/bungalow-madera-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Bungalow Piedra",
+  "slug": "bungalow-piedra",
+  "category": "bungalow",
+  "meta": "Bahía VIK · bungalow",
+  "copy": "Local stone, cool at midday, one of the largest on the dune.",
+  "sources": [
+   "bahia/piedra-0121.jpg",
+   "bahia/dscn2725-scaled.jpg",
+   "bahia/cp-bahiavik-0562-scaled.jpg"
+  ],
+  "files": [
+   "rooms/bahia/bungalow-piedra-01.jpg",
+   "rooms/bahia/bungalow-piedra-02.jpg",
+   "rooms/bahia/bungalow-piedra-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Bungalow Quincha",
+  "slug": "bungalow-quincha",
+  "category": "bungalow",
+  "meta": "Bahía VIK · bungalow",
+  "copy": "Thatch and light timber — the most Uruguayan of the fifteen.",
+  "sources": [
+   "bahia/quincha-0102.jpg",
+   "bahia/dscf5297-min.jpg",
+   "bahia/dscn2725-scaled.jpg"
+  ],
+  "files": [
+   "rooms/bahia/bungalow-quincha-01.jpg",
+   "rooms/bahia/bungalow-quincha-02.jpg",
+   "rooms/bahia/bungalow-quincha-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Bungalow Titanio",
+  "slug": "bungalow-titanio",
+  "category": "bungalow",
+  "meta": "Bahía VIK · bungalow",
+  "copy": "A titanium skin, echoing the roof at Playa VIK across the point.",
+  "sources": [
+   "bahia/titanio-0086.jpg",
+   "bahia/dscn2783-scaled.jpg",
+   "bahia/dscf5297-min.jpg"
+  ],
+  "files": [
+   "rooms/bahia/bungalow-titanio-01.jpg",
+   "rooms/bahia/bungalow-titanio-02.jpg",
+   "rooms/bahia/bungalow-titanio-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Bungalow Vidrio",
+  "slug": "bungalow-vidrio",
+  "category": "bungalow",
+  "meta": "Bahía VIK · bungalow",
+  "copy": "Glass on three sides. Nothing between the bed and the bay.",
+  "sources": [
+   "bahia/vidrio-0092.jpg",
+   "bahia/36_bv_img_0070-1-scaled.jpg",
+   "bahia/dscn2783-scaled.jpg"
+  ],
+  "files": [
+   "rooms/bahia/bungalow-vidrio-01.jpg",
+   "rooms/bahia/bungalow-vidrio-02.jpg",
+   "rooms/bahia/bungalow-vidrio-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Bungalow Zinc Negro",
+  "slug": "bungalow-zinc-negro",
+  "category": "bungalow",
+  "meta": "Bahía VIK · bungalow",
+  "copy": "Black zinc, low in the dune, almost invisible from the beach.",
+  "sources": [
+   "bahia/zinc-negro-0330.jpg",
+   "bahia/cp-bahiavik-0546-scaled.jpg",
+   "bahia/36_bv_img_0070-1-scaled.jpg"
+  ],
+  "files": [
+   "rooms/bahia/bungalow-zinc-negro-01.jpg",
+   "rooms/bahia/bungalow-zinc-negro-02.jpg",
+   "rooms/bahia/bungalow-zinc-negro-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Bungalow Zinc Marrón",
+  "slug": "bungalow-zinc-marron",
+  "category": "bungalow",
+  "meta": "Bahía VIK · bungalow",
+  "copy": "The warmer of the two zinc houses, facing the afternoon.",
+  "sources": [
+   "bahia/zinc-marron-0118.jpg",
+   "bahia/dsc_3096-min.jpg",
+   "bahia/cp-bahiavik-0546-scaled.jpg"
+  ],
+  "files": [
+   "rooms/bahia/bungalow-zinc-marron-01.jpg",
+   "rooms/bahia/bungalow-zinc-marron-02.jpg",
+   "rooms/bahia/bungalow-zinc-marron-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Bungalow Duna",
+  "slug": "bungalow-duna",
+  "category": "bungalow",
+  "meta": "Bahía VIK · bungalow",
+  "copy": "Built into the dune itself, with the roof planted over.",
+  "sources": [
+   "bahia/duna-0340.jpg",
+   "bahia/cp-bahiavik-0549-scaled.jpg",
+   "bahia/dsc_3096-min.jpg"
+  ],
+  "files": [
+   "rooms/bahia/bungalow-duna-01.jpg",
+   "rooms/bahia/bungalow-duna-02.jpg",
+   "rooms/bahia/bungalow-duna-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Bungalow Chapa Azul",
+  "slug": "bungalow-chapa-azul",
+  "category": "bungalow",
+  "meta": "Bahía VIK · bungalow",
+  "copy": "Blue sheet metal — the loudest and most loved of the row.",
+  "sources": [
+   "bahia/chapaazul.jpg",
+   "bahia/dscn2740-scaled.jpg",
+   "bahia/cp-bahiavik-0549-scaled.jpg"
+  ],
+  "files": [
+   "rooms/bahia/bungalow-chapa-azul-01.jpg",
+   "rooms/bahia/bungalow-chapa-azul-02.jpg",
+   "rooms/bahia/bungalow-chapa-azul-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Suite Eva",
+  "slug": "suite-eva",
+  "category": "suite",
+  "meta": "Bahía VIK · main building",
+  "copy": "Above the pool, facing the bay, with the gardens below.",
+  "sources": [
+   "bahia/img_1647-eva2.jpg",
+   "bahia/cp-bahiavik-0593-scaled.jpg",
+   "bahia/cp-bahiavik-0598.jpg"
+  ],
+  "files": [
+   "rooms/bahia/suite-eva-01.jpg",
+   "rooms/bahia/suite-eva-02.jpg",
+   "rooms/bahia/suite-eva-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Suite Guerra",
+  "slug": "suite-guerra",
+  "category": "suite",
+  "meta": "Bahía VIK · main building",
+  "copy": "Guerra's work throughout, with a terrace over Playa Mansa.",
+  "sources": [
+   "bahia/img_1550-guerra5.jpg",
+   "bahia/img_1589-guerra12.jpg",
+   "bahia/img_1589-guerra12-1.jpg"
+  ],
+  "files": [
+   "rooms/bahia/suite-guerra-01.jpg",
+   "rooms/bahia/suite-guerra-02.jpg",
+   "rooms/bahia/suite-guerra-03.jpg"
+  ],
+  "genuine": [
+   true,
+   true,
+   true
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Suite Patrone",
+  "slug": "suite-patrone",
+  "category": "suite",
+  "meta": "Bahía VIK · main building",
+  "copy": "Quiet, at the end of the corridor, with the best morning light.",
+  "sources": [
+   "bahia/img_1664-patrone1.jpg",
+   "bahia/dsc_3451-min.jpg",
+   "bahia/16_bv-1106-scaled.jpg"
+  ],
+  "files": [
+   "rooms/bahia/suite-patrone-01.jpg",
+   "rooms/bahia/suite-patrone-02.jpg",
+   "rooms/bahia/suite-patrone-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Suite Escardó",
+  "slug": "suite-escardo",
+  "category": "suite",
+  "meta": "Bahía VIK · main building",
+  "copy": "Escardó from wall to wall. Two beds, ideal for families.",
+  "sources": [
+   "bahia/img_1717-escardo3.jpg",
+   "bahia/cp-bahiavik-0554-scaled.jpg",
+   "bahia/cp-bahiavik-0562-scaled.jpg"
+  ],
+  "files": [
+   "rooms/bahia/suite-escardo-01.jpg",
+   "rooms/bahia/suite-escardo-02.jpg",
+   "rooms/bahia/suite-escardo-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ },
+ {
+  "house": "bahia",
+  "houseName": "Bahía VIK",
+  "name": "Suite López Lage",
+  "slug": "suite-lopez-lage",
+  "category": "suite",
+  "meta": "Bahía VIK · main building",
+  "copy": "One of the strongest commissions in the collection.",
+  "sources": [
+   "bahia/img_1624-lopezlaje3.jpg",
+   "bahia/cp-bahiavik-0562-1-scaled.jpg",
+   "bahia/dscn2725-scaled.jpg"
+  ],
+  "files": [
+   "rooms/bahia/suite-lopez-lage-01.jpg",
+   "rooms/bahia/suite-lopez-lage-02.jpg",
+   "rooms/bahia/suite-lopez-lage-03.jpg"
+  ],
+  "genuine": [
+   true,
+   false,
+   false
+  ]
+ }
+]

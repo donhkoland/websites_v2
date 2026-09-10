@@ -1,0 +1,2320 @@
+/* ══════════════════════════════════════════════════════════════
+   VIK JOSÉ IGNACIO · MODULE LIBRARY
+   Every module below is derived from an approved VIK reference.
+   M01 hero-film ......... wellness .hero
+   M02 hero-page ......... landing .hero
+   M03 fact-ribbon ....... guest journey .live-ribbon
+   M05 intro ............. wellness .intro
+   M06 pillars ........... wellness .pls
+   M07 principles ........ wellness .prs
+   M08 prop-rail ......... wellness .props
+   M09 compare ........... landing .matrix
+   M10 gallery-rail ...... landing .gallery-rail
+   M11 band .............. wellness .rhy / .jou
+   M13 card-grid ......... guest journey .now-grid + wellness .exg
+   M14 index-list ........ landing .asset-grid / .lib-grid
+   M15 agenda ............ guest journey .sched
+   M16 map ............... guest journey .map-section
+   M17 accordion ......... new (minimal, core tokens only)
+   M18 closing ........... guest journey .cta + wellness .closing
+   M19 enquiry ........... guest journey .services
+   M20 press-strip ....... estancia /prensa
+
+   Authored by Nicolás Castillo · @donhkoland
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── M01 · Hero film ───────────────────────────────────────── */
+.hero-film{position:relative;height:100vh;min-height:640px;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end}
+.hero-film .hf-media{position:absolute;inset:0;z-index:0;background:var(--ink)}
+.hero-film .hf-media img,.hero-film .hf-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.82) contrast(1.04)}
+/* heavier than a photograph needs, because the type has to hold on
+   a moving image as well as a still one */
+.hero-film::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 120% 80% at 50% 110%,rgba(10,9,7,.8),transparent 72%),linear-gradient(180deg,rgba(10,9,7,.6),rgba(10,9,7,.34) 45%,rgba(10,9,7,.9));z-index:1}
+.hero-film .hf-grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr auto;align-items:end;gap:5rem;padding:0 var(--pad-x) 4.5rem}
+.hf-eyebrow{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.42);margin-bottom:1.5rem;display:block}
+.hf-title{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(2.6rem,6vw,5rem);line-height:1.02;letter-spacing:-0.015em;color:#fff;font-weight:400;margin-bottom:1.75rem;max-width:16ch}
+.hf-title em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.hf-desc{font-size:.95rem;line-height:1.72;color:rgba(255,255,255,.62);max-width:52ch;font-weight:300}
+.hf-actions{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:2.5rem;align-items:center}
+.hf-meta{display:flex;flex-direction:column;border:1px solid rgba(255,255,255,.12);margin-top:2rem;max-width:260px}
+.hf-meta span{display:block;padding:.6rem 1rem;border-bottom:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.42);font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.22em;text-transform:uppercase}
+.hf-meta span:last-child{border-bottom:0}
+
+/* ── M02 · Hero page (interior) ────────────────────────────── */
+.hero-page{position:relative;min-height:78vh;display:flex;align-items:flex-end;overflow:hidden;background:var(--ink)}
+.hero-page .hp-media{position:absolute;inset:0;overflow:hidden}
+
+/* Page hero carousel — image, video, image. Slides cross-dissolve
+   with a slow scale, so the cut is never felt. vik-motion advances
+   it and pauses while the tab is hidden. */
+.hp-slides{position:absolute;inset:0}
+.hp-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.5s var(--ease)}
+.hp-slide.is-on{opacity:1}
+.hp-slide img,.hp-slide video{width:100%;height:100%;object-fit:cover;transform:scale(1.06);transition:transform 8s linear}
+.hp-slide.is-on img,.hp-slide.is-on video{transform:scale(1)}
+.hp-dots{position:absolute;right:var(--pad-x);bottom:calc(4rem - 8px);z-index:4;display:flex;gap:.35rem}
+/* The line is 2px; the target is not. The button carries the hit
+   area and a pseudo-element draws the rule inside it. */
+.hp-dot{width:34px;height:22px;background:none;display:flex;align-items:center;justify-content:center;padding:0}
+.hp-dot::after{content:"";display:block;width:26px;height:2px;
+  background:rgba(255,255,255,.28);transition:background .4s var(--ease),width .4s var(--ease)}
+.hp-dot:hover::after{background:rgba(255,255,255,.6)}
+.hp-dot.is-on::after{background:#fff;width:34px}
+.hero-page .hp-media img,.hero-page .hp-media video{width:100%;height:100%;object-fit:cover;filter:saturate(.85)}
+.hero-page::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(10,9,7,.66),rgba(10,9,7,.34) 42%,rgba(10,9,7,.92))}
+.hero-page .hp-inner{position:relative;z-index:2;width:100%;max-width:var(--max);margin:0 auto;padding:0 var(--pad-x) 4rem;display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,6rem);align-items:end}
+/* One column, held left: the right half stays photograph and the slide
+   controls are never sitting under the copy. The measure is dropped so
+   the copy starts on the same left edge as the mark in the bar — at
+   full width a centred 1240px block would sit inboard of the logo. */
+.hero-page .hp-inner.left{grid-template-columns:minmax(0,min(560px,52%));max-width:none}
+.hero-page .hp-inner.left .hp-desc em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.hp-desc{max-width:46ch}
+.hp-title{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(2.2rem,5vw,4rem);line-height:1.04;letter-spacing:-0.015em;color:#fff;margin-top:1.25rem}
+.hp-desc{font-size:.95rem;line-height:1.75;color:rgba(255,255,255,.62);font-weight:300;max-width:48ch}
+
+/* ── M03 · Fact ribbon · LIVE ──────────────────
+   The ribbon sits on the dark of the brand — a full-bleed field of
+   flat blue was louder than the photography above it. Blue survives
+   as the accent: the rule along the top, the live pulse, and the
+   wash that fills a cell under the cursor.
+   Both are set per instance from the HTML — no CSS edit needed:
+     <section class="fact-ribbon" style="--ribbon:#5B0318;--ribbon-accent:#002FA7">
+   Data comes from vik-live.js (Open-Meteo, free, keyless) for
+   José Ignacio, Uruguay.                                          */
+.fact-ribbon{--ribbon:var(--ink);--ribbon-ink:var(--bone);--ribbon-accent:var(--vik);
+  display:grid;grid-template-columns:repeat(5,1fr);background:var(--ribbon);color:var(--ribbon-ink);
+  border-top:2px solid var(--ribbon-accent);border-bottom:1px solid rgba(248,248,240,.12)}
+.fact{padding:1.5rem 1.75rem;border-right:1px solid rgba(248,248,240,.12);display:flex;flex-direction:column;gap:.45rem;min-width:0;justify-content:flex-start;transition:background .45s var(--ease),color .45s var(--ease)}
+.fact:last-child{border-right:none}
+/* the accent arrives as a field, which is where a strong blue works:
+   bone type on klein blue, not klein blue trying to be a background */
+.fact:hover{background:var(--ribbon-accent);color:#fff}
+.fact .k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;opacity:.66;display:inline-flex;align-items:center;gap:.55rem}
+.fact .v{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.3rem,2vw,1.7rem);line-height:1;transition:opacity .45s var(--ease)}
+.fact .v small{font-family:"DM Sans",sans-serif;font-size:.72rem;opacity:.7;font-weight:300;white-space:nowrap}
+/* These read as sentences, so they wrap rather than truncate — an
+   ellipsis in the middle of "Horses, fire and empty landscape" is
+   worse than a second line. */
+.fact .s{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.72rem;opacity:.58;
+  line-height:1.5;text-wrap:pretty}
+.fact-ribbon.is-loading .v{opacity:.35}
+.live-dot{width:6px;height:6px;border-radius:50%;background:color-mix(in srgb,var(--ribbon-accent) 55%,#F8F8F0);display:inline-block;animation:pulse 2.4s ease-in-out infinite}
+.fact:hover .live-dot{background:#fff}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* When a section head introduces an .intro below it, the two share a
+   measure: the title starts where the copy starts, not a third of the
+   way in. Add .aligned to the head. */
+.section-head.aligned{grid-template-columns:1fr 1.35fr;gap:clamp(2.5rem,6vw,7rem)}
+
+/* ── M05 · Intro editorial ─────────────────────────────────── */
+.intro{display:grid;grid-template-columns:1fr 1.35fr;gap:clamp(2.5rem,6vw,7rem);align-items:start;max-width:var(--max);margin:0 auto}
+.intro-h{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.6rem,3vw,2.5rem);line-height:1.1;letter-spacing:-0.015em}
+.intro-h em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.intro-body{display:flex;flex-direction:column;gap:1.35rem}
+.intro-body p{font-size:.95rem;line-height:1.78;font-weight:300;opacity:.72;max-width:62ch}
+.intro-body p.lead{font-size:1.08rem;opacity:.9;line-height:1.7}
+
+/* ── M06 · Pillars ─────────────────────────────────────────── */
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);max-width:var(--max);margin:0 auto}
+.section.canvas .pillars,.section.bone .pillars{border-color:var(--line-dark)}
+.pillar{padding:2.5rem 1.75rem;border-right:1px solid var(--line);border-bottom:1px solid var(--line);position:relative;overflow:hidden;transition:background .35s}
+.section.canvas .pillar,.section.bone .pillar{border-color:var(--line-dark)}
+.pillar:hover{background:rgba(0,47,167,.05)}
+.pillar::after{content:"";position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--vik);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--slow)}
+.pillar:hover::after{transform:scaleX(1)}
+.pillar .i{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;color:var(--vik);margin-bottom:1.75rem;display:block;line-height:.8}
+.pillar h3{font-family:"Old Standard VIK",Georgia,serif;font-size:1.35rem;margin-bottom:1.1rem;line-height:1.08;letter-spacing:-0.01em}
+.pillar h3 em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.pillar p{font-size:.93rem;line-height:1.7;opacity:.6;font-weight:300}
+.pillars.c5{grid-template-columns:repeat(5,1fr)}
+.pillars.c3{grid-template-columns:repeat(3,1fr)}
+.pillars.c4{grid-template-columns:repeat(4,1fr)}
+.pillars.c2{grid-template-columns:repeat(2,1fr)}
+
+/* ── M07 · Principles list ─────────────────────────────────── */
+.principles{border-top:1px solid var(--line);max-width:var(--max);margin:0 auto}
+.section.canvas .principles,.section.bone .principles{border-color:var(--line-dark)}
+.principle{display:grid;grid-template-columns:3.5rem 1fr 2fr;gap:2rem;align-items:start;padding:2.25rem 0;border-bottom:1px solid var(--line);transition:background .3s,padding .3s}
+.section.canvas .principle,.section.bone .principle{border-color:var(--line-dark)}
+.principle:hover{background:rgba(0,47,167,.04);padding-left:1rem;padding-right:1rem;margin:0 -1rem}
+.principle .n{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;color:var(--vik);padding-top:.15rem;line-height:.8}
+.principle h3{font-family:"Old Standard VIK",Georgia,serif;font-size:1.15rem;letter-spacing:-0.01em}
+.principle p{font-size:.93rem;line-height:1.7;opacity:.6;font-weight:300}
+
+/* ── M08 · Property rail · FULL-BLEED, AUTO ────────────────
+   Full viewport width, panels flush against each other, 42%
+   larger than the base card, heavy scrim for legibility, and a
+   continuous slow drift (vik-motion autoRail). Photo or video.  */
+/* The head is aligned to the rail, not to the page grid — a
+   centred title above a full-bleed rail reads as floating. */
+.prop-rail-head{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;
+  margin:0 0 2.5rem;flex-wrap:wrap;padding:0 var(--pad-x)}
+.prop-rail-hint{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9px;
+  letter-spacing:.24em;text-transform:uppercase;opacity:.32;display:inline-flex;align-items:center;gap:.7rem}
+.prop-rail-hint::after{content:"";width:52px;height:1px;background:currentColor;
+  animation:railHint 2.8s var(--ease) infinite}
+@keyframes railHint{0%,100%{transform:scaleX(.4);transform-origin:left}50%{transform:scaleX(1);transform-origin:left}}
+.rail-arrows{display:flex;gap:1rem}
+.rail-arrow{width:44px;height:44px;border:1px solid currentColor;opacity:.35;display:flex;align-items:center;justify-content:center;transition:opacity .25s,background .25s,color .25s}
+.rail-arrow:hover{opacity:1;background:currentColor}
+.rail-arrow svg{width:15px;height:15px}
+.rail-arrow:hover svg path{stroke:var(--canvas)}
+
+.prop-rail{overflow:hidden;cursor:grab;user-select:none;
+  position:relative;left:50%;right:50%;margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2);width:var(--vw);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  /* the edges dissolve, so it reads as continuous without arrows */
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.prop-rail::-webkit-scrollbar{display:none}
+.prop-rail.is-dragging{cursor:grabbing}
+/* No border between panels. They sit flush, and a 1px rule on a
+   sub-pixel transformed track renders as a shimmering seam — the
+   photographs meeting each other is the division. */
+.prop{flex:0 0 clamp(380px,46vw,680px);position:relative;overflow:hidden;aspect-ratio:1;
+  background:var(--ink);margin-right:-1px;backface-visibility:hidden}
+.prop:last-child{margin-right:0}
+/* The photograph bleeds 1px past every edge. At fractional track
+   positions the panel box antialiases, and an image stopping exactly
+   on that edge let the ink ground show as a hairline — which is what
+   appeared down the sides on hover, when the scrim promoted a layer
+   and the rounding changed. Nothing can reach the edge now. */
+.prop img,.prop video{position:absolute;inset:-1px;width:calc(100% + 2px);height:calc(100% + 2px);object-fit:cover;transition:transform 1.2s var(--slow);filter:saturate(.88)}
+.prop:hover img,.prop:hover video{transform:scale(1.03)}
+/* two-stop scrim: an even base wash plus a heavy foot, so the type
+   holds on any photograph without hiding the image */
+.prop::after{content:"";position:absolute;inset:-1px;background:
+  linear-gradient(to top,rgba(10,9,7,.92) 0%,rgba(10,9,7,.55) 38%,rgba(10,9,7,.3) 70%,rgba(10,9,7,.34) 100%);
+  transition:opacity .6s var(--ease)}
+.prop:hover::after{opacity:.88}
+.prop-body{position:absolute;bottom:0;left:0;right:0;padding:clamp(2rem,3.4vw,3rem);z-index:2}
+.prop-loc{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-bottom:.75rem;display:block;line-height:.8}
+/* Venue names follow the ID rule everywhere they appear: Highway
+   Gothic Expanded, uppercase, .22em. Same treatment as Compare and
+   the calendar, so a property signs itself identically site-wide. */
+.prop-name{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:clamp(1.05rem,1.55vw,1.4rem);letter-spacing:.2em;text-transform:uppercase;
+  color:#fff;margin-bottom:1.1rem;line-height:1.2}
+.prop-desc{font-size:.95rem;line-height:1.6;color:rgba(255,255,255,.72);font-weight:300;max-width:44ch;margin-bottom:1.25rem}
+.prop-tags{display:flex;flex-wrap:wrap;gap:.4rem}
+.tag{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.28);padding:.36rem .68rem;background:rgba(255,255,255,.08);backdrop-filter:blur(4px)}
+
+/* ── Hover-follow image ────────────────────────────────────
+   Optional per row: data-hover-img="estancia/Photo.jpg", relative
+   to assets/img/. vik-motion picks the right derivative for the
+   viewport and pixel ratio, preloads it, and trails it with a
+   velocity skew. Rows without the attribute show nothing.
+   Reference: Codrops RapidImageHoverMenu.                       */
+.hover-media{
+  position:fixed;top:0;left:0;z-index:60;
+  width:var(--hm-w,clamp(180px,18vw,320px));
+  aspect-ratio:4/5;
+  pointer-events:none;overflow:hidden;background:var(--ink);
+  opacity:0;visibility:hidden;
+  transition:opacity .4s var(--ease),visibility .4s;
+  will-change:transform;transform:translate3d(-50%,-50%,0)
+}
+.hover-media.is-on{opacity:1;visibility:visible}
+/* the frame never deforms — only the image inside it does, so
+   every card reads as the same 4:5 rectangle */
+.hover-media-inner{position:absolute;inset:-6% -8%;will-change:transform}
+.hover-media img{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transform:scale(1.08);
+  transition:opacity .5s var(--ease),transform .9s var(--slow)
+}
+.hover-media img.is-on{opacity:1;transform:none}
+/* thin progress hairline while the derivative is still decoding */
+.hover-media::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--vik);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.hover-media.is-loading::after{transform:scaleX(.7)}
+[data-hover-img]{cursor:pointer}
+@media (max-width:900px),(hover:none),(pointer:coarse){.hover-media{display:none}}
+
+/* Every rail runs on a transformed track: GPU compositing and true
+   sub-pixel positions, which is what removes the smear. vik-motion
+   wraps the children in this at init — without it the rail has no
+   layout at all, so it belongs above every rail that uses it. */
+.rail-track{display:flex;align-items:stretch;width:max-content;will-change:transform}
+.gallery-rail .rail-track{gap:1rem}
+.prop-rail .rail-track{gap:0}
+.logo-rail .rail-track{gap:clamp(3.5rem,7vw,7rem);align-items:center}
+
+/* ── M10 · Gallery rail · AUTO-DRIFT ───────────────────────
+   Moves on its own, slowly and continuously. Pauses on hover and
+   while dragging, then resumes. Driven by vik-motion autoRail.   */
+.gallery{padding:var(--pad-y) 0}
+.gallery .section-head{padding:0 var(--pad-x);max-width:none}
+.gallery-rail{overflow:hidden;padding:0 var(--pad-x) 2rem;cursor:grab;user-select:none}
+.gallery-rail::-webkit-scrollbar{display:none}
+.gallery-rail.is-dragging{cursor:grabbing}
+.gallery-card{position:relative;flex:0 0 clamp(280px,38vw,552px);aspect-ratio:4/5;overflow:hidden;background:var(--canvas)}
+.gallery-card:nth-child(even){aspect-ratio:5/4;margin-top:6rem}
+.gallery-card img{width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.gallery-card:hover img{transform:scale(1.06)}
+.gallery-card span{position:absolute;left:1rem;bottom:1rem;color:var(--bone);text-shadow:0 1px 16px rgba(0,0,0,.45);font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase}
+
+/* ── M28 · Wide reel ───────────────────────────────────────
+   The gallery in landscape: bigger frames, almost touching, running
+   edge to edge. Where M10 is a portrait rhythm with air between the
+   cards, this one is a single continuous horizon — for coastline,
+   architecture and anything that needs width to read.
+   Same rail machinery: data-rail="auto" + drag + inertia.        */
+.reel-wide{position:relative;overflow:hidden;cursor:grab;user-select:none;
+  left:50%;right:50%;margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2);width:var(--vw);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.reel-wide.is-dragging{cursor:grabbing}
+.reel-wide .rail-track{gap:6px}
+
+.reel-card{position:relative;flex:0 0 clamp(440px,54vw,980px);aspect-ratio:16/9;overflow:hidden;background:#141312}
+/* two ratios in rotation so the horizon is not a row of clones */
+.reel-card:nth-child(3n+2){flex-basis:clamp(340px,38vw,700px);aspect-ratio:3/2}
+.reel-card:nth-child(3n+3){flex-basis:clamp(400px,46vw,840px);aspect-ratio:21/9}
+.reel-card img,.reel-card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:saturate(.88);transition:transform 1.3s var(--slow),filter .6s var(--ease)}
+.reel-card:hover img,.reel-card:hover video{transform:scale(1.035);filter:saturate(1)}
+.reel-card::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(10,9,7,.7),transparent 46%);
+  opacity:.9;transition:opacity .5s var(--ease)}
+.reel-card:hover::after{opacity:1}
+.reel-cap{position:absolute;left:0;right:0;bottom:0;z-index:2;
+  padding:clamp(1.1rem,2vw,1.9rem);display:flex;align-items:baseline;gap:1rem;flex-wrap:wrap}
+.reel-cap .n{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.05rem,1.6vw,1.5rem);
+  line-height:1.05;letter-spacing:-0.01em;color:#fff}
+.reel-cap .m{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:8.5px;
+  letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+
+@media (max-width:900px){
+  .reel-card,.reel-card:nth-child(3n+2),.reel-card:nth-child(3n+3){flex-basis:78vw;aspect-ratio:16/10}
+}
+@media (max-width:560px){
+  .reel-wide .rail-track{gap:4px}
+  .reel-card,.reel-card:nth-child(3n+2),.reel-card:nth-child(3n+3){flex-basis:88vw;aspect-ratio:4/3}
+  .reel-cap .n{font-size:1.05rem}
+}
+
+/* ── M11 · Full-bleed band ─────────────────────────────────── */
+.band{position:relative;min-height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--bone)}
+.band.short{min-height:62vh}
+.band-bg{position:absolute;top:-15%;bottom:-15%;left:0;right:0;background:var(--ink)}
+.band-bg img,.band-bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.band-ov{position:absolute;inset:0;background:rgba(12,10,8,.72)}
+.band-inner{position:relative;z-index:2;width:100%;max-width:1400px;padding:5rem var(--pad-x);display:flex;flex-direction:column;gap:2.5rem}
+.band-head{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,6rem);align-items:end}
+.band-title{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.9rem,4vw,3.2rem);line-height:1.05;letter-spacing:-0.015em;color:#fff}
+.band-title em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.band-desc{font-size:.95rem;line-height:1.75;color:rgba(255,255,255,.55);font-weight:300;max-width:52ch}
+.band-steps{display:grid;grid-template-columns:repeat(4,1fr);padding-top:2rem;border-top:1px solid rgba(255,255,255,.14)}
+.band-step{padding-right:1.75rem;position:relative}
+.band-step::before{content:"";position:absolute;top:0;left:0;width:7px;height:7px;background:var(--vik);border-radius:50%;transform:translateY(calc(-2rem - 3px))}
+.band-step .t{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.32);display:block;margin-bottom:.65rem;line-height:.8}
+.band-step h4{font-family:"Old Standard VIK",Georgia,serif;font-size:1.05rem;color:#fff;margin-bottom:.6rem;line-height:1.12}
+.band-step p{font-size:.9rem;line-height:1.7;color:rgba(255,255,255,.42);font-weight:300}
+
+/* ── M13 · Card grid ───────────────────────────────────────── */
+.card-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);max-width:var(--max);margin:0 auto}
+.section.canvas .card-grid,.section.bone .card-grid{background:var(--line-dark);border-color:var(--line-dark)}
+.card-grid.c2{grid-template-columns:repeat(2,1fr)}
+
+/* Alternating editorial rhythm: two thirds then one, then one then
+   two. Repeats every four cards, so the grid always closes — six
+   cards give three complete rows, four give two. */
+.card-grid.alt{grid-template-columns:repeat(3,1fr)}
+.card-grid.alt > *:nth-child(4n+1){grid-column:span 2}
+.card-grid.alt > *:nth-child(4n+4){grid-column:span 2}
+.card-grid.feature{grid-template-columns:1.5fr 1fr}
+.vcard{position:relative;padding:clamp(1.8rem,3vw,2.6rem);background:var(--ink);overflow:hidden;isolation:isolate;transition:transform .5s var(--slow);display:flex;flex-direction:column;min-height:280px}
+.section.canvas .vcard{background:var(--canvas)}
+.section.bone .vcard{background:var(--bone)}
+.vcard:hover{transform:translateY(-4px)}
+.vcard-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:auto}
+.vcard-when{display:inline-flex;align-items:center;gap:.6rem;font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.8rem;letter-spacing:.05em}
+.vcard-when .live-dot{background:var(--vik)}
+.vcard-status{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;padding:.45rem .7rem;border:1px solid var(--line);opacity:.7}
+.section.canvas .vcard-status,.section.bone .vcard-status{border-color:var(--line-dark)}
+.vcard-status.go{border-color:var(--vik);color:#fff;background:var(--vik);opacity:1}
+/* a card that signs a property sizes its mark here */
+.vcard h3.card-mark{font-size:clamp(1.05rem,1.5vw,1.3rem);margin:1.3rem 0 .7rem}
+.vcard h3{margin:1.3rem 0 .6rem;font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.3rem,2.2vw,1.85rem);line-height:1.06;letter-spacing:-0.01em}
+.vcard p{opacity:.6;font-size:.94rem;line-height:1.65;font-weight:300;max-width:46ch}
+.vcard-actions{display:flex;flex-wrap:wrap;gap:1.4rem;margin-top:1.7rem}
+.vcard.media{color:var(--bone);min-height:clamp(280px,32vw,420px);background-size:cover;background-position:center}
+.vcard.media::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(30,30,30,.15),rgba(30,30,30,.8));z-index:-1}
+.vcard.media p{color:rgba(248,248,240,.8)}
+.vcard.media .vcard-status{border-color:rgba(255,255,255,.35);color:#fff}
+.vcard.tall{grid-row:span 2}
+.vcard.accent{background:var(--vik);color:#fff}
+.vcard.accent p{color:rgba(255,255,255,.82)}
+.vcard.accent .vcard-status{border-color:rgba(255,255,255,.4);color:#fff}
+.vcard.accent .vcard-when .live-dot{background:#fff}
+
+/* ── M13b · Video card ─────────────────────────────────────
+   Any card in the grid can carry film instead of a still. Same
+   box, same type, same scrim — only the medium changes.          */
+.vcard.film{position:relative;color:var(--bone);min-height:clamp(300px,34vw,460px);overflow:hidden;background:#141312}
+.vcard.film > video,.vcard.film > img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;filter:saturate(.85)}
+.vcard.film::before{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(10,9,7,.28),rgba(10,9,7,.86))}
+.vcard.film p{color:rgba(248,248,240,.82)}
+.vcard.film .vcard-status{border-color:rgba(255,255,255,.35);color:#fff}
+.vcard.film.wide{grid-column:span 2}
+
+/* ── M11b · Full-bleed film band ───────────────────────────
+   The band module with film instead of a still — same geometry. */
+.band-bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* ── M14 · Index list (accommodations, assets, menus) ──────── */
+.index-list{border-top:1px solid var(--line);max-width:var(--max);margin:0 auto}
+.section.canvas .index-list,.section.bone .index-list{border-color:var(--line-dark)}
+.index-row{position:relative;display:grid;grid-template-columns:4.5rem minmax(0,1.3fr) minmax(0,1fr) auto;align-items:center;min-height:6.5rem;border-bottom:1px solid var(--line);isolation:isolate;color:inherit;transition:color .5s var(--ease)}
+.section.canvas .index-row,.section.bone .index-row{border-color:var(--line-dark)}
+.index-row::before{content:"";position:absolute;inset:0;background:var(--vik);transform:scaleY(0);transform-origin:bottom;transition:transform .55s var(--ease);z-index:-1}
+.index-row:hover::before{transform:scaleY(1)}
+.index-row:hover{color:#fff}
+.index-row>*{padding:1.2rem}
+.index-n{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;color:var(--vik)}
+.index-row:hover .index-n{color:#fff}
+.index-name{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.25rem,2.4vw,2rem);line-height:1.08;letter-spacing:-0.01em}
+.index-meta{opacity:.55;font-size:.88rem;font-weight:300;line-height:1.5}
+.index-cta{justify-self:end}
+
+/* ── M26 · Infinite wall ───────────────────────────────────
+   Built to the reference: a single vertical cascade that loops for
+   ever. Each slide carries its own width and its own horizontal
+   stagger, so the eye reads a diagonal rather than a grid. Wheel
+   and drag push it; it settles back to a slow drift. Clicking a
+   slide expands that photograph into the hero of the room page.
+   Reference: Codrops InfiniteScrollGSAPGallery — tightened, as the
+   original gap of 12vh is far too loose for a room index.        */
+.wall{--wall-gap:4vh;
+  position:relative;overflow:hidden;background:var(--ink);
+  left:50%;right:50%;margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2);width:var(--vw);
+  height:clamp(620px,100vh,1180px);cursor:grab;user-select:none;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  touch-action:pan-y}
+.wall.is-dragging{cursor:grabbing}
+.wall-track{position:absolute;top:0;left:0;right:0;
+  display:flex;flex-direction:column;align-items:center;gap:var(--wall-gap);
+  will-change:transform}
+
+.wall-tile{position:relative;display:block;flex-shrink:0;
+  width:var(--w,260px);
+  transform:translateX(var(--x,0vw));
+  color:var(--bone)}
+/* Landscape now, and the ratio varies per slide as well as the width,
+   so no two frames read as the same size. */
+.wall-shot{display:block;position:relative;overflow:hidden;aspect-ratio:var(--r,3/2);background:#141312}
+.wall-shot img{position:absolute;top:-10%;left:0;width:100%;height:120%;object-fit:cover;
+  filter:saturate(.88) brightness(.92);
+  transition:filter .6s var(--ease),transform 1.1s var(--slow);
+  will-change:transform}
+.wall-tile:hover .wall-shot img{filter:saturate(1) brightness(1.04)}
+.wall-shot::after{content:"";position:absolute;inset:0;background:rgba(10,9,7,.18);opacity:1;transition:opacity .5s var(--ease)}
+.wall-tile:hover .wall-shot::after{opacity:0}
+
+/* caption sits under the photograph, as in the reference */
+.wall-cap{display:flex;flex-direction:column;gap:.3rem;padding-top:.85rem}
+.wall-cap .n{font-family:"Old Standard VIK",Georgia,serif;font-size:1.05rem;line-height:1.15;letter-spacing:-0.01em;color:var(--bone)}
+.wall-cap .m{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:8.5px;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.42)}
+.wall-tile:hover .wall-cap .m{color:var(--vik)}
+
+/* edge fade so the loop never shows a seam */
+.wall::before,.wall::after{content:"";position:absolute;left:0;right:0;height:16%;z-index:3;pointer-events:none}
+.wall::before{top:0;background:linear-gradient(180deg,var(--ink),transparent)}
+.wall::after{bottom:0;background:linear-gradient(0deg,var(--ink),transparent)}
+.wall-hint{position:absolute;left:50%;bottom:1.5rem;transform:translateX(-50%);z-index:4;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9px;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(255,255,255,.5);background:rgba(14,14,12,.6);backdrop-filter:blur(8px);padding:.6rem 1rem;
+  transition:opacity .5s var(--ease)}
+.wall.is-active .wall-hint{opacity:0}
+
+/* Where you are in the collection. Quiet by design — it should be
+   findable, not announced. Sits in the corner and updates as the
+   cascade moves; the categories carry their own totals. */
+.wall-meter{position:absolute;right:var(--pad-x);bottom:1.5rem;z-index:4;
+  display:flex;align-items:center;gap:1.1rem;
+  padding:.7rem 1rem;background:rgba(14,14,12,.52);backdrop-filter:blur(10px);
+  border:1px solid rgba(248,248,240,.1);
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:8.5px;
+  letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.42);
+  opacity:0;transition:opacity .6s var(--ease)}
+.wall-meter.is-on{opacity:1}
+.wall-meter .pos{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.76rem;
+  letter-spacing:.06em;color:var(--bone)}
+.wall-meter .pos b{color:rgba(248,248,240,.38)}
+.wall-meter .groups{display:flex;gap:.9rem}
+.wall-meter .g{display:inline-flex;align-items:center;gap:.4rem;transition:color .4s var(--ease)}
+.wall-meter .g::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.4}
+.wall-meter .g.is-on{color:#fff}
+.wall-meter .g.is-on::before{background:var(--vik);opacity:1}
+
+
+/* Stage mode — a horizontal run on a common axis.
+   Four proportions in rotation — 1:1, 4:5, 16:9, 9:12 — centred on one
+   line, caption underneath. Each frame is a small gallery: three
+   photographs of that room cross-fading in place, staggered so the
+   run never blinks in unison. The line loops, and the cards lean a
+   degree or two into the drag on a shallow perspective.
+   Choose with data-wall-mode="stage".                            */
+/* the perspective lives on the frame so the track can rotate inside it */
+.wall.is-stage{height:clamp(560px,86vh,960px);cursor:grab;padding:0;background:var(--ink);
+  perspective:2200px;perspective-origin:50% 50%}
+.wall.is-stage::before,.wall.is-stage::after{display:none}
+.wall-stage{position:absolute;top:0;bottom:0;left:0;
+  display:flex;align-items:center;gap:clamp(1.15rem,2vw,2rem);
+  padding:0 clamp(1.25rem,5vw,6rem) 2.5rem;width:max-content;
+  transform-style:preserve-3d;backface-visibility:hidden;will-change:transform}
+
+.wall.is-stage .wall-tile{width:var(--sw,340px);flex:0 0 auto;
+  display:flex;flex-direction:column;align-self:center}
+.wall.is-stage .wall-shot{flex:none;aspect-ratio:var(--sr,4/5);width:100%;
+  border-radius:0;overflow:hidden;
+  box-shadow:0 22px 52px rgba(0,0,0,.44),0 2px 6px rgba(0,0,0,.3);
+  transition:box-shadow .7s var(--slow),transform .8s var(--slow)}
+.wall.is-stage .wall-shot::after{display:none}
+/* three frames stacked, one showing */
+/* Frames arrive quietly: opacity only, staggered by --in. No scale,
+   so nothing stretches or settles back — that was the bump. Once a
+   photograph is up it stays; the three-frame set belongs to the room
+   view, not to the wall. */
+.wall.is-stage .wall-tile{opacity:0;transition:opacity 1s var(--ease) var(--in,0ms)}
+.wall.is-stage .wall-tile.is-in{opacity:1}
+.wall.is-stage .wall-shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:saturate(.92);transition:filter .7s var(--ease),transform 1.2s var(--slow)}
+.wall.is-stage .wall-tile:hover .wall-shot{transform:translateY(-7px);
+  box-shadow:0 34px 78px rgba(0,0,0,.55),0 3px 8px rgba(0,0,0,.35)}
+.wall.is-stage .wall-tile:hover .wall-shot img.is-on{filter:saturate(1);transform:scale(1.035)}
+
+/* the caption sits under its frame, quiet, as in the reference */
+.wall.is-stage .wall-cap{position:static;padding:.9rem 0 0;gap:.2rem;opacity:1;transform:none}
+.wall.is-stage .wall-cap .n{font-family:"DM Sans",sans-serif;font-size:.87rem;line-height:1.3;
+  letter-spacing:0;color:rgba(248,248,240,.72)}
+.wall.is-stage .wall-cap .m{font-size:8px;color:rgba(248,248,240,.3)}
+.wall.is-stage .wall-tile:hover .wall-cap .n{color:#fff}
+.wall.is-stage .wall-tile:hover .wall-cap .m{color:var(--vik)}
+
+.wall-stage-bar{position:absolute;left:0;right:0;bottom:0;z-index:5;display:flex;align-items:center;
+  gap:1.25rem;padding:1rem clamp(1.25rem,5vw,6rem);
+  background:linear-gradient(0deg,rgba(14,14,12,.9),transparent);pointer-events:none}
+.wall-stage-bar .track{flex:1;height:1px;background:rgba(248,248,240,.2);position:relative;overflow:hidden}
+.wall-stage-bar .track i{position:absolute;inset:0 auto 0 0;width:20%;background:var(--vik);will-change:transform}
+.wall-stage-bar .lab{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:8.5px;
+  letter-spacing:.2em;text-transform:uppercase;opacity:.45;white-space:nowrap}
+
+@media (max-width:900px){
+  .wall.is-stage{height:clamp(460px,74vh,680px)}
+  .wall-stage{gap:1rem;padding:0 1.25rem 2.5rem}
+  .wall.is-stage .wall-shot{box-shadow:0 14px 32px rgba(0,0,0,.42)}
+}
+
+/* The room view holds all three photographs in the hero itself and
+   switches them from very small thumbnails beside the name. No grid
+   underneath — one big frame is worth more than four small ones.  */
+.room-hero{position:relative;height:66vh;min-height:380px;overflow:hidden;background:#141312;isolation:isolate}
+.room-shots{position:absolute;inset:0;z-index:0}
+.room-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transform:scale(1.035);
+  transition:opacity 1.1s var(--ease),transform 2.4s var(--slow)}
+.room-hero img.is-on{opacity:1;transform:none}
+
+/* Small, but they have to survive sitting on a photograph — hence
+   the plate behind them and a hairline on each. */
+.room-thumbs{display:flex;gap:4px;align-items:center;margin-left:auto;flex:0 0 auto;
+  padding:5px;background:rgba(14,14,12,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(248,248,240,.16)}
+.room-thumb{width:46px;height:32px;overflow:hidden;position:relative;flex:0 0 auto;
+  opacity:.62;transition:opacity .4s var(--ease)}
+.room-thumb img{width:100%;height:100%;object-fit:cover}
+.room-thumb::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(248,248,240,.18);
+  transition:box-shadow .35s}
+.room-thumb:hover{opacity:.88}
+.room-thumb.is-on{opacity:1}
+.room-thumb.is-on::after{box-shadow:inset 0 0 0 2px var(--bone)}
+@media (max-width:560px){
+  .room-thumbs{padding:4px;gap:3px}
+  .room-thumb{width:38px;height:26px}
+}
+.room-cap .room-head{display:flex;align-items:flex-end;gap:1.5rem;width:100%}
+.room-cap .room-head h2{flex:1;min-width:0}
+
+/* Reel mode — phones only. A vertical cascade on a phone is a
+   column of postage stamps; the same rooms read far better as one
+   continuous horizontal reel that never ends. vik-wall switches to
+   this automatically below 700px.                                 */
+.wall.is-reel{height:auto;cursor:grab;touch-action:pan-y;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:1.25rem 0}
+.wall.is-reel::before,.wall.is-reel::after{display:none}
+.wall.is-reel .wall-meter{display:none}
+.wall-reel{display:flex;align-items:stretch;gap:10px;width:max-content;will-change:transform;padding:0 1.25rem}
+.wall.is-reel .wall-tile{width:72vw;max-width:340px;transform:none;flex:0 0 auto}
+/* 3:4 on a phone, the same as the room reel. Two galleries on one
+   page reading at two different ratios is two designs, and it means
+   two crops of every photograph. */
+.wall.is-reel .wall-shot{aspect-ratio:3/4!important}
+.wall.is-reel .wall-cap{padding-top:.8rem}
+.wall.is-reel .wall-cap .n{font-size:1rem}
+.wall-reel-bar{display:flex;align-items:center;gap:.9rem;padding:1rem 1.25rem 0}
+.wall-reel-bar .track{flex:1;height:1px;background:var(--line);position:relative;overflow:hidden}
+.wall-reel-bar .track i{position:absolute;left:0;top:0;bottom:0;width:22%;background:var(--vik);
+  transform:translateX(0);will-change:transform}
+.wall-reel-bar .lab{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:8.5px;
+  letter-spacing:.2em;text-transform:uppercase;opacity:.35;white-space:nowrap}
+
+/* Grid mode — the earlier treatment, kept as an option.
+   data-wall-mode="grid" on the container switches to it.          */
+.wall-grid{position:absolute;inset:0;display:grid;gap:6px;padding:6px}
+.wall-gcol{position:relative;overflow:hidden}
+.wall-gcol-inner{position:absolute;top:0;left:0;right:0;display:flex;flex-direction:column;gap:6px;will-change:transform}
+.wall-grid .wall-tile{width:auto;transform:none;aspect-ratio:3/4;position:relative}
+.wall-grid .wall-shot{position:absolute;inset:0;aspect-ratio:auto}
+.wall-grid .wall-shot::after{background:linear-gradient(to top,rgba(10,9,7,.86),transparent 55%);opacity:.9}
+.wall-grid .wall-tile:hover .wall-shot::after{opacity:1}
+.wall-cap.over{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:1rem 1.1rem;
+  transform:translateY(6px);opacity:0;transition:transform .5s var(--slow),opacity .4s var(--ease)}
+.wall-grid .wall-tile:hover .wall-cap.over{transform:none;opacity:1}
+.wall-cap.over .n{color:#fff}
+.wall-cap.over .m{color:rgba(255,255,255,.6)}
+
+/* the expanding view — the slide becomes the room hero */
+.wall-flip{position:fixed;z-index:190;overflow:hidden;background:var(--ink);will-change:transform,width,height;pointer-events:none}
+.wall-flip img{width:100%;height:100%;object-fit:cover}
+/* The expanded room. It gets its own smooth scroller (vik-wall
+   mounts a nested Lenis on it) rather than the browser's native bar,
+   which fought with the page scroller and looked exactly as rough as
+   it sounds. The panel is a scroll container, not the page.        */
+.room-view{position:fixed;inset:0;z-index:7000;background:var(--ink);color:var(--bone);
+  opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility .45s;
+  overflow:hidden;overscroll-behavior:contain}
+.room-view.is-open{opacity:1;visibility:visible}
+.room-scroll{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.room-scroll::-webkit-scrollbar{display:none}
+.room-progress{position:absolute;top:0;left:0;right:0;height:2px;z-index:12;
+  background:var(--vik);transform:scaleX(0);transform-origin:left}
+
+/* The hero holds three frames; only the selected one shows. An
+   earlier `.is-ready img{opacity:1}` here lit all three at once,
+   which is why the thumbnails appeared to do nothing. */
+.room-hero::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(to top,rgba(10,9,7,.94),rgba(10,9,7,.35) 45%,transparent 72%)}
+/* Name and actions sit on the photograph, in one block, so nothing
+   can collide with the copy underneath at any width. */
+.room-cap{position:absolute;left:0;right:0;bottom:0;z-index:3;
+  padding:clamp(1.75rem,3.5vw,3.5rem) var(--pad-x);
+  width:100%;max-width:var(--max);margin:0 auto;
+  display:flex;flex-direction:column;gap:1.25rem;align-items:flex-start}
+.room-cap h2{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.75rem,4vw,3.4rem);
+  line-height:1;letter-spacing:-0.02em;color:#fff;max-width:16ch}
+.room-actions{display:flex;flex-wrap:wrap;gap:1.25rem;align-items:center}
+.room-actions .btn-line{color:#fff}
+
+/* the content lifts in once the photograph has landed */
+.room-body{max-width:var(--max);margin:0 auto;padding:clamp(2rem,4vw,3.5rem) var(--pad-x) 7rem;
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);
+  opacity:0;transform:translateY(22px);transition:opacity .7s var(--slow) .18s,transform .7s var(--slow) .18s}
+.room-view.is-ready .room-body,.room-view.is-ready .room-cap{opacity:1;transform:none}
+.room-cap{opacity:0;transform:translateY(16px);transition:opacity .6s var(--slow) .1s,transform .6s var(--slow) .1s}
+.room-body p{font-size:.95rem;line-height:1.78;font-weight:300;opacity:.7;max-width:56ch}
+
+.room-close{position:fixed;top:1.5rem;right:1.5rem;z-index:200;width:42px;height:42px;
+  border:1px solid var(--line);background:rgba(14,14,12,.72);backdrop-filter:blur(10px);
+  color:var(--bone);transition:background .25s,color .25s,transform .3s var(--ease);
+  opacity:0;pointer-events:none}
+.room-view.is-open ~ .room-close,.room-close.is-on{opacity:1;pointer-events:auto}
+.room-close:hover{background:var(--bone);color:var(--ink);transform:rotate(90deg)}
+
+/* stepping between rooms without leaving the view */
+.room-nav{position:fixed;left:50%;bottom:1.75rem;transform:translateX(-50%);z-index:200;
+  display:flex;align-items:center;gap:1.25rem;padding:.55rem .6rem;
+  background:rgba(14,14,12,.72);backdrop-filter:blur(12px);border:1px solid var(--line);
+  opacity:0;pointer-events:none;transition:opacity .4s var(--ease)}
+.room-close.is-on ~ .room-nav,.room-nav.is-on{opacity:1;pointer-events:auto}
+.room-nav button{width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  color:var(--bone);transition:background .25s,color .25s}
+.room-nav button:hover{background:var(--bone);color:var(--ink)}
+.room-nav .rn-count{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.5);min-width:5.5rem;text-align:center}
+body.room-open{overflow:hidden}
+
+/* ── M14 mobile · swipeable square cards ───────────────────
+   On a phone a six-column index row is unreadable. The same markup
+   becomes a horizontal rail of square photographic cards with the
+   name legible over the image. vik-motion injects the thumbnail
+   from the row's data-hover-img; rows without one stay flat.     */
+.index-thumb{display:none}
+
+@media (max-width:700px){
+  .index-list{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;border-top:0;
+    margin-left:calc(var(--pad-x) * -1);margin-right:calc(var(--pad-x) * -1);
+    padding:0 var(--pad-x) .5rem}
+  .index-list::-webkit-scrollbar{display:none}
+
+  .index-row{position:relative;display:block;flex:0 0 74vw;aspect-ratio:1;
+    min-height:0;border:0;overflow:hidden;background:var(--ink);color:#fff;
+    scroll-snap-align:center;padding:0}
+  .index-row::before{display:none}
+  .index-row > *{padding:0}
+
+  .index-thumb{display:block;position:absolute;inset:0;width:100%;height:100%;
+    object-fit:cover;filter:saturate(.9)}
+  /* one wash for legibility, weighted to the foot where the type sits */
+  .index-row::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(to top,rgba(10,9,7,.88) 0%,rgba(10,9,7,.42) 45%,rgba(10,9,7,.12) 100%)}
+
+  .index-n{position:absolute;top:1.1rem;left:1.1rem;z-index:2;color:#fff;opacity:.7}
+  .index-name{position:absolute;left:1.1rem;right:1.1rem;bottom:3.2rem;z-index:2;
+    font-size:1.65rem;line-height:1.05;color:#fff}
+  .index-meta{position:absolute;left:1.1rem;right:1.1rem;bottom:1.5rem;z-index:2;
+    font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:8.5px;
+    letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.72);opacity:1;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .index-cta{position:absolute;right:1.1rem;top:1.1rem;z-index:2;color:#fff}
+  .index-cta span{font-size:8.5px}
+}
+
+/* ── M15 · Week calendar ───────────────────────────────────
+   Seven days across the top. Pick a day, see every activity of
+   that day grouped by property, with time and booking link.     */
+.week{max-width:var(--max);margin:0 auto}
+.week-rail{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));border:1px solid var(--line-dark);margin-bottom:3rem}
+.week-day{position:relative;display:flex;flex-direction:column;gap:.55rem;align-items:flex-start;padding:1.35rem 1.15rem 1.5rem;border-right:1px solid var(--line-dark);text-align:left;color:rgba(30,30,30,.42);transition:color .4s var(--ease),background .4s var(--ease)}
+.week-day:last-child{border-right:0}
+.week-day .wd-name{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase}
+.week-day .wd-num{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.6rem,2.6vw,2.3rem);line-height:.9;letter-spacing:-0.02em}
+.week-day .wd-count{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.7rem;opacity:.75;margin-top:auto}
+.week-day::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--vik);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+.week-day:hover{color:var(--ink);background:rgba(0,47,167,.04)}
+.week-day.active{color:var(--ink);background:rgba(0,47,167,.07)}
+.week-day.active::after{transform:scaleX(1)}
+.week-day.today .wd-name{color:var(--vik)}
+
+.week-panel{display:none}
+.week-panel.active{display:block}
+.venue{border-top:1px solid var(--line-dark);padding-top:1.5rem;margin-bottom:2.5rem}
+.venue-head{display:flex;align-items:center;gap:1.25rem;margin-bottom:.75rem;flex-wrap:wrap}
+.venue-head h3{font-family:"Old Standard VIK",Georgia,serif;font-size:1.35rem;line-height:1;letter-spacing:-0.01em}
+/* the property signs itself with the same rule — scoped to beat
+   the .venue-head h3 selector above it */
+.venue-head h3.venue-mark{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;line-height:1}
+.venue-head h3.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.venue-head .vh-tag{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;color:var(--vik)}
+.slot{display:grid;grid-template-columns:5.5rem 1fr auto;gap:1.5rem;align-items:center;padding:1.25rem 0;border-bottom:1px solid var(--line-dark);transition:padding-left .35s var(--ease)}
+.slot:hover{padding-left:.6rem}
+.slot .time{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.82rem;opacity:.55}
+.slot h4{font-family:"Old Standard VIK",Georgia,serif;font-size:1.15rem;line-height:1.15;margin-bottom:.25rem}
+.slot p{font-size:.88rem;line-height:1.55;opacity:.55;font-weight:300;max-width:56ch}
+.week-empty{padding:3rem 0;text-align:center;font-family:"Old Standard VIK",Georgia,serif;font-size:1.2rem;opacity:.4}
+
+/* ── M16 · Map · REAL, FULL-BLEED ──────────────────────────
+   Identical implementation to the VIK Guest Journey: Leaflet,
+   CARTO dark / Esri satellite, VIK POI markers, rich popups and
+   a full-width POI bar. Same module, same skin.                 */
+.map-section{background:var(--ink);color:var(--bone)}
+.map-full{position:relative;left:50%;right:50%;margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2);width:var(--vw);/* height follows the viewport — a fixed 700px reads as a tower at tablet widths */height:min(700px,78vh,58vw);min-height:400px;background:#0e0e0c;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden}
+/* PROVIDER SIGNATURE · out of the frame, in every map, at every width.
+   Leaflet anchors its credit block — the flag, the library name, the
+   tile provider — to the bottom of the map element. So the map element
+   is grown past the bottom of the box that clips it: the tiles simply
+   carry on behind the bar, and the signature lands below the cut. It
+   is never display:none, so it is never a layout that has to be
+   maintained, and it comes back the moment the offset is removed.
+
+   The credit itself has not been dropped — it moved to the footer,
+   where OpenStreetMap, CARTO and Esri are named on every page that
+   carries a map. Attribution is a licence condition, not decoration;
+   what the brief asked for was that it stop interrupting the UI. */
+.leaf-map{--sig:34px;position:absolute;left:0;right:0;top:0;bottom:calc(var(--sig) * -1)}
+.leaf-map .leaflet-control-attribution{opacity:0;pointer-events:none}
+
+
+.map-view{position:absolute;top:18px;left:18px;z-index:500;display:flex;background:rgba(14,14,12,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line)}
+.map-view button{padding:.65rem 1rem;font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(248,248,240,.6);transition:color .25s,background .25s}
+.map-view button+button{border-left:1px solid var(--line)}
+.map-view button.active{background:var(--vik);color:#fff}
+.map-view button:not(.active):hover{color:#fff}
+.map-bar{position:absolute;left:0;right:0;bottom:0;z-index:500;display:flex;align-items:stretch;background:linear-gradient(0deg,rgba(14,14,12,.97),rgba(14,14,12,.6));backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--line)}
+/* The map's own furniture sits above Leaflet's control layer, which
+   runs to z-index 1000. Declared after the three rules it raises —
+   at equal specificity the last one wins, and 450/500 above would
+   have quietly beaten it. */
+.map-view,.map-bar{z-index:1100}
+.mb-list{display:flex;align-items:stretch;flex:1;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.mb-list::-webkit-scrollbar{display:none}
+.mb-list li{flex:1 1 0;min-width:max-content;display:flex;align-items:center;justify-content:center;gap:.6rem;padding:1.2rem 1rem;white-space:nowrap;cursor:pointer;color:rgba(248,248,240,.7);border-right:1px solid var(--line);transition:color .25s,background .25s}
+.mb-list li:last-child{border-right:0}
+.mb-list li:hover{color:#fff;background:rgba(0,47,167,.4)}
+.mb-list li .d{width:8px;height:8px;border-radius:50%;background:var(--vik);flex:0 0 auto}
+.mb-list li.home .d{background:#fff;box-shadow:0 0 0 3px rgba(0,47,167,.6)}
+.mb-list li .n{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+
+/* Leaflet skin */
+.leaflet-container{background:#0e0e0c;font-family:"DM Sans",sans-serif}
+.leaflet-bar{border:none;box-shadow:none}
+/* Leaflet ships its zoom glyphs at 700 — the project rule wins. */
+.leaflet-container,.leaflet-bar a,.leaflet-control-zoom-in,.leaflet-control-zoom-out{font-weight:400!important}
+.leaflet-bar a{background:var(--ink);color:var(--bone);border-color:var(--line)!important;width:32px;height:32px;line-height:32px}
+.leaflet-bar a:hover{background:#242320;color:#fff}
+.poi{background:none!important;border:none!important}
+.poi-dot{position:absolute;left:0;top:0;width:12px;height:12px;border-radius:50%;background:var(--vik);border:2px solid var(--bone);box-shadow:0 0 0 4px rgba(0,47,167,.22)}
+.poi-label{position:absolute;left:20px;top:-3px;white-space:nowrap;font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--bone);background:rgba(14,14,12,.78);padding:4px 7px;backdrop-filter:blur(4px)}
+.poi-home .poi-dot{width:16px;height:16px;background:#fff;border:2px solid var(--vik);box-shadow:0 0 0 5px rgba(0,47,167,.28)}
+.poi-home .poi-dot::after{content:"";position:absolute;inset:-2px;border-radius:50%;border:2px solid var(--vik);animation:homePulse 2.1s var(--ease) infinite}
+.poi-home .poi-label{color:#fff;background:var(--vik);letter-spacing:.16em}
+@keyframes homePulse{0%{transform:scale(1);opacity:.9}70%{transform:scale(2.6);opacity:0}100%{opacity:0}}
+.leaflet-popup-content-wrapper{background:var(--ink);color:var(--bone);border-radius:0;border:1px solid var(--line);box-shadow:0 20px 50px rgba(0,0,0,.5);padding:0;overflow:hidden}
+.leaflet-popup-tip{background:var(--ink);border:1px solid var(--line)}
+.leaflet-popup-content{margin:0!important;width:256px!important;font-family:"DM Sans",sans-serif}
+.leaflet-container a.leaflet-popup-close-button{color:rgba(248,248,240,.5)}
+.pop-media{position:relative;height:118px;background-size:cover;background-position:center}
+.pop-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(20,20,18,.7))}
+.pop-tag{position:absolute;left:13px;bottom:11px;z-index:1;font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:8px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--vik);padding:4px 7px}
+.pop-body{padding:13px 16px 16px}
+.pop-body b{font-family:"Old Standard VIK",Georgia,serif;font-size:1.25rem;display:block;margin-bottom:.2rem;color:var(--bone)}
+.pop-detail{display:block;font-size:.8rem;color:rgba(248,248,240,.6);font-weight:300;line-height:1.5}
+.pop-metaline{display:flex;flex-wrap:wrap;gap:.4rem 1rem;margin-top:.75rem;padding-top:.7rem;border-top:1px solid var(--line);font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.7rem;color:rgba(248,248,240,.6)}
+.pop-metaline i{color:var(--vik);font-style:normal}
+.leaflet-popup-content .pop-actions{display:flex;gap:.45rem;margin-top:.9rem}
+.leaflet-popup-content .pop-actions a{flex:1;text-align:center;font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:#fff;background:var(--vik);padding:.6rem .5rem;transition:background .25s}
+.leaflet-popup-content .pop-actions a:hover{background:#0038c9}
+.leaflet-popup-content .pop-actions a.alt{background:none;border:1px solid var(--line);color:var(--bone)}
+.leaflet-popup-content .pop-actions a.alt:hover{background:rgba(248,248,240,.08)}
+
+/* ── M17 · Accordion ───────────────────────────────────────── */
+.accordion{max-width:900px;margin:0 auto;border-top:1px solid var(--line)}
+.section.canvas .accordion,.section.bone .accordion{border-color:var(--line-dark)}
+.acc-item{border-bottom:1px solid var(--line)}
+.section.canvas .acc-item,.section.bone .acc-item{border-color:var(--line-dark)}
+.acc-head{width:100%;display:flex;justify-content:space-between;align-items:center;gap:2rem;padding:1.6rem 0;text-align:left;font-family:"Old Standard VIK",Georgia,serif;font-size:1.15rem;line-height:1.25;transition:opacity .25s,padding .3s}
+.acc-head:hover{opacity:.6}
+.acc-sign{flex:0 0 auto;width:14px;height:14px;position:relative;opacity:.5}
+.acc-sign::before,.acc-sign::after{content:"";position:absolute;background:currentColor;transition:transform .35s var(--ease),opacity .35s}
+.acc-sign::before{left:0;right:0;top:50%;height:1px;transform:translateY(-50%)}
+.acc-sign::after{top:0;bottom:0;left:50%;width:1px;transform:translateX(-50%)}
+.acc-item.open .acc-sign::after{transform:translateX(-50%) scaleY(0)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .5s var(--ease)}
+.acc-body-inner{padding:0 0 1.75rem;font-size:.93rem;line-height:1.75;font-weight:300;opacity:.65;max-width:64ch}
+
+/* ── M18 · Closing CTA ─────────────────────────────────────── */
+.closing{text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.5rem;max-width:900px;margin:0 auto}
+.closing-lines{display:flex;flex-direction:column;gap:.55rem;margin-bottom:1rem}
+.closing-lines p{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.05rem,1.9vw,1.5rem);line-height:1.35;opacity:.42;transition:opacity .5s}
+.closing-lines p:hover{opacity:1}
+.closing-title{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(2rem,4.5vw,3.6rem);line-height:1.05;letter-spacing:-0.015em}
+.closing-title em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.closing-actions{display:flex;flex-wrap:wrap;gap:1.5rem;justify-content:center;margin-top:1.5rem;align-items:center}
+.closing-note{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;opacity:.4;margin-top:1.5rem}
+
+/* ── M19 · Enquiry / services ──────────────────────────────── */
+.svc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);max-width:var(--max);margin:0 auto}
+.svc{background:var(--ink);padding:2rem 1.75rem;display:flex;flex-direction:column;gap:.85rem;transition:background .35s;min-height:200px}
+.svc:hover{background:var(--vik);color:#fff}
+.svc .k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;opacity:.5}
+.svc h3{font-family:"Old Standard VIK",Georgia,serif;font-size:1.3rem;line-height:1.1}
+.svc p{font-size:.9rem;line-height:1.6;opacity:.6;font-weight:300;margin-bottom:auto}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.75rem 2rem;max-width:var(--max);margin:0 auto}
+.field{display:flex;flex-direction:column;gap:.6rem}
+.field.full{grid-column:1/-1}
+.field label{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;opacity:.5}
+.field input,.field select,.field textarea{background:none;border:0;border-bottom:1px solid var(--line);color:inherit;font-family:"DM Sans",sans-serif;font-size:.95rem;padding:.6rem 0;outline:none;transition:border-color .3s}
+.section.canvas .field input,.section.canvas .field select,.section.canvas .field textarea,
+.section.bone .field input,.section.bone .field select,.section.bone .field textarea{border-color:var(--line-dark)}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--vik)}
+.field textarea{resize:vertical;min-height:100px}
+
+/* ── M19b · Enquiry ────────────────────────────────────────
+   A form is where an editorial site usually stops being editorial.
+   This one keeps the discipline: a statement and the direct lines on
+   the left, the questions on the right as a numbered list of rules —
+   no boxes, no fills. The guest's own words are set in the house
+   serif, so what they write looks considered rather than entered.  */
+.enquiry{display:grid;grid-template-columns:1fr 1.25fr;gap:clamp(2.5rem,7vw,7rem);
+  max-width:var(--max);margin:0 auto;align-items:start}
+
+/* left · why you would write, and how else to reach them */
+.enq-side{display:flex;flex-direction:column;gap:2rem}
+.enq-statement{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.2rem,1.85vw,1.65rem);line-height:1.32;letter-spacing:-0.01em;max-width:24ch}
+.enq-statement em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.enq-lines{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.section.canvas .enq-lines,.section.bone .enq-lines{border-color:var(--line-dark)}
+.enq-line{display:flex;flex-direction:column;gap:.4rem;padding:1.1rem 0;
+  border-bottom:1px solid var(--line);transition:padding-left .35s var(--ease)}
+.section.canvas .enq-line,.section.bone .enq-line{border-color:var(--line-dark)}
+.enq-line:hover{padding-left:.5rem}
+.enq-line .k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9px;
+  letter-spacing:.22em;text-transform:uppercase;opacity:.4}
+.enq-line .v{font-family:"Old Standard VIK",Georgia,serif;font-size:1.02rem;line-height:1.35}
+.enq-line a.v{transition:color .25s}
+.enq-line a.v:hover{color:var(--vik)}
+
+/* right · the questions */
+.enq-form{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.section.canvas .enq-form,.section.bone .enq-form{border-color:var(--line-dark)}
+.enq-field{position:relative;display:grid;grid-template-columns:2.4rem 1fr;
+  column-gap:1.25rem;align-items:baseline;
+  padding:1.35rem 0;border-bottom:1px solid var(--line);
+  transition:background .4s var(--ease)}
+.section.canvas .enq-field,.section.bone .enq-field{border-color:var(--line-dark)}
+.enq-field:focus-within{background:rgba(0,47,167,.035)}
+.enq-field .n{grid-column:1;font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.72rem;letter-spacing:.06em;color:var(--vik);opacity:.55;transition:opacity .3s}
+.enq-field:focus-within .n{opacity:1}
+.enq-field label{grid-column:2;font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9px;letter-spacing:.22em;text-transform:uppercase;opacity:.4;display:block;margin-bottom:.55rem}
+.enq-field input,.enq-field select,.enq-field textarea{grid-column:2;
+  background:none;border:0;outline:none;width:100%;padding:0;color:inherit;
+  font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.05rem,1.4vw,1.3rem);
+  line-height:1.35;letter-spacing:-0.005em;appearance:none}
+.enq-field input::placeholder,.enq-field textarea::placeholder{color:currentColor;opacity:.28;font-style:italic}
+.enq-field textarea{resize:vertical;min-height:3.4em}
+.enq-field select{cursor:pointer}
+/* the rule under the active question draws itself in */
+.enq-field::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;
+  background:var(--vik);transform:scaleX(0);transform-origin:left;
+  transition:transform .5s var(--slow)}
+.enq-field:focus-within::after{transform:scaleX(1)}
+/* two short answers can share a line */
+.enq-pair{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.enq-pair > .enq-field:first-child{border-right:1px solid var(--line);padding-right:1.75rem}
+.section.canvas .enq-pair > .enq-field:first-child{border-color:var(--line-dark)}
+.enq-pair > .enq-field:last-child{padding-left:1.75rem}
+
+.enq-foot{display:flex;flex-wrap:wrap;align-items:center;gap:1.5rem 2rem;padding-top:2rem}
+.enq-note{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9px;
+  letter-spacing:.2em;text-transform:uppercase;opacity:.38;max-width:34ch;line-height:1.9}
+
+@media (max-width:900px){
+  .enquiry{grid-template-columns:1fr;gap:3rem}
+  .enq-statement{font-size:1.3rem;max-width:30ch}
+}
+@media (max-width:560px){
+  .enq-pair{grid-template-columns:1fr}
+  .enq-pair > .enq-field:first-child{border-right:0;padding-right:0;border-bottom:1px solid var(--line-dark)}
+  .enq-pair > .enq-field:last-child{padding-left:0}
+  .enq-field{grid-template-columns:1.8rem 1fr;column-gap:.9rem}
+  .enq-foot .bk-submit{width:100%}
+}
+
+/* ── M20 · Press · LOGO RAIL ───────────────────────────────
+   Real logo files only, normalised to a single cap height and
+   shipped as white artwork on transparency, so one rule covers the
+   whole rail. Quotes below are set in Selva Script — no tracking,
+   larger, three columns of editorial.                             */
+.logo-rail{overflow:hidden;padding:1.5rem 0;cursor:grab;user-select:none;
+  position:relative;left:50%;right:50%;margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2);width:var(--vw);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
+.logo-rail.is-dragging{cursor:grabbing}
+.logo-item{flex:0 0 auto;display:flex;align-items:center;opacity:.3;transition:opacity .5s var(--ease)}
+.logo-rail:hover .logo-item{opacity:.2}
+.logo-item:hover{opacity:.8}
+.logo-item img{height:clamp(23px,2.3vw,32px);width:auto;max-width:clamp(230px,23vw,370px);object-fit:contain}
+.section.canvas .logo-item img,.section.bone .logo-item img{filter:brightness(0)}
+
+/* The notes. Three across, no numbering — the quotation and who said
+   it is the whole unit. Selva carries the words, Highway Gothic the
+   attribution, a hairline holds the column. On a phone they become a
+   drag reel rather than a stack.                                    */
+.press-quotes{display:grid;grid-template-columns:repeat(3,1fr);
+  gap:clamp(2.5rem,5vw,5rem);
+  max-width:var(--max);margin:clamp(3rem,6vw,5rem) auto 0;background:none;border:0;
+  border-top:1px solid var(--line)}
+.section.canvas .press-quotes,.section.bone .press-quotes{border-color:var(--line-dark)}
+/* No rules between the columns — the top rule and the gap are
+   enough to hold them, and the verticals cut the script. */
+.press-quote{background:none;padding:1.9rem 0;
+  display:flex;flex-direction:column;gap:1.35rem;align-items:flex-start}
+.press-quote q{font-family:"Selva Script",Georgia,serif;font-style:normal;
+  font-size:clamp(1.05rem,1.4vw,1.34rem);line-height:1.42;letter-spacing:0;
+  quotes:none;opacity:.92;max-width:30ch}
+.press-quote q::before,.press-quote q::after{content:none}
+.press-quote cite{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9px;letter-spacing:.2em;text-transform:uppercase;opacity:.4;font-style:normal;
+  display:flex;gap:.7rem;align-items:baseline;flex-wrap:wrap;margin-top:auto}
+.press-quote cite .d{opacity:.6}
+
+/* legacy static strip, still available */
+.press-strip{display:flex;flex-wrap:wrap;gap:3.5rem;align-items:center;justify-content:center;max-width:var(--max);margin:0 auto;opacity:.5}
+.press-strip span{font-family:"Old Standard VIK",Georgia,serif;font-size:1.05rem;letter-spacing:.1em;text-transform:uppercase}
+
+/* ── Property sub-navigation (sticky) ──────────────────────── */
+.subnav{position:sticky;top:0;z-index:80;background:rgba(30,30,30,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.subnav-inner{max-width:var(--max);margin:0 auto;display:flex;gap:2.25rem;align-items:center;padding:1rem var(--pad-x);overflow-x:auto;scrollbar-width:none}
+.subnav-inner::-webkit-scrollbar{display:none}
+.subnav a{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.4);white-space:nowrap;transition:color .25s;position:relative;padding:.2rem 0}
+.subnav a:hover,.subnav a.active{color:#fff}
+.subnav a.active::after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:1px;background:var(--vik)}
+/* The sub-nav carries a property signature, so it follows the same
+   ID rule as everywhere else — Highway Gothic, caps, .22em. */
+.subnav .sn-name{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:.82rem;letter-spacing:.2em;text-transform:uppercase;
+  color:#fff;margin-right:auto;white-space:nowrap;line-height:1}
+
+/* ── Split (image + text) ──────────────────────────────────── */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,5vw,5rem);align-items:center;max-width:var(--max);margin:0 auto}
+.split.reverse .split-media{order:2}
+.split-media{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--canvas)}
+.split-media img{width:100%;height:100%;object-fit:cover}
+.split-body{display:flex;flex-direction:column;gap:1.35rem}
+.split-body h2{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.6rem,3vw,2.4rem);line-height:1.1;letter-spacing:-0.015em}
+.split-body p{font-size:.95rem;line-height:1.78;font-weight:300;opacity:.7;max-width:56ch}
+.split-facts{display:flex;flex-direction:column;border-top:1px solid var(--line);margin-top:.75rem}
+.section.canvas .split-facts,.section.bone .split-facts{border-color:var(--line-dark)}
+.split-facts div{display:flex;justify-content:space-between;gap:2rem;padding:.85rem 0;border-bottom:1px solid var(--line);font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase}
+.section.canvas .split-facts div,.section.bone .split-facts div{border-color:var(--line-dark)}
+.split-facts div span:last-child{opacity:.5}
+
+/* ── Quote ─────────────────────────────────────────────────── */
+/* the measure was running edge to edge — it needs shoulders */
+.pull-quote{max-width:min(820px,84%);margin:0 auto;text-align:center;padding:0 clamp(1rem,4vw,3rem)}
+.pull-quote q{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.45rem,2.9vw,2.35rem);line-height:1.34;letter-spacing:-0.012em;quotes:"\201C" "\201D"}
+.pull-quote q em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.pull-quote cite{display:block;margin-top:2rem;font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;opacity:.4;font-style:normal}
+
+/* ── M27 · Chooser ─────────────────────────────────────────
+   The decision, given the whole screen. Three full-height panels
+   edge to edge; the one under the cursor opens and the other two
+   give up their width. No cards, no grid — the photograph is the
+   argument, and the answer to "which one is my trip" is a single
+   gesture. On touch every panel is simply open.                 */
+.chooser{position:relative;display:flex;overflow:hidden;background:var(--ink);
+  left:50%;right:50%;margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2);width:var(--vw);
+  height:clamp(520px,78vh,820px);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+
+.ch-panel{position:relative;flex:1 1 0;min-width:0;overflow:hidden;color:var(--bone);
+  border-right:1px solid rgba(255,255,255,.14);
+  transition:flex-grow .85s var(--slow),filter .6s var(--ease)}
+.ch-panel:last-child{border-right:0}
+.chooser:hover .ch-panel{flex-grow:.78;filter:saturate(.72) brightness(.72)}
+.chooser .ch-panel:hover{flex-grow:1.9;filter:none}
+
+.ch-panel img,.ch-panel video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transition:transform 1.6s var(--slow),opacity .8s var(--ease);transform:scale(1.04)}
+/* the film sits over the still and fades up only once it can play */
+.ch-panel video{opacity:0;z-index:1}
+.ch-panel video.is-playing{opacity:1}
+.ch-panel:hover img,.ch-panel:hover video{transform:scale(1)}
+.ch-panel::after{content:"";position:absolute;inset:0;z-index:2;
+  background:linear-gradient(to top,rgba(10,9,7,.9) 0%,rgba(10,9,7,.4) 42%,rgba(10,9,7,.18) 100%);
+  transition:opacity .6s var(--ease)}
+.ch-panel:hover::after{opacity:.86}
+
+/* the index runs up the left edge, so a compressed panel still reads */
+.ch-index{position:absolute;top:clamp(1.25rem,2.4vw,2rem);left:clamp(1.1rem,2vw,1.9rem);z-index:3;
+  font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.74rem;letter-spacing:.08em;
+  color:rgba(255,255,255,.55)}
+
+.ch-body{position:absolute;left:0;right:0;bottom:0;z-index:3;
+  padding:clamp(1.35rem,2.2vw,2.15rem);display:flex;flex-direction:column;gap:.85rem;align-items:flex-start}
+.ch-mark{font-size:clamp(.95rem,1.25vw,1.25rem);color:#fff}
+.ch-place{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:8.5px;
+  letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.6)}
+/* the argument only appears on the panel that opened */
+/* The lede is hidden until the panel opens but still occupies space,
+   so a two-line lede left its wordmark sitting lower than a three-line
+   one. Every panel now reserves exactly three lines. */
+.ch-lede{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.1rem,1.5vw,1.5rem);
+  line-height:1.32;color:#fff;max-width:26ch;
+  min-height:calc(1.32em * 3);
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .5s var(--ease) .12s,transform .6s var(--slow) .12s}
+.ch-tags{display:flex;flex-wrap:wrap;gap:.4rem;
+  opacity:0;transform:translateY(10px);
+  transition:opacity .5s var(--ease) .18s,transform .6s var(--slow) .18s}
+.ch-cta{opacity:0;transform:translateY(10px);
+  transition:opacity .5s var(--ease) .24s,transform .6s var(--slow) .24s}
+.ch-panel:hover .ch-lede,.ch-panel:hover .ch-tags,.ch-panel:hover .ch-cta{opacity:1;transform:none}
+
+/* a rule that draws itself along the foot of the open panel */
+.ch-panel::before{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;z-index:4;
+  background:var(--vik);transform:scaleX(0);transform-origin:left;
+  transition:transform .7s var(--slow)}
+.ch-panel:hover::before{transform:scaleX(1)}
+
+@media (hover:none),(pointer:coarse){
+  .chooser:hover .ch-panel,.chooser .ch-panel:hover{flex-grow:1;filter:none}
+  .ch-lede,.ch-tags,.ch-cta{opacity:1;transform:none}
+}
+@media (max-width:900px){
+  /* Three tall stacked panels is a long scroll for one decision. It
+     becomes a snap reel instead — three cards, one gesture, and the
+     whole argument moves into the lightbox. */
+  .chooser{height:auto;overflow-x:auto;scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;gap:8px;padding:0 var(--pad-x)}
+  .chooser::-webkit-scrollbar{display:none}
+  .chooser:hover .ch-panel,.chooser .ch-panel:hover{flex-grow:0;filter:none}
+  .ch-panel{flex:0 0 78vw;height:auto;aspect-ratio:3/4;border-right:0;scroll-snap-align:center}
+  .ch-lede,.ch-tags{display:none}
+  .ch-body{gap:.7rem}
+}
+@media (max-width:560px){
+  .ch-panel{flex-basis:84vw;aspect-ratio:4/5}
+}
+
+/* ── M27b · Property lightbox ───────────────────────
+   The Chooser opens into this instead of leaving the page. Film on one
+   side, the case for the retreat on the other, and a way to step
+   between the three without closing. The content is short, so it needs
+   no scroller of its own — which is what keeps it a lightbox rather
+   than a second page.                                                */
+.plb{position:fixed;inset:0;z-index:7000;display:flex;align-items:center;justify-content:center;
+  padding:clamp(1rem,3vw,3rem);opacity:0;visibility:hidden;
+  transition:opacity .45s var(--ease),visibility .45s}
+.plb.is-open{opacity:1;visibility:visible}
+.plb-backdrop{position:absolute;inset:0;background:rgba(8,8,7,.86);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+
+.plb-panel{position:relative;z-index:2;display:none;width:min(1180px,100%);max-height:min(760px,88vh);
+  grid-template-columns:1.05fr .95fr;background:var(--ink);color:var(--bone);
+  border:1px solid var(--line);box-shadow:0 50px 120px rgba(0,0,0,.6);overflow:hidden;
+  transform:translateY(18px) scale(.985);transition:transform .6s var(--slow)}
+.plb-panel.is-on{display:grid}
+.plb.is-open .plb-panel.is-on{transform:none}
+
+.plb-media{position:relative;overflow:hidden;background:#141312;min-height:clamp(280px,42vh,760px)}
+.plb-media video,.plb-media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.9)}
+.plb-media video{opacity:0;z-index:1;transition:opacity .7s var(--ease)}
+.plb-media video.is-playing{opacity:1}
+.plb-media::after{content:"";position:absolute;inset:0;z-index:2;
+  background:linear-gradient(90deg,rgba(10,9,7,.3),transparent 45%),
+             linear-gradient(to top,rgba(10,9,7,.5),transparent 45%)}
+.plb-index{position:absolute;top:clamp(1.1rem,2vw,1.75rem);left:clamp(1.1rem,2vw,1.75rem);z-index:3;
+  font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.74rem;letter-spacing:.08em;color:rgba(255,255,255,.6)}
+
+.plb-body{display:flex;flex-direction:column;gap:1.3rem;justify-content:center;
+  padding:clamp(1.75rem,3.4vw,3.25rem);overflow-y:auto;scrollbar-width:none}
+.plb-body::-webkit-scrollbar{display:none}
+.plb-place{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9px;
+  letter-spacing:.22em;text-transform:uppercase;opacity:.45}
+.plb-mark{font-size:clamp(1.05rem,1.6vw,1.45rem);color:#fff}
+.plb-lede{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.15rem,1.75vw,1.6rem);
+  line-height:1.34;letter-spacing:-0.01em;max-width:26ch}
+.plb-facts{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.plb-facts div{display:flex;justify-content:space-between;gap:1.5rem;padding:.8rem 0;
+  border-bottom:1px solid var(--line);
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9px;
+  letter-spacing:.2em;text-transform:uppercase}
+.plb-facts div span:last-child{opacity:.5;text-align:right}
+.plb-actions{display:flex;flex-wrap:wrap;gap:1.25rem;align-items:center;margin-top:.35rem}
+
+.plb-close{position:absolute;top:clamp(.75rem,2vw,1.5rem);right:clamp(.75rem,2vw,1.5rem);z-index:6;
+  width:42px;height:42px;border:1px solid var(--line);background:rgba(14,14,12,.72);
+  backdrop-filter:blur(10px);color:var(--bone);
+  transition:background .25s,color .25s,transform .3s var(--ease)}
+.plb-close:hover{background:var(--bone);color:var(--ink);transform:rotate(90deg)}
+.plb-nav{position:absolute;left:50%;bottom:clamp(.75rem,2.5vw,2rem);transform:translateX(-50%);z-index:6;
+  display:flex;align-items:center;gap:1.1rem;padding:.5rem .55rem;
+  background:rgba(14,14,12,.72);backdrop-filter:blur(12px);border:1px solid var(--line)}
+.plb-nav button{width:34px;height:34px;display:flex;align-items:center;justify-content:center;
+  color:var(--bone);transition:background .25s,color .25s}
+.plb-nav button:hover{background:var(--bone);color:var(--ink)}
+.plb-nav .c{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9px;
+  letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.5);min-width:7.5rem;text-align:center}
+body.plb-open{overflow:hidden}
+
+@media (max-width:900px){
+  .plb{padding:0}
+  .plb-panel{grid-template-columns:1fr;grid-template-rows:minmax(0,42vh) minmax(0,1fr);
+    max-height:100vh;height:100%;width:100%;border:0}
+  .plb-media{min-height:0}
+  .plb-body{gap:1.05rem;justify-content:flex-start;padding-bottom:6rem}
+  .plb-lede{font-size:1.2rem;max-width:none}
+}
+
+/* ── M29 · Checkout ───────────────────────────────
+   Check Availability opens here rather than a new tab. Four steps
+   across the top, the engine or the form on the left, the stay on the
+   right — the same summary follows the guest the whole way.        */
+.ck{position:fixed;inset:0;z-index:190;display:flex;align-items:center;justify-content:center;
+  padding:clamp(0px,2.5vw,2.5rem);opacity:0;visibility:hidden;
+  transition:opacity .4s var(--ease),visibility .4s}
+.ck.is-open{opacity:1;visibility:visible}
+.ck-backdrop{position:absolute;inset:0;background:rgba(8,8,7,.88);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.ck-panel{position:relative;z-index:2;display:flex;flex-direction:column;
+  width:min(1240px,100%);height:min(820px,92vh);background:var(--ink);color:var(--bone);
+  border:1px solid var(--line);box-shadow:0 50px 120px rgba(0,0,0,.6);overflow:hidden;
+  transform:translateY(16px) scale(.99);transition:transform .55s var(--slow)}
+.ck.is-open .ck-panel{transform:none}
+body.ck-open{overflow:hidden}
+
+.ck-head{display:flex;align-items:stretch;justify-content:space-between;
+  border-bottom:1px solid var(--line);flex:0 0 auto}
+.ck-steps{display:flex;align-items:stretch;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none}
+.ck-steps::-webkit-scrollbar{display:none}
+.ck-step{display:flex;align-items:center;gap:.7rem;padding:1.15rem clamp(1rem,2.2vw,2rem);
+  border-right:1px solid var(--line);white-space:nowrap;color:rgba(248,248,240,.34);
+  transition:color .3s,background .3s}
+.ck-step .n{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.72rem;letter-spacing:.06em}
+.ck-step .l{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9px;
+  letter-spacing:.22em;text-transform:uppercase}
+.ck-step:hover{color:rgba(248,248,240,.7)}
+.ck-step.is-done{color:rgba(248,248,240,.55)}
+.ck-step.is-done .n{color:var(--vik)}
+.ck-step.is-on{color:#fff;background:rgba(0,47,167,.16)}
+.ck-step.is-on .n{color:var(--vik)}
+.ck-close{flex:0 0 auto;width:60px;border-left:1px solid var(--line);color:var(--bone);
+  transition:background .25s,color .25s}
+.ck-close:hover{background:var(--bone);color:var(--ink)}
+
+.ck-body{flex:1;min-height:0;overflow-y:auto;scrollbar-width:none}
+.ck-body::-webkit-scrollbar{display:none}
+.ck-pane{display:none;grid-template-columns:1.35fr .65fr;min-height:100%}
+.ck-pane.is-on{display:grid}
+.ck-pane > *{padding:clamp(1.5rem,2.8vw,2.5rem)}
+.ck-summary{border-left:1px solid var(--line);display:flex;flex-direction:column;gap:1.25rem;
+  background:rgba(248,248,240,.02)}
+.ck-live,.ck-pay,.ck-form,.ck-donein{display:flex;flex-direction:column;gap:1.1rem}
+.ck-form{gap:0;border-top:1px solid var(--line);align-self:start;width:100%}
+
+.ck-h{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.4rem,2.2vw,2rem);
+  line-height:1.1;letter-spacing:-0.015em}
+.ck-note{font-size:.88rem;line-height:1.65;font-weight:300;opacity:.6;max-width:52ch}
+.ck-note.ck-warn{opacity:.75}
+.ck-facts{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.ck-facts div{display:flex;justify-content:space-between;gap:1.25rem;padding:.75rem 0;
+  border-bottom:1px solid var(--line);
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9px;
+  letter-spacing:.2em;text-transform:uppercase}
+.ck-facts div span:last-child{opacity:.55;text-align:right}
+.ck-actions{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;margin-top:auto}
+.ck-actions .bk-submit{flex:1;min-width:180px}
+
+/* the engine */
+.ck-frame{position:relative;flex:1;min-height:clamp(280px,44vh,520px);
+  border:1px solid var(--line);background:#141312;overflow:hidden}
+.ck-frame iframe{position:relative;z-index:2;width:100%;height:100%;border:0;background:#fff}
+.ck-frame-fallback{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1.25rem;text-align:center;padding:2rem}
+.ck-frame-fallback p{font-size:.9rem;line-height:1.65;font-weight:300;opacity:.55;max-width:38ch}
+
+/* payment methods */
+.ck-methods{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line)}
+.ck-method{background:var(--ink);padding:1.25rem;text-align:left;display:flex;flex-direction:column;gap:.45rem;
+  transition:background .3s}
+.ck-method:hover{background:rgba(248,248,240,.04)}
+.ck-method.is-on{background:var(--vik);color:#fff}
+.ck-method .k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9px;
+  letter-spacing:.22em;text-transform:uppercase;opacity:.6}
+.ck-method .v{font-family:"Old Standard VIK",Georgia,serif;font-size:1.05rem;line-height:1.15}
+.ck-method .s{font-size:.8rem;line-height:1.5;font-weight:300;opacity:.55}
+.ck-method.is-on .s,.ck-method.is-on .k{opacity:.8}
+.ck-cardpreview{display:flex;flex-direction:column;gap:1rem}
+.ck-cardgrid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:0;
+  border-top:1px solid var(--line);opacity:.45;pointer-events:none}
+.ck-cardgrid .enq-field{grid-template-columns:1fr;padding:1.1rem 1.25rem 1.1rem 0;
+  border-bottom:1px solid var(--line)}
+.ck-cardgrid .enq-field label,.ck-cardgrid .enq-field input{grid-column:1}
+
+.ck-done{grid-template-columns:1fr}
+.ck-donein{max-width:60ch;margin:auto;text-align:left;gap:1.35rem}
+
+@media (max-width:900px){
+  .ck{padding:0}
+  .ck-panel{width:100%;height:100%;border:0}
+  .ck-pane,.ck-done{grid-template-columns:1fr}
+  .ck-summary{border-left:0;border-top:1px solid var(--line)}
+  .ck-methods{grid-template-columns:1fr}
+  .ck-cardgrid{grid-template-columns:1fr}
+  .ck-step{padding:1rem 1.1rem}
+  .ck-step .l{display:none}
+}
+
+/* ── M25 · Booking ─────────────────────────────────────────
+   The conversion moment. Full-bleed, dark, photographic, with the
+   search itself set at editorial scale. Built to hand off to
+   Bookassist (and PayPal for the José Ignacio properties):
+   vik-booking.js composes the query and opens the engine, so
+   swapping the endpoint is a one-line change.                    */
+.booking{position:relative;overflow:hidden;background:var(--ink);color:var(--bone);
+  left:50%;right:50%;margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2);width:var(--vw)}
+.booking-bg{position:absolute;inset:0;z-index:0}
+.booking-bg img,.booking-bg video{width:100%;height:100%;object-fit:cover;filter:saturate(.7) contrast(1.05)}
+.booking-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,9,7,.86),rgba(10,9,7,.94)),radial-gradient(ellipse 90% 70% at 50% 0%,rgba(0,47,167,.32),transparent 70%)}
+.booking-inner{position:relative;z-index:2;max-width:var(--max);margin:0 auto;padding:clamp(4.5rem,9vw,8rem) var(--pad-x)}
+.booking-head{display:grid;grid-template-columns:1fr auto;gap:clamp(1.5rem,4vw,4rem);align-items:end;margin-bottom:clamp(2.5rem,5vw,4rem)}
+.booking-title{font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(2.4rem,6vw,4.6rem);line-height:.98;letter-spacing:-0.025em;color:#fff;margin-top:1.25rem}
+.booking-title em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.booking-note{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.4);text-align:right;line-height:2}
+
+/* the search itself */
+.booking-form{display:grid;grid-template-columns:1.2fr 1fr 1fr .9fr auto;align-items:stretch;
+  border:1px solid rgba(248,248,240,.22);background:rgba(18,17,15,.55);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.bk-field{display:flex;flex-direction:column;justify-content:center;gap:.6rem;padding:1.5rem 1.75rem;border-right:1px solid rgba(248,248,240,.16);min-width:0;transition:background .35s var(--ease);position:relative}
+.bk-field:focus-within,.bk-field:hover{background:rgba(248,248,240,.05)}
+.bk-field label{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.42)}
+.bk-field input,.bk-field select{background:none;border:0;outline:none;width:100%;padding:0;color:#fff;color-scheme:dark;
+  font-family:"Old Standard VIK",Georgia,serif;font-size:clamp(1.05rem,1.5vw,1.35rem);line-height:1.1;letter-spacing:-0.01em;appearance:none;cursor:pointer}
+.bk-field input::placeholder{color:rgba(248,248,240,.35)}
+.bk-field select option{background:#1E1E1E;color:#F8F8F0}
+.bk-field::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--vik);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease)}
+.bk-field:focus-within::after{transform:scaleX(1)}
+.bk-submit{display:flex;align-items:center;gap:1rem;padding:0 clamp(1.75rem,3vw,2.75rem);background:var(--vik);color:#fff;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  transition:background .3s,letter-spacing .4s var(--ease);white-space:nowrap;border-right:0}
+/* Outside the booking form there is no row to fill, so the standalone
+   variant carries its own height. Same button, same weight. */
+.bk-submit.standalone{display:inline-flex;justify-content:center;padding:1.25rem clamp(1.75rem,3vw,2.75rem)}
+.bk-submit:hover{background:#0038c9;letter-spacing:.26em}
+.bk-submit .arw{transition:transform .35s var(--ease)}
+.bk-submit:hover .arw{transform:translateX(6px)}
+
+.booking-foot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.5rem 3rem;margin-top:2rem}
+.booking-alts{display:flex;flex-wrap:wrap;gap:2rem}
+.booking-trust{display:flex;flex-wrap:wrap;gap:1.75rem;font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:rgba(248,248,240,.34)}
+.booking-trust span{display:inline-flex;align-items:center;gap:.5rem}
+.booking-trust span::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--vik)}
+
+/* ── Compare · ecosystem · room view, at smaller widths ────── */
+@media (max-width:1024px){
+  .prop{flex:0 0 clamp(300px,56vw,520px)}
+  .room-hero{height:56vh;min-height:340px}
+  .room-cap h2{font-size:clamp(1.6rem,5vw,2.4rem)}
+}
+@media (max-width:768px){
+  /* the rail gives up its edge mask — at this width it eats a card */
+  .prop-rail{-webkit-mask-image:none;mask-image:none}
+  .prop-rail-head{flex-direction:column;align-items:flex-start;gap:1.25rem;margin-bottom:1.75rem}
+  .prop{flex:0 0 78vw}
+  .prop-desc{font-size:.9rem;margin-bottom:1rem}
+
+  .room-hero{height:48vh;min-height:280px}
+  .room-cap{gap:1rem;padding-bottom:1.5rem}
+  .room-actions{gap:1rem}
+  .room-close{top:1rem;right:1rem;width:38px;height:38px}
+  .room-nav{bottom:1rem;gap:.75rem}
+  .room-nav .rn-count{min-width:4.5rem}
+}
+@media (max-width:560px){
+  .prop{flex:0 0 84vw}
+  .prop-body{padding:1.5rem 1.35rem}
+  .prop-name{font-size:.98rem;letter-spacing:.18em}
+  .prop-desc{display:none}
+  .room-hero{height:44vh;min-height:240px}
+  .room-cap h2{font-size:1.65rem;max-width:none}
+  .room-actions{width:100%}
+  .room-actions .btn-solid{width:100%;justify-content:center}
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+/* ══ M26d · ROOM REEL ═════════════════════════════════
+   Every room, full height, one at a time, with a bar to narrow it
+   down. Forty rooms is too many to scroll past hoping to recognise
+   one — the bar is what turns a gallery into a chooser.
+
+   Photographs live at assets/img/rooms/<house>/<room>-01..03.jpg.
+   Those names are fixed; see tools_rooms.py and ROOMS.md. Replacing
+   a photograph is dropping a file over one of them.                */
+.roomreel{position:relative;left:50%;right:50%;overflow:hidden;
+  margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2);width:var(--vw);
+  background:var(--ink);border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  display:flex;flex-direction:column}
+
+/* ── The bar ─────────────────────────────────────
+   Scrolls sideways on a phone rather than wrapping onto two rows —
+   a filter that changes height as you use it is a filter nobody
+   trusts. */
+.roomreel-bar{position:absolute;top:0;left:0;right:0;z-index:3;
+  display:flex;align-items:stretch;gap:0;
+  overflow-x:auto;scrollbar-width:none;
+  border-bottom:1px solid rgba(248,248,240,.14);background:rgba(14,14,12,.55);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.roomreel-bar::-webkit-scrollbar{display:none}
+.rr-cat{display:flex;align-items:baseline;gap:.6rem;white-space:nowrap;
+  padding:1.1rem clamp(1rem,2vw,1.75rem);
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+  letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.5);
+  border-right:1px solid var(--line);position:relative;
+  transition:color .3s var(--ease),background .3s var(--ease)}
+.rr-cat .n{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.62rem;
+  letter-spacing:0;opacity:.5}
+.rr-cat:hover{color:#fff;background:rgba(248,248,240,.05)}
+.rr-cat.is-on{color:#fff}
+/* the blue accent draws itself under the active filter */
+.rr-cat::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;
+  background:var(--vik);transform:scaleX(0);transform-origin:left;
+  transition:transform .5s var(--slow)}
+.rr-cat.is-on::after{transform:scaleX(1)}
+.rr-count{margin-left:auto;display:flex;align-items:center;flex:0 0 auto;
+  padding:0 clamp(1rem,2vw,1.75rem);
+  font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.68rem;
+  color:rgba(248,248,240,.4);border-left:1px solid var(--line)}
+
+/* ── The reel ────────────────────────────────────
+   Native scroll and native snap, like every other rail in the system.
+   One room fills most of the frame with the next one just showing,
+   which is the only cue anybody needs that there are more. */
+/* Full height, and free-scrolling rather than snapping. Snap and a
+   continuous drift fight each other — the drift pulls, the snap
+   yanks back, and the result reads as a stutter. Momentum scrolling
+   with no snap is what makes the swipe feel like the photographs are
+   simply moving. vik-rooms.js does the drift. */
+/* A transformed strip, not a scroller — scrollLeft only accepts whole
+   pixels and a sub-pixel drift stutters on it. width:max-content so
+   the row can be wider than the frame that clips it. */
+.roomreel-track{flex:1 1 auto;min-height:0;display:flex;align-items:stretch;
+  height:100vh;height:100dvh;width:max-content;
+  will-change:transform;cursor:grab;touch-action:pan-y}
+.roomreel-track.is-dragging{cursor:grabbing}
+/* The filter fades the strip out, swaps, and fades it back. A hard
+   cut on something already moving reads as a glitch. */
+.roomreel-track{transition:opacity .26s var(--ease)}
+.roomreel.is-swapping .roomreel-track{opacity:0}
+/* and the active filter's rule draws itself rather than appearing */
+.rr-cat .l{transition:opacity .3s var(--ease)}
+.rr-cat:not(.is-on) .l{opacity:.72}
+.rr-count{transition:opacity .3s var(--ease)}
+.roomreel.is-swapping .rr-count{opacity:0}
+/* and the bar's own rule slides to the category you picked */
+.rr-cat::after{transition:transform .45s var(--slow)}
+
+/* No rule between rooms. A hairline on a moving sub-pixel strip
+   shimmers, and the photographs meeting each other is division
+   enough — the same call the ecosystem rail makes. */
+.roomreel-track > .wall-tile{position:relative;display:block;overflow:hidden;
+  flex:0 0 min(56vw,760px);background:#141312;
+  margin-right:-.5px;
+  user-select:none;-webkit-user-drag:none}
+.roomreel-track > .wall-tile:last-child{margin-right:0}
+.roomreel-track > .wall-tile:last-child{border-right:0}
+/* No hover state on a strip that moves. The rooms pass under a
+   still cursor, so a hover zoom means the browser is starting and
+   abandoning full-height image scales several at a time - which is
+   what the drift was catching on. The photograph sits still and the
+   movement belongs to the rail. */
+.roomreel-track > .wall-tile img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;filter:saturate(.94);
+  pointer-events:none;-webkit-user-drag:none}
+.roomreel-track > .wall-tile::after{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top,rgba(10,9,7,.9) 0%,rgba(10,9,7,.35) 44%,rgba(10,9,7,.12) 100%)}
+/* nothing here is clickable, so nothing here offers a finger */
+.roomreel-track > .wall-tile{cursor:inherit}
+/* each room paints inside its own box: the compositor never has to
+   consider the other seventy-nine */
+.roomreel-track > .wall-tile{contain:paint}
+.roomreel-track{backface-visibility:hidden}
+
+/* ── The swap ─────────────────────────────────────────────────────
+   Choosing a category is the one moment the reel is asked to change
+   its mind, so it is worth a beat. The strip fades, the set is
+   rebuilt, and the rooms you can actually see rise back in one after
+   another — six centiseconds apart, eight tiles deep. Past the eighth
+   nothing animates: it would be motion nobody is looking at. */
+@keyframes rrSettle{
+  from{opacity:0;transform:translateY(14px)}
+  to  {opacity:1;transform:none}}
+.roomreel.is-fresh .roomreel-track > .wall-tile{animation:rrSettle .85s var(--slow) both}
+.roomreel.is-fresh .roomreel-track > .wall-tile:nth-child(1){animation-delay:0s}
+.roomreel.is-fresh .roomreel-track > .wall-tile:nth-child(2){animation-delay:.06s}
+.roomreel.is-fresh .roomreel-track > .wall-tile:nth-child(3){animation-delay:.12s}
+.roomreel.is-fresh .roomreel-track > .wall-tile:nth-child(4){animation-delay:.18s}
+.roomreel.is-fresh .roomreel-track > .wall-tile:nth-child(5){animation-delay:.24s}
+.roomreel.is-fresh .roomreel-track > .wall-tile:nth-child(6){animation-delay:.30s}
+.roomreel.is-fresh .roomreel-track > .wall-tile:nth-child(7){animation-delay:.36s}
+.roomreel.is-fresh .roomreel-track > .wall-tile:nth-child(8){animation-delay:.42s}
+.roomreel.is-fresh .roomreel-track > .wall-tile:nth-child(n+9){animation:none}
+/* the count re-sets with them */
+@media (prefers-reduced-motion:reduce){
+  .roomreel.is-fresh .roomreel-track > .wall-tile{animation:none}
+  .roomreel-track{transition:none}}
+
+.rr-body{position:absolute;left:0;right:0;bottom:0;z-index:2;
+  padding:clamp(1.5rem,3vw,2.75rem);display:flex;flex-direction:column;
+  align-items:flex-start;gap:.65rem}
+.rr-i{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.7rem;
+  color:rgba(248,248,240,.55)}
+.rr-name{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.5rem,2.6vw,2.3rem);line-height:1.1;letter-spacing:-0.012em;color:#fff}
+.rr-meta{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:8.5px;
+  letter-spacing:.22em;text-transform:uppercase;color:rgba(248,248,240,.6)}
+/* Nothing here opens, so nothing here is offered. */
+.rr-cue{display:none}
+
+/* ── The frame, narrow ───────────────────────────
+   Full height stops making sense once the frame is narrow: a tile
+   86vw wide and a whole screen tall is a keyhole at 1:2.5, and no
+   photograph of a room survives being cropped to that. Below 1024
+   the reel keeps the tile at 4:5 and takes whatever height that
+   needs, so one prepared photograph works at every width. */
+@media (max-width:1024px){
+  .roomreel{height:auto}
+  .roomreel-track{height:calc(74vw * 4 / 3)}
+  .roomreel-track > .wall-tile{flex-basis:74vw}
+  .rr-cat{padding:.95rem 1.1rem}
+}
+@media (max-width:560px){
+  .roomreel-track{height:calc(86vw * 4 / 3)}
+  .roomreel-track > .wall-tile{flex-basis:86vw}
+  .rr-name{font-size:1.35rem}
+  .rr-count{display:none}
+}
+
+/* ══ STRETCH REEL · M03 · M06 · M11 · M15 ═════════════════
+   Below 1024px these four stop being grids and become one carousel on
+   the browser's own scroll. Native rather than scripted on purpose:
+   the platform's momentum, snapping and rubber-banding are smoother
+   than anything a script does here, they cost nothing, and they work
+   while the page is still loading.
+
+   The card height is NOT fixed. align-items:stretch gives every card
+   in a row the height of the tallest one, so a row is level without
+   any card being cropped to get there — a live reading, a pillar, a
+   season and a day's programme are four different lengths of copy and
+   forcing them into one shape broke all four.
+
+   What is shared: the scroll, the snap, the gutter, the peek of the
+   next card at the right edge. What is set per module: the card
+   width, because a five-word live reading and a forty-word pillar do
+   not want the same measure.                                      */
+@media (max-width:1024px){
+  :root{
+    /* The edge is the section's own gutter, never a value of its own.
+       A reel pulls itself out by exactly this and pads itself back in
+       by exactly this, so the two cancel and the row can never end up
+       wider than the column it sits in. */
+    --reel-edge:var(--pad-x);
+    --reel-gap:10px;
+  }
+
+  .fact-ribbon,
+  .pillars,
+  .band-steps,
+  .week-panel.active{
+    display:flex;grid-template-columns:none;align-items:stretch;
+    overflow-x:auto;overflow-y:hidden;
+    scroll-snap-type:x mandatory;scroll-padding-inline:var(--reel-edge);
+    -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+    scrollbar-width:none;
+    gap:var(--reel-gap);
+    padding-left:var(--reel-edge);padding-right:var(--reel-edge);
+    border-left:0;border-right:0;
+  }
+  .fact-ribbon::-webkit-scrollbar,
+  .pillars::-webkit-scrollbar,
+  .band-steps::-webkit-scrollbar,
+  .week-panel.active::-webkit-scrollbar{display:none}
+
+  .fact-ribbon > .fact,
+  .pillars > .pillar,
+  .band-steps > .band-step,
+  .week-panel.active > .venue{
+    flex:0 0 auto;min-width:0;margin:0;
+    scroll-snap-align:center;scroll-snap-stop:always;
+    display:flex;flex-direction:column;
+    border:1px solid var(--line);
+  }
+  .section.canvas .pillars > .pillar,
+  .section.bone   .pillars > .pillar,
+  .section.canvas .week-panel.active > .venue,
+  .section.bone   .week-panel.active > .venue{border-color:var(--line-dark)}
+
+  /* ── M03 · the ribbon stays a ribbon ────────────────────
+     Narrow columns, four or five of them in view, height set by the
+     longest reading — the same slim band the desktop shows, moving
+     sideways instead of wrapping. */
+  .fact-ribbon{padding-top:var(--reel-gap);padding-bottom:var(--reel-gap)}
+  .fact-ribbon > .fact{
+    flex-basis:min(58vw,215px);
+    padding:1.15rem 1.15rem 1.25rem;gap:.6rem;
+    justify-content:flex-start;
+    border-color:rgba(248,248,240,.16)}
+  .fact:hover{background:none;color:inherit}
+  .fact .k{font-size:8.5px}
+  /* Four of the five readings carry a qualifier under them and one
+     does not, which left the clock's number sitting higher than the
+     other four across the row. The block reserves the qualifier's
+     line whether or not there is one, so every value starts and ends
+     on the same two lines. */
+  .fact .v{font-size:clamp(1.35rem,5.2vw,1.7rem);margin-top:.1rem;min-height:1.8em}
+  .fact .v small{display:block;margin-top:.3rem;white-space:normal;line-height:1.35}
+  /* the sentence under the reading is what sets the band's height, so
+     it gets the room it needs rather than a clamp */
+  .fact .s{margin-top:auto;padding-top:.6rem;font-size:.68rem;line-height:1.55}
+
+  /* ── M06 · pillars ─────────────────────────────────
+     Number, title, argument — in full. The hover wash and the corner
+     rule mean nothing without a cursor. */
+  .pillars > .pillar{
+    flex-basis:min(74vw,330px);
+    padding:1.6rem 1.4rem 1.75rem;gap:.75rem;justify-content:flex-start}
+  .pillar::after{display:none}
+  .pillar:hover{background:none}
+  .pillar .i{margin-bottom:0;font-size:8.5px;letter-spacing:.16em}
+  .pillar h3{font-size:clamp(1.2rem,4.8vw,1.45rem);margin-bottom:0;text-wrap:balance}
+  .pillar p{font-size:.9rem;line-height:1.65;margin-top:.15rem}
+
+  /* ── M11 · the seasons, over the film ──────────────────
+     These sit on a moving photograph, so each one takes a scrim of
+     its own — otherwise the copy is only ever as readable as the
+     frame behind it happens to be. */
+  .band-steps{padding-top:1.75rem;
+    margin-left:calc(var(--reel-edge) * -1);margin-right:calc(var(--reel-edge) * -1)}
+  .band-steps > .band-step{
+    flex-basis:min(70vw,300px);
+    padding:1.4rem 1.3rem 1.6rem;gap:.6rem;justify-content:flex-start;
+    background:rgba(14,14,12,.42);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border-color:rgba(248,248,240,.2)}
+  .band-step p{font-size:.88rem;line-height:1.6}
+
+  /* ── M15 · one venue per card ───────────────────────
+     Every slot of the day is visible. The square version hid the
+     third one behind an inner scrollbar nobody would find. */
+  .week-panel.active{padding-top:1.75rem;
+    margin-left:calc(var(--reel-edge) * -1);margin-right:calc(var(--reel-edge) * -1)}
+  .week-panel.active > .venue{
+    flex-basis:min(82vw,360px);
+    border-top:1px solid var(--line-dark);
+    padding:1.35rem 1.3rem .5rem}
+  .week-panel.active .venue-head{margin-bottom:.5rem;gap:.75rem}
+  .week-panel.active .venue-head h3{font-size:1.05rem}
+  .week-panel.active .slot{grid-template-columns:3.6rem 1fr;gap:.75rem;
+    align-items:start;padding:.85rem 0}
+  .week-panel.active .slot .time{font-size:.72rem;padding-top:.15rem}
+  .week-panel.active .slot h4{font-size:.98rem;line-height:1.25}
+  .week-panel.active .slot p{font-size:.82rem;line-height:1.55;margin-top:.2rem}
+  .week-panel.active .slot .btn-line{grid-column:2;margin-top:.6rem}
+  .week-panel.active > .venue > .slot:last-of-type{border-bottom:0}
+}
+
+@media (max-width:1180px){
+  .booking-form{grid-template-columns:1fr 1fr}
+  .bk-field:nth-child(2n){border-right:0}
+  .bk-field{border-bottom:1px solid rgba(248,248,240,.16)}
+  .bk-submit{grid-column:1/-1;justify-content:center;padding:1.35rem}
+}
+@media (max-width:1024px){
+  .hero-film .hf-grid{grid-template-columns:1fr;gap:2rem}
+  .hf-meta{display:none}
+  .hero-page .hp-inner{grid-template-columns:1fr;gap:1.5rem}
+  .intro{grid-template-columns:1fr;gap:2rem}
+  .principle{grid-template-columns:2.5rem 1fr;gap:1rem}
+  .principle p{grid-column:2}
+  .wall-track{grid-template-columns:repeat(3,1fr)}
+  .wall{height:clamp(460px,74vh,720px)}
+  .room-body{grid-template-columns:1fr;gap:1.5rem}
+  .card-grid,.card-grid.c2,.card-grid.feature{grid-template-columns:1fr 1fr}
+  /* two columns cannot carry a two-thirds card — the rhythm pauses */
+  .card-grid.alt{grid-template-columns:1fr 1fr}
+  .card-grid.alt > *{grid-column:auto!important}
+  .vcard.tall{grid-row:auto}
+  .band-head{grid-template-columns:1fr;gap:1.5rem}
+  .week-rail{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .week-day{border-bottom:1px solid var(--line-dark)}
+  .map-full{height:min(560px,70vh,86vw);min-height:360px}
+  .booking-head{grid-template-columns:1fr;align-items:start}
+  .booking-note{text-align:left}
+  .svc-grid{grid-template-columns:repeat(2,1fr)}
+  .press-quotes{grid-template-columns:repeat(3,1fr)}
+  .press-quote{padding-right:1.1rem}
+  .press-quote q{font-size:1.02rem}
+  .split,.split.reverse .split-media{grid-template-columns:1fr;order:0}
+  .form-grid{grid-template-columns:1fr}
+  .gallery-card:nth-child(even){margin-top:3rem}
+}
+@media (max-width:900px){
+}
+@media (max-width:820px){
+  /* Three columns stop fitting, and a stack of three is a wall of
+     script. They become a drag reel instead — same cards, read one
+     at a time, with the rule now under each. */
+  .press-quotes{display:flex;grid-template-columns:none;overflow-x:auto;
+    scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+    border-top:0;cursor:grab;
+    margin-left:calc(var(--pad-x) * -1);margin-right:calc(var(--pad-x) * -1);
+    padding:0 var(--pad-x) .5rem}
+  .press-quotes::-webkit-scrollbar{display:none}
+  .press-quotes.is-dragging{cursor:grabbing}
+  .press-quote{flex:0 0 min(74vw,340px);scroll-snap-align:center;
+    border-top:1px solid var(--line);
+    padding:1.5rem 0 0;margin-right:1.75rem;gap:1.1rem}
+  .section.canvas .press-quote,.section.bone .press-quote{border-color:var(--line-dark)}
+  .press-quote:last-child{margin-right:0}
+  .press-quote q{font-size:1.14rem;max-width:none}
+}
+@media (max-width:560px){
+  .hf-title{font-size:clamp(2rem,8vw,2.8rem)}
+  .wall-track{grid-template-columns:repeat(2,1fr)}
+  .wall{height:clamp(420px,68vh,620px)}
+  .card-grid,.card-grid.c2,.card-grid.feature,.card-grid.alt{grid-template-columns:1fr}
+  /* a span-2 card would force a second column back into a 1fr grid */
+  .vcard.film.wide{grid-column:auto}
+  .index-row{grid-template-columns:2.5rem 1fr;min-height:auto;padding-bottom:.5rem}
+  .index-meta{grid-column:2;padding-top:0}
+  .index-cta{grid-column:2;justify-self:start;padding-top:0;padding-bottom:1.2rem}
+  .week-rail{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .slot{grid-template-columns:4.5rem 1fr;gap:.9rem}
+  .slot a{grid-column:2}
+  .svc-grid{grid-template-columns:1fr}
+  .gallery-card{flex:0 0 84vw}
+  .gallery-card:nth-child(even){margin-top:2rem}
+  .prop{flex:0 0 84vw}
+  .booking-form{grid-template-columns:1fr}
+  .bk-field{border-right:0}
+}
+
+/* ══ M16 · Map on a phone ══════════════════════════════════════
+   Portrait 4:5, and the legend stops being a list you scan — it
+   shows one property at a time and the map follows whichever one
+   is centred. vik-live.js watches the snap and flies the map. */
+@media (max-width:768px){
+  /* 4:5 exactly. The cap only engages on a landscape phone, where a
+     portrait map would be taller than the screen. */
+  .map-full{height:auto;aspect-ratio:4/5;min-height:0;max-height:94vh}
+  .map-view{top:12px;left:12px}
+  .map-view button{padding:.55rem .85rem}
+  .mb-list{scroll-snap-type:x mandatory;scroll-behavior:smooth;
+    overscroll-behavior-x:contain}
+  .mb-list li{flex:0 0 100%;min-width:0;scroll-snap-align:center;scroll-snap-stop:always;
+    border-right:0;justify-content:center;padding:1.15rem 1rem;
+    color:#fff;background:none}
+  .mb-list li .n{font-size:11px}
+  /* the step marks tell you how many places there are and where you
+     are among them, which a single centred row otherwise hides */
+  .map-steps{position:absolute;left:0;right:0;bottom:calc(100% + 2px);z-index:2;
+    display:flex;gap:5px;justify-content:center;padding:0 1rem}
+  .map-steps i{width:5px;height:5px;border-radius:50%;background:rgba(248,248,240,.28);
+    transition:background .3s,transform .3s}
+  .map-steps i.is-on{background:var(--vik);transform:scale(1.4)}
+  .map-bar{overflow:visible}
+}
+
+/* The credit the map no longer carries. Only on pages that have one —
+   :has() asks the document, which is the only way a footer can know. */
+
+/* ══ THE LEGAL PANEL ══════════════════════════════════════════════
+   Terms, privacy, accessibility, cookies. Four links that used to go
+   to '#'. It opens as a sheet from the right rather than a centred
+   box: this is reading, not a decision, and reading wants a column
+   with a measure, not a dialogue with buttons.
+
+   The cartography lives inside the terms. Attribution is a licence
+   condition; set as a list with what each source provides, it reads
+   as craft rather than as small print. */
+.legal{position:fixed;inset:0;z-index:7500;visibility:hidden;pointer-events:none}
+.legal[aria-hidden="false"]{visibility:visible;pointer-events:auto}
+.legal-backdrop{position:absolute;inset:0;background:rgba(10,9,7,.62);
+  opacity:0;transition:opacity .5s var(--ease);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.legal[aria-hidden="false"] .legal-backdrop{opacity:1}
+.legal-sheet{position:absolute;top:0;right:0;bottom:0;
+  width:min(560px,92vw);background:var(--ink);color:var(--bone);
+  border-left:1px solid var(--line);
+  display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .62s var(--slow)}
+.legal[aria-hidden="false"] .legal-sheet{transform:none}
+.legal-close{position:absolute;top:1.1rem;right:1.1rem;z-index:2;
+  width:38px;height:38px;display:flex;align-items:center;justify-content:center;
+  color:rgba(248,248,240,.5);font-size:1.5rem;line-height:1;
+  transition:color .3s var(--ease)}
+.legal-close:hover{color:#fff}
+
+.legal-tabs{display:flex;flex-wrap:wrap;gap:0;flex:0 0 auto;
+  border-bottom:1px solid var(--line);padding-right:3.5rem}
+.legal-tab{padding:1.15rem clamp(1rem,3vw,1.6rem);position:relative;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+  letter-spacing:.2em;text-transform:uppercase;color:rgba(248,248,240,.45);
+  transition:color .3s var(--ease)}
+.legal-tab:hover{color:rgba(248,248,240,.8)}
+.legal-tab.is-on{color:#fff}
+.legal-tab::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;
+  background:var(--vik);transform:scaleX(0);transform-origin:left;
+  transition:transform .5s var(--slow)}
+.legal-tab.is-on::after{transform:scaleX(1)}
+
+.legal-scroll{flex:1 1 auto;overflow-y:auto;overscroll-behavior:contain;
+  padding:clamp(2rem,5vw,3.25rem) clamp(1.5rem,4vw,3rem) 4rem}
+.legal-part{display:none}
+.legal-part.is-on{display:block}
+.legal-eyebrow{display:block;color:var(--vik);margin-bottom:.9rem}
+.legal-title{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.9rem,4vw,2.6rem);line-height:1.08;letter-spacing:-0.014em;
+  color:#fff;margin-bottom:1.6rem}
+.legal-copy{max-width:52ch;font-size:.95rem;line-height:1.85;font-weight:300;
+  color:rgba(248,248,240,.66);margin-bottom:1.15rem}
+
+/* ── The cartography ─────────────────────────────
+   Three sources, each with what it draws. The name carries, the
+   description explains, the licence closes — a rule between them and
+   nothing else. */
+.legal-credit{margin-top:2.75rem;padding-top:2rem;border-top:1px solid var(--line)}
+.legal-credit-lede{max-width:46ch;font-size:.9rem;line-height:1.8;font-weight:300;
+  color:rgba(248,248,240,.55);margin-bottom:1.5rem}
+.legal-sources{display:flex;flex-direction:column;gap:0}
+.legal-sources li{display:grid;grid-template-columns:1fr auto;
+  gap:.35rem 1.5rem;padding:1.15rem 0;border-top:1px solid rgba(248,248,240,.09)}
+.legal-sources li:first-child{border-top:0}
+.src-name{grid-column:1;font-family:"Old Standard VIK",Georgia,serif;
+  font-size:1.15rem;color:#fff;line-height:1.2}
+.src-lic{grid-column:2;grid-row:1;align-self:baseline;
+  font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.62rem;
+  color:var(--vik);white-space:nowrap}
+.src-what{grid-column:1 / -1;font-size:.86rem;line-height:1.7;font-weight:300;
+  color:rgba(248,248,240,.5)}
+.src-link{grid-column:1 / -1;font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.66rem;color:rgba(248,248,240,.4);
+  transition:color .25s var(--ease)}
+.src-link:hover{color:var(--vik)}
+
+body.legal-open{overflow:hidden}
+
+@media (max-width:560px){
+  .legal-sheet{width:100vw;border-left:0}
+  .legal-tabs{overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+  .legal-tabs::-webkit-scrollbar{display:none}
+  .legal-tab{white-space:nowrap}
+}
+@media (prefers-reduced-motion:reduce){
+  .legal-sheet,.legal-backdrop{transition:none}
+}
+
+/* ══ THE ROOM FORMATS · M31 – M35 ═════════════════════════════════
+   Galleria VIK's room page does four things this system had no
+   equivalent for, and they are the four a guest looking at one room
+   actually needs: the photographs, the dimensions, what is included,
+   and who made the work on the wall.
+
+   All five take their colour from the ground they are dropped on.
+   Nothing here names a text colour: they inherit, and the muted tones
+   are the inherited colour at a lower opacity. That is why the same
+   markup reads on the library's ink and on a property page's canvas
+   without a modifier, and why neither can ever come out at 1:1.
+
+   The measure is the page's, not their own. A block that sets its own
+   width lands a few pixels off every rule above it, and a few pixels
+   is enough to read as a mistake rather than a decision. */
+.ghero,.specbar,.incl,.artists,.crumb,.modlabel{
+  max-width:var(--max);margin-left:auto;margin-right:auto}
+
+/* ── The label over each block ───────────────────
+   Name, then a rule the full width of the measure. The rule stopping
+   short of the block it introduces is the single most common way a
+   page like this looks unfinished. */
+.modlabel{display:flex;align-items:baseline;gap:1rem;
+  padding-bottom:.85rem;margin-bottom:1.5rem;
+  border-bottom:1px solid currentColor;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:inherit;opacity:.5}
+.modlabel .c{margin-left:auto;font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.66rem;letter-spacing:0}
+
+/* ── Gallery hero · M31 ──────────────────────────
+   One photograph large, three beside it. A guest looking at a single
+   room wants the photographs before anything else, and wants to know
+   how many there are without clicking to find out. */
+.ghero{display:grid;grid-template-columns:minmax(0,1fr) clamp(200px,22%,320px);
+  grid-template-rows:minmax(0,1fr);
+  gap:2px;height:min(74vh,720px);background:var(--line);overflow:hidden}
+.ghero__main{position:relative;overflow:hidden;min-height:0;background:#141312}
+.ghero__main img{width:100%;height:100%;object-fit:cover;display:block}
+.ghero__strip{display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:2px;
+  min-width:0;min-height:0}
+.ghero__thumb{position:relative;overflow:hidden;min-height:0;background:#141312;display:block}
+.ghero__thumb img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 1.2s var(--slow),opacity .4s var(--ease)}
+.ghero__thumb:hover img{transform:scale(1.04)}
+.ghero__thumb:focus-visible{outline:2px solid var(--vik);outline-offset:-2px}
+/* the last thumb carries the count, so the strip is three photographs
+   and an instruction rather than four photographs and a mystery */
+.ghero__more{position:absolute;inset:0;z-index:2;display:flex;
+  align-items:center;justify-content:center;text-align:center;
+  padding:1rem;background:rgba(10,9,7,.62);
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+  letter-spacing:.22em;text-transform:uppercase;color:#fff;
+  backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  transition:background .35s var(--ease)}
+.ghero__thumb:hover .ghero__more{background:rgba(10,9,7,.44)}
+.ghero__count{position:absolute;left:0;bottom:0;z-index:2;
+  padding:.7rem 1rem;background:rgba(10,9,7,.72);
+  font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.66rem;
+  color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+
+/* ── Specification bar · M32 ─────────────────────
+   The facts before the prose. Someone deciding between two rooms is
+   comparing six numbers; making them read a paragraph to find each one
+   is making them work for it.
+
+   Label above value, never beside — the labels are all different
+   lengths and a two-column list of them never aligns. The hairlines
+   are the inherited colour at low opacity, so the grid is drawn on
+   ink and on canvas by the same rule. */
+.specbar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  border-top:1px solid;border-left:1px solid;
+  border-color:color-mix(in srgb,currentColor 16%,transparent)}
+.specbar__i{padding:1.15rem 1.35rem;display:flex;flex-direction:column;gap:.45rem;
+  border-right:1px solid;border-bottom:1px solid;
+  border-color:color-mix(in srgb,currentColor 16%,transparent);min-width:0}
+.specbar__l{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:inherit;opacity:.62}
+.specbar__v{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1rem,1.5vw,1.2rem);line-height:1.25;color:inherit;
+  overflow-wrap:anywhere}
+
+/* ── Inclusions · M33 ────────────────────────────
+   Prose hides a list. Nobody reads "breakfast, wifi and daily
+   housekeeping are included" and comes away certain about the
+   housekeeping.
+
+   The mark is drawn rather than set in an icon font: one rule, one
+   weight, and it takes the colour of the line it belongs to. Blue
+   would fail here — it is the accent on a light ground and the field
+   on a dark one, never small type on ink. */
+.incl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 clamp(1.5rem,4vw,3.5rem)}
+.incl__row{display:flex;align-items:flex-start;gap:.85rem;padding:.8rem 0;
+  border-top:1px solid color-mix(in srgb,currentColor 14%,transparent);
+  font-size:.95rem;line-height:1.55;font-weight:300;color:inherit;opacity:.82}
+.incl__row svg{flex:0 0 auto;width:13px;height:13px;margin-top:.35em;
+  color:currentColor;opacity:.75}
+
+/* ── Artist cards · M34 ──────────────────────────
+   Every VIK room was built around a commissioned work, so the artist
+   is not a caption — they are the reason the room is that room.
+
+   Portrait format because the works are hung, not laid out. The card
+   has no background of its own: it is the ground it is dropped on,
+   divided by hairlines. */
+.artists{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+  border-top:1px solid;border-left:1px solid;
+  border-color:color-mix(in srgb,currentColor 16%,transparent)}
+.artist-card{display:flex;flex-direction:column;min-width:0;
+  border-right:1px solid;border-bottom:1px solid;
+  border-color:color-mix(in srgb,currentColor 16%,transparent)}
+.artist-card__img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;
+  background:#141312}
+.artist-card__b{padding:1.1rem 1.2rem 1.3rem;display:flex;flex-direction:column;
+  gap:.4rem;flex:1 1 auto}
+.artist-card__n{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:1.1rem;line-height:1.2;color:inherit}
+.artist-card__r{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:inherit;opacity:.62}
+.artist-card__l{margin-top:auto;padding-top:1rem;align-self:flex-start;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+  letter-spacing:.2em;text-transform:uppercase;color:inherit;
+  border-bottom:1px solid currentColor;padding-bottom:.25rem;
+  transition:opacity .25s var(--ease)}
+.artist-card__l:hover{opacity:.6}
+
+/* ── Breadcrumb · M35 ────────────────────────────
+   Only on pages that sit inside something: a room is inside a house is
+   inside the group. Three levels is the whole depth of this system, so
+   the trail never wraps and never needs truncating. */
+.crumb{display:flex;flex-wrap:wrap;gap:.55rem;align-items:baseline;color:inherit;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+  letter-spacing:.22em;text-transform:uppercase}
+.crumb a{color:inherit;opacity:.55;transition:opacity .25s var(--ease)}
+.crumb a:hover{opacity:1}
+.crumb .sep{opacity:.3}
+.crumb [aria-current]{opacity:1}
+
+@media (max-width:1024px){
+  .ghero{grid-template-columns:1fr;grid-template-rows:none;height:auto}
+  .ghero__main{aspect-ratio:3/4}
+  .ghero__strip{grid-template-rows:none;grid-template-columns:repeat(3,minmax(0,1fr))}
+  .ghero__thumb{aspect-ratio:1}
+  .specbar{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  .incl{grid-template-columns:1fr}
+  .artists{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:430px){
+  .specbar{grid-template-columns:1fr}
+  .artists{grid-template-columns:1fr}
+}
+
+/* ══ WHATSAPP ═════════════════════════════════════════════════════
+   Reemplaza la barra de reserva en las direcciones que no venden
+   noches. Azul VIK porque es una accion, no una decoracion, y en la
+   esquina inferior derecha porque es donde el pulgar ya esta.
+
+   No se esconde al bajar: el momento de escribir llega en cualquier
+   punto de la pagina, no solo al final. */
+.wa{position:fixed;right:clamp(1rem,2.5vw,1.75rem);
+  bottom:clamp(1rem,2.5vw,1.75rem);z-index:7200;
+  display:inline-flex;align-items:center;gap:.7rem;
+  padding:.85rem 1.15rem;background:var(--vik);color:#fff;
+  box-shadow:0 10px 30px rgba(10,9,7,.34);
+  transition:transform .4s var(--slow),box-shadow .4s var(--ease),
+             background .3s var(--ease)}
+.wa svg{width:20px;height:20px;flex:0 0 auto}
+.wa span{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  margin-right:-.22em;white-space:nowrap}
+.wa:hover{transform:translateY(-2px);background:#001F70;
+  box-shadow:0 16px 40px rgba(10,9,7,.42)}
+.wa:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media (max-width:560px){
+  .wa{padding:0;width:52px;height:52px;justify-content:center;border-radius:50%}
+  .wa span{display:none}
+  .wa svg{width:24px;height:24px}
+}
+@media (prefers-reduced-motion:reduce){ .wa{transition:none} }
+
+/* La marca escrita del sitio, tres pixeles mas alta que la del
+   destino: en una direccion propia el nombre es lo primero. */
+body[data-site="susana"] .nav-mark.lw,
+body[data-site="pavilion"] .nav-mark.lw{font-size:calc(1em + 3px)}
+
+/* ══ EL PIE DE LAS DOS DIRECCIONES ════════════════════════════════
+   La Susana y Pavilion VIK no venden noches, asi que no llevan barra
+   de reserva: el bloque del pie es su unica llamada y necesita
+   ocupar el centro, no una esquina. */
+body[data-site="susana"] .footer-top,
+body[data-site="pavilion"] .footer-top{
+  grid-template-columns:minmax(0,1fr);
+  justify-items:center;text-align:center;
+  gap:clamp(2rem,4vw,3rem);
+  padding:clamp(4rem,8vw,6.5rem) var(--pad-x) clamp(3rem,5vw,4rem);
+  max-width:calc(var(--max) + var(--pad-x) * 2)}
+body[data-site="susana"] .footer-tagline,
+body[data-site="pavilion"] .footer-tagline{margin-inline:auto;max-width:34ch}
+body[data-site="susana"] .footer-news,
+body[data-site="pavilion"] .footer-news{
+  width:min(520px,100%);align-items:center;gap:1.25rem}
+body[data-site="susana"] .footer-news form,
+body[data-site="pavilion"] .footer-news form{width:100%;padding-bottom:.9rem}
+body[data-site="susana"] .footer-news input,
+body[data-site="pavilion"] .footer-news input{text-align:center}
+body[data-site="susana"] .footer-social,
+body[data-site="pavilion"] .footer-social{
+  justify-content:center;gap:2.25rem;margin-top:1rem}
+body[data-site="susana"] .footer-grid,
+body[data-site="pavilion"] .footer-grid{
+  padding-top:clamp(2rem,4vw,3rem);border-top:1px solid var(--line)}
+@media (max-width:760px){
+  body[data-site="susana"] .footer-top,
+  body[data-site="pavilion"] .footer-top{padding-top:3.5rem}
+  body[data-site="susana"] .footer-social,
+  body[data-site="pavilion"] .footer-social{flex-direction:column;gap:1rem}
+}
+
+/* ── El pie de las dos direcciones · correcciones ────────────────── */
+body[data-site="susana"] .footer-mark,
+body[data-site="pavilion"] .footer-mark{
+  display:flex;justify-content:center;align-items:center}
+body[data-site="susana"] .footer-top,
+body[data-site="pavilion"] .footer-top{max-width:var(--max)}
+body[data-site="susana"] .footer-news form,
+body[data-site="pavilion"] .footer-news form{
+  justify-content:space-between;gap:1.5rem}
+
+/* ── Enquire · sin el aire de mas ────────────────────────────────
+   La columna derecha eran dos botones colgando al lado de una columna
+   cuatro veces mas alta. Ahora es un panel: mismo peso visual, y el
+   bloque deja de leerse como si le faltara algo. */
+body[data-site="susana"] .enquiry,
+body[data-site="pavilion"] .enquiry{
+  grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr);
+  gap:clamp(2rem,4vw,3.5rem);align-items:stretch}
+body[data-site="susana"] .enquiry .enq-form,
+body[data-site="pavilion"] .enquiry .enq-form{
+  align-self:start;
+  border:1px solid var(--line);
+  padding:clamp(1.75rem,3vw,2.5rem);
+  display:flex;flex-direction:column;gap:1rem}
+body[data-site="susana"] .enq-line,
+body[data-site="pavilion"] .enq-line{padding:.85rem 0}
+body[data-site="susana"] .enq-statement,
+body[data-site="pavilion"] .enq-statement{margin-bottom:1.5rem}
+body[data-site="susana"] #contact.section,
+body[data-site="pavilion"] #contact.section{
+  padding-top:clamp(3.5rem,7vw,5.5rem);
+  padding-bottom:clamp(3.5rem,7vw,5.5rem)}
+body[data-site="susana"] #contact .section-head,
+body[data-site="pavilion"] #contact .section-head{margin-bottom:clamp(2rem,4vw,3rem)}
+@media (max-width:900px){
+  body[data-site="susana"] .enquiry,
+  body[data-site="pavilion"] .enquiry{grid-template-columns:1fr}
+}
+
+/* ══ EL LIGHTBOX DE RESERVA ═══════════════════════════════════════
+   Una hoja centrada sobre fondo velado, el motor dentro, y tres
+   salidas: la cruz, el fondo y Escape. Si el motor se niega a ser
+   embebido — hay reservas que lo hacen — el panel muestra el enlace a
+   pestana nueva en lugar de un rectangulo en blanco. */
+.rlb{position:fixed;inset:0;z-index:7400;display:flex;align-items:center;
+  justify-content:center;padding:clamp(1rem,3vw,2rem);
+  background:rgba(10,9,7,.82);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  opacity:0;pointer-events:none;transition:opacity .38s var(--ease)}
+.rlb.is-open{opacity:1;pointer-events:auto}
+.rlb__panel{background:var(--canvas);width:100%;max-width:460px;
+  max-height:min(92vh,780px);display:flex;flex-direction:column;
+  overflow:hidden;box-shadow:0 24px 80px rgba(10,9,7,.5);
+  transform:translateY(22px);transition:transform .42s var(--slow)}
+.rlb.is-open .rlb__panel{transform:none}
+.rlb__hd{display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;padding:1.15rem 1.5rem;border-bottom:1px solid rgba(30,30,30,.14);
+  flex:0 0 auto}
+.rlb__t{font-family:"Old Standard VIK",Georgia,serif;font-size:1.15rem;
+  line-height:1.2;color:var(--ink)}
+.rlb__x{width:38px;height:38px;display:flex;align-items:center;
+  justify-content:center;font-size:1.05rem;color:rgba(30,30,30,.55);
+  transition:color .25s var(--ease)}
+.rlb__x:hover{color:var(--ink)}
+.rlb__frame{flex:1 1 auto;width:100%;border:0;min-height:520px;background:#fff}
+.rlb__fb{display:none;flex-direction:column;align-items:center;
+  justify-content:center;gap:1.25rem;padding:3.5rem 2rem;text-align:center}
+.rlb.is-blocked .rlb__frame{display:none}
+.rlb.is-blocked .rlb__fb{display:flex}
+.rlb__fb p{font-size:.92rem;line-height:1.7;color:rgba(30,30,30,.7);max-width:34ch}
+@media (prefers-reduced-motion:reduce){ .rlb,.rlb__panel{transition:none} }
+
+/* ══ RESERVE · EL CIERRE ══════════════════════════════════════════
+   El ultimo bloque antes del pie. Tres partes: la fotografia de lo que
+   se reserva, la mesa con los datos que se deciden antes de escribir,
+   y el mostrador con la accion.
+
+   En tinta sobre el lienzo de la seccion: el cierre tiene que pesar
+   mas que lo que vino antes, o no cierra nada. */
+.reserve{max-width:var(--max);margin:0 auto;
+  display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);
+  background:var(--ink);color:var(--bone);overflow:hidden}
+
+.reserve__media{position:relative;overflow:hidden;background:#141312;min-height:100%}
+.reserve__media img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;
+  transition:transform 1.6s var(--slow)}
+.reserve:hover .reserve__media img{transform:scale(1.03)}
+.reserve__media::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(10,9,7,.55),rgba(10,9,7,0) 55%)}
+
+.reserve__body{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,.8fr)}
+
+/* ── La mesa ─────────────────────────────────
+   La frase primero, y debajo los datos en filas. Un horario y una
+   capacidad se comparan mirando, no leyendo un parrafo. */
+.reserve__say{padding:clamp(2rem,4vw,3.25rem);
+  display:flex;flex-direction:column;gap:1.5rem;min-width:0}
+.reserve__eyebrow{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(248,248,240,.62)}
+.reserve__line{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.5rem,2.6vw,2.15rem);line-height:1.14;letter-spacing:-0.012em;
+  color:#fff;max-width:20ch}
+.reserve__line em{font-family:"Selva Script Pro","Old Standard VIK",Georgia,serif;
+  font-style:normal}
+.reserve__rows{margin-top:auto;display:flex;flex-direction:column}
+.reserve__row{display:flex;align-items:baseline;justify-content:space-between;
+  gap:1.25rem;padding:.72rem 0;
+  border-top:1px solid rgba(248,248,240,.12)}
+.reserve__row .k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(248,248,240,.6);white-space:nowrap}
+.reserve__row .v{font-family:"Old Standard VIK",Georgia,serif;font-size:1.02rem;
+  color:var(--bone);text-align:right}
+
+/* ── El mostrador ────────────────────────────
+   Una accion en azul y tres formas de llegar a una persona. Nada mas:
+   una lista de opciones en el cierre es una decision que no se toma. */
+.reserve__desk{border-left:1px solid rgba(248,248,240,.14);
+  padding:clamp(2rem,4vw,3.25rem);
+  display:flex;flex-direction:column;gap:1.25rem;min-width:0}
+.reserve__note{font-size:.88rem;line-height:1.7;font-weight:300;
+  color:rgba(248,248,240,.6)}
+.reserve__cta{display:flex;align-items:center;justify-content:center;gap:.7rem;
+  padding:1.05rem 1.4rem;background:var(--vik);color:#fff;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+  letter-spacing:.22em;text-transform:uppercase;margin-right:0;
+  transition:background .3s var(--ease),transform .4s var(--slow)}
+.reserve__cta .arw{transition:transform .4s var(--slow)}
+.reserve__cta:hover{background:#001F70}
+.reserve__cta:hover .arw{transform:translateX(4px)}
+.reserve__cta:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.reserve__ways{display:flex;flex-direction:column;margin-top:auto}
+.reserve__way{display:flex;align-items:baseline;justify-content:space-between;
+  gap:1rem;padding:.8rem 0;border-top:1px solid rgba(248,248,240,.12);
+  transition:color .25s var(--ease)}
+.reserve__way .k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(248,248,240,.5)}
+.reserve__way .v{font-size:.92rem;color:var(--bone);text-align:right;
+  overflow-wrap:anywhere}
+a.reserve__way:hover .v{color:#fff}
+a.reserve__way:hover .k{color:#fff}
+
+@media (max-width:1100px){
+  .reserve{grid-template-columns:1fr}
+  .reserve__media{aspect-ratio:16/9;min-height:0}
+}
+@media (max-width:760px){
+  .reserve__body{grid-template-columns:1fr}
+  .reserve__desk{border-left:0;border-top:1px solid rgba(248,248,240,.14)}
+  .reserve__media{aspect-ratio:4/3}
+  .reserve__row,.reserve__way{flex-wrap:wrap;gap:.2rem}
+  .reserve__row .v,.reserve__way .v{text-align:left}
+}
+@media (prefers-reduced-motion:reduce){
+  .reserve__media img,.reserve__cta,.reserve__cta .arw{transition:none}
+}
+
+/* ══ AGENDA · M36 ═════════════════════════════════════════════════
+   Lo que caduca va primero. Cuatro tarjetas de distinta naturaleza —
+   pelicula, fotografia, fotografia, tipografia — en un riel que no
+   termina.
+
+   Las tarjetas no comparten formato a proposito: una fila de cuatro
+   cosas iguales se lee como un catalogo, y una agenda no es un
+   catalogo, es una sucesion de noches distintas. */
+.agenda{position:relative;left:50%;right:50%;
+  margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2);
+  width:var(--vw);overflow:hidden;background:var(--ink);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.agenda__hd{max-width:var(--max);margin:0 auto;
+  padding:clamp(2.5rem,5vw,4rem) var(--pad-x) clamp(1.5rem,3vw,2.25rem);
+  display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;
+  flex-wrap:wrap}
+.agenda__t{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.6rem,3vw,2.4rem);line-height:1.1;color:var(--bone)}
+.agenda__hint{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(248,248,240,.45)}
+
+.agenda__rail{display:flex;width:max-content;gap:2px;
+  padding:0 0 clamp(2.5rem,5vw,4rem);
+  will-change:transform;cursor:grab;touch-action:pan-y}
+.agenda__rail.is-dragging{cursor:grabbing}
+
+.ev{position:relative;flex:0 0 clamp(280px,32vw,440px);
+  aspect-ratio:3/4;overflow:hidden;display:block;
+  background:#141312;color:var(--bone);text-align:left;
+  user-select:none;-webkit-user-drag:none}
+.ev__media{position:absolute;inset:0}
+.ev__media img,.ev__media video{width:100%;height:100%;object-fit:cover;
+  display:block;transition:transform 1.4s var(--slow)}
+.ev:hover .ev__media img,.ev:hover .ev__media video{transform:scale(1.04)}
+.ev__media::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(10,9,7,.88) 0%,rgba(10,9,7,.15) 58%,
+    rgba(10,9,7,.3) 100%)}
+.ev__body{position:relative;z-index:2;height:100%;display:flex;
+  flex-direction:column;justify-content:flex-end;gap:.6rem;
+  padding:clamp(1.4rem,2.5vw,2rem)}
+.ev__when{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.72rem;
+  color:var(--bone);opacity:.8}
+.ev__name{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.3rem,2.2vw,1.85rem);line-height:1.12;color:#fff;
+  max-width:16ch}
+.ev__kind{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(248,248,240,.6);margin-right:-.22em}
+.ev__go{margin-top:.5rem;display:inline-flex;align-items:center;gap:.5rem;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:8.5px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--bone);
+  opacity:0;transform:translateY(6px);
+  transition:opacity .4s var(--ease),transform .45s var(--slow)}
+.ev:hover .ev__go,.ev:focus-visible .ev__go{opacity:1;transform:none}
+.ev:focus-visible{outline:2px solid var(--vik);outline-offset:-2px}
+
+/* La tarjeta sin imagen: la fecha ocupa el lugar de la fotografia.
+   En una fila de fotos, lo que corta es el silencio. */
+.ev--type{background:var(--canvas);color:var(--ink)}
+.ev--type .ev__body{justify-content:space-between}
+.ev--type .ev__num{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:clamp(3.4rem,7vw,5.6rem);line-height:.86;letter-spacing:.02em;
+  color:var(--ink);margin-right:-.02em}
+.ev--type .ev__month{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(30,30,30,.55);display:block;margin-top:.6rem}
+.ev--type .ev__name{color:var(--ink)}
+.ev--type .ev__kind{color:rgba(30,30,30,.55)}
+.ev--type .ev__when{color:rgba(30,30,30,.7);opacity:1}
+.ev--type .ev__go{color:var(--vik)}
+.ev--type .ev__rule{height:1px;background:rgba(30,30,30,.16);margin:1.1rem 0}
+
+/* ── El panel ────────────────────────────────
+   La ficha y el enlace de venta. La boleteria no es nuestra, asi que
+   ese enlace sale del sitio y lo dice. */
+.evlb{position:fixed;inset:0;z-index:7400;display:flex;align-items:center;
+  justify-content:center;padding:clamp(1rem,3vw,2rem);
+  background:rgba(10,9,7,.86);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  opacity:0;pointer-events:none;transition:opacity .38s var(--ease)}
+.evlb.is-open{opacity:1;pointer-events:auto}
+.evlb__panel{background:var(--ink);color:var(--bone);width:100%;
+  max-width:820px;max-height:min(92vh,720px);overflow:hidden;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  box-shadow:0 24px 80px rgba(10,9,7,.5);
+  transform:translateY(22px);transition:transform .42s var(--slow)}
+.evlb.is-open .evlb__panel{transform:none}
+.evlb__media{position:relative;background:#141312;min-height:260px}
+.evlb__media img,.evlb__media video{position:absolute;inset:0;
+  width:100%;height:100%;object-fit:cover}
+.evlb__body{padding:clamp(1.75rem,3.5vw,2.75rem);display:flex;
+  flex-direction:column;gap:1rem;overflow-y:auto}
+.evlb__kind{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(248,248,240,.6)}
+.evlb__name{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.1;color:#fff}
+.evlb__meta{display:flex;flex-direction:column;margin-top:.25rem}
+.evlb__row{display:flex;align-items:baseline;justify-content:space-between;
+  gap:1rem;padding:.65rem 0;border-top:1px solid rgba(248,248,240,.12)}
+.evlb__row .k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(248,248,240,.55)}
+.evlb__row .v{font-size:.95rem;color:var(--bone);text-align:right}
+.evlb__copy{font-size:.94rem;line-height:1.75;font-weight:300;
+  color:rgba(248,248,240,.72)}
+.evlb__cta{margin-top:auto;display:flex;align-items:center;justify-content:center;
+  gap:.7rem;padding:1.05rem 1.4rem;background:var(--vik);color:#fff;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+  letter-spacing:.22em;text-transform:uppercase;
+  transition:background .3s var(--ease)}
+.evlb__cta:hover{background:#001F70}
+.evlb__out{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.62rem;
+  color:rgba(248,248,240,.4);text-align:center}
+.evlb__x{position:absolute;top:.9rem;right:.9rem;z-index:3;
+  width:38px;height:38px;display:flex;align-items:center;justify-content:center;
+  background:rgba(10,9,7,.6);color:var(--bone);font-size:1rem;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  transition:color .25s var(--ease)}
+.evlb__x:hover{color:#fff}
+
+@media (max-width:820px){
+  .evlb__panel{grid-template-columns:1fr;max-height:92vh}
+  .evlb__media{aspect-ratio:16/9;min-height:0}
+}
+@media (max-width:560px){
+  .ev{flex-basis:78vw}
+  .agenda__hd{padding-bottom:1.25rem}
+}
+@media (prefers-reduced-motion:reduce){
+  .ev__media img,.ev__media video,.evlb,.evlb__panel,.ev__go{transition:none}
+}
+
+/* ══ EL DEDO · LOS CONTROLES DE LOS MODULOS ═══════════════════════
+   La misma regla de 44px que fija vik-core, aplicada a los controles
+   que viven en este archivo. Va aqui y no alla porque este hoja se
+   carga despues: una media query no suma especificidad, y la regla de
+   core perdia siempre contra la del modulo.
+
+   Ninguno de estos cambia de dibujo — solo de caja. El punto del
+   carrusel sigue siendo una raya de 26px; lo que crece es el sitio
+   donde se puede apretar. ─────────────────────────────────────── */
+@media (max-width:1024px), (pointer:coarse){
+  .hp-dot{width:44px;height:44px}
+  .hp-dots{bottom:calc(4rem - 19px)}
+  .map-view button{padding:1rem 1.15rem}
+  .plb-nav button{width:44px;height:44px}
+  .legal-close,.rlb__x,.evlb__x{width:44px;height:44px}
+  .gh-arrow,.reel-arrow,[data-rail-prev],[data-rail-next]{min-width:44px;min-height:44px}
+  .src-link{display:inline-flex;align-items:center;min-height:40px}
+  a.enq-line .v,.enq-line a.v{display:inline-flex;align-items:center;min-height:40px}
+  a.reserve__way{padding:1.05rem 0}
+  .subnav-inner{padding-block:0}
+  .subnav-inner a{display:inline-flex;align-items:center;min-height:48px}
+  .room-nav button{width:44px;height:44px}
+  .room-close{width:44px;height:44px}
+  .artist-card__l{min-height:44px;display:inline-flex;align-items:center}
+  .crumb a{display:inline-flex;align-items:center;min-height:40px}
+}

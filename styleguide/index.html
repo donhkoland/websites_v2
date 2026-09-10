@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F8F8F0">
+<meta name="author" content="Nicolás Castillo">
+<meta name="designer" content="Nicolás Castillo · @donhkoland">
+<meta name="copyright" content="VIK Retreats">
+<title>Module Library · VIK Design System V2</title>
+<meta name="description" content="Every block of the VIK V2 system, shown live rather than described.">
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="../_core/leaflet.min.css">
+<link rel="stylesheet" href="../_core/vik-v2.min.css?v=1">
+<!-- La biblioteca heredada va en su propia hoja: vik-v2.css es el
+     sistema aprobado y no se toca. Esta solo agrega — cero
+     selectores compartidos, cero tokens redefinidos. -->
+<link rel="stylesheet" href="../_core/vik-v2-lib.min.css?v=2">
+<style>
+/* ══ EL CATALOGO ══════════════════════════════════════════════
+   Lo unico que se escribe aqui es el aparato del catalogo: la
+   apertura, el indice y la cabecera de cada modulo. Los modulos
+   no llevan una sola regla propia — si un bloque necesitara CSS
+   para verse bien en una guia, no seria un modulo del sistema.
+
+   La direccion es la misma que la de la biblioteca: un impreso.
+   Un catalogo de piezas es un catalogo razonado, no un panel de
+   control, asi que las convenciones que usa son las del papel —
+   folio en el margen, cabecera corrida, indice con guia de
+   puntos, capitulos separados por filete.
+
+   Todo sale de los tokens de la v2. Ni un color a mano.       */
+
+
+/* ── LA APERTURA ──────────────────────────────────────────────
+   Tinta a sangre. Es la unica pantalla oscura de la guia: marca
+   la portada y hace que todo lo que sigue se lea como papel. */
+.sg-open{background:var(--ink);color:var(--bone);
+  padding:calc(var(--nav-h) + clamp(4.5rem,10vw,8rem)) var(--pad-x) clamp(3.5rem,7vw,6rem)}
+.sg-open-in{max-width:var(--max);margin:0 auto}
+.sg-open .ed-n{color:rgba(248,248,240,.4)}
+.sg-open h1{font-family:"Old Standard VIK",Georgia,serif;font-weight:400;
+  font-size:clamp(2.1rem,5.6vw,4.4rem);line-height:.98;letter-spacing:-.026em;
+  margin:0;color:#fff;max-width:16ch}
+.sg-open h1 em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.sg-open p{max-width:60ch;margin-top:1.5rem;
+  font-size:.95rem;line-height:1.8;font-weight:300;color:rgba(248,248,240,.6)}
+.sg-open p + p{margin-top:1rem}
+/* El pie de la portada: tres datos en mono, como un colofon. */
+.sg-colophon{display:flex;flex-wrap:wrap;gap:.6rem 2.5rem;
+  margin-top:clamp(2.5rem,5vw,4rem);padding-top:1.2rem;
+  border-top:1px solid rgba(248,248,240,.16);
+  font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.72rem;color:rgba(248,248,240,.4)}
+.sg-colophon b{font-weight:400;color:rgba(248,248,240,.75)}
+
+
+/* ── EL INDICE ────────────────────────────────────────────────
+   Indice de publicacion, no reja de botones: folio, nombre y una
+   guia que corre hasta el origen. La guia es lo que convierte una
+   lista en un indice — el ojo la sigue de un extremo al otro sin
+   perder el renglon, que es exactamente para lo que se invento.
+
+   Sobre papel, y no sobre tinta como el resto de la apertura: el
+   indice pertenece al cuerpo del catalogo, no a la portada.   */
+.sg-index{background:var(--bone);color:var(--ink);
+  padding:clamp(3rem,6vw,5rem) var(--pad-x) clamp(3.5rem,7vw,6rem)}
+.sg-group{display:flex;align-items:baseline;gap:1.2rem;
+  max-width:var(--max);margin:0 auto clamp(1rem,2vw,1.4rem);
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:8.6px;letter-spacing:.2em;text-transform:uppercase;color:var(--i-40)}
+.sg-group + .sg-toc{margin-bottom:clamp(2.5rem,5vw,4rem)}
+.sg-group .n{font-family:"Apercu Mono Pro","Courier New",monospace;
+  letter-spacing:0;color:var(--i-26);text-transform:none}
+.sg-group::after{content:"";flex:1;height:1px;background:var(--hair);
+  transform:translateY(-.3em)}
+
+.sg-toc{max-width:var(--max);margin:0 auto;border-top:1px solid var(--hair)}
+.sg-toc a{display:grid;grid-template-columns:3.5rem minmax(0,auto) 1fr minmax(0,auto);
+  gap:0 1rem;align-items:baseline;
+  padding:.85rem 0;border-bottom:1px solid var(--hair-soft);
+  transition:padding-left .5s var(--slow)}
+.sg-toc a:hover{padding-left:.6rem}
+.sg-toc .n{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.72rem;color:var(--i-26);transition:color .35s var(--ease)}
+.sg-toc a:hover .n{color:var(--vik)}
+.sg-toc .l{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:1.05rem;line-height:1.2;transition:color .35s var(--ease)}
+.sg-toc a:hover .l{color:var(--vik)}
+/* La guia de puntos. Un filete de un pixel hace el mismo trabajo
+   y no ensucia: es la version del sistema de una linea de guia. */
+.sg-toc .g{height:1px;background:var(--hair);transform:translateY(-.35em)}
+.sg-toc .s{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.7rem;color:var(--i-26);text-align:right}
+
+
+/* ── LA CABECERA CORRIDA ──────────────────────────────────────
+   En un catalogo de treinta y dos piezas, saber cual se esta
+   mirando importa mas que ganar veinte pixeles de alto: se pega
+   arriba mientras dura el modulo.
+
+   Es papel con dos filetes, no una barra negra. Una barra negra
+   pegajosa es la cabecera de una aplicacion; dos filetes con el
+   folio en el margen es la cabecera corrida de un impreso, y esto
+   es un impreso.                                              */
+.sg-spec{position:sticky;top:0;z-index:70;
+  display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:0 var(--gap);align-items:baseline;
+  margin-top:clamp(3.5rem,7vw,6rem);
+  padding:.9rem var(--pad-x);
+  background:rgba(248,248,240,.94);color:var(--ink);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-top:1px solid var(--ink);border-bottom:1px solid var(--hair)}
+.sg-spec .id{grid-column:1 / 3;
+  font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.72rem;color:var(--vik)}
+.sg-spec .nm{grid-column:3 / 9;
+  font-family:"Old Standard VIK",Georgia,serif;font-size:1.05rem;line-height:1.2}
+.sg-spec .src{grid-column:9 / 13;text-align:right;
+  font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.7rem;color:var(--i-40)}
+
+.sg-empty{max-width:var(--max);margin:0 auto;
+  padding:clamp(2rem,4vw,3rem) var(--pad-x);
+  font-size:.95rem;line-height:1.8;font-weight:300;color:var(--i-55)}
+.sg-empty code{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.84rem;color:var(--vik)}
+
+@media (max-width:860px){
+  .sg-toc a{grid-template-columns:3rem minmax(0,1fr);row-gap:.15rem}
+  .sg-toc .g{display:none}
+  .sg-toc .s{grid-column:2;text-align:left;padding-bottom:.15rem}
+  .sg-spec{grid-template-columns:3rem minmax(0,1fr)}
+  .sg-spec .id{grid-column:1}
+  .sg-spec .nm{grid-column:2}
+  .sg-spec .src{display:none}
+}
+</style>
+</head>
+
+<!--
+  ══════════════════════════════════════════════════════════════
+  VIK · MODULE LIBRARY V2
+
+  Esta pagina no describe el sistema: lo muestra. Las fichas M se
+  recortan en vivo de vik-jose-ignacio/index.html, que es donde el
+  modulo trabaja de verdad. Las fichas L son la biblioteca
+  heredada de la v1, traida al vocabulario nuevo, con su hoja
+  aparte para no tocar el sistema aprobado.
+
+  La razon de cada modulo esta en el comentario que precede a su
+  demo. No se imprime.
+
+  Para regenerar despues de tocar el sistema:
+      python _build-sg.py
+  ══════════════════════════════════════════════════════════════
+-->
+
+<body>
+
+<div data-vik-chrome data-page="" data-tag="Module Library"></div>
+
+<main id="top">
+
+  <section class="sg-open" data-ground="dark">
+    <div class="sg-open-in ed">
+      <div class="ed-folio"><span class="ed-n">VIK<br>Design<br>System</span></div>
+      <div class="ed-main">
+        <h1>Thirty-two blocks, and <em>the reason for each</em>.</h1>
+        <p>Every module below is the live one. The first sixteen are cut straight out of the page where they work, so a block that breaks in the system breaks here on the same afternoon — instead of being remembered as it looked the day someone took a picture of it.</p>
+        <p>The last sixteen are the library the first system built and this one has not needed yet: overlays, rooms, enquiry, specification. They are here in the new language, on a stylesheet of their own, so nothing already approved can be disturbed by them. Which ones stay is a later conversation.</p>
+        <p>Nothing on this page carries a rule of its own. A module that needed styling to look right in a catalogue would not be a module. The reason each one exists sits in the HTML beside it, not on the screen.</p>
+        <div class="sg-colophon">
+          <span>Version <b>V2</b></span>
+          <span>In production <b>16</b></span>
+          <span>Library <b>16</b></span>
+          <span>Stylesheets <b>vik-v2.css · vik-v2-lib.css</b></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sg-index">
+    <p class="sg-group">In production<span class="n">16</span></p>
+    <nav class="sg-toc">
+      <a href="#m01"><span class="n">M01</span><span class="l">Bar, menu and booking strip</span><span class="g"></span><span class="s">vik-chrome-v2.js · injected into all eighteen</span></a>
+      <a href="#m02"><span class="n">M02</span><span class="l">Cover with the counter</span><span class="g"></span><span class="s">.hero</span></a>
+      <a href="#m03"><span class="n">M03</span><span class="l">Live ribbon</span><span class="g"></span><span class="s">.strip[data-live]</span></a>
+      <a href="#m04"><span class="n">M04</span><span class="l">The collage</span><span class="g"></span><span class="s">.collage · Destination</span></a>
+      <a href="#m05"><span class="n">M05</span><span class="l">Ecosystem rail</span><span class="g"></span><span class="s">.rail[data-rail=&quot;auto&quot;] + .card</span></a>
+      <a href="#m06"><span class="n">M06</span><span class="l">The statement</span><span class="g"></span><span class="s">.statement</span></a>
+      <a href="#m07"><span class="n">M07</span><span class="l">The chooser</span><span class="g"></span><span class="s">.chooser + .ch</span></a>
+      <a href="#m08"><span class="n">M08</span><span class="l">Filtered mosaic</span><span class="g"></span><span class="s">.mosaic + .vcard + [data-mosaic-filter]</span></a>
+      <a href="#m09"><span class="n">M09</span><span class="l">The manifesto index</span><span class="g"></span><span class="s">.gallery + .gx + .gallery-stage</span></a>
+      <a href="#m10"><span class="n">M10</span><span class="l">Full-bleed band with calendar</span><span class="g"></span><span class="s">.film + .season[data-season-table]</span></a>
+      <a href="#m11"><span class="n">M11</span><span class="l">The index</span><span class="g"></span><span class="s">.index + .index-row</span></a>
+      <a href="#m12"><span class="n">M12</span><span class="l">The week</span><span class="g"></span><span class="s">.agenda + .ev</span></a>
+      <a href="#m13"><span class="n">M13</span><span class="l">Live map</span><span class="g"></span><span class="s">.map-section + .map-full</span></a>
+      <a href="#m14"><span class="n">M14</span><span class="l">Press</span><span class="g"></span><span class="s">.logo-rail + .quotes</span></a>
+      <a href="#m15"><span class="n">M15</span><span class="l">The reservation</span><span class="g"></span><span class="s">.reserve-grid + .counter</span></a>
+      <a href="#m16"><span class="n">M16</span><span class="l">The closing</span><span class="g"></span><span class="s">.club + .club-in</span></a>
+    </nav>
+    <p class="sg-group">Library &middot; carried over<span class="n">16</span></p>
+    <nav class="sg-toc">
+      <a href="#l01"><span class="n">L01</span><span class="l">Interior page cover</span><span class="g"></span><span class="s">.hero-page · vik-v2-lib.css</span></a>
+      <a href="#l02"><span class="n">L02</span><span class="l">Principles</span><span class="g"></span><span class="s">.principles + .principle</span></a>
+      <a href="#l03"><span class="n">L03</span><span class="l">The overlay</span><span class="g"></span><span class="s">.ovl · every modal in the house</span></a>
+      <a href="#l04"><span class="n">L04</span><span class="l">Room reel</span><span class="g"></span><span class="s">.roomreel + .rr</span></a>
+      <a href="#l05"><span class="n">L05</span><span class="l">The wall</span><span class="g"></span><span class="s">.wall + .wall-tile</span></a>
+      <a href="#l06"><span class="n">L06</span><span class="l">The accordion</span><span class="g"></span><span class="s">.accordion + .acc-item</span></a>
+      <a href="#l07"><span class="n">L07</span><span class="l">Enquiry</span><span class="g"></span><span class="s">.enquiry + .enq-form</span></a>
+      <a href="#l08"><span class="n">L08</span><span class="l">Split</span><span class="g"></span><span class="s">.split · reversible with .rev</span></a>
+      <a href="#l09"><span class="n">L09</span><span class="l">Pull quote</span><span class="g"></span><span class="s">.pull-quote</span></a>
+      <a href="#l10"><span class="n">L10</span><span class="l">Sub-navigation</span><span class="g"></span><span class="s">.subnav</span></a>
+      <a href="#l11"><span class="n">L11</span><span class="l">Gallery cover</span><span class="g"></span><span class="s">.ghero</span></a>
+      <a href="#l12"><span class="n">L12</span><span class="l">Specification bar</span><span class="g"></span><span class="s">.specbar</span></a>
+      <a href="#l13"><span class="n">L13</span><span class="l">What is included</span><span class="g"></span><span class="s">.incl</span></a>
+      <a href="#l14"><span class="n">L14</span><span class="l">Artist cards</span><span class="g"></span><span class="s">.artists + .artist-card</span></a>
+      <a href="#l15"><span class="n">L15</span><span class="l">Breadcrumb</span><span class="g"></span><span class="s">.crumb</span></a>
+      <a href="#l16"><span class="n">L16</span><span class="l">Services</span><span class="g"></span><span class="s">.svc-grid + .svc</span></a>
+    </nav>
+  </section>
+
+
+
+  <div class="sg-spec" id="m01">
+    <span class="id">M01</span>
+    <span class="nm">Bar, menu and booking strip</span>
+    <span class="src">vik-chrome-v2.js · injected into all eighteen</span>
+  </div>
+  <!-- M01 · Bar, menu and booking strip
+       One file draws the top of every site in the system. The bar goes solid once it leaves the cover; the index drops out the moment there is no width for it and the burger appears at the same breakpoint, so no window is ever left without a way to navigate. The booking strip retires itself when the reservation block or the footer come into view — asking the same question twice in one screen is one time too many. -->
+<p class="sg-empty">Injected by <code>vik-chrome-v2.js</code>. It is the top and the foot of this very page, which is the proof that it works.</p>
+
+
+  <div class="sg-spec" id="m02">
+    <span class="id">M02</span>
+    <span class="nm">Cover with the counter</span>
+    <span class="src">.hero</span>
+  </div>
+  <!-- M02 · Cover with the counter
+       Full-bleed film and one box on top of it. Underneath the clip sits a photograph that never goes out: between one film and the next what you see is the still of the destination you picked, never the empty element. That gap was the grey box, and this is what closes it. -->
+<section class="hero" data-ground="dark">
+    <!-- LAS PELICULAS DE LA PORTADA
+         Se declaran aqui y en ningun otro sitio. El motor lee estos
+         atributos: para cambiar un clip, se cambia la ruta y ya.
+         El sufijo -poster.webp del mismo nombre se toma solo. -->
+    <div class="hero-media" id="heroMedia"
+         data-film="../vik-jose-ignacio/assets/video/hero.mp4?v=179"
+         data-film-estancia="../vik-jose-ignacio/assets/video/estancia.mp4?v=179"
+         data-film-playa="../vik-jose-ignacio/assets/video/playa.mp4?v=179"
+         data-film-bahia="../vik-jose-ignacio/assets/video/bahia-vik.mp4?v=179"
+         data-film-summer="../vik-jose-ignacio/assets/video/hero.mp4?v=179"
+         data-film-autumn="../vik-jose-ignacio/assets/video/autumn.mp4?v=179"
+         data-film-winter="../vik-jose-ignacio/assets/video/winter.mp4?v=179"
+         data-film-spring="../vik-jose-ignacio/assets/video/spring.mp4?v=179">
+      <!-- El suelo de la portada. Nunca se apaga y nunca se vacia:
+           el clip vive encima y solo se vuelve opaco cuando esta
+           dando fotogramas de verdad. Entre un video y el siguiente
+           lo que se ve es esta fotografia. -->
+      <img class="hero-still" src="../vik-jose-ignacio/assets/video/hero-poster.webp?v=179" alt=""
+           fetchpriority="high" decoding="async">
+      <video autoplay muted loop playsinline preload="metadata"
+             poster="../vik-jose-ignacio/assets/video/hero-poster.webp?v=179"
+             data-src="../vik-jose-ignacio/assets/video/hero.mp4?v=179"></video>
+    </div>
+
+    <form class="counter" data-booking>
+      <span class="counter-t">Book your stay</span>
+      <div class="counter-row">
+        <div class="f">
+          <label for="hIn">Arrival</label>
+          <input id="hIn" name="checkin" type="date">
+        </div>
+        <span class="f-arw" aria-hidden="true">&#8594;</span>
+        <div class="f">
+          <label for="hOut">Departure</label>
+          <input id="hOut" name="checkout" type="date">
+        </div>
+        <span class="f-sep" aria-hidden="true"></span>
+        <div class="f">
+          <label for="hProp">Retreat</label>
+          <select id="hProp" name="property">
+            <option value="any">Help me choose</option>
+            <option value="estancia" data-prop>Estancia VIK</option>
+            <option value="playa" data-prop>Playa VIK</option>
+            <option value="bahia" data-prop>Bahía VIK</option>
+          </select>
+        </div>
+        <span class="f-sep" aria-hidden="true"></span>
+        <div class="f">
+          <label for="hAd">Guests</label>
+          <select id="hAd" name="adults">
+            <option value="1">1 Adult</option>
+            <option value="2" selected>2 Adults</option>
+            <option value="3">3 Adults</option>
+            <option value="4">4 Adults</option>
+            <option value="6">6 Adults</option>
+            <option value="8">Group · 8+</option>
+          </select>
+        </div>
+        <button class="pill paper" type="submit"><span>Book</span><span class="arw">&#8594;</span></button>
+      </div>
+      <div class="counter-note">
+        <span>Best rate, booked direct</span>
+        <span>Free cancellation*</span>
+        <span>Journey Designer included</span>
+      </div>
+    </form>
+  </section>
+
+
+  <div class="sg-spec" id="m03">
+    <span class="id">M03</span>
+    <span class="nm">Live ribbon</span>
+    <span class="src">.strip[data-live]</span>
+  </div>
+  <!-- M03 · Live ribbon
+       Six figures divided by hairlines. Real weather from Open-Meteo, no key. Six numbers in two columns would be three rows and a block of table; in a ribbon they read as what they are — a bulletin, running left to right. -->
+<section class="strip" data-live aria-label="Conditions in José Ignacio">
+    <div class="fact season-cell">
+      <span class="k season-k">
+        <label class="sr-only" for="seasonPick">Season</label>
+        <select id="seasonPick">
+          <option value="" data-label="Now">Now · this week</option>
+          <option value="summer" data-label="Summer">Summer · Dec – Feb</option>
+          <option value="autumn" data-label="Autumn">Autumn · Mar – May</option>
+          <option value="winter" data-label="Winter">Winter · Jun – Aug</option>
+          <option value="spring" data-label="Spring">Spring · Sep – Nov</option>
+        </select>
+      </span>
+      <span class="v" data-live="season">—</span>
+      <span class="s" data-live-sub="season">—</span>
+    </div>
+    <div class="fact"><span class="k"><span class="live-dot"></span>Local time</span><span class="v" data-live="time">—</span><span class="s" data-live-sub="time">José Ignacio, Uruguay</span></div>
+    <div class="fact"><span class="k">Weather</span><span class="v" data-live="weather">—</span><span class="s" data-live-sub="weather">Loading conditions…</span></div>
+    <div class="fact"><span class="k">Wind</span><span class="v" data-live="wind">—</span><span class="s" data-live-sub="wind">Loading…</span></div>
+    <div class="fact"><span class="k">Ocean</span><span class="v" data-live="sea">—</span><span class="s" data-live-sub="sea">Playa Brava</span></div>
+    <div class="fact"><span class="k">Sunset</span><span class="v" data-live="sunset">—</span><span class="s" data-live-sub="sunset">Best light from La Susana</span></div>
+  </section>
+
+
+  <div class="sg-spec" id="m04">
+    <span class="id">M04</span>
+    <span class="nm">The collage</span>
+    <span class="src">.collage · Destination</span>
+  </div>
+  <!-- M04 · The collage
+       Three plates at deliberately different sizes with the copy between them. On a narrow screen it stops being a collage and becomes a sequence you scroll sideways: stacked, it was twelve hundred pixels of scrolling for three photographs. -->
+<section class="sec" id="destination">
+    <div class="collage">
+      <!-- Envoltorio sin forma. En escritorio es display:contents y
+           las tres fotos siguen colgando de la reja de doce; en
+           movil se convierte en la tira que se desliza. Sin el, no
+           hay manera de agrupar solo las fotos sin sacar el texto
+           de la composicion. -->
+      <div class="collage-figs">
+
+      <a class="prop-fig f-a" data-prop="estancia" href="#ch-estancia" aria-label="Estancia Vik">
+        <span class="frame clip"><img src="../vik-jose-ignacio/assets/video/dest-estancia-poster.webp?v=179" alt="Estancia Vik, open countryside"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/dest-estancia.mp4?v=179"></video></span>
+        <span class="vcap">Estancia Vik · Countryside, Uruguay</span>
+      </a>
+
+      <a class="prop-fig f-b" data-prop="bahia" href="#ch-bahia" aria-label="Bahía Vik">
+        <span class="frame clip"><img src="../vik-jose-ignacio/assets/video/dest-bahia-poster.webp?v=179" alt="Bahía Vik from the water"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/dest-bahia.mp4?v=179"></video></span>
+        <span class="vcap">Bahía Vik · Playa Mansa, Uruguay</span>
+      </a>
+
+      <a class="prop-fig f-c" data-prop="playa" href="#ch-playa" aria-label="Playa Vik">
+        <span class="frame clip"><img src="../vik-jose-ignacio/assets/video/dest-playa-poster.webp?v=179" alt="Playa Vik, on the point"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/dest-playa.mp4?v=179"></video></span>
+        <span class="vcap">Playa Vik · On the point</span>
+      </a>
+
+      </div>
+
+      <!-- La copia de la casa que se esta mirando. Las tres viven
+           en el marcado, apiladas en la misma celda: se lee la
+           pagina entera sin motor y sin red, y el cambio es un
+           fundido, no una carga. -->
+      <div class="collage-copy" data-collage-copy>
+        <div class="cc is-on" data-prop="estancia" data-cta="Explore the rooms" data-href="#ch-estancia">
+          <span class="name">Estancia Vik</span>
+          <p class="note">Four thousand acres of open country, horses and open-fire gastronomy, rooted in Uruguayan tradition. Twelve suites, each one commissioned from a different artist.</p>
+        </div>
+        <div class="cc" data-prop="bahia" data-cta="Explore the bungalows" data-href="#ch-bahia">
+          <span class="name">Bahía Vik</span>
+          <p class="note">Design bungalows set into the dunes of Playa Mansa, on the calm side of the peninsula. The most social of the three, and the easiest with children.</p>
+        </div>
+        <div class="cc" data-prop="playa" data-cta="Explore the houses" data-href="#ch-playa">
+          <span class="name">Playa Vik</span>
+          <p class="note">Carlos Ott architecture on the point, with the Atlantic on three sides. Contemporary art in every room, a black granite pool, and almost no one else.</p>
+        </div>
+        <a class="link" href="#book"><span>Book your stay</span></a>
+      </div>
+
+
+
+      <a class="collage-link link" href="#ch-estancia"><span>Explore the rooms</span></a>
+
+    </div>
+  </section>
+
+
+  <div class="sg-spec" id="m05">
+    <span class="id">M05</span>
+    <span class="nm">Ecosystem rail</span>
+    <span class="src">.rail[data-rail=&quot;auto&quot;] + .card</span>
+  </div>
+  <!-- M05 · Ecosystem rail
+       Seven cards with no gap between them. Separated they read as seven loose objects; touching, as a contact strip — which is what they are, one destination in seven frames. It drifts on its own, takes the mouse and takes the finger, and since V2 a vertical gesture passes straight through instead of smearing it sideways. -->
+<section class="sec paper tight" id="retreats">
+    <div class="rail-head r">
+      <div>
+        <span class="kicker">The ecosystem</span>
+        <h2 class="h2 lines" style="margin-top:1.5rem">Seven <em>ways in.</em></h2>
+      </div>
+      <span class="rail-hint">Drag to explore</span>
+    </div>
+
+    <div class="rail" data-rail="auto" data-rail-speed="0.32">
+      <a class="card" href="#choose">
+        <span class="card-fig"><img src="../vik-jose-ignacio/assets/video/card-estancia-poster.webp?v=179" alt="Estancia VIK"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/card-estancia.mp4?v=179"></video></span>
+        <span class="card-body">
+          <span class="card-loc">Countryside</span>
+          <span class="card-name lw">Estancia VIK</span>
+          <p>Four thousand acres of open country, horses and open-fire gastronomy, rooted in Uruguayan tradition.</p>
+          <span class="tags"><span>Horses</span><span>Open fire</span><span>Families</span></span>
+        </span>
+      </a>
+      <a class="card" href="#choose">
+        <span class="card-fig"><img src="../vik-jose-ignacio/assets/video/playa-poster.webp?v=179" alt="Playa VIK"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/playa.mp4?v=179"></video></span>
+        <span class="card-body">
+          <span class="card-loc">Oceanfront</span>
+          <span class="card-name lw">Playa VIK</span>
+          <p>Carlos Ott architecture and contemporary art above the point, with the Atlantic on three sides.</p>
+          <span class="tags"><span>Architecture</span><span>Art</span><span>Privacy</span></span>
+        </span>
+      </a>
+      <a class="card" href="#choose">
+        <span class="card-fig"><img src="../vik-jose-ignacio/assets/video/card-bahia-poster.webp?v=179" alt="Bahía VIK"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/card-bahia.mp4?v=179"></video></span>
+        <span class="card-body">
+          <span class="card-loc">Playa Mansa</span>
+          <span class="card-name lw">Bahía VIK</span>
+          <p>Design bungalows set into the dunes. Relaxed, social, and the easiest of the three with children.</p>
+          <span class="tags"><span>Design</span><span>Social</span><span>Wellness</span></span>
+        </span>
+      </a>
+      <a class="card" href="#choose">
+        <span class="card-fig"><img src="../vik-jose-ignacio/assets/video/card-pavilion-poster.webp?v=179" alt="Pavilion VIK"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/card-pavilion.mp4?v=179"></video></span>
+        <span class="card-body">
+          <span class="card-loc">Venue · Oceanfront</span>
+          <span class="card-name lw">Pavilion VIK</span>
+          <p>The cultural and celebration venue of the destination. Weddings, retreats and programming.</p>
+          <span class="tags"><span>Events</span><span>Culture</span><span>Weddings</span></span>
+        </span>
+      </a>
+      <a class="card" href="#dining">
+        <span class="card-fig"><img src="../vik-jose-ignacio/assets/video/card-susana-poster.webp?v=179" alt="La Susana"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/card-susana.mp4?v=179"></video></span>
+        <span class="card-body">
+          <span class="card-loc">Dining · Playa Mansa</span>
+          <span class="card-name lw">La Susana</span>
+          <p>Beachfront dining, music and the sunset ritual that defines a José Ignacio evening.</p>
+          <span class="tags"><span>Beach dining</span><span>Sunset</span><span>Music</span></span>
+        </span>
+      </a>
+      <a class="card" href="#club">
+        <span class="card-fig"><img src="../vik-jose-ignacio/assets/video/card-club-poster.webp?v=179" alt="Club Polo Vik"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/card-club.mp4?v=179"></video></span>
+        <span class="card-body">
+          <span class="card-loc">Club · Estancia Vik</span>
+          <span class="card-name lw">Club Polo Vik</span>
+          <p>The equestrian and athletic club of the destination. Polo, horsemanship and estancia life on open country.</p>
+          <span class="tags"><span>Polo</span><span>Horsemanship</span><span>Gaucho life</span></span>
+        </span>
+      </a>
+      <a class="card" href="#experiences">
+        <span class="card-fig"><img src="../vik-jose-ignacio/assets/video/card-shack-poster.webp?v=179" alt="The Shack"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/card-shack.mp4?v=179"></video></span>
+        <span class="card-body">
+          <span class="card-loc">Wellness · Across the three</span>
+          <span class="card-name lw">The Shack</span>
+          <p>Movement, strength, recovery and treatments — nature-led wellbeing across the destination.</p>
+          <span class="tags"><span>Movement</span><span>Recovery</span><span>Treatments</span></span>
+        </span>
+      </a>
+    </div>
+  </section>
+
+
+  <div class="sg-spec" id="m06">
+    <span class="id">M06</span>
+    <span class="nm">The statement</span>
+    <span class="src">.statement</span>
+  </div>
+  <!-- M06 · The statement
+       The only block on the page centred on both axes, and that symmetry is what turns it into a declaration. It arrives after the reader has seen the doors, so the line has something to refer back to. -->
+<section class="statement" id="statement" data-ground="dark">
+    <div class="statement-media">
+      <video autoplay muted loop playsinline preload="none"
+             poster="../vik-jose-ignacio/assets/video/joseignacio-poster.webp?v=179"
+             data-src="../vik-jose-ignacio/assets/video/joseignacio.mp4?v=179"></video>
+    </div>
+    <div class="statement-in">
+      <span class="kicker bare">José Ignacio · Uruguay</span>
+      <h1 class="statement-t lines" data-lines="br">One destination.<br>Three ways to<br><em>experience</em> it.</h1>
+      <p class="statement-d">Between the ocean and the countryside, a connected world of art, design, nature, gastronomy, wine, wellness and the unmistakable rhythm of Uruguay.</p>
+      <div class="statement-actions">
+        <a class="pill light" href="#choose"><span>Help Me Choose</span><span class="arw">&#8594;</span></a>
+        <a class="pill light" href="#book"><span>Check availability</span><span class="arw">&#8594;</span></a>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="sg-spec" id="m07">
+    <span class="id">M07</span>
+    <span class="nm">The chooser</span>
+    <span class="src">.chooser + .ch</span>
+  </div>
+  <!-- M07 · The chooser
+       Three full-bleed plates, touching, with no rule between them. The decision is one image cut in three, not three separate cards. On a phone it becomes a strip with gentle snapping — proximity, never mandatory, so a thumb that hesitates is not trapped. -->
+<div class="chooser r fade" data-ground="dark">
+    <a class="ch" id="ch-estancia" href="#book">
+      <img src="../vik-jose-ignacio/assets/video/room-estancia-poster.webp?v=179" alt="Estancia VIK">
+      <video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/room-estancia.mp4?v=179"></video>
+      <span class="ch-body">
+        <span class="lw ch-mark">Estancia VIK</span>
+        <span class="ch-place">Countryside · 20 min inland</span>
+        <span class="ch-lede">Four thousand acres, horses and fire. The Uruguay that existed before the coast was discovered.</span>
+        <span class="ch-cta"><span class="link"><span>See the case</span><span class="arw">&#8594;</span></span></span>
+      </span>
+    </a>
+
+    <a class="ch" id="ch-playa" href="#book">
+      <img src="../vik-jose-ignacio/assets/video/room-playa-poster.webp?v=179" alt="Playa VIK">
+      <video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/room-playa.mp4?v=179"></video>
+      <span class="ch-body">
+        <span class="lw ch-mark">Playa VIK</span>
+        <span class="ch-place">Oceanfront · on the point</span>
+        <span class="ch-lede">Carlos Ott architecture and contemporary art, with the Atlantic on three sides and almost no one else.</span>
+        <span class="ch-cta"><span class="link"><span>See the case</span><span class="arw">&#8594;</span></span></span>
+      </span>
+    </a>
+
+    <a class="ch" id="ch-bahia" href="#book">
+      <img src="../vik-jose-ignacio/assets/video/room-bahia-poster.webp?v=179" alt="Bahía VIK">
+      <video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/room-bahia.mp4?v=179"></video>
+      <span class="ch-body">
+        <span class="lw ch-mark">Bahía VIK</span>
+        <span class="ch-place">Playa Mansa · in the dunes</span>
+        <span class="ch-lede">Design bungalows in the beach dunes on the calm side. The most social of the three, the easiest with children.</span>
+        <span class="ch-cta"><span class="link"><span>See the case</span><span class="arw">&#8594;</span></span></span>
+      </span>
+    </a>
+  </div>
+
+
+  <div class="sg-spec" id="m08">
+    <span class="id">M08</span>
+    <span class="nm">Filtered mosaic</span>
+    <span class="src">.mosaic + .vcard + [data-mosaic-filter]</span>
+  </div>
+  <!-- M08 · Filtered mosaic
+       Four slots, always. With no filter, four experiences; with one, three and the way out. The two wide slots are the ends of the row and they are the ones that carry film — four moving cards in a block of four is not a live module, it is noise. -->
+<section class="sec canvas" id="experiences">
+    <div class="head">
+      <div class="h-label"><span class="kicker">Experiences</span></div>
+      <div class="h-main">
+        <h2 class="h2 lines">Horses, fire, water and art.</h2>
+        <p class="lead">Everything below is arranged by your Journey Designer, whichever retreat you are staying in.</p>
+      </div>
+    </div>
+
+    <!-- El filtro. Los nombres no se escriben aqui: los cuenta el
+         motor leyendo los data-tags de las fichas, asi que agregar
+         una experiencia con una etiqueta nueva agrega el boton
+         solo, y ninguna categoria puede quedar vacia. -->
+    <div class="mo-bar">
+      <div class="mo-filter" data-mosaic-filter role="tablist" aria-label="Filter experiences"></div>
+      <a class="mo-all link" href="experiences.html"><span>Full experiences</span><span class="arw">&#8594;</span></a>
+    </div>
+
+    <!-- La cuarta plaza no es una experiencia: es la salida. El
+         motor le escribe el nombre del filtro activo, asi que
+         siempre lleva al sitio que el lector estaba mirando. -->
+    <div class="mosaic r d1">
+      <article class="vcard" data-ground="dark" data-tags="ocean" data-film="../vik-jose-ignacio/assets/video/exp-kayak.mp4?v=179" style="background-image:url('../vik-jose-ignacio/assets/img/exp-kayak.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">On the water</span><span class="vcard-status">Morning</span></div>
+        <h3>Kayak the calm side.</h3>
+        <p>Before midday, the José Ignacio Lagoon is quiet and still. Two kayaks, life jackets and a guide wait at the water’s edge.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="ocean" style="background-image:url('../vik-jose-ignacio/assets/video/card-susana-poster.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Sunset</span><span class="vcard-status">Nightly</span></div>
+        <h3>The Susana ritual.</h3>
+        <p>Beachfront tables, music and the hour when the whole coast faces the same way.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="ocean" data-film="../vik-jose-ignacio/assets/video/dining-susana.mp4?v=179" style="background-image:url('../vik-jose-ignacio/assets/img/exp-sunset.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Beach club</span><span class="vcard-status">All day</span></div>
+        <h3>A day that ends late.</h3>
+        <p>Loungers, lunch that runs into dinner, and nobody checking the time.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="horses" data-film="../vik-jose-ignacio/assets/video/ridegauchos.mp4?v=179" style="background-image:url('../vik-jose-ignacio/assets/img/exp-gauchos.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Daily</span><span class="vcard-status">All levels</span></div>
+        <h3>Ride out with the gauchos.</h3>
+        <p>Criollo and Quarter horses across open pampas, from the Estancia to the lagoon. The signature Vik experience.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="horses" data-film="../vik-jose-ignacio/assets/video/campo-polo.mp4?v=179" style="background-image:url('../vik-jose-ignacio/assets/img/exp-polo.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Countryside</span><span class="vcard-status">Season</span></div>
+        <h3>Polo, from the sideline.</h3>
+        <p>Season play on the Estancia fields. Watch from the grass with a glass in hand, or take a lesson the morning after.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="horses" style="background-image:url('../vik-jose-ignacio/assets/img/exp-stables.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Horsemanship</span><span class="vcard-status">45'</span></div>
+        <h3>The stables, at six.</h3>
+        <p>Before the heat, when the yard is being swept and forty horses are waiting to go out.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="wellness" data-film="../vik-jose-ignacio/assets/video/shack.mp4?v=179" style="background-image:url('../vik-jose-ignacio/assets/img/exp-deck.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">The Shack</span><span class="vcard-status">45'</span></div>
+        <h3>Move, then recover.</h3>
+        <p>Movement, strength, treatment and rest, on the dune deck.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="wellness" data-film="../vik-jose-ignacio/assets/video/pillar-wellness.mp4?v=179" style="background-image:url('../vik-jose-ignacio/assets/img/exp-rest.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Wellbeing</span><span class="vcard-status">60'</span></div>
+        <h3>Sleep, properly.</h3>
+        <p>A programme built around rest: breathwork, light, temperature and the sound of the water.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="wellness" style="background-image:url('../vik-jose-ignacio/assets/img/exp-swim.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Water</span><span class="vcard-status">Open 24h</span></div>
+        <h3>Swim before breakfast.</h3>
+        <p>Heated through the night. The lights come on by themselves at dusk and nobody asks you to book.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="dining" data-film="../vik-jose-ignacio/assets/video/fishbbq.mp4?v=179" style="background-image:url('../vik-jose-ignacio/assets/img/exp-table.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Culinary</span><span class="vcard-status">2h</span></div>
+        <h3>Fish BBQ &amp; farm to table.</h3>
+        <p>Pick from the garden, then cook it over embers.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="dining" data-film="../vik-jose-ignacio/assets/video/pillar-terroir.mp4?v=179" style="background-image:url('../vik-jose-ignacio/assets/video/pillar-terroir-poster.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Cellar</span><span class="vcard-status">12 seats</span></div>
+        <h3>Six wines from Millahue.</h3>
+        <p>Poured by the sommelier, with the story of the valley they come from.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="dining" style="background-image:url('../vik-jose-ignacio/assets/img/exp-bread.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Open fire</span><span class="vcard-status">From 07:00</span></div>
+        <h3>The bread and the fire.</h3>
+        <p>Baked at five, out by seven, and gone by nine. The oven is lit before anything else on the property.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="art" data-film="../vik-jose-ignacio/assets/video/collection.mp4?v=179" style="background-image:url('../vik-jose-ignacio/assets/img/exp-collection.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Art &amp; culture</span><span class="vcard-status">By arrangement</span></div>
+        <h3>Walk the collection.</h3>
+        <p>Every Vik room was commissioned from a different artist. See the works, the chapel and the sculpture terrace with the house curator.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="art" data-film="../vik-jose-ignacio/assets/video/pillar-art.mp4?v=179" style="background-image:url('../vik-jose-ignacio/assets/video/pillar-art-poster.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Architecture</span><span class="vcard-status">By arrangement</span></div>
+        <h3>The chapel, from inside.</h3>
+        <p>Commissioned, built and painted for this hill. Opened on request, best at the end of the day.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="art" style="background-image:url('../vik-jose-ignacio/assets/video/card-pavilion-poster.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Pavilion</span><span class="vcard-status">Evenings</span></div>
+        <h3>Concerts under the roof.</h3>
+        <p>The cultural venue of the destination: music, talks and the occasional long dinner.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="estancia" data-film="../vik-jose-ignacio/assets/video/dest-estancia.mp4?v=179" style="background-image:url('../vik-jose-ignacio/assets/img/exp-acres.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Countryside</span><span class="vcard-status">Half day</span></div>
+        <h3>The four thousand acres.</h3>
+        <p>Out past the last fence, where the land stops being landscaped and starts being country.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="estancia" data-film="../vik-jose-ignacio/assets/video/pillar-shaped.mp4?v=179" style="background-image:url('../vik-jose-ignacio/assets/img/exp-cattle.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Working land</span><span class="vcard-status">06:30</span></div>
+        <h3>Cattle at first light.</h3>
+        <p>The herd moved between paddocks the way it has been moved for a century, with dogs and without hurry.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <article class="vcard" data-ground="dark" data-tags="estancia" style="background-image:url('../vik-jose-ignacio/assets/img/exp-garden.webp?v=179')">
+        <div class="vcard-top"><span class="vcard-when">Kitchen garden</span><span class="vcard-status">Any morning</span></div>
+        <h3>The walled garden.</h3>
+        <p>Four thousand acres and everything on the plate comes from the half hectare behind the house.</p>
+        <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
+      </article>
+      <a class="vcard vcard--cta" href="experiences.html" data-mosaic-cta>
+        <span class="cta-k">More to do</span>
+        <span class="cta-t" data-cta-title>All experiences</span>
+        <span class="cta-n" data-cta-count></span>
+        <span class="cta-go link"><span>Open the programme</span><span class="arw">&#8594;</span></span>
+      </a>
+    </div>
+  </section>
+
+
+  <div class="sg-spec" id="m09">
+    <span class="id">M09</span>
+    <span class="nm">The manifesto index</span>
+    <span class="src">.gallery + .gx + .gallery-stage</span>
+  </div>
+  <!-- M09 · The manifesto index
+       Six entries and one sticky plate that follows whichever is being read. Below 900 the plate is not drawn at all and each entry carries its own image underneath — otherwise the engine kept loading film for an element the CSS had hidden. -->
+<section class="sec" id="pillars">
+    <div class="head">
+      <div class="h-label"><span class="kicker">What VIK is made of</span></div>
+      <div class="h-main">
+        <h2 class="h2 lines">Created through art. Rooted in nature and culture. <em>Yours to experience.</em></h2>
+      </div>
+    </div>
+
+    <!-- La galeria. Seis nombres a la izquierda y una sola imagen
+         a la derecha: la que corresponde al que se esta leyendo.
+         El indice manda y la fotografia obedece — es la unica
+         forma de que seis ideas no se lean como seis fichas
+         iguales. En una columna cada entrada lleva su imagen
+         debajo, que es como funciona una galeria en papel. -->
+    <div class="gallery r d1">
+      <div class="gallery-list">
+      <article class="gx" data-gx="01">
+        <span class="gx-n">01</span>
+        <div class="gx-body">
+          <span class="gx-k">Art & Design</span>
+          <h3 class="gx-t">Creativity, made <em>physical</em></h3>
+          <p class="gx-p">Every VIK building is a commission. Architecture, interiors and furniture designed for the place they stand in.</p>
+        </div>
+        <figure class="gx-inline"><img src="../vik-jose-ignacio/assets/video/pillar-art-poster.webp?v=179" alt="The chapel · Estancia VIK" loading="lazy"></figure>
+      </article>
+      <article class="gx" data-gx="02">
+        <span class="gx-n">02</span>
+        <div class="gx-body">
+          <span class="gx-k">Nature & Culture</span>
+          <h3 class="gx-t">Shaped by <em>place</em></h3>
+          <p class="gx-p">Each retreat is formed by its landscape, its local identity and the seasonal rhythm of the coast.</p>
+        </div>
+        <figure class="gx-inline"><img src="../vik-jose-ignacio/assets/video/pillar-shaped-poster.webp?v=179" alt="Open country · Estancia VIK" loading="lazy"></figure>
+      </article>
+      <article class="gx" data-gx="03">
+        <span class="gx-n">03</span>
+        <div class="gx-body">
+          <span class="gx-k">Wine</span>
+          <h3 class="gx-t">Terroir as a <em>language</em></h3>
+          <p class="gx-p">VIK wines from the Millahue Valley run through every list, every pairing and every cellar.</p>
+        </div>
+        <figure class="gx-inline"><img src="../vik-jose-ignacio/assets/video/pillar-terroir-poster.webp?v=179" alt="The dunes · Playa Mansa" loading="lazy"></figure>
+      </article>
+      <article class="gx" data-gx="04">
+        <span class="gx-n">04</span>
+        <div class="gx-body">
+          <span class="gx-k">Dining</span>
+          <h3 class="gx-t">Where flavour meets <em>nourishment</em></h3>
+          <p class="gx-p">Local, seasonal, farm-to-table and open fire. Dining as a shared cultural experience.</p>
+        </div>
+        <figure class="gx-inline"><img src="../vik-jose-ignacio/assets/video/pillar-dining-poster.webp?v=179" alt="From Garden to Table" loading="lazy"></figure>
+      </article>
+      <article class="gx" data-gx="05">
+        <span class="gx-n">05</span>
+        <div class="gx-body">
+          <span class="gx-k">Wellbeing</span>
+          <h3 class="gx-t">How guests <em>feel</em></h3>
+          <p class="gx-p">Movement, recovery, nourishment, sleep, social connection and balance — built into the stay.</p>
+        </div>
+        <figure class="gx-inline"><img src="../vik-jose-ignacio/assets/video/pillar-wellness-poster.webp?v=179" alt="The Shack · Playa VIK" loading="lazy"></figure>
+      </article>
+      <article class="gx" data-gx="06">
+        <span class="gx-n">06</span>
+        <div class="gx-body">
+          <span class="gx-k">Hospitality</span>
+          <h3 class="gx-t">Intuitive and <em>personal</em></h3>
+          <p class="gx-p">Journey Designers, personal itineraries and human service. Warm, but sophisticated.</p>
+        </div>
+        <figure class="gx-inline"><img src="../vik-jose-ignacio/assets/video/pillar-hospitality-poster.webp?v=179" alt="Playa VIK · on the point" loading="lazy"></figure>
+      </article>
+      </div>
+      <!-- LA LAMINA
+           Cada figura puede llevar pelicula en vez de fotografia:
+           se le pone data-film="ruta.mp4" y listo. La imagen sigue
+           haciendo falta — es el primer fotograma mientras carga y
+           lo unico que queda si el video no arranca. Formato
+           horizontal 16:9. -->
+      <div class="gallery-stage" aria-hidden="true">
+        <div class="gs-frame">
+        <figure class="gs is-on" data-gs="01" data-film="../vik-jose-ignacio/assets/video/pillar-art.mp4?v=179">
+          <img src="../vik-jose-ignacio/assets/video/pillar-art-poster.webp?v=179" alt="The chapel · Estancia VIK" loading="lazy">
+          <figcaption class="vcap">The chapel · Estancia VIK</figcaption>
+        </figure>
+        <figure class="gs" data-gs="02" data-film="../vik-jose-ignacio/assets/video/pillar-shaped.mp4?v=179">
+          <img src="../vik-jose-ignacio/assets/video/pillar-shaped-poster.webp?v=179" alt="Open country · Estancia VIK" loading="lazy">
+          <figcaption class="vcap">Open country · Estancia VIK</figcaption>
+        </figure>
+        <figure class="gs" data-gs="03" data-film="../vik-jose-ignacio/assets/video/pillar-terroir.mp4?v=179">
+          <img src="../vik-jose-ignacio/assets/video/pillar-terroir-poster.webp?v=179" alt="Millahue Valley · Colchagua" loading="lazy">
+          <figcaption class="vcap">Millahue Valley · Colchagua</figcaption>
+        </figure>
+        <figure class="gs" data-gs="04" data-film="../vik-jose-ignacio/assets/video/pillar-dining.mp4?v=179">
+          <img src="../vik-jose-ignacio/assets/video/pillar-dining-poster.webp?v=179" alt="From Garden to Table" loading="lazy">
+          <figcaption class="vcap">From Garden to Table</figcaption>
+        </figure>
+        <figure class="gs" data-gs="05" data-film="../vik-jose-ignacio/assets/video/pillar-wellness.mp4?v=179">
+          <img src="../vik-jose-ignacio/assets/video/pillar-wellness-poster.webp?v=179" alt="The Shack · Playa VIK" loading="lazy">
+          <figcaption class="vcap">The Shack · Playa VIK</figcaption>
+        </figure>
+        <figure class="gs" data-gs="06" data-film="../vik-jose-ignacio/assets/video/pillar-hospitality.mp4?v=179">
+          <img src="../vik-jose-ignacio/assets/video/pillar-hospitality-poster.webp?v=179" alt="Playa VIK · on the point" loading="lazy">
+          <figcaption class="vcap">Playa VIK · on the point</figcaption>
+        </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="sg-spec" id="m10">
+    <span class="id">M10</span>
+    <span class="nm">Full-bleed band with calendar</span>
+    <span class="src">.film + .season[data-season-table]</span>
+  </div>
+  <!-- M10 · Full-bleed band with calendar
+       Film across the full width with the year on top of it. The engine marks the season you are actually in and counts the days to the next one, which is the question the module exists to answer. -->
+<section class="sec canvas" id="seasons">
+    <div class="film" data-ground="dark">
+      <div class="film-bg">
+        <video autoplay muted loop playsinline preload="none"
+               poster="../vik-jose-ignacio/assets/video/landscape-poster.webp?v=179"
+               data-src="../vik-jose-ignacio/assets/video/landscape.mp4?v=179"></video>
+      </div>
+      <div class="film-in">
+        <span class="kicker">When to come</span>
+        <h2 class="film-t lines" data-lines="br">Know where to stay.<br>Then know <em>when to come</em>.</h2>
+        <p class="film-d">José Ignacio transforms across the year. Peak season is vibrant, social and full of events. March and the shoulder season are quieter, more intimate and restorative. The countryside is at its best when the coast empties.</p>
+
+        <div class="season" data-season-table>
+          <div class="season-row" data-months="12,1"><span class="w">Dec – Jan</span><span class="n">Peak</span><span class="d">Vibrant, energetic, social. Events, dining and nightlife every evening.</span></div>
+          <div class="season-row" data-months="2"><span class="w">February</span><span class="n">Full summer</span><span class="d">Long days on the water. The beach clubs at their best.</span></div>
+          <div class="season-row" data-months="3"><span class="w">March</span><span class="n">Shoulder</span><span class="d">Quieter, more intimate, restorative. Space and disconnection.</span></div>
+          <div class="season-row" data-months="4,5,6,7,8,9,10,11"><span class="w">Apr – Nov</span><span class="n">Countryside</span><span class="d">Estancia comes into its own. Horses, fire and empty landscape.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="sg-spec" id="m11">
+    <span class="id">M11</span>
+    <span class="nm">The index</span>
+    <span class="src">.index + .index-row</span>
+  </div>
+  <!-- M11 · The index
+       Rows with a number, a name and a fact. With a mouse a thumbnail trails the cursor across the page; in strip form the photograph moves inside the card and the booking link rests on its base. -->
+<section class="sec" id="dining">
+    <div class="head bare">
+      <div class="h-label"><span class="kicker">Dining</span></div>
+      <div class="h-main">
+        <h2 class="h2 lines">Where flavour meets <em>nourishment.</em></h2>
+        <p class="lead">Five house restaurants, one beach club and a culinary programme built on open fire, the garden and the Atlantic, all open to guests of any of the three retreats.</p>
+      </div>
+    </div>
+
+    <div class="index r d1">
+      <a class="index-row" href="#book" data-hover-img="../vik-jose-ignacio/assets/video/dining-asador-poster.webp?v=179" data-hover-film="../vik-jose-ignacio/assets/video/dining-asador.mp4?v=179"><span class="index-n">01</span><span class="index-name">El Asador</span><span class="index-meta">Estancia VIK · open fire, farm to table</span><span class="index-cta"><span class="link"><span>Reserve</span><span class="arw">&#8594;</span></span></span></a>
+      <a class="index-row" href="#book" data-hover-img="../vik-jose-ignacio/assets/video/dining-cielomar-poster.webp?v=179" data-hover-film="../vik-jose-ignacio/assets/video/dining-cielomar.mp4?v=179"><span class="index-n">02</span><span class="index-name">CieloMar</span><span class="index-meta">Playa VIK · fish BBQ over the Atlantic</span><span class="index-cta"><span class="link"><span>Reserve</span><span class="arw">&#8594;</span></span></span></a>
+      <a class="index-row" href="#book" data-hover-img="../vik-jose-ignacio/assets/video/dining-zodiaco-poster.webp?v=179" data-hover-film="../vik-jose-ignacio/assets/video/dining-zodiaco.mp4?v=179"><span class="index-n">03</span><span class="index-name">Zodiaco</span><span class="index-meta">Bahía VIK · bay-side, all day</span><span class="index-cta"><span class="link"><span>Reserve</span><span class="arw">&#8594;</span></span></span></a>
+      <a class="index-row" href="#book" data-hover-img="../vik-jose-ignacio/assets/video/dining-susana-poster.webp?v=179" data-hover-film="../vik-jose-ignacio/assets/video/dining-susana.mp4?v=179"><span class="index-n">04</span><span class="index-name">La Susana</span><span class="index-meta">Playa Mansa · beach dining, music, sunset</span><span class="index-cta"><span class="link"><span>Reserve</span><span class="arw">&#8594;</span></span></span></a>
+      <a class="index-row" href="#book" data-hover-img="../vik-jose-ignacio/assets/video/dining-azur-poster.webp?v=179" data-hover-film="../vik-jose-ignacio/assets/video/dining-azur.mp4?v=179"><span class="index-n">05</span><span class="index-name">Azur</span><span class="index-meta">Playa VIK &middot; seafood, whatever came in that morning</span><span class="index-cta"><span class="link"><span>Reserve</span><span class="arw">&#8594;</span></span></span></a>
+      <a class="index-row" href="#book" data-hover-img="../vik-jose-ignacio/assets/video/dining-fogon-poster.webp?v=179" data-hover-film="../vik-jose-ignacio/assets/video/dining-fogon.mp4?v=179"><span class="index-n">06</span><span class="index-name">Fogón</span><span class="index-meta">Estancia Vik · the country asado, as it was</span><span class="index-cta"><span class="link"><span>Reserve</span><span class="arw">&#8594;</span></span></span></a>
+    </div>
+  </section>
+
+
+  <div class="sg-spec" id="m12">
+    <span class="id">M12</span>
+    <span class="nm">The week</span>
+    <span class="src">.agenda + .ev</span>
+  </div>
+  <!-- M12 · The week
+       Seven days in a black strip with no seam. The day names and dates are written by the destination's own clock, and the card nearest the current hour is marked. It refreshes itself every half hour. -->
+<section class="agenda" id="now" data-ground="dark"
+           data-refresh="sunday 23:30 America/Montevideo">
+    <div class="rail agenda__rail" data-rail="auto" data-rail-speed="0.19">
+      <article class="ev ev--type" data-today>
+        <span class="ev__body">
+          <span class="ev__head">
+            <span class="ev__num" data-today-num>—</span>
+            <span class="ev__month" data-today-month></span>
+          </span>
+          <span class="ev__foot">
+            <span class="ev__kind">Drag · seven days</span>
+            <span class="ev__rule"></span>
+            <span class="ev__name">This week at José Ignacio</span>
+          </span>
+        </span>
+      </article>
+      <article class="ev" data-day="0" data-at="08:00"
+              >
+        <span class="ev__media"><img src="../vik-jose-ignacio/assets/video/wk-yoga-poster.webp?v=179" alt="" loading="lazy"></span>
+        <span class="ev__body">
+          <a class="ev__open" href="#experiences" aria-label="Yoga on the deck"></a>
+          <span class="ev__kind">Wellness</span>
+          <span class="ev__when"><b data-day-name></b> · 08:00</span>
+          <span class="ev__name">Yoga on the deck</span>
+          <button class="ev__book" type="button">Reserve</button>
+        </span>
+      </article>
+      <article class="ev" data-day="1" data-at="10:30" data-booked
+              >
+        <span class="ev__media"><img src="../vik-jose-ignacio/assets/video/wk-ride-poster.webp?v=179" alt="" loading="lazy"></span>
+        <span class="ev__body">
+          <a class="ev__open" href="#experiences" aria-label="Ride before sunset"></a>
+          <span class="ev__kind">Countryside</span>
+          <span class="ev__when"><b data-day-name></b> · 10:30</span>
+          <span class="ev__name">Ride before sunset</span>
+          <span class="ev__book is-booked"><i></i>Booked</span>
+        </span>
+      </article>
+      <article class="ev" data-day="2" data-at="13:00"
+              >
+        <span class="ev__media"><img src="../vik-jose-ignacio/assets/video/wk-fire-poster.webp?v=179" alt="" loading="lazy"></span>
+        <span class="ev__body">
+          <a class="ev__open" href="#experiences" aria-label="Country breakfast"></a>
+          <span class="ev__kind">Open fire</span>
+          <span class="ev__when"><b data-day-name></b> · 13:00</span>
+          <span class="ev__name">Country breakfast</span>
+          <button class="ev__book" type="button">Reserve</button>
+        </span>
+      </article>
+      <article class="ev" data-day="3" data-at="16:00"
+              >
+        <span class="ev__media"><img src="../vik-jose-ignacio/assets/video/wk-water-poster.webp?v=179" alt="" loading="lazy"></span>
+        <span class="ev__body">
+          <a class="ev__open" href="#experiences" aria-label="Kayak in the bay"></a>
+          <span class="ev__kind">On the water</span>
+          <span class="ev__when"><b data-day-name></b> · 16:00</span>
+          <span class="ev__name">Kayak in the bay</span>
+          <button class="ev__book" type="button">Reserve</button>
+        </span>
+      </article>
+      <article class="ev" data-day="4" data-at="19:00" data-booked
+              >
+        <span class="ev__media"><img src="../vik-jose-ignacio/assets/video/wk-tasting-poster.webp?v=179" alt="" loading="lazy"></span>
+        <span class="ev__body">
+          <a class="ev__open" href="#experiences" aria-label="Viña Vik tasting"></a>
+          <span class="ev__kind">Cellar</span>
+          <span class="ev__when"><b data-day-name></b> · 19:00</span>
+          <span class="ev__name">Viña Vik tasting</span>
+          <span class="ev__book is-booked"><i></i>Booked</span>
+        </span>
+      </article>
+      <article class="ev" data-day="5" data-at="21:30"
+              >
+        <span class="ev__media"><img src="../vik-jose-ignacio/assets/video/wk-bonfire-poster.webp?v=179" alt="" loading="lazy"></span>
+        <span class="ev__body">
+          <a class="ev__open" href="#experiences" aria-label="Bonfire by the sea"></a>
+          <span class="ev__kind">Evening</span>
+          <span class="ev__when"><b data-day-name></b> · 21:30</span>
+          <span class="ev__name">Bonfire by the sea</span>
+          <button class="ev__book" type="button">Reserve</button>
+        </span>
+      </article>
+      <article class="ev" data-day="6" data-at="00:00"
+              >
+        <span class="ev__media"><img src="../vik-jose-ignacio/assets/video/wk-pool-poster.webp?v=179" alt="" loading="lazy"></span>
+        <span class="ev__body">
+          <a class="ev__open" href="#experiences" aria-label="Heated pool, all night"></a>
+          <span class="ev__kind">Open</span>
+          <span class="ev__when"><b data-day-name></b> · 00:00</span>
+          <span class="ev__name">Heated pool, all night</span>
+          <button class="ev__book" type="button">Reserve</button>
+        </span>
+      </article>
+    </div>
+  </section>
+
+
+  <div class="sg-spec" id="m13">
+    <span class="id">M13</span>
+    <span class="nm">Live map</span>
+    <span class="src">.map-section + .map-full</span>
+  </div>
+  <!-- M13 · Live map
+       Map and satellite, with the legend as a bottom bar. Leaflet anchors its credit to the foot of the map, so the map is stretched below the crop and the signature falls outside the frame — it is never hidden, it lives in the page footer instead. -->
+<section class="sec map-section" id="map">
+    <div class="head">
+      <div class="h-label"><span class="kicker">The map</span></div>
+      <div class="h-main">
+        <h2 class="h2 lines">Twenty minutes, <em>end to end.</em></h2>
+        <p class="lead">Two on the water, one inland. Close enough to have dinner at another house and be back before midnight.</p>
+      </div>
+    </div>
+
+    <div class="map-full r fade">
+      <div id="leafMap" class="leaf-map" role="img" aria-label="Map of José Ignacio with the three VIK retreats"></div>
+      <div class="map-view" role="tablist" aria-label="Map view">
+        <button type="button" data-view="map">Map</button>
+        <button type="button" class="active" data-view="sat">Satellite</button>
+      </div>
+      <div class="map-bar">
+        <ul id="mapLegend" class="mb-list"></ul>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="sg-spec" id="m14">
+    <span class="id">M14</span>
+    <span class="nm">Press</span>
+    <span class="src">.logo-rail + .quotes</span>
+  </div>
+  <!-- M14 · Press
+       A row of marks that drifts on its own. On a phone the three quotes go and the row stays: a seal reads at a glance, three long paragraphs between the map and the booking form are a stop. -->
+<section class="sec" id="press" style="overflow:hidden">
+    <div class="logo-rail" data-rail="auto" data-rail-speed="0.26">
+      <div class="logo-item"><img src="../vik-jose-ignacio/assets/press/architectural-digest.webp" alt="Architectural Digest" loading="lazy" decoding="async"></div>
+      <div class="logo-item"><img src="../vik-jose-ignacio/assets/press/conde-nast-traveler.webp" alt="Condé Nast Traveler" loading="lazy" decoding="async"></div>
+      <div class="logo-item"><img src="../vik-jose-ignacio/assets/press/travel-leisure.webp" alt="Travel + Leisure" loading="lazy" decoding="async"></div>
+      <div class="logo-item"><img src="../vik-jose-ignacio/assets/press/wallpaper.webp" alt="Wallpaper*" loading="lazy" decoding="async"></div>
+      <div class="logo-item"><img src="../vik-jose-ignacio/assets/press/afar.webp" alt="Afar" loading="lazy" decoding="async"></div>
+      <div class="logo-item"><img src="../vik-jose-ignacio/assets/press/departures.webp" alt="Departures" loading="lazy" decoding="async"></div>
+      <div class="logo-item"><img src="../vik-jose-ignacio/assets/press/forbes.webp" alt="Forbes" loading="lazy" decoding="async"></div>
+      <div class="logo-item"><img src="../vik-jose-ignacio/assets/press/elle-decor.webp" alt="Elle Decor" loading="lazy" decoding="async"></div>
+      <div class="logo-item"><img src="../vik-jose-ignacio/assets/press/tatler.webp" alt="Tatler" loading="lazy" decoding="async"></div>
+    </div>
+
+    <span class="kicker press-label">Recognition</span>
+
+    <div class="quotes r d2">
+      <figure class="quote">
+        <q>An estancia reimagined as a living gallery, where the art was made for the room it hangs in.</q>
+        <cite>Architectural Digest<span class="d">2018</span></cite>
+      </figure>
+      <figure class="quote">
+        <q>The most architecturally ambitious house on this coast, and the least interested in saying so.</q>
+        <cite>Wallpaper*<span class="d">2019</span></cite>
+      </figure>
+      <figure class="quote">
+        <q>Three houses a few kilometres apart, held together by one singular sense of place.</q>
+        <cite>Condé Nast Traveler<span class="d">2021</span></cite>
+      </figure>
+    </div>
+  </section>
+
+
+  <div class="sg-spec" id="m15">
+    <span class="id">M15</span>
+    <span class="nm">The reservation</span>
+    <span class="src">.reserve-grid + .counter</span>
+  </div>
+  <!-- M15 · The reservation
+       The same engine as the counter on the cover and the strip at the foot: same fields, same names, one piece of booking logic rather than three. -->
+<section class="sec canvas" id="book">
+    <div class="reserve-grid r">
+      <div class="r-main">
+        <span class="kicker">Book your stay</span>
+        <h2 class="h2 reserve-t lines">Three retreats.<br>One <em>search</em>.</h2>
+      </div>
+      <p class="r-note spec">Bookassist · PayPal accepted<br>Best rate, booked direct<br>guestexperience@vikretreats.com</p>
+    </div>
+
+    <form class="counter paper r d1" data-booking>
+      <span class="counter-t">The search</span>
+      <div class="counter-row">
+        <div class="f">
+          <label for="bkIn">Arrival</label>
+          <input id="bkIn" name="checkin" type="date">
+        </div>
+        <span class="f-arw" aria-hidden="true">&#8594;</span>
+        <div class="f">
+          <label for="bkOut">Departure</label>
+          <input id="bkOut" name="checkout" type="date">
+        </div>
+        <span class="f-sep" aria-hidden="true"></span>
+        <div class="f">
+          <label for="bkProp">Retreat</label>
+          <select id="bkProp" name="property">
+            <option value="any">Help me choose</option>
+            <option value="estancia" data-prop>Estancia VIK</option>
+            <option value="playa" data-prop>Playa VIK</option>
+            <option value="bahia" data-prop>Bahía VIK</option>
+          </select>
+        </div>
+        <span class="f-sep" aria-hidden="true"></span>
+        <div class="f">
+          <label for="bkAd">Guests</label>
+          <select id="bkAd" name="adults">
+            <option value="1">1 Adult</option>
+            <option value="2" selected>2 Adults</option>
+            <option value="3">3 Adults</option>
+            <option value="4">4 Adults</option>
+            <option value="6">6 Adults</option>
+            <option value="8">Group · 8+</option>
+          </select>
+        </div>
+        <button class="pill solid" type="submit"><span>Check availability</span><span class="arw">&#8594;</span></button>
+      </div>
+      <div class="counter-note">
+        <span>Direct rate</span>
+        <span>Free cancellation*</span>
+        <span>Journey Designer included</span>
+      </div>
+    </form>
+
+    <div class="reserve-alts r d2">
+      <a class="pill" href="#choose"><span>Help Me Choose</span><span class="arw">&#8594;</span></a>
+      <a class="pill" href="mailto:guestexperience@vikretreats.com"><span>Contact a Journey Designer</span><span class="arw">&#8594;</span></a>
+      <a class="pill" href="#book"><span>Plan an Event</span><span class="arw">&#8594;</span></a>
+    </div>
+  </section>
+
+
+  <div class="sg-spec" id="m16">
+    <span class="id">M16</span>
+    <span class="nm">The closing</span>
+    <span class="src">.club + .club-in</span>
+  </div>
+  <!-- M16 · The closing
+       The last door on the page, with its own footage. It is the only one that leads outside the hotel, which is why it goes at the end rather than repeating the question the booking strip already asked. -->
+<section class="sec club-sec" id="club" data-ground="dark">
+    <div class="club">
+      <div class="club-bg">
+        <video autoplay muted loop playsinline preload="none"
+               poster="../vik-jose-ignacio/assets/video/club-polo-poster.webp?v=179"
+               data-src="../vik-jose-ignacio/assets/video/club-polo.mp4?v=179"></video>
+      </div>
+
+      <div class="club-in">
+        <div class="club-a">
+        <span class="club-mark">Club Polo Vik</span>
+        <h2 class="h2 club-t lines" data-lines="br">A horse-centred club<br>on <em>open country</em>.</h2>
+        <p class="club-d">Set within the countryside of Estancia Vik, the Equestrian &amp; Athletic Club is a social and athletic community rooted in performance, tradition and connection to the land.</p>
+
+        <div class="club-actions">
+          <a class="pill light" href="#book"><span>Join the club</span><span class="arw">&#8594;</span></a>
+          <a class="link club-alt" href="#book"><span>Membership &amp; visits</span><span class="arw">&#8594;</span></a>
+        </div>
+        <p class="club-note">Estancia Vik · José Ignacio, Uruguay</p>
+        </div>
+
+        <div class="club-b">
+        <span class="club-k">What the club is</span>
+        <ul class="club-list">
+          <li><span class="cl-n">01</span><span class="cl-t">Polo</span><span class="cl-d">Fields, ponies and season play</span></li>
+          <li><span class="cl-n">02</span><span class="cl-t">Horsemanship</span><span class="cl-d">Riding taught from the ground up</span></li>
+          <li><span class="cl-n">03</span><span class="cl-t">Gaucho Heritage</span><span class="cl-d">The tradition that made the country</span></li>
+          <li><span class="cl-n">04</span><span class="cl-t">Athletic Training</span><span class="cl-d">Conditioning for horse and rider</span></li>
+          <li><span class="cl-n">05</span><span class="cl-t">Estancia Life</span><span class="cl-d">Fire, table and open land</span></li>
+        </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <div class="sg-spec" id="l01">
+    <span class="id">L01</span>
+    <span class="nm">Interior page cover</span>
+    <span class="src">.hero-page · vik-v2-lib.css</span>
+  </div>
+  <!-- L01 · Interior page cover
+       The home cover carries the counter; an inner page does not. Here the place takes the screen and one left-hand column sits on it. Left-aligned rather than centred, because an interior page is a chapter and a chapter starts at the margin. The slide sequence is optional — with one image the module behaves identically and the dots are not drawn. -->
+<section class="hero-page">
+  <div class="hp-media">
+    <img class="is-on" src="../_assets/img/t/playa_80c9a60ef2cc735699a0e504cbfa54955f3113fe-w1600.jpg" alt="Playa VIK on the point">
+    <img src="../_assets/img/t/bahia_duna-0340-w1600.jpg" alt="The dunes">
+    <img src="../_assets/img/t/estancia_estancia-img_7582-min-1-w1600.jpg" alt="Open country">
+  </div>
+  <div class="hp-inner ed">
+    <div class="ed-folio"><span class="hp-kicker">Playa VIK<br>On the point</span></div>
+    <div class="ed-main">
+      <h1 class="hp-title">Carlos Ott cut it <em>into the rock</em>.</h1>
+      <p class="hp-desc">Twelve suites and a titanium roof above the Atlantic, with the ocean on three sides and a contemporary collection hung through every room of the house.</p>
+      <div class="hp-actions">
+        <a class="pill light" href="#"><span>See the rooms</span><span class="arw">&#8594;</span></a>
+        <a class="link" href="#"><span>The architecture</span><span class="arw">&#8594;</span></a>
+      </div>
+    </div>
+  </div>
+  <span class="hp-count"><b>01</b> / 03 &middot; The point, from the east</span>
+</section>
+
+
+  <div class="sg-spec" id="l02">
+    <span class="id">L02</span>
+    <span class="nm">Principles</span>
+    <span class="src">.principles + .principle</span>
+  </div>
+  <!-- L02 · Principles
+       Rows of large type divided by hairlines. Each one can carry data-hover-img and the system thumbnail trails it — the same mechanism as the index rather than a second component doing the same job. -->
+<section class="sec">
+  <div class="principles r">
+    <article class="principle ed" data-hover-img="../_assets/img/t/estancia_gardens-img_1111-min-w900.jpg">
+      <div class="ed-folio"><span class="ed-n">01</span></div>
+      <div class="ed-main">
+        <h3>Nothing travels further than <em>the garden</em>.</h3>
+        <p class="ed-read">Half a hectare behind the house feeds four kitchens. What is not cut that morning is not on the menu that night — a constraint the chefs asked for rather than one imposed on them.</p>
+        <a class="link" href="#"><span>Walk the garden</span><span class="arw">&#8594;</span></a>
+      </div>
+    </article>
+    <article class="principle ed" data-hover-img="../_assets/img/t/estancia_sculpture-img_1789-w900.jpg">
+      <div class="ed-folio"><span class="ed-n">02</span></div>
+      <div class="ed-main">
+        <h3>The art is <em>not decoration</em>.</h3>
+        <p class="ed-read">Every room was given to an artist before a guest ever saw it. You sleep inside the work rather than beside it, and no two rooms argue the same thing.</p>
+        <a class="link" href="#"><span>The collection</span><span class="arw">&#8594;</span></a>
+      </div>
+    </article>
+    <article class="principle ed" data-hover-img="../_assets/img/t/bahia_16_bv-1106-scaled-w900.jpg">
+      <div class="ed-folio"><span class="ed-n">03</span></div>
+      <div class="ed-main">
+        <h3>The land was here <em>first</em>.</h3>
+        <p class="ed-read">Bahía sits inside the dunes rather than on top of them. Nothing was flattened to build it, and the sand still moves across the paths every September.</p>
+        <a class="link" href="#"><span>See Bahía VIK</span><span class="arw">&#8594;</span></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+
+  <div class="sg-spec" id="l03">
+    <span class="id">L03</span>
+    <span class="nm">The overlay</span>
+    <span class="src">.ovl · every modal in the house</span>
+  </div>
+  <!-- L03 · The overlay
+       One chassis for every overlay: the case for a retreat, a room view, checkout, the gallery. What goes inside changes; this does not. No radius and no shadow — a modal with rounded corners and a long shadow is an application window, and this is a sheet laid over the page, which is why it comes up from the bottom and takes the full width. -->
+<div class="ovl is-on" style="position:relative;inset:auto;height:min(780px,90svh);z-index:1">
+  <div class="ovl-panel">
+    <div class="ovl-bar">
+      <span class="ovl-tag">Retreat 01 / 03 &middot; Estancia VIK</span>
+      <button class="ovl-close" type="button">Close</button>
+    </div>
+    <figure class="ovl-media">
+      <img src="../_assets/img/t/estancia_estancia-img_7582-min-1-w1600.jpg" alt="Estancia VIK">
+    </figure>
+    <div class="ovl-body">
+      <p class="ed-cap">Open country, forty minutes from the coast</p>
+      <h2 class="ovl-mark">Four thousand acres, and <em>nobody on them</em>.</h2>
+      <p class="ovl-lede ed-read">Twenty minutes inland the coast stops being the subject. Horses at six, fire at nine, and a silence that the people who live on the beach drive out here to find.</p>
+      <div class="ovl-facts">
+        <div><span class="k">Setting</span><span class="v">Open countryside</span></div>
+        <div><span class="k">Rooms</span><span class="v">Twelve suites</span></div>
+        <div><span class="k">To the beach</span><span class="v">20 minutes</span></div>
+        <div><span class="k">Best for</span><span class="v">Riding, fire, silence</span></div>
+      </div>
+      <div class="ovl-actions">
+        <a class="pill solid" href="#"><span>Check availability</span><span class="arw">&#8594;</span></a>
+        <a class="link" href="#"><span>See the rooms</span><span class="arw">&#8594;</span></a>
+      </div>
+    </div>
+    <div class="ovl-steps">
+      <span class="ovl-step is-on"></span><span class="ovl-step"></span><span class="ovl-step"></span>
+    </div>
+  </div>
+</div>
+
+
+  <div class="sg-spec" id="l04">
+    <span class="id">L04</span>
+    <span class="nm">Room reel</span>
+    <span class="src">.roomreel + .rr</span>
+  </div>
+  <!-- L04 · Room reel
+       Every room at full height, side by side, with its filter bar above. Drag it; release on one and the overlay opens on that room. The cards touch like the ecosystem rail because they are the same house in different frames, not a product catalogue. -->
+<div class="roomreel">
+  <div class="roomreel-bar">
+    <button type="button" class="is-on">All rooms</button>
+    <button type="button">Estancia</button>
+    <button type="button">Playa</button>
+    <button type="button">Bahía</button>
+    <button type="button">Suites</button>
+    <span class="count">36 rooms across three houses</span>
+  </div>
+  <div class="roomreel-track">
+    <a class="rr" href="#"><img src="../_assets/img/t/estancia_estancia-img_7582-min-1-w900.jpg" alt=""><span class="rr-i">01</span><span class="rr-body"><span class="rr-name">Sacred Fire</span><span class="rr-meta">Estancia &middot; 62 m² &middot; Sleeps two</span></span></a>
+    <a class="rr" href="#"><img src="../_assets/img/t/playa_80c9a60ef2cc735699a0e504cbfa54955f3113fe-w900.jpg" alt=""><span class="rr-i">02</span><span class="rr-body"><span class="rr-name">Ocean Suite</span><span class="rr-meta">Playa &middot; 84 m² &middot; Sleeps two</span></span></a>
+    <a class="rr" href="#"><img src="../_assets/img/t/bahia_duna-0340-w900.jpg" alt=""><span class="rr-i">03</span><span class="rr-body"><span class="rr-name">Dune Bungalow</span><span class="rr-meta">Bahía &middot; 55 m² &middot; Sleeps three</span></span></a>
+    <a class="rr" href="#"><img src="../_assets/img/t/bahia_16_bv-1106-scaled-w900.jpg" alt=""><span class="rr-i">04</span><span class="rr-body"><span class="rr-name">Bay Room</span><span class="rr-meta">Bahía &middot; 48 m² &middot; Sleeps two</span></span></a>
+    <a class="rr" href="#"><img src="../_assets/img/t/estancia_gardens-img_1111-min-w900.jpg" alt=""><span class="rr-i">05</span><span class="rr-body"><span class="rr-name">Garden Room</span><span class="rr-meta">Estancia &middot; 44 m² &middot; Sleeps two</span></span></a>
+    <a class="rr" href="#"><img src="../_assets/img/t/playa_spa-img_0817-w900.jpg" alt=""><span class="rr-i">06</span><span class="rr-body"><span class="rr-name">Spa Suite</span><span class="rr-meta">Playa &middot; 70 m² &middot; Sleeps two</span></span></a>
+  </div>
+</div>
+
+
+  <div class="sg-spec" id="l05">
+    <span class="id">L05</span>
+    <span class="nm">The wall</span>
+    <span class="src">.wall + .wall-tile</span>
+  </div>
+  <!-- L05 · The wall
+       The photograph grid for one room, with no gaps. One large piece and the rest around it: if they all measured the same it would be a contact sheet, and this is a report. -->
+<section class="sec">
+  <div class="r">
+    <div class="wall">
+      <a class="wall-tile" href="#"><span class="n">01</span><img src="../_assets/img/t/playa_80c9a60ef2cc735699a0e504cbfa54955f3113fe-w1600.jpg" alt=""></a>
+      <a class="wall-tile" href="#"><span class="n">02</span><img src="../_assets/img/t/playa_spa-img_0817-w900.jpg" alt=""></a>
+      <a class="wall-tile" href="#"><span class="n">03</span><img src="../_assets/img/t/bahia_duna-0340-w900.jpg" alt=""></a>
+      <a class="wall-tile" href="#"><span class="n">04</span><img src="../_assets/img/t/estancia_gardens-img_1111-min-w900.jpg" alt=""></a>
+      <a class="wall-tile" href="#"><span class="n">05</span><img src="../_assets/img/t/bahia_16_bv-1106-scaled-w900.jpg" alt=""></a>
+    </div>
+    <div class="wall-caps">
+      <span><b>01</b>The suite from the terrace</span>
+      <span><b>02</b>Bath, cut from a single block</span>
+      <span><b>03</b>The dune at six in the morning</span>
+      <span><b>04</b>Kitchen garden, late February</span>
+      <span><b>05</b>The bay from the upper deck</span>
+    </div>
+  </div>
+</section>
+
+
+  <div class="sg-spec" id="l06">
+    <span class="id">L06</span>
+    <span class="nm">The accordion</span>
+    <span class="src">.accordion + .acc-item</span>
+  </div>
+  <!-- L06 · The accordion
+       Questions, policies and menus. A hairline above each row and nothing else — no box, no fill, no rotating chevron. The sign is a cross that becomes a dash, which is what the row itself does. -->
+<section class="sec">
+  <div class="accordion r">
+    <details class="acc-item" open>
+      <summary class="acc-head"><span class="ed-n">01</span><span class="acc-q">What time can we check in?</span><span class="acc-sign"></span></summary>
+      <div class="acc-body"><div class="acc-body-inner"><div class="ed">
+        <div class="ed-main"><p class="ed-read">From three in the afternoon, and we hold the room until you arrive however late that turns out to be. If you land in the morning, tell your Journey Designer and we open it early whenever the house allows.</p></div>
+      </div></div></div>
+    </details>
+    <details class="acc-item">
+      <summary class="acc-head"><span class="ed-n">02</span><span class="acc-q">Can we move between the three houses?</span><span class="acc-sign"></span></summary>
+      <div class="acc-body"><div class="acc-body-inner"><div class="ed">
+        <div class="ed-main"><p class="ed-read">Yes, and a good number of guests do. Dining, wellness and every experience are open to anyone staying at any of the three, and the transfers between them are arranged for you.</p></div>
+      </div></div></div>
+    </details>
+    <details class="acc-item">
+      <summary class="acc-head"><span class="ed-n">03</span><span class="acc-q">Is the countryside far from the beach?</span><span class="acc-sign"></span></summary>
+      <div class="acc-body"><div class="acc-body-inner"><div class="ed">
+        <div class="ed-main"><p class="ed-read">Forty minutes by road, and the two feel like different countries. That distance is the point rather than the inconvenience — it is why one week can hold both.</p></div>
+      </div></div></div>
+    </details>
+  </div>
+</section>
+
+
+  <div class="sg-spec" id="l07">
+    <span class="id">L07</span>
+    <span class="nm">Enquiry</span>
+    <span class="src">.enquiry + .enq-form</span>
+  </div>
+  <!-- L07 · Enquiry
+       A statement and the direct lines on the left; the questions on the right as ruled lines rather than boxes. A form made of boxes looks like paperwork; made of rules it looks like a letter, which is what it is. -->
+<section class="sec">
+  <div class="enquiry r">
+    <div>
+      <span class="kicker">Talk to someone</span>
+      <p class="enq-statement">A Journey Designer answers, <em>not a form</em>.</p>
+      <div class="enq-lines">
+        <div class="enq-line"><span class="k">Email</span><span class="v">guestexperience@vikretreats.com</span></div>
+        <div class="enq-line"><span class="k">WhatsApp</span><span class="v">+598 95 844 445</span></div>
+        <div class="enq-line"><span class="k">Reply</span><span class="v">Within one working day</span></div>
+      </div>
+    </div>
+    <form class="enq-form" onsubmit="return false">
+      <div class="enq-field"><span class="ed-n">01</span><label for="eqn">Name</label><input id="eqn" type="text" placeholder="Your name"></div>
+      <div class="enq-field"><span class="ed-n">02</span><label for="eqe">Email</label><input id="eqe" type="email" placeholder="you@email.com"></div>
+      <div class="enq-field"><span class="ed-n">03</span><label for="eqd">Dates</label><input id="eqd" type="text" placeholder="Late February, a week"></div>
+      <div class="enq-field"><span class="ed-n">04</span><label for="eqp">House</label><select id="eqp"><option>Not sure yet</option><option>Estancia VIK</option><option>Playa VIK</option><option>Bahía VIK</option></select></div>
+      <div class="enq-field enq-wide"><span class="ed-n">05</span><label for="eqm">What are you planning?</label><textarea id="eqm" placeholder="Two of us, mostly riding, and one night on the coast."></textarea></div>
+      <div class="enq-foot">
+        <p class="enq-note">We use this to answer you and nothing else. No list, no newsletter unless you ask for one.</p>
+        <button class="pill solid" type="submit"><span>Send</span><span class="arw">&#8594;</span></button>
+      </div>
+    </form>
+  </div>
+</section>
+
+
+  <div class="sg-spec" id="l08">
+    <span class="id">L08</span>
+    <span class="nm">Split</span>
+    <span class="src">.split · reversible with .rev</span>
+  </div>
+  <!-- L08 · Split
+       One photograph and one argument, fifty-fifty. The simplest module in the system and the most used: About, Location, the introduction to a restaurant. It reverses with a class and no change to the markup. -->
+<section class="sec canvas">
+  <div class="split r">
+    <figure class="split-media">
+      <img src="../_assets/img/t/estancia_sculpture-img_1789-w900.jpg" alt="The collection">
+    </figure>
+    <div class="split-body">
+      <span class="kicker">The collection</span>
+      <h2>Two hundred works, and <em>not one label</em>.</h2>
+      <p>The houses were handed to artists before they were handed to guests. Nothing is roped off and nothing is captioned — if you want to know what you are looking at, the curator walks it with you on Thursdays.</p>
+      <a class="link" href="#"><span>Walk the collection</span><span class="arw">&#8594;</span></a>
+      <p class="ed-cap">Marcelo Legrand, untitled, commissioned 2009</p>
+    </div>
+  </div>
+</section>
+
+
+  <div class="sg-spec" id="l09">
+    <span class="id">L09</span>
+    <span class="nm">Pull quote</span>
+    <span class="src">.pull-quote</span>
+  </div>
+  <!-- L09 · Pull quote
+       One line in Selva, centred, with air on all four sides. No quotation marks — the typeface already says it is a voice. -->
+<section class="sec">
+  <blockquote class="pull-quote r">
+    <q>You do not visit this coast. You end up living on its hours.</q>
+    <cite>Condé Nast Traveler</cite>
+  </blockquote>
+</section>
+
+
+  <div class="sg-spec" id="l10">
+    <span class="id">L10</span>
+    <span class="nm">Sub-navigation</span>
+    <span class="src">.subnav</span>
+  </div>
+  <!-- L10 · Sub-navigation
+       On a long property page, the index of that page. It sticks under the main bar and marks where you are. The position marker is a one-pixel rule under the name rather than a pill: in a bar built of hairlines, a pill shouts. -->
+<nav class="subnav" style="position:relative;top:auto" aria-label="On this page">
+  <div class="subnav-inner">
+    <span class="sn-name">Playa VIK</span>
+    <span class="sn-rule"></span>
+    <a href="#" class="is-on">The house</a>
+    <a href="#">Rooms</a>
+    <a href="#">Art</a>
+    <a href="#">Dining</a>
+    <a href="#">Wellness</a>
+    <a href="#">Getting here</a>
+  </div>
+</nav>
+
+
+  <div class="sg-spec" id="l11">
+    <span class="id">L11</span>
+    <span class="nm">Gallery cover</span>
+    <span class="src">.ghero</span>
+  </div>
+  <!-- L11 · Gallery cover
+       One large and three beside it. The fourth carries the count and opens the overlay with everything: saying “+24” is more honest than letting four photographs imply the set is four. -->
+<section class="sec">
+  <div class="r">
+    <div class="ghero">
+      <a class="ghero__main" href="#"><img src="../_assets/img/t/playa_80c9a60ef2cc735699a0e504cbfa54955f3113fe-w1600.jpg" alt=""></a>
+      <div class="ghero__strip">
+        <a class="ghero__thumb" href="#"><img src="../_assets/img/t/playa_spa-img_0817-w900.jpg" alt=""></a>
+        <a class="ghero__thumb" href="#"><img src="../_assets/img/t/playa_parillero_playa-vik-934-w900.jpg" alt=""></a>
+        <a class="ghero__thumb" href="#"><img src="../_assets/img/t/bahia_duna-0340-w900.jpg" alt=""></a>
+      </div>
+    </div>
+    <div class="ghero-foot">
+      <span>Twenty-four photographs &middot; Playa VIK &middot; 2024</span>
+      <span class="rule"></span>
+      <a class="link" href="#"><span>Open the gallery</span><span class="arw">&#8594;</span></a>
+    </div>
+  </div>
+</section>
+
+
+  <div class="sg-spec" id="l12">
+    <span class="id">L12</span>
+    <span class="nm">Specification bar</span>
+    <span class="src">.specbar</span>
+  </div>
+  <!-- L12 · Specification bar
+       Six facts with the label above the value. It is the live ribbon without the live data — same grid, same hairline, same type roles, so a room page and the cover speak with one voice. -->
+<section class="sec">
+  <div class="specbar r">
+    <div><span class="specbar__l">Room</span><span class="specbar__v">Ocean Suite</span><span class="specbar__i">Playa VIK</span></div>
+    <div><span class="specbar__l">Size</span><span class="specbar__v">84 m²</span><span class="specbar__i">Plus terrace</span></div>
+    <div><span class="specbar__l">Sleeps</span><span class="specbar__v">Two</span><span class="specbar__i">Extra bed on request</span></div>
+    <div><span class="specbar__l">Bed</span><span class="specbar__v">King</span><span class="specbar__i">Split on request</span></div>
+    <div><span class="specbar__l">Outlook</span><span class="specbar__v">Atlantic</span><span class="specbar__i">East and south</span></div>
+    <div><span class="specbar__l">Artist</span><span class="specbar__v">Zeng Fanzhi</span><span class="specbar__i">Commissioned 2011</span></div>
+  </div>
+</section>
+
+
+  <div class="sg-spec" id="l13">
+    <span class="id">L13</span>
+    <span class="nm">What is included</span>
+    <span class="src">.incl</span>
+  </div>
+  <!-- L13 · What is included
+       Rows, not bullets. Each line is a name on the left and the detail on the right with the rule joining them, so it reads like an account — which is exactly what the reader is doing at that point in the page. -->
+<section class="sec canvas">
+  <div class="incl r">
+    <div class="incl__row ed"><span class="ed-n">01</span><span class="n">Breakfast</span><span class="d">Cooked to order until eleven, wherever you want it — the terrace, the room, or the long table in the garden.</span></div>
+    <div class="incl__row ed"><span class="ed-n">02</span><span class="n">The bar</span><span class="d">Open all day and unattended. Pour your own and sign the book if you feel like it.</span></div>
+    <div class="incl__row ed"><span class="ed-n">03</span><span class="n">Horses</span><span class="d">Two rides a day from the Estancia stables, all levels, with a guide who knows the ground.</span></div>
+    <div class="incl__row ed"><span class="ed-n">04</span><span class="n">The Shack</span><span class="d">Movement and recovery across all three houses, booked the night before.</span></div>
+    <div class="incl__row ed"><span class="ed-n">05</span><span class="n">Transfers</span><span class="d">Between the three houses, and to any table on the coast.</span></div>
+  </div>
+</section>
+
+
+  <div class="sg-spec" id="l14">
+    <span class="id">L14</span>
+    <span class="nm">Artist cards</span>
+    <span class="src">.artists + .artist-card</span>
+  </div>
+  <!-- L14 · Artist cards
+       The work leads: a 4:5 frame with the name and the discipline underneath. The name in serif, the discipline in mono, because the discipline is a fact and not a title. -->
+<section class="sec">
+  <div class="artists r d1">
+    <a class="artist-card" href="#">
+      <span class="artist-card__img"><img src="../_assets/img/t/estancia_sculpture-img_1789-w900.jpg" alt=""></span>
+      <span class="artist-card__b">
+        <span class="artist-card__n">Pablo Atchugarry</span>
+        <span class="artist-card__r">Sculpture &middot; Uruguay &middot; 2008</span>
+      </span>
+    </a>
+    <a class="artist-card" href="#">
+      <span class="artist-card__img"><img src="../_assets/img/t/playa_spa-img_0817-w900.jpg" alt=""></span>
+      <span class="artist-card__b">
+        <span class="artist-card__n">Anselm Kiefer</span>
+        <span class="artist-card__r">Painting &middot; Germany &middot; 2011</span>
+      </span>
+    </a>
+    <a class="artist-card" href="#">
+      <span class="artist-card__img"><img src="../_assets/img/t/bahia_duna-0340-w900.jpg" alt=""></span>
+      <span class="artist-card__b">
+        <span class="artist-card__n">Zeng Fanzhi</span>
+        <span class="artist-card__r">Painting &middot; China &middot; 2011</span>
+      </span>
+    </a>
+    <a class="artist-card" href="#">
+      <span class="artist-card__img"><img src="../_assets/img/t/estancia_gardens-img_1111-min-w900.jpg" alt=""></span>
+      <span class="artist-card__b">
+        <span class="artist-card__n">Marcelo Legrand</span>
+        <span class="artist-card__r">Installation &middot; Uruguay &middot; 2009</span>
+      </span>
+    </a>
+  </div>
+</section>
+
+
+  <div class="sg-spec" id="l15">
+    <span class="id">L15</span>
+    <span class="nm">Breadcrumb</span>
+    <span class="src">.crumb</span>
+  </div>
+  <!-- L15 · Breadcrumb
+       Three levels with the separator in mono. It marks the depth of the system, which is exactly what a visitor who arrived through a single room has no other way of knowing. -->
+<section class="sec" style="padding-top:clamp(2rem,4vw,3rem);padding-bottom:clamp(2rem,4vw,3rem)">
+  <nav class="crumb r" aria-label="Breadcrumb">
+    <a href="#">VIK Retreats</a><span class="sep">/</span>
+    <a href="#">José Ignacio</a><span class="sep">/</span>
+    <a href="#">Playa VIK</a><span class="sep">/</span>
+    <span aria-current="page">Ocean Suite</span>
+  </nav>
+</section>
+
+
+  <div class="sg-spec" id="l16">
+    <span class="id">L16</span>
+    <span class="nm">Services</span>
+    <span class="src">.svc-grid + .svc</span>
+  </div>
+  <!-- L16 · Services
+       A grid of what the house does, with no photographs. Label, name, one line. When the list is long, a picture per row turns it into a catalogue; without them it reads straight through. -->
+<section class="sec">
+  <div class="svc-list r d1">
+    <article class="svc"><span class="ed-n">01</span><h3>Journey Designers</h3><p>One person who knows your week before it starts, and rearranges it when the wind turns.</p></article>
+    <article class="svc"><span class="ed-n">02</span><h3>Airport transfers</h3><p>Punta del Este in fifty minutes, Montevideo in two hours ten, arranged either way.</p></article>
+    <article class="svc"><span class="ed-n">03</span><h3>Private dining</h3><p>Any table in the house, the garden, the dunes or the beach, with the chef who cooks it.</p></article>
+    <article class="svc"><span class="ed-n">04</span><h3>Curator walks</h3><p>The collection with the person who hung it. Thursdays, and by arrangement.</p></article>
+    <article class="svc"><span class="ed-n">05</span><h3>The stables</h3><p>Two rides a day, plus lessons from the ground up for anyone who has never sat on a horse.</p></article>
+    <article class="svc"><span class="ed-n">06</span><h3>Childcare</h3><p>By the hour or the day, and the same person for the whole stay rather than a rota.</p></article>
+    <article class="svc"><span class="ed-n">07</span><h3>The cellar</h3><p>Tastings of the Millahue wines with someone who worked the harvest they came from.</p></article>
+    <article class="svc"><span class="ed-n">08</span><h3>Boats</h3><p>The lagoon, the bay and the fishing grounds off the point. Skippered, or not.</p></article>
+  </div>
+</section>
+
+
+</main>
+
+<footer data-vik-footer></footer>
+
+<script src="../_core/lenis.min.js"></script>
+<script src="../_core/leaflet.js"></script>
+<script src="../_core/vik-chrome-v2.js?v=1"></script>
+<script src="../_core/vik-v2.min.js?v=1"></script>
+<script src="../_core/vik-v2-lib.min.js?v=1"></script>
+</body>
+</html>

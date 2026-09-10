@@ -1,0 +1,797 @@
+[
+ {
+  "house": "bahia",
+  "room": "Quincha",
+  "slug": "quincha",
+  "n": 1,
+  "file": "quincha-01.jpg",
+  "crop": "534x667",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/quincha-0102.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Quincha",
+  "slug": "quincha",
+  "n": 2,
+  "file": "quincha-02.jpg",
+  "crop": "534x667",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/b2uEsVKQ.jpeg"
+ },
+ {
+  "house": "bahia",
+  "room": "Chapa Azul",
+  "slug": "chapa-azul",
+  "n": 1,
+  "file": "chapa-azul-01.jpg",
+  "crop": "246x308",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/chapaazul.jpg",
+  "note": "source below 480px, upscaled to the one size"
+ },
+ {
+  "house": "bahia",
+  "room": "Greek",
+  "slug": "greek",
+  "n": 1,
+  "file": "greek-01.jpg",
+  "crop": "1367x1709",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/DSC_1388.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Azulejos",
+  "slug": "azulejos",
+  "n": 1,
+  "file": "azulejos-01.jpg",
+  "crop": "1367x1709",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/DSC_1391-scaled.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Comporta",
+  "slug": "comporta",
+  "n": 1,
+  "file": "comporta-01.jpg",
+  "crop": "1367x1709",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/DSC_2037-scaled.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Ryokan",
+  "slug": "ryokan",
+  "n": 1,
+  "file": "ryokan-01.jpg",
+  "crop": "1367x1709",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/DSC_1978-scaled.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Adobe",
+  "slug": "adobe",
+  "n": 1,
+  "file": "adobe-01.jpg",
+  "crop": "534x667",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/adobe-0098.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Titanio",
+  "slug": "titanio",
+  "n": 1,
+  "file": "titanio-01.jpg",
+  "crop": "534x667",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/titanio-0086.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Vidrio",
+  "slug": "vidrio",
+  "n": 1,
+  "file": "vidrio-01.jpg",
+  "crop": "534x667",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/vidrio-0092.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Zinc Marrón",
+  "slug": "zinc-marron",
+  "n": 1,
+  "file": "zinc-marron-01.jpg",
+  "crop": "534x667",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/zinc-marron-0118.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Piedra",
+  "slug": "piedra",
+  "n": 1,
+  "file": "piedra-01.jpg",
+  "crop": "534x667",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/piedra-0121.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Madera",
+  "slug": "madera",
+  "n": 1,
+  "file": "madera-01.jpg",
+  "crop": "534x667",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/madera-0122.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Corten",
+  "slug": "corten",
+  "n": 1,
+  "file": "corten-01.jpg",
+  "crop": "534x667",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/corten-0368.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Zinc Negro",
+  "slug": "zinc-negro",
+  "n": 1,
+  "file": "zinc-negro-01.jpg",
+  "crop": "534x667",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/zinc-negro-0330.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Duna",
+  "slug": "duna",
+  "n": 1,
+  "file": "duna-01.jpg",
+  "crop": "338x422",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/duna-0340.jpg",
+  "note": "source below 480px, upscaled to the one size"
+ },
+ {
+  "house": "bahia",
+  "room": "Patrone",
+  "slug": "patrone",
+  "n": 1,
+  "file": "patrone-01.jpg",
+  "crop": "534x667",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/CP-BahiaVik-0504.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Patrone",
+  "slug": "patrone",
+  "n": 2,
+  "file": "patrone-02.jpg",
+  "crop": "534x667",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/yEAxMUWw.jpeg"
+ },
+ {
+  "house": "bahia",
+  "room": "Juan Manuel",
+  "slug": "juan-manuel",
+  "n": 1,
+  "file": "juan-manuel-01.jpg",
+  "crop": "534x667",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/CP-BahiaVik-0624.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Escardo",
+  "slug": "escardo",
+  "n": 1,
+  "file": "escardo-01.jpg",
+  "crop": "534x667",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/CP-BahiaVik-1739-1.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Eva",
+  "slug": "eva",
+  "n": 1,
+  "file": "eva-01.jpg",
+  "crop": "1366x1707",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/cp-bahiavik-0593-scaled.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Burgos",
+  "slug": "burgos",
+  "n": 1,
+  "file": "burgos-01.jpg",
+  "crop": "1152x1440",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/DSCN2730-1-scaled.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Pemper",
+  "slug": "pemper",
+  "n": 1,
+  "file": "pemper-01.jpg",
+  "crop": "1366x1707",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/cp-bahiavik-0546-scaled.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Lopez Lage",
+  "slug": "lopez-lage",
+  "n": 1,
+  "file": "lopez-lage-01.jpg",
+  "crop": "1366x1707",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/cp-bahiavik-0552-scaled.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Guerra",
+  "slug": "guerra",
+  "n": 1,
+  "file": "guerra-01.jpg",
+  "crop": "1024x1280",
+  "widths": [
+   480,
+   900
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/img_1589-guerra12.jpg"
+ },
+ {
+  "house": "bahia",
+  "room": "Rita",
+  "slug": "rita",
+  "n": 1,
+  "file": "rita-01.jpg",
+  "crop": "1366x1707",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2022/03/CP-BahiaVik-0562-1.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Exodus",
+  "slug": "exodus",
+  "n": 1,
+  "file": "exodus-01.jpg",
+  "crop": "1366x1707",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2026/02/1-3-de-12-scaled.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Damas",
+  "slug": "damas",
+  "n": 1,
+  "file": "damas-01.jpg",
+  "crop": "1366x1707",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2026/02/1-23-de-44-scaled.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Ola",
+  "slug": "ola",
+  "n": 1,
+  "file": "ola-01.jpg",
+  "crop": "1366x1707",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2026/02/1-11-de-12-scaled.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Cardozo",
+  "slug": "cardozo",
+  "n": 1,
+  "file": "cardozo-01.jpg",
+  "crop": "1536x1920",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2026/02/IMG_9927-scaled.jpeg"
+ },
+ {
+  "house": "playa",
+  "room": "Ryokan",
+  "slug": "ryokan",
+  "n": 1,
+  "file": "ryokan-01.jpg",
+  "crop": "1366x1707",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2026/02/dscf3770-hdr-scaled.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Zen",
+  "slug": "zen",
+  "n": 1,
+  "file": "zen-01.jpg",
+  "crop": "1366x1707",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2026/02/1-7-de-44-scaled.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Imbuya",
+  "slug": "imbuya",
+  "n": 1,
+  "file": "imbuya-01.jpg",
+  "crop": "1366x1707",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2026/02/1-11-de-44-scaled.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Olmo",
+  "slug": "olmo",
+  "n": 1,
+  "file": "olmo-01.jpg",
+  "crop": "1536x1920",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2026/02/DSCF3968-HDR-scaled.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Canoa",
+  "slug": "canoa",
+  "n": 1,
+  "file": "canoa-01.jpg",
+  "crop": "1366x1707",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2026/02/1-19-de-44-scaled.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Sycamore",
+  "slug": "sycamore",
+  "n": 1,
+  "file": "sycamore-01.jpg",
+  "crop": "1366x1707",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2026/02/1-26-de-44-scaled.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Lule",
+  "slug": "lule",
+  "n": 1,
+  "file": "lule-01.jpg",
+  "crop": "1366x1707",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2026/02/dscf3917-hdr-scaled.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Mansa",
+  "slug": "mansa",
+  "n": 1,
+  "file": "mansa-01.jpg",
+  "crop": "1447x1809",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2026/02/IMG_9826-scaled.jpeg"
+ },
+ {
+  "house": "playa",
+  "room": "Valentina Suite",
+  "slug": "valentina-suite",
+  "n": 1,
+  "file": "valentina-suite-01.jpg",
+  "crop": "1707x2134",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2021/03/DSCF1059-scaled.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Fuerteventura Suite",
+  "slug": "fuerteventura-suite",
+  "n": 1,
+  "file": "fuerteventura-suite-01.jpg",
+  "crop": "854x1067",
+  "widths": [
+   480,
+   900
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2021/03/efR_kQxA.jpeg"
+ },
+ {
+  "house": "playa",
+  "room": "Caras Suite",
+  "slug": "caras-suite",
+  "n": 1,
+  "file": "caras-suite-01.jpg",
+  "crop": "1366x1707",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2021/03/dscf4068-hdr-scaled.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Azul",
+  "slug": "azul",
+  "n": 1,
+  "file": "azul-01.jpg",
+  "crop": "1366x1707",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2026/02/dscf3708-hdr-scaled.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Atrium Suite",
+  "slug": "atrium-suite",
+  "n": 1,
+  "file": "atrium-suite-01.jpg",
+  "crop": "640x800",
+  "widths": [
+   480
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2021/03/Fuerteventura_new.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Casa José Ignacio",
+  "slug": "casa-jose-ignacio",
+  "n": 1,
+  "file": "casa-jose-ignacio-01.jpg",
+  "crop": "960x1200",
+  "widths": [
+   480,
+   900
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2021/03/casa_blanca_img_0860.jpg"
+ },
+ {
+  "house": "playa",
+  "room": "Casa José Ignacio",
+  "slug": "casa-jose-ignacio",
+  "n": 2,
+  "file": "casa-jose-ignacio-02.jpg",
+  "crop": "1447x1809",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2021/03/IMG_9826-scaled.jpeg"
+ },
+ {
+  "house": "playa",
+  "room": "Casa Tierra",
+  "slug": "casa-tierra",
+  "n": 1,
+  "file": "casa-tierra-01.jpg",
+  "crop": "1536x1920",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2021/03/IMG_9927-scaled.jpeg"
+ },
+ {
+  "house": "playa",
+  "room": "Casa Mar",
+  "slug": "casa-mar",
+  "n": 1,
+  "file": "casa-mar-01.jpg",
+  "crop": "1066x1333",
+  "widths": [
+   480,
+   900
+  ],
+  "source": "https://www.playavik.com/wp-content/uploads/2021/03/Playa-Vik-75.jpg"
+ },
+ {
+  "house": "estancia",
+  "room": "TURELL SUITE",
+  "slug": "turell-suite",
+  "n": 1,
+  "file": "turell-suite-01.jpg",
+  "crop": "770x963",
+  "widths": [
+   480,
+   900
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2021/06/turell_old1.jpg"
+ },
+ {
+  "house": "estancia",
+  "room": "TURELL SUITE",
+  "slug": "turell-suite",
+  "n": 2,
+  "file": "turell-suite-02.jpg",
+  "crop": "1190x1487",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2021/06/duarte-dsc_0061.jpg"
+ },
+ {
+  "house": "estancia",
+  "room": "TRUJILLO SUITE",
+  "slug": "trujillo-suite",
+  "n": 1,
+  "file": "trujillo-suite-01.jpg",
+  "crop": "655x819",
+  "widths": [
+   480,
+   900
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2021/06/trujillo-img_0201.jpg"
+ },
+ {
+  "house": "estancia",
+  "room": "MUSSO SUITE",
+  "slug": "musso-suite",
+  "n": 1,
+  "file": "musso-suite-01.jpg",
+  "crop": "1206x1507",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2021/06/Estancia_MussoSuite.jpg"
+ },
+ {
+  "house": "estancia",
+  "room": "DUARTE SUITE",
+  "slug": "duarte-suite",
+  "n": 1,
+  "file": "duarte-suite-01.jpg",
+  "crop": "1190x1487",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2021/06/Duarte-DSC_0061-1.jpg"
+ },
+ {
+  "house": "estancia",
+  "room": "CARDOZO SUITE",
+  "slug": "cardozo-suite",
+  "n": 1,
+  "file": "cardozo-suite-01.jpg",
+  "crop": "1066x1333",
+  "widths": [
+   480,
+   900
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2021/06/cardozo-img_9671.jpg"
+ },
+ {
+  "house": "estancia",
+  "room": "BAREA SUITE",
+  "slug": "barea-suite",
+  "n": 1,
+  "file": "barea-suite-01.jpg",
+  "crop": "1066x1333",
+  "widths": [
+   480,
+   900
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2021/06/barea-img_0313.jpg"
+ },
+ {
+  "house": "estancia",
+  "room": "AMENGUAL SUITE",
+  "slug": "amengual-suite",
+  "n": 1,
+  "file": "amengual-suite-01.jpg",
+  "crop": "1062x1328",
+  "widths": [
+   480,
+   900
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2021/06/amengal-img_8677.jpg"
+ },
+ {
+  "house": "estancia",
+  "room": "BADARO SUITE",
+  "slug": "badaro-suite",
+  "n": 1,
+  "file": "badaro-suite-01.jpg",
+  "crop": "657x821",
+  "widths": [
+   480,
+   900
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2021/06/badaro-img_7678.jpg"
+ },
+ {
+  "house": "estancia",
+  "room": "MASTER SUITE DAGLIO",
+  "slug": "master-suite-daglio",
+  "n": 1,
+  "file": "master-suite-daglio-01.jpg",
+  "crop": "1066x1333",
+  "widths": [
+   480,
+   900
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2021/06/daglio-img_0263.jpg"
+ },
+ {
+  "house": "estancia",
+  "room": "MASTER SUITE DAGLIO",
+  "slug": "master-suite-daglio",
+  "n": 2,
+  "file": "master-suite-daglio-02.jpg",
+  "crop": "1265x1581",
+  "widths": [
+   480,
+   900,
+   1600
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2021/03/vik_bedsofa.jpg"
+ },
+ {
+  "house": "estancia",
+  "room": "MASTER SUITE SEVESO",
+  "slug": "master-suite-seveso",
+  "n": 1,
+  "file": "master-suite-seveso-01.jpg",
+  "crop": "1066x1333",
+  "widths": [
+   480,
+   900
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2021/06/seveso-img_9629.jpg"
+ },
+ {
+  "house": "estancia",
+  "room": "MASTER SUITE LEGRAND",
+  "slug": "master-suite-legrand",
+  "n": 1,
+  "file": "master-suite-legrand-01.jpg",
+  "crop": "1066x1333",
+  "widths": [
+   480,
+   900
+  ],
+  "source": "https://www.bahiavik.com/wp-content/uploads/2021/06/legrand_1.jpg"
+ }
+]

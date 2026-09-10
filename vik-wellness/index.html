@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- ══════════════════════════════════════════════════════════════════
+     VIK WELLNESS
+     ──────────────────────────────────────────────────────────────────
+     Rehecha sobre la libreria. La version anterior era un sitio aparte
+     — sus propias fuentes, su propio cursor, su propio pie — y por eso
+     no se parecia al resto aunque dijera lo mismo. El contenido es el
+     de siempre, palabra por palabra; lo que cambia es que ahora los
+     modulos son los del sistema:
+
+       portada ............ M01 hero-film
+       el enfoque ......... M05 intro + cita
+       los cinco ejes ..... M07 principles
+       el lenguaje ........ M06 pillars c5
+       los tres paisajes .. M08 prop-rail
+       el dia ............. M11 band
+       las experiencias ... M13 card-grid + vcard film
+       el recorrido ....... M06 pillars c4
+       la estadia ......... split
+       el lugar ........... M28 reel-wide
+       el cierre .......... M24 closing
+
+     La version original queda en _legacy-index.html.
+
+     MEDIOS
+       PELICULAS   videos/<nombre>.mp4
+       FOTOS       images/<nombre>.jpg
+     Los posters que nombraba la version anterior — hero.jpg,
+     jose-ignacio.jpg, millahue.jpg y cinco mas — no existen en disco.
+     Aqui cada pelicula lleva un poster que si esta.
+     ══════════════════════════════════════════════════════════════ -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F8F8F0">
+<meta name="author" content="Nicolás Castillo">
+<meta name="designer" content="Nicolás Castillo · @donhkoland">
+<meta name="developer" content="Nicolás Castillo · @donhkoland">
+<meta name="copyright" content="VIK Retreats">
+<title>Wellness · VIK José Ignacio</title>
+<meta name="description" content="A nature-led, culturally grounded longevity experience. Delivered as pleasure, not performance. Movement, nourishment, recovery, rhythm and connection across VIK José Ignacio, Millahue and Vista Verde.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Wellness · VIK José Ignacio">
+<meta property="og:description" content="Restore modern humans through nature, rhythm and precision.">
+<meta property="og:image" content="images/outdoors.jpg">
+<link rel="stylesheet" href="../_core/leaflet.min.css">
+<link rel="stylesheet" href="../_core/vik-v2.min.css?v=1">
+<link rel="stylesheet" href="../_core/vik-v2-lib.min.css?v=2">
+</head>
+<body>
+
+<div data-vik-chrome data-page="wellness" data-tag="Wellness"></div>
+
+<main id="top">
+
+  <section class="statement" data-ground="dark">
+    <div class="statement-media" data-ground="dark">
+      <video autoplay muted loop playsinline preload="metadata"
+             poster="images/outdoors.jpg" data-src="videos/hero.mp4"></video>
+    </div>
+    <div class="statement-in" data-ground="dark">
+      <div>
+        <span class="kicker bare">VIK Wellness</span>
+        <h1 class="statement-t lines">Restore modern humans through nature, rhythm &amp; <em>precision</em>.</h1>
+        <p class="statement-d">A nature-led, culturally grounded longevity experience. Delivered as pleasure,
+          not performance.</p>
+        <div class="hp-actions">
+          <a class="pill solid" href="#experiences"><span>Explore the experience</span><span class="arw">→</span></a>
+          <a class="link" href="#rhythm"><span>The pace of the place</span><span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec canvas" id="vision">
+    <div class="head r">
+      <div class="h-label"><h2 class="h2 lines">Wellness as a designed<br><em>guest state</em></h2></div>
+      <div class="h-main"><p class="lead">Rooted in place, aligned with nature's rhythm, bridging ancestral knowledge with
+          modern science, and calibrated to what your nervous system actually needs — so wellbeing becomes
+          lived, and travels home.</p>
+        <div class="specbar" style="margin-top:.5rem">
+          <div><span>By default</span><span>Restorative</span></div>
+          <div><span>Personalized</span><span>Quietly</span></div>
+          <div><span>Unmistakably</span><span>VIK</span></div>
+          <div><span>Where</span><span>José Ignacio · Millahue · Vista Verde</span></div>
+    </div>
+        <a class="link" href="#principles" style="margin-top:.75rem"><span>What guides everything</span><span class="arw">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="pull-quote r">
+      <q>Aquí solo corre <em>el viento</em>.</q>
+      <cite>José Ignacio · Uruguay</cite>
+    </div>
+  </section>
+
+  <section class="sec paper" id="principles">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">What guides everything</span></div>
+      <div class="h-main"><h2 class="h2 lines">Five things that don't change.</h2>
+        <p class="lead">Five principles are the immutable logic behind every decision. They cannot
+          be traded without losing what makes VIK itself.</p></div>
+    </div>
+    <div class="principles r d1">
+      <div class="principle"><span class="n">01</span><h3>Nature is the therapist</h3><p>Landscape, daylight, and fresh air are the primary wellness tools. Built spaces support nature — they don't replace it.</p></div>
+      <div class="principle"><span class="n">02</span><h3>Pleasure is the method</h3><p>Rituals guests want to repeat, not rules they escape from. Aspirational, not prescriptive.</p></div>
+      <div class="principle"><span class="n">03</span><h3>Rhythm before intensity</h3><p>Circadian alignment, recovery, and timing. Small consistent practices over occasional extremes.</p></div>
+      <div class="principle"><span class="n">04</span><h3>Sensory precision</h3><p>Light, sound, temperature, texture, scent, and silence curated to reduce stress and invite calm.</p></div>
+      <div class="principle"><span class="n">05</span><h3>Culture makes it true</h3><p>Place, food, activities, tradition, and community — so the experience can't be copied anywhere else.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="pillars">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">Global language, local expression</span></div>
+      <div class="h-main"><h2 class="h2 lines">One language, infinite expressions.</h2>
+        <p class="lead">Each one shaped by the terrain it lives in.</p></div>
+    </div>
+    <div class="mosaic r d1">
+      <article class="vcard"><span class="vcard-when">01</span><h3><em>Move</em></h3><p>Movement that belongs to the place — trails, water, open air. The kind that makes the body remember it's alive.</p></article>
+      <article class="vcard"><span class="vcard-when">02</span><h3><em>Nourish</em></h3><p>Food that knows what season it is. Grown close, cooked honestly, eaten slowly.</p></article>
+      <article class="vcard"><span class="vcard-when">03</span><h3><em>Recover</em></h3><p>The art of doing less. Bodywork, silence, and the conditions for sleep that actually restores.</p></article>
+      <article class="vcard"><span class="vcard-when">04</span><h3><em>Align</em></h3><p>Sunrise, meals, light, rest — following a rhythm older than the schedule you came from.</p></article>
+      <article class="vcard"><span class="vcard-when">05</span><h3><em>Connect</em></h3><p>The conversation with the painting. The gaucho who knows the land. The fire that doesn't need an agenda.</p></article>
+    </div>
+  </section>
+
+  <section class="sec" id="properties">
+    <div class="rail r" data-rail="auto" data-rail-speed="0.32">
+      <div>
+        <span class="kicker">The Place</span>
+        <h2 class="h2 lines" style="margin-top:.5rem">Three landscapes, one philosophy.</h2>
+      </div>
+      <span class="rail-hint">Drag to explore</span>
+    </div>
+    <div class="rail" data-rail="auto" data-rail-speed="0.42">
+      <a class="card" href="../destination/">
+        <video muted loop playsinline preload="none" poster="../_assets/video/playa-poster.webp" data-src="videos/jose-ignacio.mp4"></video>
+        <div class="card-body">
+          <span class="card-loc">Uruguay</span>
+          <h3 class="card-name lw">José Ignacio</h3>
+          <p >Wild coastline, salt air, wind, cold water, long horizons.</p>
+          <div class="tags"><span >Ocean rituals</span><span >Equinetherapy</span><span >Sauna &amp; cold</span><span >Horseback</span><span >Gaucho fire</span><span >Polo</span></div>
+        </div>
+      </a>
+      <a class="card" href="https://vikchile.com/" target="_blank" rel="noopener">
+        <video muted loop playsinline preload="none" poster="../_assets/video/millahue-poster.webp" data-src="videos/millahue.mp4"></video>
+        <div class="card-body">
+          <span class="card-loc">Chile</span>
+          <h3 class="card-name lw">Millahue</h3>
+          <p >Mountain air, silence, vineyards, slowness. Earth. Deep exhale.</p>
+          <div class="tags"><span >Farm to table</span><span >Vineyard hikes</span><span >Wine baths</span><span >Thermal journeys</span><span >Mountain horseback</span></div>
+        </div>
+      </a>
+      <a class="card" href="https://www.vikretreats.com/" target="_blank" rel="noopener">
+        <video muted loop playsinline preload="none" poster="images/gallery-3.jpg" data-src="videos/vista-verde.mp4"></video>
+        <div class="card-body">
+          <span class="card-loc">Brazil</span>
+          <h3 class="card-name lw">Vista Verde</h3>
+          <p >Jungle rhythm, expansion, humidity, lush nature, vitality.</p>
+          <div class="tags"><span >Waterfall rituals</span><span >Jungle movement</span><span >Tropical breathwork</span><span >Floating sound baths</span></div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section class="film" id="rhythm" data-ground="dark">
+    <div class="film-bg" data-ground="dark">
+      <video autoplay muted loop playsinline preload="none" poster="images/nourishment.jpg" data-src="videos/rhythm.mp4"></video>
+    </div>
+    <div class="film-in" data-ground="dark">
+      <div class="r">
+        <h2 class="film-t lines">A designed daily flow —<br>not a schedule, an <em>atmosphere</em></h2>
+        <p class="film-d">Each phase aligns with circadian biology, supporting restoration without
+          imposing structure. Nothing here has to be attended; the day simply has a shape, and the shape
+          is doing the work.</p>
+      </div>
+      <div class="season r d2">
+        <div class="season-row"><span class="w">Morning</span><h4>Light &amp; activation</h4><p>The body wakes slowly here. Morning light, breath, movement — a quiet conversation with the day before it begins.</p></div>
+        <div class="season-row"><span class="w">Midday</span><h4>Vitality &amp; immersion</h4><p>When the place invites you outside. The land, the horse, the ocean, the vineyard — peak light for peak living.</p></div>
+        <div class="season-row"><span class="w">Afternoon</span><h4>Recovery &amp; downshift</h4><p>The hour when the agenda ends. Bodywork, thermal journey, stillness. The body already knows what comes next.</p></div>
+        <div class="season-row"><span class="w">Evening</span><h4>Quiet &amp; sleep</h4><p>The light changes. So does everything else. A long table, a slow fire, silence that's welcome.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec canvas" id="experiences">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">Signature experiences</span></div>
+      <div class="h-main"><h2 class="h2 lines">Moments that are only VIK.</h2>
+        <p class="lead">Five practices that exist here and nowhere else, because they are made of
+          this coast, this collection and these kitchens.</p></div>
+    </div>
+    <div class="mosaic r d1">
+      <article class="vcard film">
+        <video autoplay muted loop playsinline preload="none" poster="images/thermal.jpg" data-src="videos/mind-body.mp4"></video>
+        <div class="vcard-top"><span class="vcard-when"><span class="live-dot"></span>Mind — Body</span><span class="vcard-status">Daily</span></div>
+        <h3>Daily Rhythm Rituals.</h3>
+        <p>Small practices timed to the body's natural windows — not a schedule, an atmosphere. Breath in
+          the morning light, movement while the day is still cool, stillness when the agenda ends.</p>
+        <div class="vcard-actions"><a class="link" href="#stay"><span>How it works</span><span class="arw">→</span></a></div>
+      </article>
+      <article class="vcard" id="shack" style="background-image:linear-gradient(180deg,rgba(10,9,7,.15),rgba(10,9,7,.82)),url('images/thermal.jpg')">
+        <div class="vcard-top"><span class="vcard-when">Therapeutic</span><span class="vcard-status">The Shack</span></div>
+        <h3>Thermal Journey.</h3>
+        <p>Heat, cold, stillness. A sequence designed to reset your nervous system.</p>
+        <div class="vcard-actions"><a class="link" href="#stay"><span>Book a journey</span><span class="arw">→</span></a></div>
+      </article>
+      <article class="vcard" style="background-image:linear-gradient(180deg,rgba(10,9,7,.15),rgba(10,9,7,.82)),url('images/nourishment.jpg')">
+        <div class="vcard-top"><span class="vcard-when">Nourishment</span><span class="vcard-status">Farm to table</span></div>
+        <h3>Farm-to-Table Rhythm.</h3>
+        <p>The menu changes because the garden does. Meals here have a before and an after.</p>
+        <div class="vcard-actions"><a class="link" href="../dining/#origin"><span>Where it comes from</span><span class="arw">→</span></a></div>
+      </article>
+      <article class="vcard" style="background-image:linear-gradient(180deg,rgba(10,9,7,.15),rgba(10,9,7,.82)),url('images/art.jpg')">
+        <div class="vcard-top"><span class="vcard-when">Culture — Art</span><span class="vcard-status">90 min</span></div>
+        <h3>Art as Medicine.</h3>
+        <p>The collection was never decoration. Slow-looking, guided contemplation, and the kind of beauty
+          that touches something in you — walked with the house curator, at the hour the light is best for
+          the room you are standing in.</p>
+        <div class="vcard-actions"><a class="link" href="../experiences/"><span>Arrange a visit</span><span class="arw">→</span></a></div>
+      </article>
+      <article class="vcard" style="background-image:linear-gradient(180deg,rgba(10,9,7,.15),rgba(10,9,7,.82)),url('images/outdoors.jpg')">
+        <div class="vcard-top"><span class="vcard-when">Outdoors</span><span class="vcard-status">All year</span></div>
+        <h3>Landscape-Led Movement.</h3>
+        <p>Trails, water, open paths — movement that goes somewhere that matters.</p>
+        <div class="vcard-actions"><a class="link" href="../experiences/"><span>See the programme</span><span class="arw">→</span></a></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec paper" id="journey">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">Your journey</span></div>
+      <div class="h-main"><h2 class="h2 lines">An atmosphere you move through, not a programme you opt into.</h2>
+        <p class="lead">Subtly regulating, rhythm-based, place-led. It starts before you land and
+          it does not end at the gate.</p></div>
+    </div>
+    <div class="mosaic r d1">
+      <article class="vcard"><span class="vcard-when">Before you arrive</span><h3>A quiet <em>conversation</em></h3><p>Before you land — what you're carrying, what you're looking for, what you'd like to leave behind.</p></article>
+      <article class="vcard"><span class="vcard-when">When you arrive</span><h3>Setting the <em>tone</em></h3><p>Your first conversation with the team sets the tone — not a form, a direction. Where do you need to go from here?</p></article>
+      <article class="vcard"><span class="vcard-when">While you're here</span><h3>Soft cues, not <em>schedules</em></h3><p>Each evening, a soft cue for tomorrow. No pressure — just possibility.</p></article>
+      <article class="vcard"><span class="vcard-when">After you leave</span><h3>The thread <em>continues</em></h3><p>What you found here doesn't have to stay here. Practices, recipes, sounds — a thread back to the rhythm.</p></article>
+    </div>
+  </section>
+
+  <section class="sec" id="stay">
+    <div class="split r">
+      <div class="split-media"><img src="images/outdoors.jpg" alt="Landscape-led movement" loading="lazy"></div>
+      <div class="split-body">
+        <span class="kicker lw">How it works</span>
+        <h2>Your stay, your rhythm.</h2>
+        <p>Every stay at VIK includes a designed daily rhythm — morning rituals, place-led experiences, and
+          evenings calibrated for sleep. Restoration isn't an add-on. It's built into the way the property
+          works.</p>
+        <p>For those who want to go deeper, private sessions, thermal journeys and multi-day wellness
+          programs are available — quietly, without pressure, shaped around what you actually need.</p>
+        <div class="specbar">
+          <div><span>Included</span><span>The daily rhythm, every stay</span></div>
+          <div><span>On request</span><span>Private sessions and thermal journeys</span></div>
+          <div><span>Deeper</span><span>Multi-day wellness programs</span></div>
+        </div>
+        <div class="hp-actions" style="margin-top:1.5rem">
+          <a class="pill solid" href="../contact/#journey"><span>Design your stay</span><span class="arw">→</span></a>
+          <a class="link" href="../stay/"><span>Choose the house</span><span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" style="overflow:hidden">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">Place — Moments</span></div>
+      <div class="h-main"><h2 class="h2 lines">The place becomes your clock.</h2>
+        <p class="lead">The landscape as part of the treatment. Silence, as the signal.</p></div>
+    </div>
+    <div class="rail r" data-rail="auto" data-rail-speed="0.4">
+      <figure class="card"><span class="card-fig"><img src="images/gallery-1.jpg" alt="The coast" loading="lazy"></span><figcaption class="card-body"><span class="card-loc">The coast</span><span class="card-name lw">Salt air and long horizons</span></figcaption></figure>
+      <figure class="card"><span class="card-fig"><img src="images/gallery-4.jpg" alt="The water" loading="lazy"></span><figcaption class="card-body"><span class="card-loc">The water</span><span class="card-name lw">Cold, and worth it</span></figcaption></figure>
+      <figure class="card"><span class="card-fig"><img src="images/gallery-7.jpg" alt="The land" loading="lazy"></span><figcaption class="card-body"><span class="card-loc">The land</span><span class="card-name lw">Where the horses are</span></figcaption></figure>
+      <figure class="card"><span class="card-fig"><img src="images/gallery-9.jpg" alt="The light" loading="lazy"></span><figcaption class="card-body"><span class="card-loc">The light</span><span class="card-name lw">Sunrise on the ocean side</span></figcaption></figure>
+      <figure class="card"><span class="card-fig"><img src="images/gallery-11.jpg" alt="The quiet" loading="lazy"></span><figcaption class="card-body"><span class="card-loc">The quiet</span><span class="card-name lw">Silence, as the signal</span></figcaption></figure>
+      <figure class="card"><span class="card-fig"><img src="images/gallery-12.jpg" alt="The table" loading="lazy"></span><figcaption class="card-body"><span class="card-loc">The table</span><span class="card-name lw">Where the day lands</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section class="sec" data-ground="dark" id="positioning">
+    <div class="close r">
+      <span class="kicker" style="opacity:.65">Designed for you</span>
+      <div class="close-lines">
+        <p>If you can't remember the last time you slept without an alarm</p>
+        <p>If you're looking for meaning without the ceremony</p>
+        <p>If you want to move your body without it feeling like a goal</p>
+        <p>If you want to share something beautiful with someone you love</p>
+      </div>
+      <h2 class="h2 close-t lines">Then begin the <em>reset</em>.</h2>
+      <div class="close-actions">
+        <a class="pill light" href="../contact/#journey"><span>Begin</span><span class="arw">→</span></a>
+        <a class="link" href="../experiences/"><span>See the programme</span><span class="arw">→</span></a>
+      </div>
+      <p class="close-note">guestexperience@vikretreats.com</p>
+    </div>
+  </section>
+
+</main>
+
+<div data-vik-footer></div>
+
+<script>
+/* Los assets y los diccionarios viven un nivel arriba, en
+   _assets/. El nucleo lo lee de aqui. Las peliculas y las
+   fotografias de esta direccion siguen siendo suyas. */
+window.VIK_BASE = "../_assets/";
+</script>
+<script src="../_core/lenis.min.js"></script>
+<script src="../_core/leaflet.js"></script>
+<script src="../_core/vik-chrome-v2.js?v=1"></script>
+<script src="../_core/vik-v2.min.js?v=1"></script>
+<script src="../_core/vik-v2-lib.min.js?v=1"></script>
+</body>
+</html>

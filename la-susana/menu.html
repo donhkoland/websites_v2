@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- ══════════════════════════════════════════════════════════════════
+     MEDIOS · CAMBIO RAPIDO
+     ──────────────────────────────────────────────────────────────────
+       PELICULA DE PORTADA   assets/video/menu.mp4
+       SU PRIMER FOTOGRAMA   assets/video/menu-poster.webp
+
+     Pisar esos dos archivos con los nuevos, mismos nombres, y listo.
+     El poster tiene que ser el primer fotograma o se ve un salto al
+     arrancar.
+
+     Los platos estan en MENU_ITEMS, al final del archivo, hasta que
+     MENU_ENDPOINT apunte al Apps Script.
+     ══════════════════════════════════════════════════════════════ -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The menu · La Susana</title>
+<meta name="description" content="Fresh produce from the Atlantic coast and the organic farm, with the Viña VIK cellar.">
+<style>
+
+  /* La carta es un documento y se lee en claro. El azul del precio
+     necesita fondo claro para existir: sobre tinta da 1.56:1. */
+  body{background:var(--canvas);color:var(--ink)}
+  .m-wrap{padding-top:var(--nav-h);background:var(--canvas)}
+
+  /* ── La barra, sobre lienzo ────────────────────────────────────
+     Iba transparente: la marca en blanco desaparecia pasado el video
+     y el enlace de reserva, en tinta, desaparecia encima de el. Sobre
+     lienzo se lee en toda la pagina, que es lo unico que se le pide. */
+
+  /* -- La portada -----------------------------------------------
+     El modulo M04: la pelicula detras, el nombre en Old Standard y la
+     bajada debajo. Mismo h1 que el Styleguide. */
+  .hero-page .hp-slide video{width:100%;height:100%;object-fit:cover;display:block}
+  .hero-page .hp-title .l{display:inline-block;opacity:0;
+    transform:translateY(.34em);
+    transition:opacity .7s var(--ease),transform .9s var(--slow)}
+  .hero-page.is-in .hp-title .l{opacity:1;transform:none}
+
+  /* -- La barra -------------------------------------------------
+     Invisible sobre la pelicula, clara una vez pasada. El sistema ya
+     lo hace: vik-motion pone .scrolled a los sesenta pixeles y
+     vik-core tiene .nav.scrolled.light. La carta solo se declara
+     clara y ajusta el tono al lienzo. */
+  .nav:not(.scrolled) .nav-book,
+  .nav:not(.scrolled) .nav-mark,
+  .nav:not(.scrolled) .nav-tag,
+  .nav:not(.scrolled) .lang-btn{color:var(--bone)}
+  .nav:not(.scrolled) .menu-toggle span{background:var(--bone)}
+  .nav.scrolled.light{background:rgba(238,243,220,.94);
+    border-bottom:1px solid rgba(30,30,30,.12)}
+  .nav.scrolled.light .nav-book{color:var(--vik)}
+  .nav.scrolled.light .nav-tag{color:var(--ink);opacity:.6}
+  .nav.scrolled.light .lang-btn{color:var(--ink)}
+  .hero-page .hp-slide video{width:100%;height:100%;object-fit:cover;display:block}
+  .hero-page .hp-title .l{display:inline-block;opacity:0;
+    transform:translateY(.34em);
+    transition:opacity .7s var(--ease),transform .9s var(--slow)}
+  .hero-page.is-in .hp-title .l{opacity:1;transform:none}
+
+  /* La barra: categorias que se desplazan, idioma y busqueda. Se pega
+     bajo el nav porque una carta larga se lee bajando y el filtro
+     tiene que seguir ahi. */
+  .mbar{position:sticky;top:var(--nav-h);z-index:60;
+    background:rgba(238,243,220,.9);backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(30,30,30,.14)}
+  .mbar__in{max-width:var(--max);margin:0 auto;display:flex;align-items:stretch;
+    gap:0;padding:0 var(--pad-x)}
+  .mtabs{display:flex;overflow-x:auto;scrollbar-width:none;flex:1 1 auto}
+  .mtabs::-webkit-scrollbar{display:none}
+  .ftab{position:relative;white-space:nowrap;padding:1.05rem 1.1rem;
+    font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+    letter-spacing:.2em;text-transform:uppercase;color:rgba(30,30,30,.55);
+    transition:color .3s var(--ease)}
+  .ftab:hover{color:rgba(30,30,30,.85)}
+  .ftab.on{color:var(--ink)}
+  .ftab::after{content:"";position:absolute;left:.9rem;right:.9rem;bottom:-1px;
+    height:2px;background:var(--vik);transform:scaleX(0);transform-origin:left;
+    transition:transform .45s var(--slow)}
+  .ftab.on::after{transform:scaleX(1)}
+  .mtools{display:flex;align-items:center;gap:.75rem;flex:0 0 auto;padding-left:1rem;
+    border-left:1px solid rgba(30,30,30,.14)}
+  .msearch{width:clamp(96px,16vw,180px);background:transparent;border:0;
+    color:var(--ink);font-size:.82rem;padding:.5rem 0;
+    border-bottom:1px solid rgba(30,30,30,.24)}
+  .msearch::placeholder{color:rgba(30,30,30,.42)}
+  .msearch:focus{outline:0;border-bottom-color:var(--vik)}
+  .mlangs{display:flex;gap:.15rem}
+  .lbtn{padding:.4rem .5rem;font-family:"Apercu Mono Pro","Courier New",monospace;
+    font-size:.62rem;color:rgba(248,248,240,.42);transition:color .25s var(--ease)}
+  .lbtn.on{color:var(--vik)}
+  .lbtn:hover{color:#fff}
+
+  /* Un plato es un nombre, una linea y un precio. La regla los separa;
+     no hay tarjetas, porque una carta no es un catalogo. */
+  .msection{max-width:var(--max);margin:0 auto;padding:clamp(2.5rem,6vw,4rem) var(--pad-x) 0}
+  .msection__hd{display:flex;align-items:baseline;gap:1rem;
+    padding-bottom:.9rem;border-bottom:1px solid rgba(30,30,30,.16);margin-bottom:.5rem}
+  .msection__title{font-family:"Old Standard VIK",Georgia,serif;
+    font-size:clamp(1.5rem,3vw,2.2rem);line-height:1.1;color:var(--ink)}
+  .msection__count{margin-left:auto;font-family:"Apercu Mono Pro","Courier New",monospace;
+    font-size:.66rem;color:rgba(30,30,30,.7)}
+  .mitem{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.25rem 1.5rem;
+    padding:1.05rem 0;border-bottom:1px solid rgba(30,30,30,.1);
+    opacity:0;transform:translateY(10px);
+    transition:opacity .5s var(--ease),transform .55s var(--slow)}
+  .mitem.in{opacity:1;transform:none}
+  .mitem__n{font-family:"Old Standard VIK",Georgia,serif;font-size:1.15rem;
+    line-height:1.25;color:var(--ink)}
+  .mitem__p{display:flex;flex-direction:column;align-items:flex-end;gap:.15rem;
+    white-space:nowrap;align-self:baseline}
+  .mitem__uy{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.82rem;
+    color:var(--vik);display:inline-flex;align-items:baseline;gap:.34rem}
+  /* La moneda, mas chica que la cifra: nombra sin competir con ella. */
+  .mitem__uy i{font-style:normal;font-size:.68em;opacity:.75;letter-spacing:.04em}
+  .mitem__us{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.66rem;
+    color:rgba(30,30,30,.72)}
+  .mitem__d{grid-column:1 / -1;font-size:.9rem;line-height:1.65;font-weight:300;
+    color:rgba(30,30,30,.72);max-width:62ch}
+  .mitem__tags{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.3rem}
+  .mtag{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:8px;
+    letter-spacing:.22em;text-transform:uppercase;padding:.2rem .5rem;
+    border:1px solid rgba(30,30,30,.28);color:rgba(30,30,30,.74)}
+  .m-empty{max-width:var(--max);margin:0 auto;padding:4rem var(--pad-x);
+    color:rgba(30,30,30,.6)}
+  .m-live{display:inline-flex;align-items:center;gap:.45rem;
+    font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.62rem;
+    color:rgba(30,30,30,.72)}
+  .m-live::before{content:"";width:5px;height:5px;border-radius:50%;
+    background:rgba(30,30,30,.3)}
+  .m-live.is-live::before{background:var(--vik)}
+
+  /* -- El cierre -------------------------------------------------
+     .cta-band y .cta-inner eran nombres sin reglas detras: el bloque
+     salia alineado a la izquierda porque nadie le dijo otra cosa. */
+  .cta-band{text-align:center}
+  .cta-inner{max-width:var(--max);margin:0 auto;padding:0 var(--pad-x);
+    display:flex;flex-direction:column;align-items:center;gap:1.1rem}
+  .cta-title{font-family:"Old Standard VIK",Georgia,serif;
+    font-size:clamp(1.8rem,4vw,3rem);line-height:1.08;letter-spacing:-0.015em;
+    max-width:22ch}
+  .cta-actions{display:flex;flex-wrap:wrap;justify-content:center;
+    align-items:center;gap:1rem;margin-top:.9rem}
+
+  /* ── Alergenos ─────────────────────────────────────────────────
+     El formato de VIK Pellico Otto: los catorce numerados en una
+     nota, y la regla azul a la izquierda que la separa de la carta
+     sin encerrarla en una caja. Los numeros son los que van en las
+     etiquetas de cada plato, asi que la nota es la leyenda. */
+  .allergens{max-width:var(--max);margin:clamp(3rem,6vw,4.5rem) auto 0;
+    padding:0 var(--pad-x)}
+  /* Dos columnas: a la izquierda lo que hay que saber antes de pedir,
+     a la derecha de que va la carta y quien la mantiene. Antes eran
+     tres bloques seguidos diciendo lo mismo con tres estilos. */
+  .allergens__in{background:rgba(30,30,30,.045);
+    border-left:2px solid var(--vik);
+    padding:clamp(1.75rem,3.5vw,2.5rem) clamp(1.75rem,3.5vw,2.75rem);
+    display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
+    gap:clamp(1.75rem,4vw,3.5rem)}
+  .colophon__col{display:flex;flex-direction:column;align-items:flex-start;gap:0}
+  .colophon__col + .colophon__col{
+    border-left:1px solid rgba(30,30,30,.14);
+    padding-left:clamp(1.75rem,4vw,3.5rem)}
+  .colophon__col .m-live{margin-top:1.1rem}
+  @media (max-width:820px){
+    .allergens__in{grid-template-columns:1fr;gap:1.75rem}
+    .colophon__col + .colophon__col{border-left:0;padding-left:0;
+      border-top:1px solid rgba(30,30,30,.14);padding-top:1.75rem}
+  }
+  .allergens__t{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+    font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--ink);display:block;margin-bottom:1rem}
+  /* Catorce palabras que se consultan de un vistazo, no una lista que
+     se lee. En columnas, chicas y juntas, para que lean como un solo
+     bloque y no como catorce cosas sueltas. */
+  .allergens__list{columns:3;column-gap:1.6rem;margin-bottom:1.1rem}
+  .allergens__list li{display:flex;align-items:baseline;gap:.4rem;
+    break-inside:avoid;font-family:"DM Sans",sans-serif;
+    font-size:.78rem;line-height:1.55;color:rgba(30,30,30,.8)}
+  .allergens__list .n{font-family:"DM Sans",sans-serif;font-size:.68rem;
+    color:var(--vik);font-variant-numeric:tabular-nums;min-width:1.4em}
+  .allergens__note{font-family:"DM Sans",sans-serif;
+    font-size:.8rem;line-height:1.65;font-weight:300;
+    color:rgba(30,30,30,.7);max-width:56ch}
+
+  @media (max-width:900px){
+    .cta-title{max-width:18ch}
+  }
+  @media (max-width:560px){
+    .allergens__list{columns:2;column-gap:1.1rem}
+    .cta-actions{flex-direction:column;align-items:stretch;width:100%}
+    .cta-actions > *{justify-content:center}
+  }
+  @media (max-width:768px){
+    .mbar__in{flex-direction:column;padding:0}
+    .mtabs{padding:0 var(--pad-x);border-bottom:1px solid var(--line)}
+    .mtools{border-left:0;padding:.6rem var(--pad-x);justify-content:space-between}
+    .msearch{flex:1 1 auto;width:auto;margin-right:1rem}
+    .mitem{grid-template-columns:1fr}
+    .mitem__p{grid-row:1;justify-self:start;align-items:flex-start;
+      flex-direction:row;gap:.6rem;margin-top:.2rem}
+  }
+
+</style>
+<link rel="stylesheet" href="../_core/leaflet.min.css">
+<link rel="stylesheet" href="../_core/vik-v2.min.css?v=1">
+<link rel="stylesheet" href="../_core/vik-v2-lib.min.css?v=2">
+</head>
+<body data-site="susana">
+
+<div data-vik-chrome data-page="menu"></div>
+
+<main class="m-wrap" id="main">
+
+  <section class="hero-page">
+    <div class="hp-media">
+      <div class="hp-slides">
+        <div class="hp-slide is-on">
+          <video autoplay muted loop playsinline preload="metadata"
+                 poster="assets/video/menu-poster.webp" aria-label="A plate at La Susana">
+            <source src="assets/video/menu.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+    <div class="hp-inner left">
+      <div>
+        <span class="ui-label" style="opacity:.55">La Susana · Playa Mansa</span>
+        <h1 class="hp-title">The menu</h1>
+        <p class="hp-desc">From the coast and from the farm, put together simply, alongside the VIK wines. The kitchen changes it with what comes in.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="mbar">
+    <div class="mbar__in">
+      <nav class="mtabs" role="tablist" aria-label="Sections">
+        <button class="ftab on" type="button" role="tab" data-cat="all">All</button>
+        <button class="ftab" type="button" role="tab" data-cat="starters">To begin</button>
+        <button class="ftab" type="button" role="tab" data-cat="sea">From the sea</button>
+        <button class="ftab" type="button" role="tab" data-cat="grill">From the fire</button>
+        <button class="ftab" type="button" role="tab" data-cat="garden">From the farm</button>
+        <button class="ftab" type="button" role="tab" data-cat="desserts">Sweet</button>
+        <button class="ftab" type="button" role="tab" data-cat="cocktails">Cocktails</button>
+        <button class="ftab" type="button" role="tab" data-cat="wines">Viña VIK</button>
+      </nav>
+      <div class="mtools">
+        <input class="msearch" id="menuSearch" type="search" placeholder="Search" aria-label="Search the menu">
+      </div>
+    </div>
+  </div>
+
+  <div id="menuList"></div>
+
+  <!-- == ALERGENOS ==================================================
+       El formato de VIK Pellico Otto. Los catorce numerados; los
+       numeros son los que van en la etiqueta de cada plato. ------ -->
+  <section class="allergens">
+    <div class="allergens__in">
+      <div class="colophon__col">
+      <span class="allergens__t">Allergen information</span>
+      <ul class="allergens__list">
+        <li><span class="n">01</span><span>Gluten</span></li>
+        <li><span class="n">02</span><span>Shellfish</span></li>
+        <li><span class="n">03</span><span>Egg</span></li>
+        <li><span class="n">04</span><span>Fish</span></li>
+        <li><span class="n">05</span><span>Peanuts</span></li>
+        <li><span class="n">06</span><span>Soy</span></li>
+        <li><span class="n">07</span><span>Lactose</span></li>
+        <li><span class="n">08</span><span>Nuts</span></li>
+        <li><span class="n">09</span><span>Celery</span></li>
+        <li><span class="n">10</span><span>Mustard</span></li>
+        <li><span class="n">11</span><span>Sesame</span></li>
+        <li><span class="n">12</span><span>SO₂</span></li>
+        <li><span class="n">13</span><span>Lupins</span></li>
+        <li><span class="n">14</span><span>Molluscs</span></li>
+      </ul>
+      <p class="allergens__note">Please inform your server of any dietary requirement or allergy before ordering. The kitchen changes the menu with the catch and the harvest, so anything can be checked on the day.</p>
+      </div>
+
+      <div class="colophon__col">
+        <span class="allergens__t">About this menu</span>
+        <p class="allergens__note">Prices in Uruguayan pesos. The kitchen changes the menu with the catch and the harvest, so what is written here is what was true this morning.</p>
+        <span class="m-live" id="menuLive">In this file</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-band">
+    <div class="cta-inner r">
+      <span class="section-eyebrow ui-label">Book</span>
+      <h2 class="cta-title">A table, and the rest of the afternoon.</h2>
+      <div class="cta-actions">
+        <a class="btn-solid" href="https://lasusana.meitre.com/" target="_blank" rel="noopener"><span>Book a table</span><span class="arw">→</span></a>
+        <a class="btn-line" href="index.html"><span>Back to La Susana</span></a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div data-vik-footer></div>
+
+<script>
+
+/* ══ LA CARTA ══════════════════════════════════════════════════════
+   Un solo motor. Los platos salen de MENU_ITEMS, que es lo que hay en
+   el archivo, salvo que MENU_ENDPOINT conteste — entonces manda la
+   hoja de calculo y el array queda de red de seguridad.
+
+   Nada de esto espera a la red para pintar: primero se dibuja lo que
+   ya esta, y si llega algo mejor se vuelve a dibujar. Una carta que
+   aparece dos segundos tarde es una carta que no se leyo.
+   ═══════════════════════════════════════════════════════════════════ */
+(() => {
+  "use strict";
+
+  /* el nombre entra por letras, y la barra se vuelve solida cuando la
+     pelicula sale de cuadro */
+  const ttl = document.querySelector(".hp-title");
+  if (ttl) {
+    const words = ttl.textContent.trim().split(/\s+/);
+    ttl.textContent = "";
+    let k = 0;
+    words.forEach((w, wi) => {
+      if (wi) ttl.appendChild(document.createTextNode(" "));
+      const sp = document.createElement("span");
+      sp.style.display = "inline-block";
+      [...w].forEach(ch => {
+        const l = document.createElement("span");
+        l.className = "l"; l.textContent = ch;
+        l.style.transitionDelay = (0.14 + k * 0.035) + "s"; k++;
+        sp.appendChild(l);
+      });
+      ttl.appendChild(sp);
+    });
+  }
+  requestAnimationFrame(() =>
+    document.querySelector(".hero-page")?.classList.add("is-in"));
+
+  /* la barra de esta pagina es clara al bajar; el resto lo hace el
+     sistema, que ya pone .scrolled a los sesenta pixeles */
+  const paint = () => {
+    const n = document.querySelector(".nav");
+    if (n) { n.classList.add("light"); return true; }
+    return false;
+  };
+  if (!paint()) {
+    const t = setInterval(() => { if (paint()) clearInterval(t); }, 60);
+    setTimeout(() => clearInterval(t), 4000);
+  }
+
+  /* Pegar aqui la URL del Apps Script publicado. Vacio = solo el
+     archivo, que es donde estamos hasta aprobar el diseno. */
+  const MENU_ENDPOINT = "";
+
+  const CATS = ["starters", "sea", "grill", "garden", "desserts", "cocktails", "wines"];
+  const LABELS = {"starters": "To begin", "sea": "From the sea", "grill": "From the fire", "garden": "From the farm", "desserts": "Sweet", "cocktails": "Cocktails", "wines": "Viña VIK"};
+  let ITEMS = [
+  {
+    "category": "starters",
+    "name": "Bread and farm butter",
+    "desc": "Baked through the morning, with butter from the farm.",
+    "tags": "Vegetarian",
+    "price_uy": "480",
+    "price_us": "US$ 12"
+  },
+  {
+    "category": "starters",
+    "name": "Oysters",
+    "desc": "From the Atlantic, opened to order.",
+    "tags": "Raw",
+    "price_uy": "1.240",
+    "price_us": "US$ 31"
+  },
+  {
+    "category": "starters",
+    "name": "Ceviche of the day",
+    "desc": "Whatever came in this morning, with citrus and chilli.",
+    "tags": "Raw, Gluten free",
+    "price_uy": "1.180",
+    "price_us": "US$ 30"
+  },
+  {
+    "category": "sea",
+    "name": "Grilled catch",
+    "desc": "The day's fish over the coals, with lemon and olive oil.",
+    "tags": "Gluten free",
+    "price_uy": "1.920",
+    "price_us": "US$ 48"
+  },
+  {
+    "category": "sea",
+    "name": "Calamari",
+    "desc": "Quickly grilled, garlic and parsley.",
+    "tags": "",
+    "price_uy": "1.340",
+    "price_us": "US$ 34"
+  },
+  {
+    "category": "sea",
+    "name": "Prawns from the coast",
+    "desc": "Over the fire, with farm herbs.",
+    "tags": "Gluten free",
+    "price_uy": "1.780",
+    "price_us": "US$ 45"
+  },
+  {
+    "category": "grill",
+    "name": "Beef, from the parrilla",
+    "desc": "Uruguayan beef, salt and time.",
+    "tags": "Gluten free",
+    "price_uy": "2.150",
+    "price_us": "US$ 54"
+  },
+  {
+    "category": "grill",
+    "name": "Lamb",
+    "desc": "Slow over the coals.",
+    "tags": "Gluten free",
+    "price_uy": "2.380",
+    "price_us": "US$ 60"
+  },
+  {
+    "category": "garden",
+    "name": "Farm salad",
+    "desc": "Whatever is ready in the organic garden this week.",
+    "tags": "Vegan, Gluten free",
+    "price_uy": "880",
+    "price_us": "US$ 22"
+  },
+  {
+    "category": "garden",
+    "name": "Grilled vegetables",
+    "desc": "From the same fire as everything else.",
+    "tags": "Vegan",
+    "price_uy": "940",
+    "price_us": "US$ 24"
+  },
+  {
+    "category": "desserts",
+    "name": "Dulce de leche",
+    "desc": "As it should be.",
+    "tags": "Vegetarian",
+    "price_uy": "620",
+    "price_us": "US$ 16"
+  },
+  {
+    "category": "desserts",
+    "name": "Fruit from the coast",
+    "desc": "Whatever is in season, cold.",
+    "tags": "Vegan, Gluten free",
+    "price_uy": "560",
+    "price_us": "US$ 14"
+  },
+  {
+    "category": "cocktails",
+    "name": "Susana Sunset",
+    "desc": "Christiania Vodka, citrus, the hour it is named for.",
+    "tags": "",
+    "price_uy": "890",
+    "price_us": "US$ 22"
+  },
+  {
+    "category": "cocktails",
+    "name": "Clericó",
+    "desc": "Viña VIK white, fruit, the long afternoon.",
+    "tags": "",
+    "price_uy": "780",
+    "price_us": "US$ 20"
+  },
+  {
+    "category": "cocktails",
+    "name": "Medio y medio",
+    "desc": "The Uruguayan one.",
+    "tags": "",
+    "price_uy": "640",
+    "price_us": "US$ 16"
+  },
+  {
+    "category": "wines",
+    "name": "VIK",
+    "desc": "The estate red, from Millahue.",
+    "tags": "",
+    "price_uy": "6.400",
+    "price_us": "US$ 160"
+  },
+  {
+    "category": "wines",
+    "name": "Milla Cala",
+    "desc": "Softer, for the table at lunch.",
+    "tags": "",
+    "price_uy": "3.200",
+    "price_us": "US$ 80"
+  },
+  {
+    "category": "wines",
+    "name": "La Piu Belle Rosé",
+    "desc": "Cold, in the sand, before anything else.",
+    "tags": "",
+    "price_uy": "3.800",
+    "price_us": "US$ 95"
+  }
+];
+
+  const $  = (s, sc = document) => sc.querySelector(s);
+  const $$ = (s, sc = document) => [...sc.querySelectorAll(s)];
+  const esc = s => String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  let cat  = "all";
+  let query = "";
+
+  const list = $("#menuList");
+  const live = $("#menuLive");
+
+  const field = (it, base) => it[base] || it[base + "_en"] || "";
+
+  const render = () => {
+    let items = ITEMS.slice();
+    if (cat !== "all") items = items.filter(i => i.category === cat);
+    if (query) {
+      const q = query.toLowerCase();
+      items = items.filter(i =>
+        field(i, "name").toLowerCase().indexOf(q) >= 0 ||
+        field(i, "desc").toLowerCase().indexOf(q) >= 0);
+    }
+    if (!items.length) {
+      list.innerHTML = '<div class="m-empty"><p>Nothing under that name.</p></div>';
+      return;
+    }
+    const groups = {};
+    items.forEach(i => { (groups[i.category] = groups[i.category] || []).push(i); });
+
+    let html = "";
+    CATS.forEach(key => {
+      const g = groups[key];
+      if (!g) return;
+      html += '<section class="msection">'
+           +  '<div class="msection__hd">'
+           +  '<h2 class="msection__title">' + esc(LABELS[key] || key) + '</h2>'
+           +  '<span class="msection__count">' + String(g.length).padStart(2, "0") + '</span>'
+           +  '</div>';
+      g.forEach(i => {
+        const d = field(i, "desc");
+        const tags = (i.tags || "").split(",").map(t => t.trim()).filter(Boolean);
+        html += '<article class="mitem">'
+             +  '<span class="mitem__n">' + esc(field(i, "name")) + '</span>'
+             +  ((i.price_uy || i.price_us || i.price)
+                  ? '<span class="mitem__p">'
+                    + (function () {
+                         const v = i.price_uy || i.price;
+                         if (!v) return '';
+                         /* el simbolo solo delante de una cifra: la misma
+                            columna lleva capacidades en Pavilion */
+                         const money = /^[\d.,]/.test(String(v).trim());
+                         return '<span class="mitem__uy">'
+                              + (money ? '<i>UY$</i>' : '')
+                              + esc(v) + '</span>';
+                       })()
+                    + (i.price_us ? '<span class="mitem__us">' + esc(i.price_us) + '</span>' : '')
+                    + '</span>'
+                  : '<span></span>')
+             +  (d ? '<span class="mitem__d">' + esc(d) + '</span>' : '')
+             +  (tags.length ? '<span class="mitem__tags">'
+                  + tags.map(t => '<span class="mtag">' + esc(t) + '</span>').join('')
+                  + '</span>' : '')
+             +  '</article>';
+      });
+      html += '</section>';
+    });
+    list.innerHTML = html;
+
+    /* Los platos entran de a uno, un cuarto de segundo escalonado en
+       los primeros: el resto ya esta quieto cuando se llega. */
+    const rows = $$(".mitem", list);
+    rows.forEach((r, n) => {
+      if (n > 14) { r.classList.add("in"); return; }
+      setTimeout(() => r.classList.add("in"), 40 + n * 32);
+    });
+  };
+
+  /* ── los controles ─────────────────────────────────────────── */
+  $$(".mtabs .ftab").forEach(b => b.addEventListener("click", () => {
+    $$(".mtabs .ftab").forEach(x => x.classList.toggle("on", x === b));
+    cat = b.dataset.cat; render();
+  }));
+  const s = $("#menuSearch");
+  let t = 0;
+  if (s) s.addEventListener("input", () => {
+    clearTimeout(t);
+    t = setTimeout(() => { query = s.value.trim(); render(); }, 160);
+  });
+  /* El estado de partida se fija aqui y no se hereda de nada: un
+     navegador que restaura la pagina puede devolver una pestaña
+     marcada y dejar la carta mostrando una sola seccion. */
+  cat = "all";
+  $$(".mtabs .ftab").forEach(b => b.classList.toggle("on", b.dataset.cat === "all"));
+  render();
+
+  /* ── la hoja, si contesta ──────────────────────────────────── */
+  if (MENU_ENDPOINT) {
+    fetch(MENU_ENDPOINT, { cache: "no-store" })
+      .then(r => r.ok ? r.json() : null)
+      .then(d => {
+        const rows = d && (Array.isArray(d) ? d : d.items);
+        if (!rows || !rows.length) return;
+        ITEMS = rows;
+        if (live) { live.classList.add("is-live"); live.textContent = "Live"; }
+        render();
+      })
+      .catch(() => {});
+  }
+})();
+
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     LO QUE TIENE QUE DEVOLVER EL APPS SCRIPT
+     ──────────────────────────────────────────────────────────────────
+     Una hoja, una fila por plato, y estas columnas exactas:
+
+       category   una de: starters, sea, grill, garden, desserts, cocktails, wines
+       name       el nombre del plato
+       desc       una linea, opcional
+       price_uy   pesos uruguayos, solo la cifra — "1.850" o "Market"
+                  el UY$ lo pone la pagina
+       price_us   dolares con su simbolo — "US$ 46" o vacio
+       tags       separadas por coma — "Vegetarian, Gluten free"
+       order      numero, opcional, para forzar el orden dentro del grupo
+
+     doGet devuelve JSON: { "items": [ ... ] } o el array pelado.
+     Cabecera Content-Type: application/json.
+
+     Cuando este publicado, pegar la URL en MENU_ENDPOINT, arriba.
+     Hasta entonces manda el array de este archivo y la etiqueta dice
+     "In this file" en vez de "Live".
+     ═══════════════════════════════════════════════════════════════ -->
+<script src="../_core/lenis.min.js"></script>
+<script src="../_core/leaflet.js"></script>
+<script src="../_core/vik-chrome-v2.js?v=1"></script>
+<script src="../_core/vik-v2.min.js?v=1"></script>
+<script src="../_core/vik-v2-lib.min.js?v=1"></script>
+</body>
+</html>

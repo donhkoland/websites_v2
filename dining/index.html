@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- ══════════════════════════════════════════════════════════════════
+     DINING · VIK JOSÉ IGNACIO
+     ──────────────────────────────────────────────────────────────────
+     Cuatro mesas, en el orden en que se llega a ellas desde la arena
+     hacia adentro: La Susana, Zodiaco, El Asador, CieloMar. En el
+     medio la reserva, al final el mapa.
+
+     CONTENIDOS SIMULADOS
+       · La agenda "What is on" — cinco fechas de muestra. Se editan en
+         el array AGENDA, al pie de este archivo.
+       · Las direcciones de Meitre — lasusana.meitre.com es la real; las
+         otras tres son de muestra y siguen la misma forma. Se editan en
+         el array REST, al pie, y en el href de cada boton de reserva.
+       · Las distancias del modulo de origen son de muestra.
+
+     MEDIOS
+       PELICULAS   ../_assets/video/<nombre>.mp4  + -poster.webp
+       FOTOS       ../_assets/img/t/<nombre>-w480 | -w900 | -w1600 .jpg
+                   ../la-susana/assets/img/t/<nombre>-w900.jpg
+     ══════════════════════════════════════════════════════════════ -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dining · VIK José Ignacio</title>
+<meta name="description" content="Four tables across the destination: La Susana, Zodiaco, El Asador and CieloMar. What is on, where it comes from, and a table booked without leaving the page.">
+<meta property="og:title" content="Dining · VIK José Ignacio">
+<meta property="og:description" content="Four tables across the destination. Open fire, the Atlantic and the Viña VIK cellar.">
+<meta property="og:image" content="../_assets/img/t/playa_parillero_playa-vik-934-w1600.jpg">
+<link rel="preload" as="image" href="../_assets/img/t/bahia_vik_food08-w1600.jpg">
+<script>window.VIK_BASE = "../_assets/";</script>
+<style>
+/* ── Lo propio de esta pagina ─────────────────────────────────
+   Tres modulos que solo existen aqui: la reserva sobre pelicula, el
+   origen y el puente a Wellness. Todo lo demas viene de la libreria —
+   no hay una sola regla repetida abajo. ─────────────────────────── */
+
+/* ══ LA RESERVA SOBRE PELICULA ════════════════════════════════
+   Una pantalla entera para una sola decision: que mesa. La pelicula
+   cambia con la mesa elegida, para que la eleccion se vea antes de
+   tomarse. Sin eso, el desplegable seria un formulario. */
+.filmpick{position:relative;min-height:100vh;display:flex;align-items:flex-end;
+  overflow:hidden;background:var(--ink);color:var(--bone)}
+.filmpick__media{position:absolute;inset:0}
+.filmpick__f{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity 1.1s var(--ease);filter:saturate(.86)}
+.filmpick__f.is-on{opacity:1}
+.filmpick::after{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(180deg,rgba(10,9,7,.62),rgba(10,9,7,.3) 42%,rgba(10,9,7,.92))}
+.filmpick__inner{position:relative;z-index:2;width:100%;max-width:var(--max);
+  margin:0 auto;padding:7rem var(--pad-x) 4.5rem;
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);
+  gap:clamp(2rem,5vw,5rem);align-items:end}
+.filmpick__t{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(2.1rem,4.6vw,3.6rem);line-height:1.03;letter-spacing:-0.015em;
+  color:#fff;margin-top:1.25rem}
+.filmpick__t em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.filmpick__d{font-size:.95rem;line-height:1.75;font-weight:300;
+  color:rgba(255,255,255,.72);max-width:44ch;margin-top:1.5rem}
+.filmpick__rows{display:flex;flex-direction:column;margin-top:2rem;max-width:34rem}
+.filmpick__row{display:flex;align-items:baseline;justify-content:space-between;
+  gap:1.25rem;padding:.7rem 0;border-top:1px solid rgba(255,255,255,.18)}
+.filmpick__row .k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,255,255,.66);white-space:nowrap}
+.filmpick__row .v{font-family:"Old Standard VIK",Georgia,serif;font-size:1.02rem;
+  color:#fff;text-align:right;transition:opacity .3s var(--ease)}
+.filmpick.is-turning .filmpick__row .v{opacity:.2}
+
+/* el mostrador */
+.filmpick__desk{background:rgba(10,9,7,.55);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.2);
+  padding:clamp(1.5rem,2.6vw,2.1rem);display:flex;flex-direction:column;gap:1.1rem}
+.filmpick__lab{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(255,255,255,.66)}
+.filmpick__sel{position:relative;display:block}
+.filmpick__sel select{appearance:none;-webkit-appearance:none;width:100%;
+  color-scheme:dark;background:rgba(10,9,7,.62);color:#fff;
+  border:1px solid rgba(255,255,255,.32);border-radius:0;
+  padding:1.05rem 3rem 1.05rem 1.1rem;
+  font-family:"Old Standard VIK",Georgia,serif;font-size:1.15rem;line-height:1.2;
+  transition:border-color .3s var(--ease)}
+.filmpick__sel select:hover{border-color:rgba(255,255,255,.62)}
+.filmpick__sel select:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.filmpick__sel::after{content:"▾";position:absolute;right:1.1rem;top:50%;
+  transform:translateY(-50%);pointer-events:none;color:rgba(255,255,255,.72);
+  font-size:.8rem}
+.filmpick__note{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.7rem;line-height:1.6;color:rgba(255,255,255,.66)}
+.filmpick__go{width:100%;justify-content:center}
+.filmpick__dots{display:flex;gap:.35rem}
+.filmpick__dots i{flex:1;height:2px;background:rgba(255,255,255,.26);
+  transition:background .4s var(--ease)}
+.filmpick__dots i.is-on{background:#fff}
+
+@media (max-width:1024px){
+  .filmpick{min-height:0}
+  .filmpick__inner{grid-template-columns:1fr;padding-top:7.5rem}
+}
+@media (max-width:560px){
+  .filmpick__row{flex-wrap:wrap;gap:.15rem}
+  .filmpick__row .v{text-align:left}
+}
+
+/* ══ EL ORIGEN ════════════════════════════════════════════════
+   Cinco puntos y un hilo que se dibuja al bajar. La fotografia de la
+   derecha cambia con el punto en curso: la lista no describe el
+   recorrido, lo hace. */
+.origin{max-width:var(--max);margin:0 auto;display:grid;
+  grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+  gap:clamp(2rem,5vw,5rem);align-items:start}
+.origin__col{position:relative;padding-left:2.6rem}
+.origin__thread{position:absolute;left:5px;top:.55rem;bottom:.55rem;width:1px;
+  background:rgba(30,30,30,.16)}
+.origin__fill{position:absolute;left:0;top:0;width:1px;height:0;
+  background:var(--vik)}
+.origin__i{position:relative;padding-bottom:2.4rem;
+  opacity:0;transform:translateY(18px);
+  transition:opacity .8s var(--slow),transform .8s var(--slow)}
+.origin__i.is-in{opacity:1;transform:none}
+.origin__i:last-child{padding-bottom:0}
+.origin__dot{position:absolute;left:-2.6rem;top:.4rem;width:11px;height:11px;
+  border-radius:50%;background:var(--bone);border:1px solid rgba(30,30,30,.32);
+  transform:scale(.4);
+  transition:transform .5s var(--slow),background .5s var(--ease),border-color .5s var(--ease)}
+.origin__i.is-in .origin__dot{transform:scale(1)}
+.origin__i.is-here .origin__dot{background:var(--vik);border-color:var(--vik)}
+.origin__n{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.68rem;
+  letter-spacing:.06em;color:var(--vik);display:block;margin-bottom:.55rem}
+.origin__h{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.25rem,2.1vw,1.7rem);line-height:1.12;letter-spacing:-0.01em}
+.origin__p{font-size:.94rem;line-height:1.75;font-weight:300;opacity:.72;
+  margin-top:.6rem;max-width:46ch}
+.origin__far{display:flex;align-items:baseline;gap:.6rem;margin-top:.95rem;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+  letter-spacing:.22em;text-transform:uppercase;color:rgba(30,30,30,.66)}
+.origin__far em{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-style:normal;font-size:1.05rem;letter-spacing:0;color:var(--ink)}
+
+.origin__aside{position:sticky;top:6.5rem;display:flex;flex-direction:column;
+  gap:1.4rem;align-items:flex-start}
+.origin__stack{position:relative;width:100%;aspect-ratio:4/5;overflow:hidden;
+  background:rgba(30,30,30,.06)}
+.origin__stack img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;opacity:0;transform:scale(1.05);
+  transition:opacity 1s var(--ease),transform 2.4s var(--slow)}
+.origin__stack img.is-on{opacity:1;transform:scale(1)}
+.origin__cap{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.72rem;
+  line-height:1.6;color:rgba(30,30,30,.7)}
+
+@media (max-width:960px){
+  .origin{grid-template-columns:1fr}
+  .origin__aside{position:static;order:-1}
+  .origin__stack{aspect-ratio:3/2}
+}
+
+/* ══ DE LA MESA AL CUERPO ═════════════════════════════════════
+   El puente a VIK Wellness. La cena no termina en la cena, y esta es
+   la unica pagina donde decirlo no suena a folleto. */
+.tobody{max-width:var(--max);margin:0 auto;display:grid;
+  grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);
+  gap:clamp(2rem,5vw,4.5rem);align-items:stretch}
+.tobody__say{display:flex;flex-direction:column;min-width:0}
+.tobody__t{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.7rem,3.4vw,2.7rem);line-height:1.08;letter-spacing:-0.015em;
+  color:#fff;margin-top:1.2rem}
+.tobody__swap{font-family:"Selva Script",Georgia,serif;font-style:normal;
+  color:var(--bone);display:inline-block;min-width:4.5ch;
+  transition:opacity .45s var(--ease),transform .45s var(--slow)}
+.tobody__swap.is-out{opacity:0;transform:translateY(-10px)}
+.tobody__p{font-size:.95rem;line-height:1.78;font-weight:300;
+  color:rgba(248,248,240,.72);max-width:50ch;margin-top:1.4rem}
+.tobody__hours{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  margin-top:2.4rem;border-top:1px solid var(--line)}
+.tobody__hr{position:relative;padding:1.7rem 1.1rem 0 0}
+.tobody__hr::before{content:"";position:absolute;top:0;left:0;width:7px;height:7px;
+  border-radius:50%;background:rgba(248,248,240,.26);transform:translateY(-4px);
+  transition:background .5s var(--ease),box-shadow .5s var(--ease)}
+.tobody__hr.is-now::before{background:var(--vik);box-shadow:0 0 0 4px rgba(0,47,167,.3)}
+.tobody__hr .t{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.72rem;color:rgba(248,248,240,.66);display:block;margin-bottom:.5rem}
+.tobody__hr h4{font-family:"Old Standard VIK",Georgia,serif;font-size:1.02rem;
+  color:#fff;margin-bottom:.45rem;line-height:1.14}
+.tobody__hr p{font-size:.86rem;line-height:1.66;font-weight:300;
+  color:rgba(248,248,240,.66)}
+.tobody__act{margin-top:2.4rem;display:flex;flex-wrap:wrap;gap:1.6rem;
+  align-items:center}
+
+.tobody__bridge{position:relative;display:flex;flex-direction:column;
+  justify-content:flex-end;gap:.7rem;min-height:clamp(360px,44vw,540px);
+  padding:clamp(1.6rem,3vw,2.4rem);overflow:hidden;background:#141312;
+  color:var(--bone);isolation:isolate}
+.tobody__bridge img{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;z-index:-2;transform:scale(1.02);
+  transition:transform 2s var(--slow);filter:saturate(.9)}
+.tobody__bridge:hover img{transform:scale(1.08)}
+.tobody__bridge::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(10,9,7,.22),rgba(10,9,7,.88))}
+.tobody__badge{align-self:flex-start;margin-bottom:auto;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+  letter-spacing:.22em;text-transform:uppercase;color:#fff;
+  background:var(--vik);padding:.5rem .75rem}
+.tobody__bh{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.3rem,2.4vw,1.9rem);line-height:1.1;color:#fff;max-width:16ch}
+.tobody__bd{font-size:.9rem;line-height:1.7;font-weight:300;
+  color:rgba(248,248,240,.74);max-width:38ch}
+.tobody__go{display:inline-flex;align-items:center;gap:.7rem;margin-top:.5rem;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+  letter-spacing:.22em;text-transform:uppercase;color:#fff}
+.tobody__go .arw{transition:transform .4s var(--ease)}
+.tobody__bridge:hover .tobody__go .arw{transform:translateX(5px)}
+.tobody__bridge:focus-visible{outline:2px solid var(--vik);outline-offset:3px}
+
+@media (max-width:1024px){
+  .tobody{grid-template-columns:1fr}
+  .tobody__hours{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:1.6rem}
+}
+@media (max-width:560px){
+  .tobody__hours{grid-template-columns:1fr}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .filmpick__f,.origin__i,.origin__dot,.origin__stack img,
+  .tobody__swap,.tobody__bridge img{transition:none}
+}
+</style>
+<link rel="stylesheet" href="../_core/leaflet.min.css">
+<link rel="stylesheet" href="../_core/vik-v2.min.css?v=1">
+<link rel="stylesheet" href="../_core/vik-v2-lib.min.css?v=2">
+</head>
+<body data-site="dining">
+
+<div data-vik-chrome data-page="dining" data-logo="ji"></div>
+
+<main id="main">
+
+  <section class="hero-page">
+    <div class="hp-media">
+      <div class="hp-slides" data-hold="5600">
+        <div class="hp-slide is-on"><img src="../_assets/img/t/bahia_vik_food08-w1600.jpg" alt="The table at Bahía VIK" fetchpriority="high"></div>
+        <div class="hp-slide"><img src="../_assets/img/t/estancia_bbq-img_7731-w1600.jpg" alt="El Asador at Estancia VIK" loading="lazy"></div>
+        <div class="hp-slide"><img src="../_assets/img/t/playa_parillero_playa-vik-934-w1600.jpg" alt="CieloMar at Playa VIK" loading="lazy"></div>
+      </div>
+      <div class="hp-dots"><button class="hp-dot is-on" aria-label="1"></button><button class="hp-dot" aria-label="2"></button><button class="hp-dot" aria-label="3"></button></div>
+    </div>
+    <div class="hp-inner left">
+      <div>
+        <span class="ui-label" style="opacity:.55">José Ignacio · Four tables</span>
+        <h1 class="hp-title">Dining</h1>
+        <p class="hp-desc">Open fire, the Atlantic and the <em>Viña VIK cellar</em>. Every house cooks
+          what is around it, and each one tastes like where it stands.</p>
+        <div class="hf-actions" style="margin-top:1.75rem">
+          <a class="btn-solid" href="https://lasusana.meitre.com/" data-book-label="Book a Table"><span>Book a table</span><span class="arw">→</span></a>
+          <a class="btn-line" href="#la-susana"><span>The four tables</span><span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ AGENDA · M36 ══════════════════════════════════════════════
+       Lo unico de esta pagina que caduca, y por eso va primero. Mismo
+       motor que Pavilion VIK: riel que no termina, arrastre con
+       inercia, y la ficha al tocar.
+
+       CONTENIDOS SIMULADOS. Las cinco fechas y sus fichas se editan en
+       el array AGENDA del script al pie. El boton de cada ficha lleva a
+       la mesa que cocina esa noche, por el lightbox de reserva del
+       cromo. ─────────────────────────────────────────────────────── -->
+  <section class="agenda" aria-label="What is on">
+    <div class="agenda__hd">
+      <h2 class="agenda__t">What is on</h2>
+      <span class="agenda__hint">Drag · five dates</span>
+    </div>
+    <div class="agenda__rail" id="agendaRail">
+      <button class="ev" type="button" data-ev="0">
+        <div class="ev__media">
+          <video autoplay muted loop playsinline preload="none"
+                 poster="../_assets/video/estancia-poster.webp" aria-hidden="true">
+            <source src="../_assets/video/estancia.mp4" type="video/mp4">
+          </video>
+        </div>
+        <span class="ev__body">
+          <span class="ev__kind">Dinner</span>
+          <span class="ev__when">Fri 9 Jan · 20:30</span>
+          <span class="ev__name">Fuegos de Enero</span>
+          <span class="ev__go"><span>Details</span><span>→</span></span>
+        </span>
+      </button>
+      <button class="ev" type="button" data-ev="1">
+        <div class="ev__media">
+          <img src="../_assets/img/t/bahia_vik_food08-w900.jpg"
+               srcset="../_assets/img/t/bahia_vik_food08-w480.jpg 480w, ../_assets/img/t/bahia_vik_food08-w900.jpg 900w"
+               sizes="(max-width:560px) 78vw, 32vw" alt="Ocho Manos" loading="lazy">
+        </div>
+        <span class="ev__body">
+          <span class="ev__kind">Tasting</span>
+          <span class="ev__when">Sat 17 Jan · 21:00</span>
+          <span class="ev__name">Ocho Manos</span>
+          <span class="ev__go"><span>Details</span><span>→</span></span>
+        </span>
+      </button>
+      <button class="ev" type="button" data-ev="2">
+        <div class="ev__media">
+          <img src="../_assets/img/t/playa_parillero_playa-vik-934-w900.jpg"
+               srcset="../_assets/img/t/playa_parillero_playa-vik-934-w480.jpg 480w, ../_assets/img/t/playa_parillero_playa-vik-934-w900.jpg 900w"
+               sizes="(max-width:560px) 78vw, 32vw" alt="Brasero" loading="lazy">
+        </div>
+        <span class="ev__body">
+          <span class="ev__kind">Fire</span>
+          <span class="ev__when">Every Thursday · 18:30</span>
+          <span class="ev__name">Brasero</span>
+          <span class="ev__go"><span>Details</span><span>→</span></span>
+        </span>
+      </button>
+      <button class="ev" type="button" data-ev="3">
+        <div class="ev__media">
+          <img src="../_assets/img/t/estancia_gardens-img_1111-min-w900.jpg"
+               srcset="../_assets/img/t/estancia_gardens-img_1111-min-w480.jpg 480w, ../_assets/img/t/estancia_gardens-img_1111-min-w900.jpg 900w"
+               sizes="(max-width:560px) 78vw, 32vw" alt="Mesa de la Huerta" loading="lazy">
+        </div>
+        <span class="ev__body">
+          <span class="ev__kind">Lunch</span>
+          <span class="ev__when">Sun 25 Jan · 13:00</span>
+          <span class="ev__name">Mesa de la Huerta</span>
+          <span class="ev__go"><span>Details</span><span>→</span></span>
+        </span>
+      </button>
+      <button class="ev ev--type" type="button" data-ev="4">
+        <span class="ev__body">
+          <div>
+            <span class="ev__num">06</span>
+            <span class="ev__month">March</span>
+          </div>
+          <div>
+            <span class="ev__kind">Harvest</span>
+            <div class="ev__rule"></div>
+            <span class="ev__name">La Vendimia</span>
+            <span class="ev__go"><span>Details</span><span>→</span></span>
+          </div>
+        </span>
+      </button>
+    </div>
+  </section>
+
+  <section class="section canvas">
+    <div class="section-head aligned r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">The tables</span></div>
+      <div><h2 class="section-title">Where flavour meets nourishment.</h2>
+        <p class="section-lead">Four kitchens across the destination, each one built around
+          what grows and swims near it. They are set out here the way you reach them —
+          from the sand inland: La Susana, Zodiaco, El Asador, CieloMar. All four are
+          open to guests of any of the three houses.</p></div>
+    </div>
+  </section>
+
+  <!-- ── Las dos primeras mesas ──────────────────────────────────── -->
+  <section class="section" id="la-susana">
+    <div class="split r">
+      <div class="split-media"><img src="../la-susana/assets/img/t/pergola-w900.jpg"
+        srcset="../la-susana/assets/img/t/pergola-w480.jpg 480w, ../la-susana/assets/img/t/pergola-w900.jpg 900w, ../la-susana/assets/img/t/pergola-w1600.jpg 1600w"
+        sizes="(max-width:1024px) 100vw, 46vw" alt="La Susana" loading="lazy"></div>
+      <div class="split-body">
+        <span class="ui-label text-vik">Playa Mansa</span>
+        <h2>La Susana</h2>
+        <p>Feet in the sand, under the bamboo pergolas. Fresh produce from the Atlantic
+          coast and the local organic farm, alongside the Viña VIK cellar.</p>
+        <p>Lunch runs into sunset, and sunset runs into the bonfire. Its own menu, its
+          own table, a walk along the beach from Bahía.</p>
+        <div class="split-facts">
+          <div><span>Cuisine</span><span>Beach · open fire</span></div>
+          <div><span>Where</span><span>Playa Mansa</span></div>
+          <div><span>Best at</span><span>The whole afternoon</span></div>
+        </div>
+        <div class="hf-actions" style="margin-top:1.5rem">
+          <a class="btn-solid" href="https://lasusana.meitre.com/" data-book-label="La Susana · Playa Mansa"><span>Book this table</span><span class="arw">→</span></a>
+          <a class="btn-line" href="../la-susana/"><span>See the house</span><span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section canvas" id="zodiaco">
+    <div class="split r" style="direction:rtl">
+      <div class="split-media" style="direction:ltr"><img src="../_assets/img/t/bahia_vik_food08-w900.jpg"
+        srcset="../_assets/img/t/bahia_vik_food08-w480.jpg 480w, ../_assets/img/t/bahia_vik_food08-w900.jpg 900w, ../_assets/img/t/bahia_vik_food08-w1600.jpg 1600w"
+        sizes="(max-width:1024px) 100vw, 46vw" alt="Zodiaco" loading="lazy"></div>
+      <div class="split-body" style="direction:ltr">
+        <span class="ui-label text-vik">Bahía VIK</span>
+        <h2>Zodiaco</h2>
+        <p>Dining at Bahía VIK highlights the surrounding terroir through locally grown
+          and produced ingredients, with a continued emphasis on authentic Uruguayan
+          cuisine.</p>
+        <p>Eat on the expansive outdoor terrace, by one of the pools, in the open-air
+          patio or in the dining room. The menu runs on fresh fish and seafood.</p>
+        <div class="split-facts">
+          <div><span>Cuisine</span><span>Coastal · terroir</span></div>
+          <div><span>Where</span><span>Bahía VIK</span></div>
+          <div><span>Best at</span><span>Dinner</span></div>
+        </div>
+        <div class="hf-actions" style="margin-top:1.5rem">
+          <a class="btn-solid" href="https://zodiaco.meitre.com/" data-book-label="Zodiaco · Bahía VIK"><span>Book this table</span><span class="arw">→</span></a>
+          <a class="btn-line" href="../bahia-vik/#dining"><span>See the house</span><span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ LA RESERVA, EN EL MEDIO ═══════════════════════════════════
+       Dos mesas leidas, dos por leer: aqui es donde alguien ya sabe si
+       quiere sentarse. La pelicula responde al desplegable, y el boton
+       abre Meitre dentro de la pagina. ───────────────────────────── -->
+  <section class="filmpick" id="book" aria-label="Book a table">
+    <div class="filmpick__media" aria-hidden="true">
+      <video class="filmpick__f is-on" id="fpV0" muted loop playsinline preload="none"
+             poster="../la-susana/assets/video/hero-poster.webp"></video>
+      <video class="filmpick__f" id="fpV1" muted loop playsinline preload="none"
+             poster="../_assets/video/bahia-vik-poster.webp"></video>
+      <video class="filmpick__f" id="fpV2" muted loop playsinline preload="none"
+             poster="../_assets/video/estancia-poster.webp"></video>
+      <video class="filmpick__f" id="fpV3" muted loop playsinline preload="none"
+             poster="../_assets/video/playa-poster.webp"></video>
+    </div>
+    <div class="filmpick__inner">
+      <div>
+        <span class="ui-label" style="opacity:.62">Reserve</span>
+        <h2 class="filmpick__t">Book a table<br><em>without leaving</em></h2>
+        <p class="filmpick__d">Pick the table and the reservation opens here, on this page.
+          No new tab, no second site, no form that somebody has to read in the morning.</p>
+        <div class="filmpick__rows">
+          <div class="filmpick__row"><span class="k">Table</span><span class="v" data-fp="name">La Susana</span></div>
+          <div class="filmpick__row"><span class="k">Where</span><span class="v" data-fp="where">Playa Mansa</span></div>
+          <div class="filmpick__row"><span class="k">Served</span><span class="v" data-fp="hours">13:00 – late</span></div>
+          <div class="filmpick__row"><span class="k">Best at</span><span class="v" data-fp="best">The whole afternoon</span></div>
+        </div>
+      </div>
+      <div class="filmpick__desk">
+        <span class="filmpick__lab" id="fpLab">Which table</span>
+        <label class="filmpick__sel">
+          <select id="fpSel" aria-labelledby="fpLab">
+            <option value="0">La Susana</option>
+            <option value="1">Zodiaco</option>
+            <option value="2">El Asador</option>
+            <option value="3">CieloMar</option>
+          </select>
+        </label>
+        <a class="btn-solid filmpick__go" id="fpGo" href="https://lasusana.meitre.com/"
+           data-book-label="La Susana · Playa Mansa"><span>Book a table</span><span class="arw">→</span></a>
+        <div class="filmpick__dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
+        <p class="filmpick__note">Reservations run on Meitre. A table at any of the four is
+          also arranged by your Journey Designer.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Las dos ultimas mesas ───────────────────────────────────── -->
+  <section class="section canvas" id="el-asador">
+    <div class="split r">
+      <div class="split-media"><img src="../_assets/img/t/estancia_bbq-img_7731-w900.jpg"
+        srcset="../_assets/img/t/estancia_bbq-img_7731-w480.jpg 480w, ../_assets/img/t/estancia_bbq-img_7731-w900.jpg 900w, ../_assets/img/t/estancia_bbq-img_7731-w1600.jpg 1600w"
+        sizes="(max-width:1024px) 100vw, 46vw" alt="El Asador" loading="lazy"></div>
+      <div class="split-body">
+        <span class="ui-label text-vik">Estancia VIK</span>
+        <h2>El Asador</h2>
+        <p>The most authentic Uruguayan BBQ — family style or three courses, in settings
+          where gaucho tradition sits alongside contemporary Uruguayan art.</p>
+        <p>Served in the art-filled Parrillero, in the brick vaulted dining room, or by
+          the Absolute Nero pool overlooking the pastoral landscape.</p>
+        <div class="split-facts">
+          <div><span>Cuisine</span><span>Open fire · countryside</span></div>
+          <div><span>Where</span><span>Estancia VIK</span></div>
+          <div><span>Best at</span><span>Long lunches</span></div>
+        </div>
+        <div class="hf-actions" style="margin-top:1.5rem">
+          <a class="btn-solid" href="https://elasador.meitre.com/" data-book-label="El Asador · Estancia VIK"><span>Book this table</span><span class="arw">→</span></a>
+          <a class="btn-line" href="../estancia-vik/#dining"><span>See the house</span><span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="cielomar">
+    <div class="split r" style="direction:rtl">
+      <div class="split-media" style="direction:ltr"><img src="../_assets/img/t/playa_parillero_playa-vik-934-w900.jpg"
+        srcset="../_assets/img/t/playa_parillero_playa-vik-934-w480.jpg 480w, ../_assets/img/t/playa_parillero_playa-vik-934-w900.jpg 900w, ../_assets/img/t/playa_parillero_playa-vik-934-w1600.jpg 1600w"
+        sizes="(max-width:1024px) 100vw, 46vw" alt="CieloMar" loading="lazy"></div>
+      <div class="split-body" style="direction:ltr">
+        <span class="ui-label text-vik">Playa VIK</span>
+        <h2>CieloMar</h2>
+        <p>The signature fish BBQ and three-course meals overlooking the Southern
+          Atlantic, with views down Playa Mansa to Punta del Este and to the fishing
+          boats.</p>
+        <p>Sit in the Parrillero dining room, on the terrace above the beach, or at the
+          brasero fire pit, with a glass of VIK wine.</p>
+        <div class="split-facts">
+          <div><span>Cuisine</span><span>Fish · open fire</span></div>
+          <div><span>Where</span><span>Playa VIK</span></div>
+          <div><span>Best at</span><span>Sunset</span></div>
+        </div>
+        <div class="hf-actions" style="margin-top:1.5rem">
+          <a class="btn-solid" href="https://cielomar.meitre.com/" data-book-label="CieloMar · Playa VIK"><span>Book this table</span><span class="arw">→</span></a>
+          <a class="btn-line" href="../playa-vik/#dining"><span>See the house</span><span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ EL ORIGEN ═════════════════════════════════════════════════
+       De donde viene cada cosa, y a que distancia. Las cifras son de
+       muestra; la forma no. ─────────────────────────────────────── -->
+  <section class="section bone" id="origin" style="color:var(--ink)">
+    <p class="modlabel r" style="max-width:var(--max);margin:0 auto 2.5rem">
+      <span>The origin</span><span class="c">01 / 02</span></p>
+    <div class="section-head aligned r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">Sourcing</span></div>
+      <div><h2 class="section-title">From the land to the table, and not much further.</h2>
+        <p class="section-lead">Almost everything on the four menus is picked up rather than
+          delivered: a garden inside the estancia, boats that land at La Barra, a farm at
+          Garzón. The only thing that travels is the wine, and it travels for a reason.</p></div>
+    </div>
+
+    <div class="origin r">
+      <div class="origin__col">
+        <div class="origin__thread" aria-hidden="true"><span class="origin__fill" id="originFill"></span></div>
+        <ol class="origin__list" id="originList">
+          <li class="origin__i">
+            <span class="origin__dot" aria-hidden="true"></span>
+            <span class="origin__n">01</span>
+            <h3 class="origin__h">The walled garden</h3>
+            <p class="origin__p">Herbs, leaves, tomatoes and squash, inside the estancia walls.
+              Cut in the morning for the same day — nothing here is picked twice.</p>
+            <span class="origin__far"><em data-count="0.4" data-dec="1">0</em> km · Estancia VIK</span>
+          </li>
+          <li class="origin__i">
+            <span class="origin__dot" aria-hidden="true"></span>
+            <span class="origin__n">02</span>
+            <h3 class="origin__h">The boats at La Barra</h3>
+            <p class="origin__p">Brótola, corvina and calamar, off the small craft that come in
+              at first light. What the sea gave that morning is what the board says at noon.</p>
+            <span class="origin__far"><em data-count="18" data-dec="0">0</em> km · the coast road</span>
+          </li>
+          <li class="origin__i">
+            <span class="origin__dot" aria-hidden="true"></span>
+            <span class="origin__n">03</span>
+            <h3 class="origin__h">The organic farm</h3>
+            <p class="origin__p">Beyond Pueblo Garzón: eggs, dairy and the winter vegetables the
+              dune garden will not carry. One van, twice a week, one family.</p>
+            <span class="origin__far"><em data-count="26" data-dec="0">0</em> km · Garzón</span>
+          </li>
+          <li class="origin__i">
+            <span class="origin__dot" aria-hidden="true"></span>
+            <span class="origin__n">04</span>
+            <h3 class="origin__h">The cellar at Millahue</h3>
+            <p class="origin__p">The one long journey, and the one worth making. Viña VIK crosses
+              the continent so the last glass of an Uruguayan dinner is a Chilean valley.</p>
+            <span class="origin__far"><em data-count="1180" data-dec="0">0</em> km · Chile</span>
+          </li>
+          <li class="origin__i">
+            <span class="origin__dot" aria-hidden="true"></span>
+            <span class="origin__n">05</span>
+            <h3 class="origin__h">The fire</h3>
+            <p class="origin__p">Eucalyptus cut on the property and left a year to dry. The last
+              ingredient is the one nobody writes down, and it does not travel at all.</p>
+            <span class="origin__far"><em data-count="0" data-dec="0">0</em> km · the woodpile</span>
+          </li>
+        </ol>
+      </div>
+
+      <div class="origin__aside">
+        <div class="origin__stack" id="originStack">
+          <img class="is-on" data-step="0" src="../_assets/img/t/estancia_gardens-img_1111-min-w900.jpg" alt="The walled garden at Estancia VIK" loading="lazy">
+          <img data-step="1" src="../la-susana/assets/img/t/plate-w900.jpg" alt="Fish from the boats" loading="lazy">
+          <img data-step="2" src="../_assets/img/t/bahia_vik_food08-w900.jpg" alt="Produce from the farm" loading="lazy">
+          <img data-step="3" src="../_assets/img/t/bahia_bg-vina-vik-w900.jpg" alt="Viña VIK at Millahue" loading="lazy">
+          <img data-step="4" src="../_assets/img/t/estancia_bbq-img_7731-w900.jpg" alt="The fire at El Asador" loading="lazy">
+        </div>
+        <p class="origin__cap">Distances are to the pass at Estancia VIK. Figures shown are
+          indicative and change with the season.</p>
+        <a class="btn-solid" href="https://elasador.meitre.com/" data-book-label="El Asador · Estancia VIK"><span>Book a table at El Asador</span><span class="arw">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ DE LA MESA AL CUERPO ══════════════════════════════════════
+       El puente a VIK Wellness. Una cena de tres horas es parte del
+       mismo dia que el bano termal de la manana. ─────────────────── -->
+  <section class="section" id="nourish">
+    <p class="modlabel r" style="max-width:var(--max);margin:0 auto 2.5rem">
+      <span>Nourishment</span><span class="c">02 / 02</span></p>
+    <div class="tobody r">
+      <div class="tobody__say">
+        <span class="ui-label text-vik">From the table to the body</span>
+        <h2 class="tobody__t">A dinner here is where the day<br>finally <em class="tobody__swap" id="swapWord">slows</em>.</h2>
+        <p class="tobody__p">Three hours at a table is not a pause in the day — it is the
+          shape of it. Everything before was appetite, and everything after is rest. The
+          kitchens cook for that arc, which is why the last course is small and the fire
+          stays lit long after it.</p>
+        <ol class="tobody__hours" id="tobodyHours">
+          <li class="tobody__hr is-now"><span class="t">08:00</span><h4>Thermal</h4><p>The morning bath at The Shack, before anything is eaten.</p></li>
+          <li class="tobody__hr"><span class="t">13:00</span><h4>The table</h4><p>Lunch that runs long, in the sand or under the vines.</p></li>
+          <li class="tobody__hr"><span class="t">20:30</span><h4>The fire</h4><p>Dinner cooked over wood, and the cellar opened.</p></li>
+          <li class="tobody__hr"><span class="t">Late</span><h4>Rest</h4><p>A walk to the room, and the sea still audible from it.</p></li>
+        </ol>
+        <div class="tobody__act">
+          <a class="btn-solid" href="https://zodiaco.meitre.com/" data-book-label="Zodiaco · Bahía VIK"><span>Book a table at Zodiaco</span><span class="arw">→</span></a>
+          <a class="btn-line" href="../vik-wellness/"><span>VIK Wellness</span><span class="arw">→</span></a>
+        </div>
+      </div>
+
+      <a class="tobody__bridge" href="../vik-wellness/">
+        <img src="../vik-wellness/images/nourishment.jpg" alt="Nourishment at VIK Wellness" loading="lazy">
+        <span class="tobody__badge">VIK Wellness</span>
+        <span class="tobody__bh">The other half of the same day.</span>
+        <span class="tobody__bd">Thermal water, movement and quiet, built to sit either side
+          of a long table. The same kitchens cook for both.</span>
+        <span class="tobody__go">Cross over<span class="arw">→</span></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section bone gallery" style="color:var(--ink)">
+    <div class="section-head r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">The kitchens</span></div>
+      <div><h2 class="section-title">Fire, coast and countryside.</h2></div>
+    </div>
+    <div class="gallery-rail" data-rail="auto" data-rail-speed="0.5">
+      <figure class="gallery-card"><img src="../la-susana/assets/img/t/pergola-w900.jpg" alt="La Susana · Playa Mansa" loading="lazy"><span>La Susana · Playa Mansa</span></figure>
+      <figure class="gallery-card"><img src="../_assets/img/t/bahia_vik_food08-w900.jpg" alt="Zodiaco · Bahía" loading="lazy"><span>Zodiaco · Bahía</span></figure>
+      <figure class="gallery-card"><img src="../_assets/img/t/estancia_bbq-img_7731-w900.jpg" alt="El Asador · Estancia" loading="lazy"><span>El Asador · Estancia</span></figure>
+      <figure class="gallery-card"><img src="../_assets/img/t/playa_parillero_playa-vik-934-w900.jpg" alt="CieloMar · Playa" loading="lazy"><span>CieloMar · Playa</span></figure>
+      <figure class="gallery-card"><img src="../la-susana/assets/img/t/bonfire-w900.jpg" alt="The bonfire" loading="lazy"><span>The bonfire</span></figure>
+      <figure class="gallery-card"><img src="../_assets/img/t/estancia_estanciavik-0323-min-w900.jpg" alt="The cellar" loading="lazy"><span>The cellar</span></figure>
+      <figure class="gallery-card"><img src="../_assets/img/t/bahia_bg-vina-vik-w900.jpg" alt="Viña VIK" loading="lazy"><span>Viña VIK</span></figure>
+      <figure class="gallery-card"><img src="../_assets/img/t/estancia_gardens-img_1111-min-w900.jpg" alt="The garden" loading="lazy"><span>The garden</span></figure>
+    </div>
+  </section>
+
+  <section class="section canvas">
+    <div class="pull-quote r" style="color:var(--ink)">
+      <q>Sunset from CieloMar has been described as <em>the best on the planet</em>.</q>
+      <cite>Playa VIK · José Ignacio</cite>
+    </div>
+  </section>
+
+  <!-- ══ EL MAPA ═══════════════════════════════════════════════════
+       Los cuatro puntos, cada uno con su pelicula en el globo. Los
+       puntos se declaran en window.VIK_PTS, al pie, antes de cargar
+       vik-live.js. ──────────────────────────────────────────────── -->
+  <section class="section map-section" id="location">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">Location</span></div>
+      <div><h2 class="section-title">Four tables, twelve kilometres apart.</h2>
+        <p class="section-lead">Three of them sit within sight of the same bay; the fourth is
+          forty minutes inland, where the countryside starts. Touch a name to fly the map,
+          and the film in the marker is what that table looks like.</p></div>
+    </div>
+    <div class="map-full r">
+      <div id="leafMap" class="leaf-map" aria-label="Map of the four tables"></div>
+      <div class="map-view" role="tablist" aria-label="Map view">
+        <button type="button" data-view="map">Map</button>
+        <button type="button" class="active" data-view="sat">Satellite</button>
+      </div>
+      <div class="map-bar"><ul id="mapLegend" class="mb-list"></ul></div>
+    </div>
+    <div class="split-facts" style="max-width:var(--max);margin:3rem auto 0">
+      <div><span>La Susana → Zodiaco</span><span>4 min on foot, along the sand</span></div>
+      <div><span>Zodiaco → CieloMar</span><span>6 min by road, around the point</span></div>
+      <div><span>To El Asador</span><span>40 min inland, transfers arranged</span></div>
+      <div><span>Reserve</span><span>Meitre, or your Journey Designer</span></div>
+    </div>
+    <div style="max-width:var(--max);margin:2.5rem auto 0">
+      <a class="btn-solid" href="https://cielomar.meitre.com/" data-book-label="CieloMar · Playa VIK"><span>Book a table at CieloMar</span><span class="arw">→</span></a>
+    </div>
+  </section>
+
+  <!-- ══ EL CIERRE ═════════════════════════════════════════════════ -->
+  <section class="section canvas" id="contact">
+    <div class="section-head aligned r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">Reserve</span></div>
+      <div><h2 class="section-title">One message books any of the four.</h2>
+        <p class="section-lead">Every table takes its own reservation through Meitre, and it
+          opens on this page. If you would rather somebody arranged the whole evening —
+          the table, the transfer and what comes after — write instead.</p></div>
+    </div>
+    <div class="reserve r">
+      <div class="reserve__media">
+        <img src="../la-susana/assets/img/t/table-w1600.jpg" alt="The table laid" loading="lazy">
+      </div>
+      <div class="reserve__body">
+        <div class="reserve__say">
+          <span class="reserve__eyebrow">The four tables</span>
+          <p class="reserve__line">Tell us the night and the number. Someone answers, <em>not a form</em>.</p>
+          <div class="reserve__rows">
+            <div class="reserve__row"><span class="k">La Susana</span><span class="v">13:00 – late, every day</span></div>
+            <div class="reserve__row"><span class="k">Zodiaco</span><span class="v">Dinner, from 20:00</span></div>
+            <div class="reserve__row"><span class="k">El Asador</span><span class="v">Long lunches and dinner</span></div>
+            <div class="reserve__row"><span class="k">CieloMar</span><span class="v">Sunset, then dinner</span></div>
+          </div>
+        </div>
+        <div class="reserve__desk">
+          <p class="reserve__note">The booking engine opens here, inside the page. Nothing sends
+            you to a second site to finish.</p>
+          <a class="reserve__cta" href="https://lasusana.meitre.com/" data-book-label="Book a Table"><span>Book a table</span><span class="arw">→</span></a>
+          <div class="reserve__ways">
+            <a class="reserve__way" href="mailto:guestexperience@vikretreats.com"><span class="k">Email</span><span class="v">guestexperience@vikretreats.com</span></a>
+            <a class="reserve__way" href="../la-susana/menu.html"><span class="k">A menu</span><span class="v">Read one before you sit</span></a>
+            <a class="reserve__way" href="../vik-wellness/"><span class="k">After</span><span class="v">VIK Wellness</span></a>
+            <span class="reserve__way"><span class="k">Answered</span><span class="v">Within 24 hours, every day</span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div data-vik-footer></div>
+
+<!-- ── Los cuatro puntos del mapa ──────────────────────────────────
+     Se declaran antes de vik-live.js, que los lee al cargar. Mismos
+     campos que los del ecosistema, y uno mas: video. ────────────── -->
+<script>
+window.VIK_PTS = [
+  { key:"susana",   lat:-34.838267, lng:-54.647591,
+    img:"../la-susana/assets/video/hero-poster.webp",
+    video:"../_assets/video/vikwine.mp4",
+    n:"La Susana",  d:"Feet in the sand, under the pergolas",
+    tag:"Playa Mansa", meta:"Lunch · sunset · the fire" },
+  { key:"zodiaco",  lat:-34.838119, lng:-54.648421,
+    img:"../_assets/video/bahia-vik-poster.webp",
+    video:"../_assets/video/bahia-vik.mp4",
+    n:"Zodiaco",    d:"Terroir and the bay, at Bahía VIK",
+    tag:"Bahía VIK",   meta:"Dinner · fish and seafood" },
+  { key:"cielomar", lat:-34.841981, lng:-54.640792,
+    img:"../_assets/video/playa-poster.webp",
+    video:"../_assets/video/playa.mp4",
+    n:"CieloMar",   d:"Fish on the fire, above the Atlantic",
+    tag:"Playa VIK",   meta:"Sunset · three courses" },
+  { key:"asador",   lat:-34.784209, lng:-54.697643,
+    img:"../_assets/video/estancia-poster.webp",
+    video:"../_assets/video/estancia.mp4",
+    n:"El Asador",  d:"Open fire and countryside",
+    tag:"Estancia VIK", meta:"40 min inland · long lunches" }
+];
+</script>
+
+<script>
+
+/* ── La agenda ──────────────────────────────────────────────────
+   Mismo motor que Pavilion VIK: el juego visible se clona una vez y
+   la posicion se envuelve en la mitad del ancho. Deriva sola, se
+   arrastra, y al tocar una fecha abre la ficha.
+
+   CONTENIDOS SIMULADOS: editar AGENDA. El campo book es la direccion
+   de la mesa que cocina esa noche; el cromo la abre en su lightbox
+   sin salir de la pagina. ─────────────────────────────────────── */
+(() => {
+  "use strict";
+
+  const AGENDA = [
+    { kind: "Dinner", name: "Fuegos de Enero", when: "Fri 9 Jan · 20:30",
+      rows: [["Table", "El Asador · Estancia VIK"], ["Seating", "One fire, 40"],
+             ["Cellar", "Viña VIK, six pours"]],
+      copy: "Four fires lit at six and left to fall to coals. Lamb on the cross, the garden's first tomatoes, and nothing on the board that was not on the property this morning.",
+      book: "https://elasador.meitre.com/", label: "El Asador · Estancia VIK",
+      media: "video", src: "../_assets/video/estancia.mp4",
+      poster: "../_assets/video/estancia-poster.webp" },
+
+    { kind: "Tasting", name: "Ocho Manos", when: "Sat 17 Jan · 21:00",
+      rows: [["Table", "Zodiaco · Bahía VIK"], ["Seating", "One table, 24"],
+             ["Courses", "Nine, and two of them are bread"]],
+      copy: "The four kitchens cook one dinner together, twice a season. Eight hands, one table on the terrace, and the running order decided the same afternoon.",
+      book: "https://zodiaco.meitre.com/", label: "Zodiaco · Bahía VIK",
+      media: "img", src: "../_assets/img/t/bahia_vik_food08-w900.jpg" },
+
+    { kind: "Fire", name: "Brasero", when: "Every Thursday · 18:30",
+      rows: [["Table", "CieloMar · Playa VIK"], ["Format", "Standing, by the pit"],
+             ["Until", "The light goes"]],
+      copy: "The fire pit above the beach, lit every Thursday while the sun is still on the water. Small plates off the coals, a glass in the hand, and dinner after for those who stay.",
+      book: "https://cielomar.meitre.com/", label: "CieloMar · Playa VIK",
+      media: "img", src: "../_assets/img/t/playa_parillero_playa-vik-934-w900.jpg" },
+
+    { kind: "Lunch", name: "Mesa de la Huerta", when: "Sun 25 Jan · 13:00",
+      rows: [["Table", "El Asador · the walled garden"], ["Seating", "Two tables, 30"],
+             ["Menu", "Written that morning"]],
+      copy: "Lunch laid inside the garden it came out of, between the rows. The menu is not printed because it is not decided until the last basket comes in.",
+      book: "https://elasador.meitre.com/", label: "El Asador · Estancia VIK",
+      media: "img", src: "../_assets/img/t/estancia_gardens-img_1111-min-w900.jpg" },
+
+    { kind: "Harvest", name: "La Vendimia", when: "Fri 6 Mar · 12:00",
+      rows: [["Table", "La Susana · Playa Mansa"], ["Format", "All afternoon, on the sand"],
+             ["Cellar", "The new vintage, first pour"]],
+      copy: "The harvest lunch, on the beach rather than in the vineyard, because the vineyard is a continent away and the sand is not. It runs from noon until the bonfire.",
+      book: "https://lasusana.meitre.com/", label: "La Susana · Playa Mansa",
+      media: "type" }
+  ];
+
+  const rail = document.getElementById("agendaRail");
+  if (!rail) return;
+
+  /* ── la ficha ─────────────────────────────────────────── */
+  document.body.insertAdjacentHTML("beforeend", `
+  <div class="evlb" id="evLb" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Event">
+    <div class="evlb__panel">
+      <div class="evlb__media" id="evLbMedia">
+        <button class="evlb__x" type="button" id="evLbX" aria-label="Close">&#10005;</button>
+      </div>
+      <div class="evlb__body">
+        <span class="evlb__kind" id="evLbKind"></span>
+        <h3 class="evlb__name" id="evLbName"></h3>
+        <div class="evlb__meta" id="evLbMeta"></div>
+        <p class="evlb__copy" id="evLbCopy"></p>
+        <a class="evlb__cta" id="evLbCta" href="https://lasusana.meitre.com/"><span>Book this table</span><span class="arw">→</span></a>
+        <span class="evlb__out">The table opens here, on this page</span>
+      </div>
+    </div>
+  </div>`);
+
+  const lb = document.getElementById("evLb");
+  const esc = t => String(t == null ? "" : t)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  const open = n => {
+    const e = AGENDA[n];
+    if (!e) return;
+    document.getElementById("evLbKind").textContent = e.kind;
+    document.getElementById("evLbName").textContent = e.name;
+    document.getElementById("evLbCopy").textContent = e.copy;
+    const cta = document.getElementById("evLbCta");
+    cta.href = e.book;
+    cta.dataset.bookLabel = e.label || "";
+    document.getElementById("evLbMeta").innerHTML =
+      ('<div class="evlb__row"><span class="k">When</span><span class="v">' +
+       esc(e.when) + "</span></div>") +
+      e.rows.map(r => '<div class="evlb__row"><span class="k">' + esc(r[0]) +
+        '</span><span class="v">' + esc(r[1]) + "</span></div>").join("");
+    const m = document.getElementById("evLbMedia");
+    const x = m.querySelector(".evlb__x");
+    m.innerHTML = "";
+    if (e.media === "video")
+      m.insertAdjacentHTML("afterbegin",
+        '<video autoplay muted loop playsinline poster="' + esc(e.poster || "") +
+        '" src="' + esc(e.src) + '"></video>');
+    else if (e.media === "img")
+      m.insertAdjacentHTML("afterbegin",
+        '<img src="' + esc(e.src) + '" alt="' + esc(e.name) + '">');
+    else
+      m.style.background = "var(--canvas)";
+    m.appendChild(x);
+    lb.classList.add("is-open");
+    lb.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  };
+  const close = () => {
+    lb.classList.remove("is-open");
+    lb.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  };
+  document.getElementById("evLbX").addEventListener("click", close);
+  lb.addEventListener("click", e => { if (e.target === lb) close(); });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && lb.classList.contains("is-open")) close();
+  });
+  /* La reserva la abre el cromo, encima de esta ficha. Esta se cierra
+     primero para no dejar dos paneles y el scroll bloqueado. */
+  document.getElementById("evLbCta").addEventListener("click", close);
+
+  /* ── el riel ──────────────────────────────────────────────
+     Una posicion, un escritor, y la geometria medida fuera del
+     frame. */
+  const cards = [...rail.children];
+  cards.forEach(c => {
+    const clone = c.cloneNode(true);
+    clone.setAttribute("data-clone", "");
+    clone.setAttribute("tabindex", "-1");
+    clone.setAttribute("aria-hidden", "true");
+    rail.appendChild(clone);
+  });
+
+  let x = 0, half = 0, v = 0, down = false, lastX = 0, lastT = 0,
+      vel = 0, moved = 0, paused = 0, live = true, last = 0;
+  const SPEED = 26, EASE = 3.4;
+
+  const measure = () => {
+    const gap = parseFloat(getComputedStyle(rail).columnGap) || 0;
+    half = cards.reduce((w, c) => w + c.offsetWidth + gap, 0);
+  };
+  const wrap = () => {
+    if (!half) return;
+    while (-x >= half) x += half;
+    while (x > 0) x -= half;
+  };
+  const draw = () => { rail.style.transform = "translate3d(" + x + "px,0,0)"; };
+
+  measure();
+  addEventListener("resize", () => { measure(); wrap(); draw(); });
+
+  if ("IntersectionObserver" in window)
+    new IntersectionObserver(es => { live = es[0].isIntersecting; },
+      { rootMargin: "200px" }).observe(rail);
+
+  const step = t => {
+    requestAnimationFrame(step);
+    const dt = Math.min(0.05, last ? (t - last) / 1000 : 0.0167);
+    last = t;
+    if (!live || document.hidden) { v = 0; return; }
+    if (down) return;
+    if (v) { v *= Math.exp(-EASE * dt); if (Math.abs(v) < 1) v = 0; }
+    const drift = Date.now() >= paused ? SPEED : 0;
+    const speed = drift + v;
+    if (!speed) return;
+    x -= speed * dt;
+    wrap(); draw();
+  };
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches)
+    requestAnimationFrame(step);
+
+  rail.addEventListener("pointerdown", e => {
+    if (!e.isPrimary || e.button !== 0) return;
+    down = true; moved = 0; v = 0; vel = 0;
+    lastX = e.clientX; lastT = e.timeStamp;
+    if (rail.setPointerCapture) { try { rail.setPointerCapture(e.pointerId); } catch (_) {} }
+    rail.classList.add("is-dragging");
+  });
+  rail.addEventListener("pointermove", e => {
+    if (!down) return;
+    if (!e.buttons) { release(); return; }
+    const dx = e.clientX - lastX;
+    moved += Math.abs(dx);
+    const dtm = e.timeStamp - lastT;
+    if (dtm > 0) vel = vel * 0.7 + (dx / dtm * 1000) * 0.3;
+    lastX = e.clientX; lastT = e.timeStamp;
+    x += dx; wrap(); draw();
+  });
+  function release() {
+    if (!down) return;
+    down = false;
+    paused = Date.now() + 2400;
+    v = Math.max(-2200, Math.min(2200, -vel));
+    if (Math.abs(v) < 40) v = 0;
+    vel = 0;
+    rail.classList.remove("is-dragging");
+  }
+  rail.addEventListener("pointerup", release);
+  rail.addEventListener("pointercancel", release);
+  addEventListener("blur", release);
+
+  rail.addEventListener("click", e => {
+    const card = e.target.closest("[data-ev]");
+    if (!card) return;
+    if (moved > 4) { moved = 0; return; }
+    open(+card.dataset.ev);
+  });
+})();
+
+/* ── La reserva sobre pelicula ──────────────────────────────────
+   El desplegable manda tres cosas a la vez: la pelicula de fondo, la
+   ficha de la izquierda y la direccion del boton. Las peliculas se
+   cargan a demanda — la primera al entrar en cuadro, las otras al
+   elegirlas. ─────────────────────────────────────────────────── */
+(() => {
+  "use strict";
+
+  /* CONTENIDOS SIMULADOS: las direcciones de Meitre. */
+  const REST = [
+    { name: "La Susana", where: "Playa Mansa",  hours: "13:00 – late",
+      best: "The whole afternoon", film: "../_assets/video/vikwine.mp4",
+      book: "https://lasusana.meitre.com/", label: "La Susana · Playa Mansa" },
+    { name: "Zodiaco",   where: "Bahía VIK",    hours: "From 20:00",
+      best: "Dinner", film: "../_assets/video/bahia-vik.mp4",
+      book: "https://zodiaco.meitre.com/", label: "Zodiaco · Bahía VIK" },
+    { name: "El Asador", where: "Estancia VIK", hours: "13:00 and from 20:30",
+      best: "Long lunches", film: "../_assets/video/estancia.mp4",
+      book: "https://elasador.meitre.com/", label: "El Asador · Estancia VIK" },
+    { name: "CieloMar",  where: "Playa VIK",    hours: "From 18:30",
+      best: "Sunset", film: "../_assets/video/playa.mp4",
+      book: "https://cielomar.meitre.com/", label: "CieloMar · Playa VIK" }
+  ];
+
+  const box = document.querySelector(".filmpick");
+  const sel = document.getElementById("fpSel");
+  const go  = document.getElementById("fpGo");
+  if (!box || !sel || !go) return;
+
+  const films = [...box.querySelectorAll(".filmpick__f")];
+  const dots  = [...box.querySelectorAll(".filmpick__dots i")];
+  const cells = {};
+  box.querySelectorAll("[data-fp]").forEach(n => { cells[n.dataset.fp] = n; });
+
+  /* Una pelicula solo se descarga cuando hace falta verla. */
+  const warm = i => {
+    const v = films[i];
+    if (!v || v.dataset.on) return;
+    v.dataset.on = "1";
+    v.src = REST[i].film;
+    /* preload="none" significa que poner src no descarga nada. La carga
+       la pide load(), y play() la sostiene; sin las dos, el elemento se
+       queda en el poster para siempre. */
+    v.load();
+    const p = v.play();
+    if (p && p.catch) p.catch(() => {});
+  };
+
+  let at = 0;
+  const show = i => {
+    const r = REST[i];
+    if (!r) return;
+    warm(i);
+    films.forEach((v, k) => v.classList.toggle("is-on", k === i));
+    dots.forEach((d, k) => d.classList.toggle("is-on", k === i));
+    box.classList.add("is-turning");
+    setTimeout(() => {
+      if (cells.name)  cells.name.textContent  = r.name;
+      if (cells.where) cells.where.textContent = r.where;
+      if (cells.hours) cells.hours.textContent = r.hours;
+      if (cells.best)  cells.best.textContent  = r.best;
+      box.classList.remove("is-turning");
+    }, 300);
+    go.href = r.book;
+    go.dataset.bookLabel = r.label;
+    go.querySelector("span").textContent = "Book " + r.name;
+    at = i;
+  };
+
+  sel.addEventListener("change", () => show(+sel.value));
+
+  /* La primera pelicula espera a que la seccion entre en cuadro. */
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      io.disconnect();
+      warm(at);
+    }), { rootMargin: "300px" });
+    io.observe(box);
+  } else warm(0);
+})();
+
+/* ── El origen ──────────────────────────────────────────────────
+   Tres movimientos, todos baratos: el hilo se dibuja con el scroll,
+   cada punto entra una vez, y la fotografia de la derecha sigue al
+   punto que esta a la altura de la lectura. ──────────────────── */
+(() => {
+  "use strict";
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const list = document.getElementById("originList");
+  const fill = document.getElementById("originFill");
+  const stack = document.getElementById("originStack");
+  if (!list) return;
+
+  const items = [...list.children];
+  const shots = stack ? [...stack.children] : [];
+
+  /* los puntos entran una vez, en orden */
+  if (reduce || !("IntersectionObserver" in window)) {
+    items.forEach(i => i.classList.add("is-in"));
+  } else {
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      const n = items.indexOf(e.target);
+      setTimeout(() => e.target.classList.add("is-in"), n * 90);
+    }), { threshold: .2, rootMargin: "0px 0px -12% 0px" });
+    items.forEach(i => io.observe(i));
+  }
+
+  /* las cifras cuentan una vez, con la precision que pide cada una */
+  const nums = [...list.querySelectorAll("[data-count]")];
+  const count = el => {
+    const to = parseFloat(el.dataset.count);
+    const dec = parseInt(el.dataset.dec || "0", 10);
+    const write = v => { el.textContent = v.toLocaleString("en",
+      { minimumFractionDigits: dec, maximumFractionDigits: dec }); };
+    if (reduce || !to) { write(to); return; }
+    const t0 = performance.now(), ms = 900;
+    const step = now => {
+      const k = Math.min(1, (now - t0) / ms);
+      write(to * (1 - Math.pow(1 - k, 3)));
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  };
+  if ("IntersectionObserver" in window) {
+    const io2 = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      io2.unobserve(e.target);
+      count(e.target);
+    }), { rootMargin: "0px 0px -15% 0px" });
+    nums.forEach(n => io2.observe(n));
+  } else nums.forEach(count);
+
+  /* el hilo y la fotografia siguen a la lectura */
+  if (reduce) return;
+  let run = false;
+  const mark = () => {
+    run = false;
+    const box = list.getBoundingClientRect();
+    const eye = innerHeight * 0.42;
+    if (fill) {
+      const k = Math.max(0, Math.min(1, (eye - box.top) / Math.max(1, box.height)));
+      fill.style.height = (k * 100) + "%";
+    }
+    let here = 0;
+    items.forEach((li, n) => {
+      if (li.getBoundingClientRect().top <= eye) here = n;
+    });
+    items.forEach((li, n) => li.classList.toggle("is-here", n === here));
+    shots.forEach((im, n) => im.classList.toggle("is-on", n === here));
+  };
+  addEventListener("scroll", () => {
+    if (!run) { run = true; requestAnimationFrame(mark); }
+  }, { passive: true });
+  addEventListener("resize", mark);
+  mark();
+})();
+
+/* ── De la mesa al cuerpo ───────────────────────────────────────
+   Dos movimientos lentos: la palabra que cambia y la luz que recorre
+   las cuatro horas. Ambos se detienen fuera de cuadro. ────────── */
+(() => {
+  "use strict";
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const word = document.getElementById("swapWord");
+  const hours = document.getElementById("tobodyHours");
+  if (reduce || !word || !hours) return;
+
+  const WORDS = ["slows", "lands", "turns", "rests"];
+  const steps = [...hours.children];
+  let live = false, i = 0, timer = null;
+
+  const tick = () => {
+    i = (i + 1) % WORDS.length;
+    word.classList.add("is-out");
+    setTimeout(() => {
+      word.textContent = WORDS[i];
+      word.classList.remove("is-out");
+    }, 450);
+    steps.forEach((s, n) => s.classList.toggle("is-now", n === i));
+  };
+
+  const run = on => {
+    if (on === live) return;
+    live = on;
+    if (on) timer = setInterval(tick, 3400);
+    else { clearInterval(timer); timer = null; }
+  };
+
+  if ("IntersectionObserver" in window)
+    new IntersectionObserver(es => run(es[0].isIntersecting),
+      { threshold: .25 }).observe(hours);
+  else run(true);
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) run(false);
+  });
+})();
+</script>
+<script src="../_core/lenis.min.js"></script>
+<script src="../_core/leaflet.js"></script>
+<script src="../_core/vik-chrome-v2.js?v=1"></script>
+<script src="../_core/vik-v2.min.js?v=1"></script>
+<script src="../_core/vik-v2-lib.min.js?v=1"></script>
+</body>
+</html>

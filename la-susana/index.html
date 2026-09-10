@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- ══════════════════════════════════════════════════════════════════
+     MEDIOS · CAMBIO RAPIDO
+     ──────────────────────────────────────────────────────────────────
+     Todo lo audiovisual de esta pagina, en un solo sitio.
+
+       PELICULA DE PORTADA   assets/video/hero.mp4
+       SU PRIMER FOTOGRAMA   assets/video/hero-poster.webp
+
+     Para cambiarla: pisar esos dos archivos con los nuevos, con los
+     mismos nombres. No hay nada mas que tocar. El poster tiene que ser
+     el primer fotograma del video, o se ve un salto al arrancar.
+
+     La portada lleva ademas dos fotografias, que son las laminas dos y
+     tres del carrusel: si el video no carga, la pagina sigue en pie.
+
+       FOTOGRAFIAS   assets/img/<nombre>.jpg
+       DERIVADAS     assets/img/t/<nombre>-w480 | -w900 | -w1600 .jpg
+
+     Las derivadas las genera el script de imagenes; el HTML solo las
+     nombra. Para cambiar una foto, pisar el original y volver a correr
+     el script.
+     ══════════════════════════════════════════════════════════════ -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>La Susana · Beach restaurant, José Ignacio</title>
+<meta name="description" content="Feet in the sand at Playa Mansa. Lunch, sunset and dinner, with the Viña VIK cellar and the best sunset on the coast.">
+<meta property="og:title" content="La Susana · Beach restaurant, José Ignacio">
+<meta property="og:description" content="Feet in the sand at Playa Mansa. Lunch, sunset and dinner, with the Viña VIK cellar and the best sunset on the coast.">
+<meta property="og:image" content="assets/img/t/hero-w1600.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231E1E1E'/%3E%3Ctext x='16' y='23' font-family='Arial' font-size='17' fill='%23F8F8F0' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
+<link rel="preload" as="image" href="assets/img/t/hero-w1600.jpg">
+<style>
+  /* ── Lo propio de esta direccion ──────────────────────────────
+     Todo lo demas viene de la libreria. Aqui solo la portada, que es
+     lo unico que no puede ser igual en dos sitios distintos. */
+
+  /* ── La portada ────────────────────────────────────────────────
+     Es el modulo M04 del manual: una columna a la izquierda, el
+     nombre en Old Standard y la descripcion debajo. Lo unico que se
+     agrega aqui es que el nombre entra por letras y que la foto cede
+     al bajar; la tipografia y la medida son las del sistema. */
+  .hero-page .hp-title .l{display:inline-block;opacity:0;
+    transform:translateY(.34em);
+    transition:opacity .7s var(--ease),transform .9s var(--slow)}
+  .hero-page.is-in .hp-title .l{opacity:1;transform:none}
+  .hero-page .hp-media img,
+  .hero-page .hp-slide video{will-change:transform}
+  .hero-page .hp-slide video{width:100%;height:100%;object-fit:cover;display:block}
+
+  /* ── La linea del dia ──────────────────────────────────────────
+     Los momentos, en orden, con la hora de Jose Ignacio marcada
+     encima. El paso en curso se enciende: no es decoracion, es la
+     unica forma de que una lista de horarios responda "y ahora que". */
+  [data-daybar]{position:relative}
+  [data-daybar]::before{content:"";position:absolute;left:0;right:0;top:0;
+    height:1px;background:rgba(248,248,240,.16)}
+  .band-step{position:relative;padding-top:1.4rem;
+    transition:opacity .6s var(--ease)}
+  .band-step::before{content:"";position:absolute;left:0;top:-1px;
+    width:100%;height:1px;background:var(--vik);
+    transform:scaleX(0);transform-origin:left;
+    transition:transform .9s var(--slow)}
+  .band-step.is-now::before{transform:scaleX(1)}
+  .band-step:not(.is-now){opacity:.52}
+  .band-step .t{transition:color .5s var(--ease)}
+  .band-step.is-now .t{color:var(--vik)}
+  .band-now{display:inline-flex;align-items:baseline;gap:.5rem;margin-top:.8rem;
+    font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.66rem;
+    color:var(--vik);opacity:0;transform:translateY(4px);
+    transition:opacity .5s var(--ease),transform .5s var(--slow)}
+  .band-step.is-now .band-now{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){
+    .band-step,.band-step::before,.band-now{transition:none}
+  }
+
+  /* Las cifras. Cuentan al entrar: un numero que se arma se lee, uno
+     impreso se saltea. */
+  .figs{max-width:var(--max);margin:0 auto;display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    border-top:1px solid var(--line);border-left:1px solid var(--line)}
+  .fig{padding:clamp(1.5rem,3vw,2.4rem) clamp(1rem,2vw,1.6rem);
+    border-right:1px solid var(--line);border-bottom:1px solid var(--line);
+    display:flex;flex-direction:column;gap:.5rem}
+  .fig__n{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+    font-size:clamp(2rem,4.5vw,3.4rem);line-height:1;letter-spacing:.02em;
+    color:var(--vik)}
+  .fig__k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+    font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+    color:rgba(30,30,30,.66)}
+  .fig__s{font-size:.88rem;line-height:1.6;font-weight:300;color:rgba(30,30,30,.72)}
+  .section:not(.bone):not(.canvas) .fig__k{color:rgba(248,248,240,.62)}
+  .section:not(.bone):not(.canvas) .fig__s{color:rgba(248,248,240,.7)}
+
+  /* ── Dos tonos heredados que no sobreviven al fondo ────────────
+     El pie de la galeria esta escrito en hueso, para la galeria que
+     va sobre tinta; sobre hueso da 1.06:1. Y la etiqueta azul del
+     bloque partido cae sobre tinta, donde el azul es el campo y nunca
+     el texto: 1.56:1. Cada uno toma el color de su fondo. */
+  .bone .gallery-card span,
+  .canvas .gallery-card span{color:rgba(30,30,30,.72)}
+  .section:not(.bone):not(.canvas) .split-body .ui-label.text-vik{color:var(--bone)}
+
+</style>
+<link rel="stylesheet" href="../_core/leaflet.min.css">
+<link rel="stylesheet" href="../_core/vik-v2.min.css?v=1">
+<link rel="stylesheet" href="../_core/vik-v2-lib.min.css?v=2">
+</head>
+<body data-site="susana" data-home="susana">
+
+<div data-vik-chrome data-page="dining" data-logo="ji" data-tag="Beach restaurant"></div>
+
+<main id="main">
+
+  <section class="hero-page">
+    <div class="hp-media">
+      <div class="hp-slides" data-hold="5600">
+        <div class="hp-slide is-on">
+          <video autoplay muted loop playsinline preload="metadata"
+                 poster="assets/video/hero-poster.webp" aria-label="La Susana on Playa Mansa">
+            <source src="assets/video/hero.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="hp-slide"><img src="assets/img/t/terrace-w1600.jpg" srcset="assets/img/t/terrace-w900.jpg 900w, assets/img/t/terrace-w1600.jpg 1600w" sizes="100vw" alt="The terrace" loading="lazy"></div>
+        <div class="hp-slide"><img src="assets/img/t/sunset-w1600.jpg" srcset="assets/img/t/sunset-w900.jpg 900w, assets/img/t/sunset-w1600.jpg 1600w" sizes="100vw" alt="The sunset" loading="lazy"></div>
+      </div>
+      <div class="hp-dots"><button class="hp-dot is-on" aria-label="1"></button><button class="hp-dot" aria-label="2"></button><button class="hp-dot" aria-label="3"></button></div>
+    </div>
+    <div class="hp-inner left">
+      <div>
+        <span class="ui-label" style="opacity:.55">José Ignacio · Playa Mansa</span>
+        <h1 class="hp-title">La Susana</h1>
+        <p class="hp-desc">Feet in the sand, under the bamboo pergolas. Lunch that runs into sunset, and sunset that runs into <em>the bonfire</em>.</p>
+        <div class="hf-actions" style="margin-top:1.75rem">
+          <a class="btn-solid" href="https://lasusana.meitre.com/" target="_blank" rel="noopener"><span>Book a table</span><span class="arw">→</span></a>
+          <a class="btn-line" href="menu.html"><span>The menu</span><span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ LA NOCHE · M36 ════════════════════════════════════════════
+       El mismo riel de Pavilion VIK: se clona una vez, deriva solo, se
+       arrastra con inercia y abre la ficha al tocar. Lo unico distinto
+       es de que habla — aca la noche, los discos y quien pincha.
+
+       CONTENIDOS SIMULADOS. Las cinco fechas se editan en el array
+       NOCHE del script al pie de este archivo. ────────────────────── -->
+  <section class="agenda" aria-label="Nights at La Susana">
+    <div class="agenda__hd">
+      <h2 class="agenda__t">The nights</h2>
+      <span class="agenda__hint">Drag · five sets</span>
+    </div>
+    <div class="agenda__rail" id="nightRail">
+      <button class="ev" type="button" data-night="0">
+        <div class="ev__media">
+          <video autoplay muted loop playsinline preload="none"
+                 poster="assets/video/menu-poster.webp" aria-hidden="true">
+            <source src="assets/video/menu.mp4" type="video/mp4">
+          </video>
+        </div>
+        <span class="ev__body">
+          <span class="ev__kind">Vinyl</span>
+          <span class="ev__when">Every Friday · 19:00</span>
+          <span class="ev__name">Sunset Set</span>
+          <span class="ev__go"><span>Details</span><span>→</span></span>
+        </span>
+      </button>
+      <button class="ev" type="button" data-night="1">
+        <div class="ev__media">
+          <img src="assets/img/t/bonfire-w900.jpg"
+               srcset="assets/img/t/bonfire-w480.jpg 480w, assets/img/t/bonfire-w900.jpg 900w"
+               sizes="(max-width:560px) 78vw, 32vw" alt="La Fogata" loading="lazy">
+        </div>
+        <span class="ev__body">
+          <span class="ev__kind">Bonfire</span>
+          <span class="ev__when">Sat 24 Jan · 21:30</span>
+          <span class="ev__name">La Fogata</span>
+          <span class="ev__go"><span>Details</span><span>→</span></span>
+        </span>
+      </button>
+      <button class="ev" type="button" data-night="2">
+        <div class="ev__media">
+          <img src="assets/img/t/night-w900.jpg"
+               srcset="assets/img/t/night-w480.jpg 480w, assets/img/t/night-w900.jpg 900w"
+               sizes="(max-width:560px) 78vw, 32vw" alt="Mansa After Dark" loading="lazy">
+        </div>
+        <span class="ev__body">
+          <span class="ev__kind">DJ set</span>
+          <span class="ev__when">Sat 31 Jan · 23:00</span>
+          <span class="ev__name">Mansa After Dark</span>
+          <span class="ev__go"><span>Details</span><span>→</span></span>
+        </span>
+      </button>
+      <button class="ev" type="button" data-night="3">
+        <div class="ev__media">
+          <img src="assets/img/t/bar-w900.jpg"
+               srcset="assets/img/t/bar-w480.jpg 480w, assets/img/t/bar-w900.jpg 900w"
+               sizes="(max-width:560px) 78vw, 32vw" alt="Cuarenta y Cinco" loading="lazy">
+        </div>
+        <span class="ev__body">
+          <span class="ev__kind">Listening</span>
+          <span class="ev__when">Thu 5 Feb · 20:00</span>
+          <span class="ev__name">Cuarenta y Cinco</span>
+          <span class="ev__go"><span>Details</span><span>→</span></span>
+        </span>
+      </button>
+      <button class="ev ev--type" type="button" data-night="4">
+        <span class="ev__body">
+          <div>
+            <span class="ev__num">31</span>
+            <span class="ev__month">December</span>
+          </div>
+          <div>
+            <span class="ev__kind">All night</span>
+            <div class="ev__rule"></div>
+            <span class="ev__name">Fin de Año</span>
+            <span class="ev__go"><span>Details</span><span>→</span></span>
+          </div>
+        </span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ══ LA CINTA EN VIVO ══════════════════════════════════════════ -->
+  <section class="fact-ribbon" data-live-ribbon style="--ribbon:#1E1E1E">
+    <div class="fact">
+      <span class="k"><span class="live-dot"></span>Local time</span>
+      <span class="v" data-live="time">—</span>
+      <span class="s" data-live-sub="time">José Ignacio, Uruguay</span>
+    </div>
+    <div class="fact">
+      <span class="k">Weather</span>
+      <span class="v" data-live="weather">—</span>
+      <span class="s" data-live-sub="weather">Loading conditions…</span>
+    </div>
+    <div class="fact">
+      <span class="k">Wind</span>
+      <span class="v" data-live="wind">—</span>
+      <span class="s" data-live-sub="wind">Loading…</span>
+    </div>
+    <div class="fact">
+      <span class="k">Ocean</span>
+      <span class="v" data-live="sea">—</span>
+      <span class="s" data-live-sub="sea">Playa Mansa</span>
+    </div>
+    <div class="fact">
+      <span class="k">Season</span>
+      <span class="v" data-live="season">—</span>
+      <span class="s" data-live-sub="season">—</span>
+    </div>
+  </section>
+
+  <!-- ══ EL LUGAR ══════════════════════════════════════════════════ -->
+  <section class="section canvas" id="about">
+    <div class="section-head aligned r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">The restaurant</span></div>
+      <div><h2 class="section-title">The quintessential José Ignacio vibe.</h2>
+        <p class="section-lead">In the sand of Playa Mansa, in the shade of bamboo
+          pergolas, with the sun coming lightly through and the ocean running from
+          Punta del Este to the lighthouse.</p></div>
+    </div>
+  <div class="figs r">
+    <div class="fig"><span class="fig__n" data-to="1" data-suffix="">0</span><span class="fig__k">Beach</span><span class="fig__s">Playa Mansa, the calm side</span></div>
+    <div class="fig"><span class="fig__n" data-to="4" data-suffix="">0</span><span class="fig__k">Services a day</span><span class="fig__s">Lunch, sunset, dinner, fire</span></div>
+    <div class="fig"><span class="fig__n" data-to="18" data-suffix="">0</span><span class="fig__k">On the menu</span><span class="fig__s">Changing with the catch</span></div>
+    <div class="fig"><span class="fig__n" data-to="100" data-suffix="%">0</span><span class="fig__k">Viña VIK</span><span class="fig__s">The estate cellar, poured here</span></div>
+  </div>
+
+  </section>
+
+  <!-- ══ PORTADA DE GALERIA · M31 ══════════════════════════════════ -->
+  <section class="section">
+    <div class="ghero" role="group" aria-label="La Susana">
+      <div class="ghero__main">
+        <img src="assets/img/t/terrace-w1600.jpg" alt="The terrace at La Susana" loading="lazy">
+        <span class="ghero__count">01 / 11</span>
+      </div>
+      <div class="ghero__strip">
+        <a class="ghero__thumb" href="#gallery"><img src="assets/img/t/table-w900.jpg" alt="A table in the sand" loading="lazy"></a>
+        <a class="ghero__thumb" href="#gallery"><img src="assets/img/t/sunset-w900.jpg" alt="Sunset over Playa Mansa" loading="lazy"></a>
+        <a class="ghero__thumb" href="#gallery"><img src="assets/img/t/bonfire-w900.jpg" alt="The bonfire" loading="lazy">
+          <span class="ghero__more">View all 11</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ LOS DATOS · M32 ═══════════════════════════════════════════ -->
+  <section class="section">
+    <p class="modlabel r"><span>The table</span><span class="c">06</span></p>
+    <div class="specbar r" role="list">
+      <div class="specbar__i" role="listitem"><span class="specbar__l">Where</span><span class="specbar__v">Playa Mansa, in the sand</span></div>
+      <div class="specbar__i" role="listitem"><span class="specbar__l">Service</span><span class="specbar__v">Lunch · sunset · dinner</span></div>
+      <div class="specbar__i" role="listitem"><span class="specbar__l">Kitchen</span><span class="specbar__v">Atlantic coast · organic farm</span></div>
+      <div class="specbar__i" role="listitem"><span class="specbar__l">Cellar</span><span class="specbar__v">Viña VIK</span></div>
+      <div class="specbar__i" role="listitem"><span class="specbar__l">Season</span><span class="specbar__v">December – March</span></div>
+      <div class="specbar__i" role="listitem"><span class="specbar__l">Reservations</span><span class="specbar__v">Meitre</span></div>
+    </div>
+  </section>
+
+  <!-- ══ BANDA A SANGRE ════════════════════════════════════════════ -->
+  <section class="band">
+    <div class="band-bg" data-parallax="12">
+      <img src="assets/img/t/sunset-w1600.jpg" alt="Sunset from La Susana">
+    </div>
+    <div class="band-ov"></div>
+    <div class="band-inner">
+      <div class="band-head r">
+        <h2 class="band-title">The afternoon<br><em>does not end</em></h2>
+        <p class="band-desc">Lunch runs long, the light drops, the music comes up and
+          the fire is lit. One table, four different restaurants, depending on when
+          you sit down.</p>
+      </div>
+      <div class="band-steps r d2" data-daybar>
+        <div class="band-step" data-from="13" data-to="17"><span class="t">13:00</span><h4>Lunch</h4><p>Feet in the sand, under the pergolas, with the sea in front.</p></div>
+        <div class="band-step" data-from="17" data-to="20"><span class="t">18:00</span><h4>Sunset</h4><p>Specialty drinks and the hour the place is named for.</p></div>
+        <div class="band-step" data-from="20" data-to="24"><span class="t">20:30</span><h4>Dinner</h4><p>The fire, the coast, and the Viña VIK cellar.</p></div>
+        <div class="band-step" data-from="0" data-to="13"><span class="t">After</span><h4>Bonfire</h4><p>On the beach, for as long as it lasts.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ LA COCINA ═════════════════════════════════════════════════ -->
+  <section class="section">
+    <div class="split r">
+      <div class="split-media"><img src="assets/img/t/plate-w900.jpg" alt="From the kitchen at La Susana" loading="lazy"></div>
+      <div class="split-body">
+        <span class="ui-label text-vik">The kitchen</span>
+        <h2>Fresh, local, and treated simply.</h2>
+        <p>Produce from the southern Atlantic coast and from the local organic farm,
+          put together in a creative yet simple way — a menu that changes with what
+          comes in that morning.</p>
+        <p>The full Viña VIK cellar sits behind it, from the estate in Millahue.</p>
+        <div class="split-facts">
+          <div><span>Cuisine</span><span>Coastal · open fire</span></div>
+          <div><span>Garden</span><span>Local organic farm</span></div>
+          <div><span>Cellar</span><span>Viña VIK</span></div>
+        </div>
+        <a class="btn-line" href="menu.html" style="margin-top:.5rem"><span>Read the menu</span><span class="arw">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ LO QUE HAY · M33 ══════════════════════════════════════════ -->
+  <section class="section bone" style="color:var(--ink)">
+    <div class="section-head r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">The day</span></div>
+      <div><h2 class="section-title">What comes with the table.</h2></div>
+    </div>
+    <div class="incl r" role="list">
+      <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Feet in the sand, under the pergolas</span></div>
+      <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Fresh produce from the Atlantic coast</span></div>
+      <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Vegetables from the local organic farm</span></div>
+      <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>The full Viña VIK cellar</span></div>
+      <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Specialty drinks with Christiania Vodka</span></div>
+      <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Music through the afternoon</span></div>
+      <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>The bonfire, once the sun is down</span></div>
+      <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Private parties and long tables</span></div>
+    </div>
+  </section>
+
+  <!-- ══ GALERIA A LA DERIVA ═══════════════════════════════════════ -->
+  <section class="section bone gallery" id="gallery" style="color:var(--ink)">
+    <div class="section-head r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">The place</span></div>
+      <div><h2 class="section-title">Pergolas, sand, and the long afternoon.</h2></div>
+    </div>
+    <div class="gallery-rail" data-rail="auto" data-rail-speed="0.5">
+      <figure class="gallery-card"><img src="assets/img/t/terrace-w900.jpg" srcset="assets/img/t/terrace-w480.jpg 480w, assets/img/t/terrace-w900.jpg 900w, assets/img/t/terrace-w1600.jpg 1600w" sizes="(max-width:1024px) 78vw, 40vw" alt="The terrace" loading="lazy" decoding="async"><span>The terrace</span></figure>
+      <figure class="gallery-card"><img src="assets/img/t/table-w900.jpg" srcset="assets/img/t/table-w480.jpg 480w, assets/img/t/table-w900.jpg 900w, assets/img/t/table-w1600.jpg 1600w" sizes="(max-width:1024px) 78vw, 40vw" alt="A table in the sand" loading="lazy" decoding="async"><span>A table in the sand</span></figure>
+      <figure class="gallery-card"><img src="assets/img/t/pergola-w900.jpg" srcset="assets/img/t/pergola-w480.jpg 480w, assets/img/t/pergola-w900.jpg 900w, assets/img/t/pergola-w1600.jpg 1600w" sizes="(max-width:1024px) 78vw, 40vw" alt="Under the bamboo" loading="lazy" decoding="async"><span>Under the bamboo</span></figure>
+      <figure class="gallery-card"><img src="assets/img/t/plate-w900.jpg" srcset="assets/img/t/plate-w480.jpg 480w, assets/img/t/plate-w900.jpg 900w, assets/img/t/plate-w1600.jpg 1600w" sizes="(max-width:1024px) 78vw, 40vw" alt="From the kitchen" loading="lazy" decoding="async"><span>From the kitchen</span></figure>
+      <figure class="gallery-card"><img src="assets/img/t/sunset-w900.jpg" srcset="assets/img/t/sunset-w480.jpg 480w, assets/img/t/sunset-w900.jpg 900w, assets/img/t/sunset-w1600.jpg 1600w" sizes="(max-width:1024px) 78vw, 40vw" alt="The sunset" loading="lazy" decoding="async"><span>The sunset</span></figure>
+      <figure class="gallery-card"><img src="assets/img/t/bonfire-w900.jpg" srcset="assets/img/t/bonfire-w480.jpg 480w, assets/img/t/bonfire-w900.jpg 900w, assets/img/t/bonfire-w1600.jpg 1600w" sizes="(max-width:1024px) 78vw, 40vw" alt="The bonfire" loading="lazy" decoding="async"><span>The bonfire</span></figure>
+      <figure class="gallery-card"><img src="assets/img/t/bar-w900.jpg" srcset="assets/img/t/bar-w480.jpg 480w, assets/img/t/bar-w900.jpg 900w, assets/img/t/bar-w1600.jpg 1600w" sizes="(max-width:1024px) 78vw, 40vw" alt="The bar" loading="lazy" decoding="async"><span>The bar</span></figure>
+      <figure class="gallery-card"><img src="assets/img/t/sand-w900.jpg" srcset="assets/img/t/sand-w480.jpg 480w, assets/img/t/sand-w900.jpg 900w, assets/img/t/sand-w1600.jpg 1600w" sizes="(max-width:1024px) 78vw, 40vw" alt="Playa Mansa" loading="lazy" decoding="async"><span>Playa Mansa</span></figure>
+      <figure class="gallery-card"><img src="assets/img/t/beach-w900.jpg" srcset="assets/img/t/beach-w480.jpg 480w, assets/img/t/beach-w900.jpg 900w, assets/img/t/beach-w1600.jpg 1600w" sizes="(max-width:1024px) 78vw, 40vw" alt="The beach" loading="lazy" decoding="async"><span>The beach</span></figure>
+      <figure class="gallery-card"><img src="assets/img/t/night-w900.jpg" srcset="assets/img/t/night-w480.jpg 480w, assets/img/t/night-w900.jpg 900w, assets/img/t/night-w1600.jpg 1600w" sizes="(max-width:1024px) 78vw, 40vw" alt="After dark" loading="lazy" decoding="async"><span>After dark</span></figure>
+    </div>
+  </section>
+
+  <!-- ══ LA CITA ═══════════════════════════════════════════════════ -->
+  <section class="section canvas">
+    <div class="pull-quote r" style="color:var(--ink)">
+      <q>Take in the music and experience nature's perfect art in the ever changing
+        sunset — <em>described as the best on the planet</em>.</q>
+      <cite>La Susana · José Ignacio</cite>
+    </div>
+  </section>
+
+  <!-- ══ EL MAPA ═══════════════════════════════════════════════════
+       Abre sobre su propia playa, no sobre la region: si hay que hacer
+       zoom para saber que arena es, el mapa no dijo nada. ─────────── -->
+  <section class="section map-section" id="location">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">Location</span></div>
+      <div><h2 class="section-title">In the sand, on the calm side.</h2>
+        <p class="section-lead">La Susana sits on Playa Mansa, minutes from the lighthouse and a walk along the beach from Bahía VIK.</p></div>
+    </div>
+    <div class="map-full r">
+      <div id="leafMap" class="leaf-map" aria-label="Map of José Ignacio"></div>
+      <div class="map-view" role="tablist" aria-label="Map view">
+        <button type="button" data-view="map">Map</button>
+        <button type="button" class="active" data-view="sat">Satellite</button>
+      </div>
+      <div class="map-bar"><ul id="mapLegend" class="mb-list"></ul></div>
+    </div>
+    <div class="split-facts r" style="max-width:var(--max);margin:2.5rem auto 0">
+      <div><span>Address</span><span>Playa Mansa, 20402 José Ignacio</span></div>
+      <div><span>From Punta del Este · PDP</span><span>40 min by road</span></div>
+      <div><span>From Bahía VIK</span><span>A walk along the beach</span></div>
+      <div><span>Reservations</span><span>lasusana.meitre.com</span></div>
+    </div>
+  </section>
+
+  <!-- ══ RESERVA ═══════════════════════════════════════════════════ -->
+  <section class="section canvas" id="contact">
+    <div class="section-head aligned r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">Reserve</span></div>
+      <div><h2 class="section-title">A table, and the rest of the afternoon.</h2>
+        <p class="section-lead">Lunch fills first in January. Sunset fills every day.</p></div>
+    </div>
+    <div class="reserve r">
+    <div class="reserve__media">
+      <img src="assets/img/t/table-w900.jpg"
+           srcset="assets/img/t/table-w480.jpg 480w, assets/img/t/table-w900.jpg 900w"
+           sizes="(max-width:1100px) 100vw, 34vw" alt="A table in the sand at La Susana" loading="lazy">
+    </div>
+    <div class="reserve__body">
+      <div class="reserve__say">
+        <span class="reserve__eyebrow">Reserve</span>
+        <p class="reserve__line">A table, and <em>the rest of the afternoon</em>.</p>
+        <div class="reserve__rows">
+        <div class="reserve__row"><span class="k">Lunch</span><span class="v">13:00 – 17:00</span></div>
+        <div class="reserve__row"><span class="k">Sunset</span><span class="v">18:00 – 20:30</span></div>
+        <div class="reserve__row"><span class="k">Dinner</span><span class="v">20:30 – late</span></div>
+        <div class="reserve__row"><span class="k">Season</span><span class="v">December – March</span></div>
+        </div>
+      </div>
+      <div class="reserve__desk">
+        <p class="reserve__note">Lunch fills first in January. Sunset fills every day. Tell us the day and the hour and someone answers — not a form.</p>
+        <a class="reserve__cta" href="https://lasusana.meitre.com/"><span>Book Your Table</span><span class="arw">→</span></a>
+        <div class="reserve__ways">
+        <a class="reserve__way" href="mailto:info@lasusana.com"><span class="k">Email</span><span class="v">info@lasusana.com</span></a>
+        <a class="reserve__way" href="tel:+59895192555"><span class="k">Phone</span><span class="v">+598 095 192 555</span></a>
+        <a class="reserve__way" href="index.html#location"><span class="k">Where</span><span class="v">Playa Mansa, José Ignacio</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+
+</main>
+
+<div data-vik-footer></div>
+
+<script>
+
+/* ── Las noches ─────────────────────────────────────────────────
+   Mismo motor que la agenda de Pavilion VIK: el juego visible se clona
+   una vez y la posicion se envuelve en la mitad del ancho. Deriva
+   sola, se arrastra con inercia, y al tocar abre la ficha.
+
+   CONTENIDOS SIMULADOS: editar NOCHE. La reserva de cada ficha va al
+   mismo Meitre que el resto del sitio, y el cromo la abre dentro de la
+   pagina sin mandar a nadie afuera. ────────────────────────────── */
+(() => {
+  "use strict";
+
+  const BOOK = "https://lasusana.meitre.com/";
+  const NOCHE = [
+    { kind: "Vinyl", name: "Sunset Set", when: "Every Friday · 19:00",
+      rows: [["Format", "Vinyl only, two decks"], ["Until", "The light goes"],
+             ["Entry", "No cover, no list"]],
+      copy: "Two turntables under the pergola and nothing else plugged in. The set starts when the sun touches the water and ends when it is gone, which in January is a little after nine.",
+      media: "video", src: "assets/video/menu.mp4", poster: "assets/video/menu-poster.webp" },
+
+    { kind: "Bonfire", name: "La Fogata", when: "Sat 24 Jan · 21:30",
+      rows: [["Where", "On the sand, past the pergolas"], ["Music", "Guitars, then a set"],
+             ["Bring", "Something warm for later"]],
+      copy: "The fire is lit at half nine and fed until it is not. Somebody always brings a guitar, and around midnight somebody always replaces it with a speaker.",
+      media: "img", src: "assets/img/t/bonfire-w900.jpg" },
+
+    { kind: "DJ set", name: "Mansa After Dark", when: "Sat 31 Jan · 23:00",
+      rows: [["Doors", "23:00"], ["Until", "Late, and then later"],
+             ["Format", "Standing, on the sand"]],
+      copy: "The long night of the summer. House and disco with the bay behind the booth, the bar open the whole time, and no reason at all to be anywhere else on this coast.",
+      media: "img", src: "assets/img/t/night-w900.jpg" },
+
+    { kind: "Listening", name: "Cuarenta y Cinco", when: "Thu 5 Feb · 20:00",
+      rows: [["Format", "45s, one side at a time"], ["Seating", "The bar, twenty stools"],
+             ["Cellar", "Viña VIK, by the glass"]],
+      copy: "A listening night at the bar. Forty-fives, played one side at a time, chosen by whoever is behind the counter. Conversation allowed; requests are not.",
+      media: "img", src: "assets/img/t/bar-w900.jpg" },
+
+    { kind: "All night", name: "Fin de Año", when: "Tue 31 Dec · 22:00",
+      rows: [["Doors", "22:00"], ["Until", "Sunrise, on the sand"],
+             ["Format", "Dinner, then the floor"]],
+      copy: "Dinner under the pergolas, and then the tables come out and the sand becomes the floor. The last night of the year, and the one that books first.",
+      media: "type" }
+  ];
+
+  const rail = document.getElementById("nightRail");
+  if (!rail) return;
+
+  /* ── la ficha ─────────────────────────────────────────── */
+  document.body.insertAdjacentHTML("beforeend",
+  '<div class="evlb" id="nightLb" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Night">' +
+    '<div class="evlb__panel">' +
+      '<div class="evlb__media" id="nightLbMedia">' +
+        '<button class="evlb__x" type="button" id="nightLbX" aria-label="Close">&#10005;</button>' +
+      '</div>' +
+      '<div class="evlb__body">' +
+        '<span class="evlb__kind" id="nightLbKind"></span>' +
+        '<h3 class="evlb__name" id="nightLbName"></h3>' +
+        '<div class="evlb__meta" id="nightLbMeta"></div>' +
+        '<p class="evlb__copy" id="nightLbCopy"></p>' +
+        '<a class="evlb__cta" id="nightLbCta" href="' + BOOK + '">' +
+          '<span>Book a table</span><span class="arw">&#8594;</span></a>' +
+        '<span class="evlb__out">The table opens here, on this page</span>' +
+      '</div>' +
+    '</div>' +
+  '</div>');
+
+  const lb = document.getElementById("nightLb");
+  const esc = t => String(t == null ? "" : t)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  const open = n => {
+    const e = NOCHE[n];
+    if (!e) return;
+    document.getElementById("nightLbKind").textContent = e.kind;
+    document.getElementById("nightLbName").textContent = e.name;
+    document.getElementById("nightLbCopy").textContent = e.copy;
+    document.getElementById("nightLbMeta").innerHTML =
+      '<div class="evlb__row"><span class="k">When</span><span class="v">' + esc(e.when) + '</span></div>' +
+      e.rows.map(r => '<div class="evlb__row"><span class="k">' + esc(r[0]) +
+        '</span><span class="v">' + esc(r[1]) + '</span></div>').join("");
+    const m = document.getElementById("nightLbMedia");
+    const x = m.querySelector(".evlb__x");
+    m.innerHTML = "";
+    if (e.media === "video")
+      m.insertAdjacentHTML("afterbegin",
+        '<video autoplay muted loop playsinline poster="' + esc(e.poster || "") +
+        '" src="' + esc(e.src) + '"></video>');
+    else if (e.media === "img")
+      m.insertAdjacentHTML("afterbegin",
+        '<img src="' + esc(e.src) + '" alt="' + esc(e.name) + '">');
+    else
+      m.style.background = "var(--canvas)";
+    m.appendChild(x);
+    lb.classList.add("is-open");
+    lb.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  };
+  const close = () => {
+    lb.classList.remove("is-open");
+    lb.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  };
+  document.getElementById("nightLbX").addEventListener("click", close);
+  lb.addEventListener("click", e => { if (e.target === lb) close(); });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && lb.classList.contains("is-open")) close();
+  });
+  /* La reserva la abre el cromo, encima de esta ficha. Esta se cierra
+     primero para no dejar dos paneles y el scroll bloqueado. */
+  document.getElementById("nightLbCta").addEventListener("click", close);
+
+  /* ── el riel ──────────────────────────────────────────── */
+  const cards = [...rail.children];
+  cards.forEach(c => {
+    const clone = c.cloneNode(true);
+    clone.setAttribute("data-clone", "");
+    clone.setAttribute("tabindex", "-1");
+    clone.setAttribute("aria-hidden", "true");
+    rail.appendChild(clone);
+  });
+
+  let x = 0, half = 0, v = 0, down = false, lastX = 0, lastT = 0,
+      vel = 0, moved = 0, paused = 0, live = true, last = 0;
+  const SPEED = 26, EASE = 3.4;
+
+  const measure = () => {
+    const gap = parseFloat(getComputedStyle(rail).columnGap) || 0;
+    half = cards.reduce((w, c) => w + c.offsetWidth + gap, 0);
+  };
+  const wrap = () => {
+    if (!half) return;
+    while (-x >= half) x += half;
+    while (x > 0) x -= half;
+  };
+  const draw = () => { rail.style.transform = "translate3d(" + x + "px,0,0)"; };
+
+  measure();
+  addEventListener("resize", () => { measure(); wrap(); draw(); });
+
+  if ("IntersectionObserver" in window)
+    new IntersectionObserver(es => { live = es[0].isIntersecting; },
+      { rootMargin: "200px" }).observe(rail);
+
+  const step = t => {
+    requestAnimationFrame(step);
+    const dt = Math.min(0.05, last ? (t - last) / 1000 : 0.0167);
+    last = t;
+    if (!live || document.hidden) { v = 0; return; }
+    if (down) return;
+    if (v) { v *= Math.exp(-EASE * dt); if (Math.abs(v) < 1) v = 0; }
+    const drift = Date.now() >= paused ? SPEED : 0;
+    const speed = drift + v;
+    if (!speed) return;
+    x -= speed * dt;
+    wrap(); draw();
+  };
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches)
+    requestAnimationFrame(step);
+
+  rail.addEventListener("pointerdown", e => {
+    if (!e.isPrimary || e.button !== 0) return;
+    down = true; moved = 0; v = 0; vel = 0;
+    lastX = e.clientX; lastT = e.timeStamp;
+    if (rail.setPointerCapture) { try { rail.setPointerCapture(e.pointerId); } catch (_) {} }
+    rail.classList.add("is-dragging");
+  });
+  rail.addEventListener("pointermove", e => {
+    if (!down) return;
+    if (!e.buttons) { release(); return; }
+    const dx = e.clientX - lastX;
+    moved += Math.abs(dx);
+    const dtm = e.timeStamp - lastT;
+    if (dtm > 0) vel = vel * 0.7 + (dx / dtm * 1000) * 0.3;
+    lastX = e.clientX; lastT = e.timeStamp;
+    x += dx; wrap(); draw();
+  });
+  function release() {
+    if (!down) return;
+    down = false;
+    paused = Date.now() + 2400;
+    v = Math.max(-2200, Math.min(2200, -vel));
+    if (Math.abs(v) < 40) v = 0;
+    vel = 0;
+    rail.classList.remove("is-dragging");
+  }
+  rail.addEventListener("pointerup", release);
+  rail.addEventListener("pointercancel", release);
+  addEventListener("blur", release);
+
+  rail.addEventListener("click", e => {
+    const card = e.target.closest("[data-night]");
+    if (!card) return;
+    if (moved > 4) { moved = 0; return; }
+    open(+card.dataset.night);
+  });
+})();
+</script>
+<script>
+
+/* ── La portada, y las cifras ───────────────────────────────────
+   Dos cosas que no tiene la libreria porque solo pasan aqui: el
+   nombre que se arma por letras y los numeros que cuentan al entrar
+   en cuadro. Todo lo demas lo mueve vik-motion. */
+(() => {
+  "use strict";
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* el titulo, letra por letra */
+  const t = document.querySelector(".hp-title");
+  if (t) {
+    const words = t.textContent.trim().split(/\s+/);
+    t.textContent = "";
+    let n = 0;
+    words.forEach((w, wi) => {
+      if (wi) t.appendChild(document.createTextNode(" "));
+      const span = document.createElement("span");
+      span.className = "w";
+      span.style.display = "inline-block";
+      [...w].forEach(ch => {
+        const l = document.createElement("span");
+        l.className = "l";
+        l.textContent = ch;
+        l.style.transitionDelay = (0.14 + n * 0.035) + "s";
+        n++;
+        span.appendChild(l);
+      });
+      t.appendChild(span);
+    });
+  }
+  requestAnimationFrame(() => document.querySelector(".hero-page")?.classList.add("is-in"));
+
+  /* la foto de portada cede un poco al bajar */
+  const bg = document.querySelector(".hp-slide.is-on video, .hp-media img");
+  if (bg && !reduce) {
+    let y = 0, run = false;
+    const draw = () => { bg.style.transform = "translateY(" + (y * 0.16) + "px)"; run = false; };
+    addEventListener("scroll", () => {
+      y = Math.min(scrollY, innerHeight);
+      if (!run) { run = true; requestAnimationFrame(draw); }
+    }, { passive: true });
+  }
+
+  /* la hora de Jose Ignacio, y el paso en curso */
+  const bar = document.querySelector("[data-daybar]");
+  if (bar) {
+    const steps = [...bar.querySelectorAll(".band-step")];
+    const mark = () => {
+      const there = new Date(new Date().toLocaleString("en-US",
+        { timeZone: "America/Montevideo" }));
+      const h = there.getHours();
+      const hhmm = String(h).padStart(2, "0") + ":" +
+                   String(there.getMinutes()).padStart(2, "0");
+      steps.forEach(st => {
+        const a = +st.dataset.from, b = +st.dataset.to;
+        const on = a < b ? (h >= a && h < b) : (h >= a || h < b);
+        st.classList.toggle("is-now", on);
+        let tag = st.querySelector(".band-now");
+        if (on && !tag) {
+          tag = document.createElement("span");
+          tag.className = "band-now";
+          st.appendChild(tag);
+        }
+        if (tag) tag.textContent = on ? "Now · " + hhmm + " in José Ignacio" : "";
+      });
+    };
+    mark();
+    setInterval(mark, 60000);
+  }
+
+  /* las cifras cuentan una vez */
+  const figs = [...document.querySelectorAll(".fig__n[data-to]")];
+  if (figs.length && "IntersectionObserver" in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (!e.isIntersecting) return;
+      io.unobserve(e.target);
+      const el = e.target;
+      const to = parseFloat(el.dataset.to);
+      const suffix = el.dataset.suffix || "";
+      if (reduce) { el.textContent = to.toLocaleString("en") + suffix; return; }
+      const t0 = performance.now(), ms = 1100;
+      const step = now => {
+        const k = Math.min(1, (now - t0) / ms);
+        const e2 = 1 - Math.pow(1 - k, 3);
+        el.textContent = Math.round(to * e2).toLocaleString("en") + suffix;
+        if (k < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }), { rootMargin: "0px 0px -18% 0px" });
+    figs.forEach(f => io.observe(f));
+  }
+})();
+</script>
+<script src="../_core/lenis.min.js"></script>
+<script src="../_core/leaflet.js"></script>
+<script src="../_core/vik-chrome-v2.js?v=1"></script>
+<script src="../_core/vik-v2.min.js?v=1"></script>
+<script src="../_core/vik-v2-lib.min.js?v=1"></script>
+</body>
+</html>

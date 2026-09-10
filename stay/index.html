@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- ═════════════════════════════════════════════════════════════════
+     STAY · VIK JOSÉ IGNACIO
+     ─────────────────────────────────────────────────────────────────
+     El sitio de las habitaciones. Antes esta pagina volvia a preguntar
+     cual de las tres casas, que es lo que ya contesta la comparacion
+     del cromo — preguntaba dos veces y no mostraba una sola cama.
+     Ahora las muestra todas.
+
+     Referencia de estructura: el Stay de Galleria VIK Milano — portada,
+     el argumento corto, y despues el listado entero con su ficha. Aqui
+     el listado es el muro M26, que es como lista habitaciones el resto
+     del sistema, con el medidor contando por casa en vez de una leyenda
+     de filtros.
+
+     LAS FICHAS SALEN DE UN SOLO SITIO
+       room/index.html · window.VIK_ROOMS · 55 habitaciones
+     Las imagenes son las derivadas de assets/img/rooms/<casa>/. Tocar
+     un azulejo abre la ficha en el mismo sitio. La pagina room/ queda
+     para otro momento, asi que el azulejo no lleva href: es una ficha,
+     no un enlace.
+     ═══════════════════════════════════════════════════════════ -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F8F8F0">
+<meta name="author" content="Nicolás Castillo">
+<meta name="designer" content="Nicolás Castillo · @donhkoland">
+<meta name="developer" content="Nicolás Castillo · @donhkoland">
+<meta name="copyright" content="VIK Retreats">
+<title>Stay · VIK José Ignacio</title>
+<meta name="description" content="Forty rooms across three houses in José Ignacio — master suites and artist suites at Estancia VIK, casas and suites at Playa VIK, bungalows and suites at Bahía VIK. Every one commissioned, no two alike.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Stay · VIK José Ignacio">
+<meta property="og:description" content="Forty rooms, three houses, no two alike. Every one commissioned rather than decorated.">
+<meta property="og:image" content="../_assets/img/t/rooms_playa_casa-garden-01-w1600.jpg">
+<link rel="stylesheet" href="../_core/leaflet.min.css">
+<link rel="stylesheet" href="../_core/vik-v2.min.css?v=1">
+<link rel="stylesheet" href="../_core/vik-v2-lib.min.css?v=2">
+</head>
+<body>
+
+<div data-vik-chrome data-page="stay" data-tag="Stay"></div>
+
+<main id="top" class="site-shell">
+
+  <section class="hero-page">
+    <div class="hp-media">
+      <div class="hp-slides" data-hold="5200">
+        <div class="hp-slide is-on"><img src="../_assets/img/t/rooms_playa_casa-garden-01-w1600.jpg" alt="A casa at Playa VIK" fetchpriority="high"></div>
+        <div class="hp-slide"><img src="../_assets/img/t/estancia_vik-master-suite-w1600.jpg" alt="Master Suite at Estancia VIK" loading="lazy"></div>
+        <div class="hp-slide"><img src="../_assets/img/t/bahia_quincha-0102-w1600.jpg" alt="Bungalow Quincha at Bahía VIK" loading="lazy"></div>
+      </div>
+      <div class="hp-dots"><button class="hp-dot is-on" aria-label="1"></button><button class="hp-dot" aria-label="2"></button><button class="hp-dot" aria-label="3"></button></div>
+    </div>
+    <div class="hp-inner">
+      <div>
+        <span class="ui-label" style="opacity:.5">Where to stay</span>
+        <h1 class="hp-title">Fifty-five rooms.<br>No two alike.</h1>
+      </div>
+      <div>
+        <p class="hp-desc">Three houses, fifty-five rooms, and not one of them decorated. Every room was
+          commissioned from an artist who stayed in it while making the work — which is why the choice
+          matters more here than the square metres do.</p>
+        <div class="hf-actions" style="margin-top:1.75rem">
+          <a class="btn-solid" href="#rooms"><span>See all fifty-five</span><span class="arw">→</span></a>
+          <a class="btn-line" href="../stay/" data-stay><span>Help Me Choose</span><span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section canvas">
+    <div class="intro r">
+      <h2 class="intro-h">The room is<br>the <em>commission</em></h2>
+      <div class="intro-body">
+        <p class="lead">At most hotels a room type is a size and a view. Here it is a person: the artist
+          who made the work, the material the house is built from, and the exact place it stands on the
+          site.</p>
+        <p>Estancia VIK has four master suites and eight guest suites, each signed by a different
+          Uruguayan artist. Playa VIK has six casas scattered on the point and six suites under the
+          titanium roof. Bahía VIK has eleven bungalows in the dunes — adobe, corten, zinc, glass,
+          thatch, timber and stone, no two the same — and five suites in the main building.</p>
+        <div class="split-facts" style="margin-top:.5rem">
+          <div><span>Estancia VIK</span><span>11 suites and masters</span></div>
+          <div><span>Playa VIK</span><span>20 casas and suites</span></div>
+          <div><span>Bahía VIK</span><span>24 bungalows and suites</span></div>
+          <div><span>Across all three</span><span>Dining, wellness and the horses</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ LAS CUARENTA · M26 ════════════════════════════════════════
+       El muro cuenta solo: el medidor lee data-group de cada azulejo y
+       arma "Estancia VIK 12 · Playa VIK 12 · Bahia VIK 16", marcando la
+       casa a la que pertenece lo que esta en el centro del cuadro. No
+       hace falta una barra de filtros — el listado se explica mientras
+       se recorre. ─────────────────────────────────────────── -->
+  <section class="section" id="rooms" style="padding-bottom:0">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">The rooms</span></div>
+      <div><h2 class="section-title">Every room in the destination.</h2>
+        <p class="section-lead">All of them, in the order you would meet them: the countryside first, then the
+          point, then the dunes. Touch one to open it — the photographs, the artist and what the room
+          actually is.</p></div>
+    </div>
+    <div class="roomreel" data-rooms tabindex="0" aria-label="Every room at VIK Jose Ignacio">
+      <div class="roomreel-bar" role="tablist" aria-label="Filter rooms"></div>
+      <div class="roomreel-track">
+      <a class="wall-tile" data-cat="suite" data-img="rooms/estancia/amengual-suite-01.jpg" data-name="Amengual Suite" data-meta="Estancia VIK · guest suite" data-group="Estancia VIK" data-copy="Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.">
+        <img src="../_assets/img/t/rooms_estancia_amengual-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_amengual-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_amengual-suite-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Amengual Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">01</span>
+          <span class="rr-name">Amengual Suite</span>
+          <span class="rr-meta">Estancia VIK · guest suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/estancia/badaro-suite-01.jpg" data-name="Badaro Suite" data-meta="Estancia VIK · guest suite" data-group="Estancia VIK" data-copy="Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.">
+        <img src="../_assets/img/t/rooms_estancia_badaro-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_badaro-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_badaro-suite-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Badaro Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">02</span>
+          <span class="rr-name">Badaro Suite</span>
+          <span class="rr-meta">Estancia VIK · guest suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/estancia/barea-suite-01.jpg" data-name="Barea Suite" data-meta="Estancia VIK · guest suite" data-group="Estancia VIK" data-copy="Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.">
+        <img src="../_assets/img/t/rooms_estancia_barea-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_barea-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_barea-suite-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Barea Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">03</span>
+          <span class="rr-name">Barea Suite</span>
+          <span class="rr-meta">Estancia VIK · guest suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/estancia/cardozo-suite-01.jpg" data-name="Cardozo Suite" data-meta="Estancia VIK · guest suite" data-group="Estancia VIK" data-copy="Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.">
+        <img src="../_assets/img/t/rooms_estancia_cardozo-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_cardozo-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_cardozo-suite-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Cardozo Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">04</span>
+          <span class="rr-name">Cardozo Suite</span>
+          <span class="rr-meta">Estancia VIK · guest suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/estancia/duarte-suite-01.jpg" data-name="Duarte Suite" data-meta="Estancia VIK · guest suite" data-group="Estancia VIK" data-copy="Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.">
+        <img src="../_assets/img/t/rooms_estancia_duarte-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_duarte-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_duarte-suite-01-w900.jpg 900w, ../_assets/img/t/rooms_estancia_duarte-suite-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Duarte Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">05</span>
+          <span class="rr-name">Duarte Suite</span>
+          <span class="rr-meta">Estancia VIK · guest suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/estancia/musso-suite-01.jpg" data-name="Musso Suite" data-meta="Estancia VIK · guest suite" data-group="Estancia VIK" data-copy="Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.">
+        <img src="../_assets/img/t/rooms_estancia_musso-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_musso-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_musso-suite-01-w900.jpg 900w, ../_assets/img/t/rooms_estancia_musso-suite-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Musso Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">06</span>
+          <span class="rr-name">Musso Suite</span>
+          <span class="rr-meta">Estancia VIK · guest suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/estancia/trujillo-suite-01.jpg" data-name="Trujillo Suite" data-meta="Estancia VIK · guest suite" data-group="Estancia VIK" data-copy="Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.">
+        <img src="../_assets/img/t/rooms_estancia_trujillo-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_trujillo-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_trujillo-suite-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Trujillo Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">07</span>
+          <span class="rr-name">Trujillo Suite</span>
+          <span class="rr-meta">Estancia VIK · guest suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/estancia/turell-suite-01.jpg" data-name="Turell Suite" data-meta="Estancia VIK · guest suite" data-group="Estancia VIK" data-gallery="rooms/estancia/turell-suite-02.jpg" data-copy="Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.">
+        <img src="../_assets/img/t/rooms_estancia_turell-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_turell-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_turell-suite-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Turell Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">08</span>
+          <span class="rr-name">Turell Suite</span>
+          <span class="rr-meta">Estancia VIK · guest suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="master" data-img="rooms/estancia/master-suite-daglio-01.jpg" data-name="Master Suite Daglio" data-meta="Estancia VIK · master suite" data-group="Estancia VIK" data-gallery="rooms/estancia/master-suite-daglio-02.jpg" data-copy="Master suites on the upper level, nine hundred square feet, with a fireplace, a private terrace and an outdoor shower onto the landscape.">
+        <img src="../_assets/img/t/rooms_estancia_master-suite-daglio-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_master-suite-daglio-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_master-suite-daglio-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Master Suite Daglio" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">09</span>
+          <span class="rr-name">Master Suite Daglio</span>
+          <span class="rr-meta">Estancia VIK · master suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="master" data-img="rooms/estancia/master-suite-legrand-01.jpg" data-name="Master Suite Legrand" data-meta="Estancia VIK · master suite" data-group="Estancia VIK" data-copy="Master suites on the upper level, nine hundred square feet, with a fireplace, a private terrace and an outdoor shower onto the landscape.">
+        <img src="../_assets/img/t/rooms_estancia_master-suite-legrand-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_master-suite-legrand-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_master-suite-legrand-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Master Suite Legrand" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">10</span>
+          <span class="rr-name">Master Suite Legrand</span>
+          <span class="rr-meta">Estancia VIK · master suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="master" data-img="rooms/estancia/master-suite-seveso-01.jpg" data-name="Master Suite Seveso" data-meta="Estancia VIK · master suite" data-group="Estancia VIK" data-copy="Master suites on the upper level, nine hundred square feet, with a fireplace, a private terrace and an outdoor shower onto the landscape.">
+        <img src="../_assets/img/t/rooms_estancia_master-suite-seveso-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_master-suite-seveso-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_master-suite-seveso-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Master Suite Seveso" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">11</span>
+          <span class="rr-name">Master Suite Seveso</span>
+          <span class="rr-meta">Estancia VIK · master suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="casa" data-img="rooms/playa/casa-jose-ignacio-01.jpg" data-name="Casa José Ignacio" data-meta="Playa VIK · casa" data-group="Playa VIK" data-gallery="rooms/playa/casa-jose-ignacio-02.jpg" data-copy="Casas of two and three bedrooms flanking the Sculpture, each with a fireplace, a private garden and fully retractable windows onto it.">
+        <img src="../_assets/img/t/rooms_playa_casa-jose-ignacio-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_casa-jose-ignacio-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_casa-jose-ignacio-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Casa José Ignacio" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">12</span>
+          <span class="rr-name">Casa José Ignacio</span>
+          <span class="rr-meta">Playa VIK · casa</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="casa" data-img="rooms/playa/casa-mar-01.jpg" data-name="Casa Mar" data-meta="Playa VIK · casa" data-group="Playa VIK" data-copy="Casas of two and three bedrooms flanking the Sculpture, each with a fireplace, a private garden and fully retractable windows onto it.">
+        <img src="../_assets/img/t/rooms_playa_casa-mar-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_casa-mar-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_casa-mar-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Casa Mar" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">13</span>
+          <span class="rr-name">Casa Mar</span>
+          <span class="rr-meta">Playa VIK · casa</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="casa" data-img="rooms/playa/casa-tierra-01.jpg" data-name="Casa Tierra" data-meta="Playa VIK · casa" data-group="Playa VIK" data-copy="Casas of two and three bedrooms flanking the Sculpture, each with a fireplace, a private garden and fully retractable windows onto it.">
+        <img src="../_assets/img/t/rooms_playa_casa-tierra-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_casa-tierra-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_casa-tierra-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_casa-tierra-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Casa Tierra" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">14</span>
+          <span class="rr-name">Casa Tierra</span>
+          <span class="rr-meta">Playa VIK · casa</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="room" data-img="rooms/playa/canoa-01.jpg" data-name="Canoa" data-meta="Playa VIK · garden view" data-group="Playa VIK" data-copy="Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.">
+        <img src="../_assets/img/t/rooms_playa_canoa-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_canoa-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_canoa-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_canoa-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Canoa" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">15</span>
+          <span class="rr-name">Canoa</span>
+          <span class="rr-meta">Playa VIK · garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="room" data-img="rooms/playa/cardozo-01.jpg" data-name="Cardozo" data-meta="Playa VIK · garden view" data-group="Playa VIK" data-copy="Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.">
+        <img src="../_assets/img/t/rooms_playa_cardozo-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_cardozo-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_cardozo-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_cardozo-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Cardozo" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">16</span>
+          <span class="rr-name">Cardozo</span>
+          <span class="rr-meta">Playa VIK · garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="room" data-img="rooms/playa/imbuya-01.jpg" data-name="Imbuya" data-meta="Playa VIK · garden view" data-group="Playa VIK" data-copy="Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.">
+        <img src="../_assets/img/t/rooms_playa_imbuya-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_imbuya-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_imbuya-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_imbuya-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Imbuya" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">17</span>
+          <span class="rr-name">Imbuya</span>
+          <span class="rr-meta">Playa VIK · garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="room" data-img="rooms/playa/lule-01.jpg" data-name="Lule" data-meta="Playa VIK · garden view" data-group="Playa VIK" data-copy="Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.">
+        <img src="../_assets/img/t/rooms_playa_lule-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_lule-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_lule-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_lule-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Lule" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">18</span>
+          <span class="rr-name">Lule</span>
+          <span class="rr-meta">Playa VIK · garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="room" data-img="rooms/playa/mansa-01.jpg" data-name="Mansa" data-meta="Playa VIK · garden view" data-group="Playa VIK" data-copy="Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.">
+        <img src="../_assets/img/t/rooms_playa_mansa-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_mansa-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_mansa-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_mansa-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Mansa" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">19</span>
+          <span class="rr-name">Mansa</span>
+          <span class="rr-meta">Playa VIK · garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="room" data-img="rooms/playa/olmo-01.jpg" data-name="Olmo" data-meta="Playa VIK · garden view" data-group="Playa VIK" data-copy="Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.">
+        <img src="../_assets/img/t/rooms_playa_olmo-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_olmo-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_olmo-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_olmo-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Olmo" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">20</span>
+          <span class="rr-name">Olmo</span>
+          <span class="rr-meta">Playa VIK · garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="room" data-img="rooms/playa/ryokan-01.jpg" data-name="Ryokan" data-meta="Playa VIK · garden view" data-group="Playa VIK" data-copy="Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.">
+        <img src="../_assets/img/t/rooms_playa_ryokan-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_ryokan-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_ryokan-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_ryokan-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Ryokan" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">21</span>
+          <span class="rr-name">Ryokan</span>
+          <span class="rr-meta">Playa VIK · garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="room" data-img="rooms/playa/sycamore-01.jpg" data-name="Sycamore" data-meta="Playa VIK · garden view" data-group="Playa VIK" data-copy="Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.">
+        <img src="../_assets/img/t/rooms_playa_sycamore-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_sycamore-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_sycamore-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_sycamore-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Sycamore" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">22</span>
+          <span class="rr-name">Sycamore</span>
+          <span class="rr-meta">Playa VIK · garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="room" data-img="rooms/playa/zen-01.jpg" data-name="Zen" data-meta="Playa VIK · garden view" data-group="Playa VIK" data-copy="Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.">
+        <img src="../_assets/img/t/rooms_playa_zen-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_zen-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_zen-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_zen-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Zen" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">23</span>
+          <span class="rr-name">Zen</span>
+          <span class="rr-meta">Playa VIK · garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="room" data-img="rooms/playa/damas-01.jpg" data-name="Damas" data-meta="Playa VIK · garden view · living area" data-group="Playa VIK" data-copy="A bedroom and its own living space, opening straight into the private garden through a retractable wall.">
+        <img src="../_assets/img/t/rooms_playa_damas-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_damas-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_damas-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_damas-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Damas" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">24</span>
+          <span class="rr-name">Damas</span>
+          <span class="rr-meta">Playa VIK · garden view · living area</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="room" data-img="rooms/playa/exodus-01.jpg" data-name="Exodus" data-meta="Playa VIK · garden view · living area" data-group="Playa VIK" data-copy="A bedroom and its own living space, opening straight into the private garden through a retractable wall.">
+        <img src="../_assets/img/t/rooms_playa_exodus-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_exodus-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_exodus-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_exodus-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Exodus" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">25</span>
+          <span class="rr-name">Exodus</span>
+          <span class="rr-meta">Playa VIK · garden view · living area</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="room" data-img="rooms/playa/ola-01.jpg" data-name="Ola" data-meta="Playa VIK · garden view · living area" data-group="Playa VIK" data-copy="A bedroom and its own living space, opening straight into the private garden through a retractable wall.">
+        <img src="../_assets/img/t/rooms_playa_ola-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_ola-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_ola-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_ola-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Ola" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">26</span>
+          <span class="rr-name">Ola</span>
+          <span class="rr-meta">Playa VIK · garden view · living area</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/playa/azul-01.jpg" data-name="Azul" data-meta="Playa VIK · ocean view suite" data-group="Playa VIK" data-copy="Suites within the Sculpture, under the double-curved titanium roof, facing the water with Patagonian ebony floors running out to the terrace.">
+        <img src="../_assets/img/t/rooms_playa_azul-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_azul-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_azul-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_azul-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Azul" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">27</span>
+          <span class="rr-name">Azul</span>
+          <span class="rr-meta">Playa VIK · ocean view suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/playa/caras-suite-01.jpg" data-name="Caras Suite" data-meta="Playa VIK · ocean view suite" data-group="Playa VIK" data-copy="Suites within the Sculpture, under the double-curved titanium roof, facing the water with Patagonian ebony floors running out to the terrace.">
+        <img src="../_assets/img/t/rooms_playa_caras-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_caras-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_caras-suite-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_caras-suite-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Caras Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">28</span>
+          <span class="rr-name">Caras Suite</span>
+          <span class="rr-meta">Playa VIK · ocean view suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/playa/fuerteventura-suite-01.jpg" data-name="Fuerteventura Suite" data-meta="Playa VIK · ocean view suite" data-group="Playa VIK" data-copy="Suites within the Sculpture, under the double-curved titanium roof, facing the water with Patagonian ebony floors running out to the terrace.">
+        <img src="../_assets/img/t/rooms_playa_fuerteventura-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_fuerteventura-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_fuerteventura-suite-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Fuerteventura Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">29</span>
+          <span class="rr-name">Fuerteventura Suite</span>
+          <span class="rr-meta">Playa VIK · ocean view suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/playa/valentina-suite-01.jpg" data-name="Valentina Suite" data-meta="Playa VIK · ocean view suite" data-group="Playa VIK" data-copy="Suites within the Sculpture, under the double-curved titanium roof, facing the water with Patagonian ebony floors running out to the terrace.">
+        <img src="../_assets/img/t/rooms_playa_valentina-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_valentina-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_valentina-suite-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_valentina-suite-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Valentina Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">30</span>
+          <span class="rr-name">Valentina Suite</span>
+          <span class="rr-meta">Playa VIK · ocean view suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/playa/atrium-suite-01.jpg" data-name="Atrium Suite" data-meta="Playa VIK · suite" data-group="Playa VIK" data-copy="Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.">
+        <img src="../_assets/img/t/rooms_playa_atrium-suite-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_playa_atrium-suite-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Atrium Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">31</span>
+          <span class="rr-name">Atrium Suite</span>
+          <span class="rr-meta">Playa VIK · suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="bungalow" data-img="rooms/bahia/adobe-01.jpg" data-name="Adobe" data-meta="Bahía VIK · bungalow" data-group="Bahía VIK" data-copy="Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.">
+        <img src="../_assets/img/t/rooms_bahia_adobe-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_adobe-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Adobe" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">32</span>
+          <span class="rr-name">Adobe</span>
+          <span class="rr-meta">Bahía VIK · bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="bungalow" data-img="rooms/bahia/azulejos-01.jpg" data-name="Azulejos" data-meta="Bahía VIK · bungalow" data-group="Bahía VIK" data-copy="Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.">
+        <img src="../_assets/img/t/rooms_bahia_azulejos-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_azulejos-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_azulejos-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_azulejos-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Azulejos" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">33</span>
+          <span class="rr-name">Azulejos</span>
+          <span class="rr-meta">Bahía VIK · bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="bungalow" data-img="rooms/bahia/chapa-azul-01.jpg" data-name="Chapa Azul" data-meta="Bahía VIK · bungalow" data-group="Bahía VIK" data-copy="Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.">
+        <img src="../_assets/img/t/rooms_bahia_chapa-azul-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_chapa-azul-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Chapa Azul" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">34</span>
+          <span class="rr-name">Chapa Azul</span>
+          <span class="rr-meta">Bahía VIK · bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="bungalow" data-img="rooms/bahia/comporta-01.jpg" data-name="Comporta" data-meta="Bahía VIK · bungalow" data-group="Bahía VIK" data-copy="Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.">
+        <img src="../_assets/img/t/rooms_bahia_comporta-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_comporta-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_comporta-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_comporta-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Comporta" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">35</span>
+          <span class="rr-name">Comporta</span>
+          <span class="rr-meta">Bahía VIK · bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="bungalow" data-img="rooms/bahia/corten-01.jpg" data-name="Corten" data-meta="Bahía VIK · bungalow" data-group="Bahía VIK" data-copy="Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.">
+        <img src="../_assets/img/t/rooms_bahia_corten-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_corten-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Corten" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">36</span>
+          <span class="rr-name">Corten</span>
+          <span class="rr-meta">Bahía VIK · bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="bungalow" data-img="rooms/bahia/duna-01.jpg" data-name="Duna" data-meta="Bahía VIK · bungalow" data-group="Bahía VIK" data-copy="Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.">
+        <img src="../_assets/img/t/rooms_bahia_duna-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_duna-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Duna" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">37</span>
+          <span class="rr-name">Duna</span>
+          <span class="rr-meta">Bahía VIK · bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="bungalow" data-img="rooms/bahia/greek-01.jpg" data-name="Greek" data-meta="Bahía VIK · bungalow" data-group="Bahía VIK" data-copy="Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.">
+        <img src="../_assets/img/t/rooms_bahia_greek-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_greek-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_greek-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_greek-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Greek" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">38</span>
+          <span class="rr-name">Greek</span>
+          <span class="rr-meta">Bahía VIK · bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="bungalow" data-img="rooms/bahia/madera-01.jpg" data-name="Madera" data-meta="Bahía VIK · bungalow" data-group="Bahía VIK" data-copy="Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.">
+        <img src="../_assets/img/t/rooms_bahia_madera-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_madera-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Madera" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">39</span>
+          <span class="rr-name">Madera</span>
+          <span class="rr-meta">Bahía VIK · bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="bungalow" data-img="rooms/bahia/piedra-01.jpg" data-name="Piedra" data-meta="Bahía VIK · bungalow" data-group="Bahía VIK" data-copy="Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.">
+        <img src="../_assets/img/t/rooms_bahia_piedra-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_piedra-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Piedra" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">40</span>
+          <span class="rr-name">Piedra</span>
+          <span class="rr-meta">Bahía VIK · bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="bungalow" data-img="rooms/bahia/quincha-01.jpg" data-name="Quincha" data-meta="Bahía VIK · bungalow" data-group="Bahía VIK" data-gallery="rooms/bahia/quincha-02.jpg" data-copy="Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.">
+        <img src="../_assets/img/t/rooms_bahia_quincha-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_quincha-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Quincha" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">41</span>
+          <span class="rr-name">Quincha</span>
+          <span class="rr-meta">Bahía VIK · bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="bungalow" data-img="rooms/bahia/ryokan-01.jpg" data-name="Ryokan" data-meta="Bahía VIK · bungalow" data-group="Bahía VIK" data-copy="Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.">
+        <img src="../_assets/img/t/rooms_bahia_ryokan-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_ryokan-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_ryokan-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_ryokan-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Ryokan" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">42</span>
+          <span class="rr-name">Ryokan</span>
+          <span class="rr-meta">Bahía VIK · bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="bungalow" data-img="rooms/bahia/titanio-01.jpg" data-name="Titanio" data-meta="Bahía VIK · bungalow" data-group="Bahía VIK" data-copy="Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.">
+        <img src="../_assets/img/t/rooms_bahia_titanio-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_titanio-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Titanio" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">43</span>
+          <span class="rr-name">Titanio</span>
+          <span class="rr-meta">Bahía VIK · bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="bungalow" data-img="rooms/bahia/vidrio-01.jpg" data-name="Vidrio" data-meta="Bahía VIK · bungalow" data-group="Bahía VIK" data-copy="Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.">
+        <img src="../_assets/img/t/rooms_bahia_vidrio-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_vidrio-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Vidrio" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">44</span>
+          <span class="rr-name">Vidrio</span>
+          <span class="rr-meta">Bahía VIK · bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="bungalow" data-img="rooms/bahia/zinc-marron-01.jpg" data-name="Zinc Marrón" data-meta="Bahía VIK · bungalow" data-group="Bahía VIK" data-copy="Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.">
+        <img src="../_assets/img/t/rooms_bahia_zinc-marron-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_zinc-marron-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Zinc Marrón" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">45</span>
+          <span class="rr-name">Zinc Marrón</span>
+          <span class="rr-meta">Bahía VIK · bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="bungalow" data-img="rooms/bahia/zinc-negro-01.jpg" data-name="Zinc Negro" data-meta="Bahía VIK · bungalow" data-group="Bahía VIK" data-copy="Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.">
+        <img src="../_assets/img/t/rooms_bahia_zinc-negro-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_zinc-negro-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Zinc Negro" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">46</span>
+          <span class="rr-name">Zinc Negro</span>
+          <span class="rr-meta">Bahía VIK · bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/bahia/burgos-01.jpg" data-name="Burgos" data-meta="Bahía VIK · suite" data-group="Bahía VIK" data-copy="Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.">
+        <img src="../_assets/img/t/rooms_bahia_burgos-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_burgos-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_burgos-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_burgos-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Burgos" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">47</span>
+          <span class="rr-name">Burgos</span>
+          <span class="rr-meta">Bahía VIK · suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/bahia/escardo-01.jpg" data-name="Escardo" data-meta="Bahía VIK · suite" data-group="Bahía VIK" data-copy="Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.">
+        <img src="../_assets/img/t/rooms_bahia_escardo-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_escardo-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Escardo" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">48</span>
+          <span class="rr-name">Escardo</span>
+          <span class="rr-meta">Bahía VIK · suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/bahia/eva-01.jpg" data-name="Eva" data-meta="Bahía VIK · suite" data-group="Bahía VIK" data-copy="Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.">
+        <img src="../_assets/img/t/rooms_bahia_eva-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_eva-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_eva-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_eva-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Eva" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">49</span>
+          <span class="rr-name">Eva</span>
+          <span class="rr-meta">Bahía VIK · suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/bahia/guerra-01.jpg" data-name="Guerra" data-meta="Bahía VIK · suite" data-group="Bahía VIK" data-copy="Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.">
+        <img src="../_assets/img/t/rooms_bahia_guerra-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_guerra-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_guerra-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Guerra" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">50</span>
+          <span class="rr-name">Guerra</span>
+          <span class="rr-meta">Bahía VIK · suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/bahia/juan-manuel-01.jpg" data-name="Juan Manuel" data-meta="Bahía VIK · suite" data-group="Bahía VIK" data-copy="Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.">
+        <img src="../_assets/img/t/rooms_bahia_juan-manuel-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_juan-manuel-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Juan Manuel" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">51</span>
+          <span class="rr-name">Juan Manuel</span>
+          <span class="rr-meta">Bahía VIK · suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/bahia/lopez-lage-01.jpg" data-name="Lopez Lage" data-meta="Bahía VIK · suite" data-group="Bahía VIK" data-copy="Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.">
+        <img src="../_assets/img/t/rooms_bahia_lopez-lage-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_lopez-lage-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_lopez-lage-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_lopez-lage-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Lopez Lage" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">52</span>
+          <span class="rr-name">Lopez Lage</span>
+          <span class="rr-meta">Bahía VIK · suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/bahia/patrone-01.jpg" data-name="Patrone" data-meta="Bahía VIK · suite" data-group="Bahía VIK" data-gallery="rooms/bahia/patrone-02.jpg" data-copy="Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.">
+        <img src="../_assets/img/t/rooms_bahia_patrone-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_patrone-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Patrone" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">53</span>
+          <span class="rr-name">Patrone</span>
+          <span class="rr-meta">Bahía VIK · suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/bahia/pemper-01.jpg" data-name="Pemper" data-meta="Bahía VIK · suite" data-group="Bahía VIK" data-copy="Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.">
+        <img src="../_assets/img/t/rooms_bahia_pemper-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_pemper-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_pemper-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_pemper-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Pemper" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">54</span>
+          <span class="rr-name">Pemper</span>
+          <span class="rr-meta">Bahía VIK · suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" data-cat="suite" data-img="rooms/bahia/rita-01.jpg" data-name="Rita" data-meta="Bahía VIK · suite" data-group="Bahía VIK" data-copy="Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.">
+        <img src="../_assets/img/t/rooms_bahia_rita-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_rita-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_rita-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_rita-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Rita" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">55</span>
+          <span class="rr-name">Rita</span>
+          <span class="rr-meta">Bahía VIK · suite</span>
+        </span>
+      </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section canvas">
+    <p class="modlabel r" style="max-width:var(--max);margin:0 auto 1.5rem;color:var(--ink)">
+      <span>In every room</span><span class="c">55 / 55</span></p>
+    <div class="specbar r" role="list" style="color:var(--ink)">
+      <div class="specbar__i" role="listitem"><span class="specbar__l">Commissioned</span><span class="specbar__v">A different artist</span></div>
+      <div class="specbar__i" role="listitem"><span class="specbar__l">Bathroom</span><span class="specbar__v">One per bedroom</span></div>
+      <div class="specbar__i" role="listitem"><span class="specbar__l">Outside</span><span class="specbar__v">Terrace, deck or patio</span></div>
+      <div class="specbar__i" role="listitem"><span class="specbar__l">Breakfast</span><span class="specbar__v">Included, served late</span></div>
+      <div class="specbar__i" role="listitem"><span class="specbar__l">Wi-Fi</span><span class="specbar__v">Throughout, no charge</span></div>
+      <div class="specbar__i" role="listitem"><span class="specbar__l">Included</span><span class="specbar__v">Your Journey Designer</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="houses">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">The three houses</span></div>
+      <div><h2 class="section-title">Where you sleep changes the week.</h2>
+        <p class="section-lead">It does not fence it in — dining, wellness, the horses and the venue are
+          open to guests of all three. But the room you wake up in is a different holiday in each one.</p></div>
+    </div>
+    <div class="index-list r d1">
+      <a class="index-row" href="../estancia-vik/" data-hover-img="estancia/vik-master-suite.jpg"><span class="index-n">01</span><span class="index-name">Estancia VIK</span><span class="index-meta">Countryside · 11 suites and masters</span><span class="index-cta"><span class="btn-line"><span>See the house</span><span class="arw">→</span></span></span></a>
+      <a class="index-row" href="../playa-vik/" data-hover-img="playa/casas-main-scaled.jpg"><span class="index-n">02</span><span class="index-name">Playa VIK</span><span class="index-meta">On the point · 20 casas and suites</span><span class="index-cta"><span class="btn-line"><span>See the house</span><span class="arw">→</span></span></span></a>
+      <a class="index-row" href="../bahia-vik/" data-hover-img="bahia/quincha-0102.jpg"><span class="index-n">03</span><span class="index-name">Bahía VIK</span><span class="index-meta">In the dunes · 24 bungalows and suites</span><span class="index-cta"><span class="btn-line"><span>See the house</span><span class="arw">→</span></span></span></a>
+    </div>
+    <div style="max-width:var(--max);margin:2.5rem auto 0">
+      <a class="btn-solid" href="../stay/" data-stay><span>Compare the three</span><span class="arw">→</span></a>
+    </div>
+  </section>
+
+  <section class="booking" id="book">
+    <div class="booking-bg"><img src="../_assets/img/t/bahia_cp-bahiavik-0562-scaled-w1600.jpg" alt=""></div>
+    <div class="booking-inner">
+      <div class="booking-head">
+        <div>
+          <span class="ui-label text-vik">Book your stay</span>
+          <h2 class="booking-title">Pick the room,<br>not the <em>category</em>.</h2>
+        </div>
+        <p class="booking-note">Bookassist · PayPal accepted<br>Best rate, booked direct<br>guestexperience@vikretreats.com</p>
+      </div>
+      <form class="booking-form" data-booking>
+        <div class="bk-field">
+          <label for="bkProp">Retreat</label>
+          <select id="bkProp" name="property">
+            <option value="any">Help me choose</option>
+            <option value="estancia">Estancia VIK</option>
+            <option value="playa">Playa VIK</option>
+            <option value="bahia">Bahía VIK</option>
+          </select>
+        </div>
+        <div class="bk-field"><label for="bkIn">Arrive</label><input id="bkIn" name="checkin" type="date"></div>
+        <div class="bk-field"><label for="bkOut">Depart</label><input id="bkOut" name="checkout" type="date"></div>
+        <div class="bk-field">
+          <label for="bkAd">Guests</label>
+          <select id="bkAd" name="adults">
+            <option value="1">1 guest</option><option value="2" selected>2 guests</option>
+            <option value="3">3 guests</option><option value="4">4 guests</option>
+            <option value="6">6 guests</option><option value="8">Group · 8+</option>
+          </select>
+        </div>
+        <button class="bk-submit" type="submit"><span>Check availability</span><span class="arw">→</span></button>
+      </form>
+      <div class="booking-foot">
+        <div class="booking-alts">
+          <a class="btn-line" href="../contact/#journey"><span>Contact a Journey Designer</span><span class="arw">→</span></a>
+          <a class="btn-line" href="../celebrate/"><span>Enquire about a buyout</span><span class="arw">→</span></a>
+        </div>
+        <div class="booking-trust"><span>Direct rate</span><span>Free cancellation*</span><span>Journey Designer included</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section vik">
+    <div class="closing r">
+      <span class="ui-label" style="opacity:.65">Next step</span>
+      <div class="closing-lines">
+        <p>If the room should have a fireplace and a horse outside</p>
+        <p>If it should have the Atlantic on three sides</p>
+        <p>If it should be built of thatch, and open onto the sand</p>
+      </div>
+      <h2 class="closing-title">Then it is one of <em>these fifty-five</em>.</h2>
+      <div class="closing-actions">
+        <a class="btn-outline" href="#rooms"><span>See all fifty-five</span><span class="arw">→</span></a>
+        <a class="btn-line" href="../contact/#journey"><span>Contact a Journey Designer</span><span class="arw">→</span></a>
+      </div>
+      <p class="closing-note">guestexperience@vikretreats.com</p>
+    </div>
+  </section>
+
+</main>
+
+<div class="room-view" id="roomView" role="dialog" aria-modal="true" aria-labelledby="roomName">
+  <button class="room-close" type="button" data-room-close aria-label="Close">&#10005;</button>
+  <div class="room-hero">
+    <div class="room-shots"></div>
+    <div class="room-cap">
+      <span class="ui-label" id="roomMeta" style="opacity:.7"></span>
+      <div class="room-head">
+        <h2 id="roomName"></h2>
+        <div class="room-thumbs" id="roomThumbs"></div>
+      </div>
+      <div class="room-actions">
+        <a class="btn-solid" href="#book"><span>Book this room</span><span class="arw">→</span></a>
+        <a class="btn-line" href="../contact/#journey"><span>Ask a Journey Designer</span><span class="arw">→</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="room-body">
+    <div>
+      <p id="roomCopy"></p>
+    </div>
+    <div>
+      <p class="mono-copy muted-light">Every room at VIK José Ignacio was commissioned, not decorated. The artist, the material and the position on the site are the room — which is why choosing between them matters more here than the number of square metres.</p>
+      <div class="split-facts" style="margin-top:2rem">
+        <div><span>Houses</span><span>Estancia · Playa · Bahía</span></div>
+        <div><span>Rooms</span><span>Fifty-five, all commissioned</span></div>
+        <div><span>Booking</span><span>Direct · Bookassist</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="room-nav" aria-label="Rooms">
+    <button type="button" data-room-prev aria-label="Previous room"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.2"/></svg></button>
+    <span class="rn-count">01 / 01</span>
+    <button type="button" data-room-next aria-label="Next room"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.2"/></svg></button>
+  </div>
+
+<div data-vik-checkout></div>
+
+<div data-vik-footer></div>
+
+<script>
+/* Los assets y los diccionarios viven un nivel arriba, en
+   _assets/. El nucleo lo lee de aqui. */
+window.VIK_BASE = "../_assets/";
+</script>
+<script src="../_core/lenis.min.js"></script>
+<script src="../_core/leaflet.js"></script>
+<script src="../_core/vik-chrome-v2.js?v=1"></script>
+<script src="../_core/vik-v2.min.js?v=1"></script>
+<script src="../_core/vik-v2-lib.min.js?v=1"></script>
+</body>
+</html>

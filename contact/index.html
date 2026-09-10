@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- ══════════════════════════════════════════════════════════════════
+     CONTACT & FAQ · VIK JOSÉ IGNACIO
+     ──────────────────────────────────────────────────────────────────
+     Cuatro lineas directas, los Journey Designers, como se llega y las
+     preguntas que se repiten. Hasta ahora el menu y el pie apuntaban a
+     #contact y #journey en paginas donde esas anclas no existian.
+
+     ANCLAS QUE OTROS ARCHIVOS ESPERAN — no renombrar sin cambiar
+     _core/vik-chrome.js:
+       #journey        · el pie, columna Plan
+       #getting-here   · el pie, columna Plan
+
+     Todo lo visual sale de la libreria. No hay una sola regla propia.
+     ══════════════════════════════════════════════════════════════ -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F8F8F0">
+<meta name="author" content="Nicolás Castillo">
+<meta name="designer" content="Nicolás Castillo · @donhkoland">
+<meta name="developer" content="Nicolás Castillo · @donhkoland">
+<meta name="copyright" content="VIK Retreats">
+<title>Contact &amp; FAQ · VIK José Ignacio</title>
+<meta name="description" content="Four direct lines to VIK José Ignacio — reservations, your Journey Designer, tables and events. How to get here from Punta del Este and Montevideo, and the questions that come up before arriving.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Contact &amp; FAQ · VIK José Ignacio">
+<meta property="og:description" content="Four direct lines, how to get here, and the questions that come up before arriving.">
+<meta property="og:image" content="../_assets/img/t/bahia_1_bv-0439-scaled-w1600.jpg">
+<style>
+/* ── Lo propio de esta pagina ─────────────────────────────────
+   El riel de Instagram es el mismo modulo M36 que la agenda: mismo
+   motor, mismo arrastre, misma ficha al tocar. Lo unico que cambia
+   es la proporcion — un posteo es cuadrado — y la linea del handle.
+   Tres reglas, y ni una mas. ─────────────────────────────────── */
+.agenda--ig .ev{aspect-ratio:1}
+.agenda--ig .agenda__hd{align-items:center}
+.ig-handle{display:inline-flex;align-items:center;gap:.55rem;min-height:44px;
+  font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.78rem;
+  color:rgba(248,248,240,.72);transition:color .25s var(--ease)}
+.ig-handle:hover{color:#fff}
+.ig-handle svg{width:15px;height:15px;flex:0 0 auto}
+</style>
+<link rel="stylesheet" href="../_core/leaflet.min.css">
+<link rel="stylesheet" href="../_core/vik-v2.min.css?v=1">
+<link rel="stylesheet" href="../_core/vik-v2-lib.min.css?v=2">
+</head>
+<body>
+
+<div data-vik-chrome data-page="contact" data-tag="Contact"></div>
+
+<main id="top" class="site-shell">
+
+  <section class="hero-page">
+    <div class="hp-media">
+      <div class="hp-slides" data-hold="5600">
+        <div class="hp-slide is-on"><img src="../_assets/img/t/bahia_1_bv-0439-scaled-w1600.jpg" alt="Bahía VIK" fetchpriority="high"></div>
+        <div class="hp-slide"><img src="../_assets/img/t/estancia_entrance-img_0003-min-w1600.jpg" alt="The entrance at Estancia VIK" loading="lazy"></div>
+        <div class="hp-slide"><img src="../_assets/img/t/playa_home-img_1789-w1600.jpg" alt="Playa VIK" loading="lazy"></div>
+      </div>
+      <div class="hp-dots"><button class="hp-dot is-on" aria-label="1"></button><button class="hp-dot" aria-label="2"></button><button class="hp-dot" aria-label="3"></button></div>
+    </div>
+    <div class="hp-inner">
+      <div>
+        <span class="ui-label" style="opacity:.5">Contact &amp; FAQ</span>
+        <h1 class="hp-title">A person,<br>within a day.</h1>
+      </div>
+      <div>
+        <p class="hp-desc">Four direct lines and no call centre behind any of them. Whichever one you write
+          to, the reply comes from somebody who has stood in the room you are asking about.</p>
+        <div class="hf-actions" style="margin-top:1.75rem">
+          <a class="btn-solid" href="#journey"><span>Write to us</span><span class="arw">→</span></a>
+          <a class="btn-line" href="#getting-here"><span>Getting here</span><span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ INSTAGRAM · M36 ═══════════════════════════════════════════
+       El mismo riel de la agenda, con lo que se publica en la cuenta.
+       Va despues del H1 porque es lo unico de esta pagina que cambia
+       todas las semanas.
+
+       CONTENIDOS SIMULADOS. Los seis posteos son de muestra: se editan
+       en el array IG del script al pie. Cuando haya API de Instagram,
+       ese array es lo unico que hay que llenar — el riel, la ficha y
+       el arrastre no cambian. ────────────────────────────────────── -->
+  <section class="agenda agenda--ig" aria-label="From Instagram">
+    <div class="agenda__hd">
+      <h2 class="agenda__t">From the account</h2>
+      <a class="ig-handle" href="https://www.instagram.com/vikjoseignacio/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6"/><circle cx="17.6" cy="6.4" r="1.2" fill="currentColor"/></svg>
+        <span>@vikjoseignacio</span>
+      </a>
+    </div>
+    <div class="agenda__rail" id="igRail">
+      <button class="ev" type="button" data-ig="0">
+        <div class="ev__media">
+          <img src="../la-susana/assets/img/t/sunset-w900.jpg"
+               srcset="../la-susana/assets/img/t/sunset-w480.jpg 480w, ../la-susana/assets/img/t/sunset-w900.jpg 900w"
+               sizes="(max-width:560px) 78vw, 32vw" alt="Sunset over Playa Mansa" loading="lazy">
+        </div>
+        <span class="ev__body">
+          <span class="ev__kind">Playa Mansa</span>
+          <span class="ev__when">18 August</span>
+          <span class="ev__name">The light, again</span>
+          <span class="ev__go"><span>Open</span><span>→</span></span>
+        </span>
+      </button>
+      <button class="ev" type="button" data-ig="1">
+        <div class="ev__media">
+          <img src="../_assets/img/t/estancia_bbq-img_7731-w900.jpg"
+               srcset="../_assets/img/t/estancia_bbq-img_7731-w480.jpg 480w, ../_assets/img/t/estancia_bbq-img_7731-w900.jpg 900w"
+               sizes="(max-width:560px) 78vw, 32vw" alt="The fire at El Asador" loading="lazy">
+        </div>
+        <span class="ev__body">
+          <span class="ev__kind">Estancia VIK</span>
+          <span class="ev__when">15 August</span>
+          <span class="ev__name">Lit at six, eaten at nine</span>
+          <span class="ev__go"><span>Open</span><span>→</span></span>
+        </span>
+      </button>
+      <button class="ev" type="button" data-ig="2">
+        <div class="ev__media">
+          <img src="../_assets/img/t/estancia_estancia-img_7582-min-1-w900.jpg"
+               srcset="../_assets/img/t/estancia_estancia-img_7582-min-1-w480.jpg 480w, ../_assets/img/t/estancia_estancia-img_7582-min-1-w900.jpg 900w"
+               sizes="(max-width:560px) 78vw, 32vw" alt="Riding the open country" loading="lazy">
+        </div>
+        <span class="ev__body">
+          <span class="ev__kind">The countryside</span>
+          <span class="ev__when">11 August</span>
+          <span class="ev__name">Out before the wind</span>
+          <span class="ev__go"><span>Open</span><span>→</span></span>
+        </span>
+      </button>
+      <button class="ev" type="button" data-ig="3">
+        <div class="ev__media">
+          <img src="../_assets/img/t/bahia_duna-0340-w900.jpg"
+               srcset="../_assets/img/t/bahia_duna-0340-w480.jpg 480w, ../_assets/img/t/bahia_duna-0340-w900.jpg 900w"
+               sizes="(max-width:560px) 78vw, 32vw" alt="The dunes at Bahía VIK" loading="lazy">
+        </div>
+        <span class="ev__body">
+          <span class="ev__kind">Bahía VIK</span>
+          <span class="ev__when">7 August</span>
+          <span class="ev__name">Fifteen bungalows, fifteen materials</span>
+          <span class="ev__go"><span>Open</span><span>→</span></span>
+        </span>
+      </button>
+      <button class="ev" type="button" data-ig="4">
+        <div class="ev__media">
+          <img src="../_assets/img/t/playa_home-img_1789-w900.jpg"
+               srcset="../_assets/img/t/playa_home-img_1789-w480.jpg 480w, ../_assets/img/t/playa_home-img_1789-w900.jpg 900w"
+               sizes="(max-width:560px) 78vw, 32vw" alt="Playa VIK on the point" loading="lazy">
+        </div>
+        <span class="ev__body">
+          <span class="ev__kind">Playa VIK</span>
+          <span class="ev__when">2 August</span>
+          <span class="ev__name">The Atlantic on three sides</span>
+          <span class="ev__go"><span>Open</span><span>→</span></span>
+        </span>
+      </button>
+      <button class="ev" type="button" data-ig="5">
+        <div class="ev__media">
+          <img src="../la-susana/assets/img/t/bonfire-w900.jpg"
+               srcset="../la-susana/assets/img/t/bonfire-w480.jpg 480w, ../la-susana/assets/img/t/bonfire-w900.jpg 900w"
+               sizes="(max-width:560px) 78vw, 32vw" alt="The bonfire at La Susana" loading="lazy">
+        </div>
+        <span class="ev__body">
+          <span class="ev__kind">La Susana</span>
+          <span class="ev__when">28 July</span>
+          <span class="ev__name">Where the afternoon ends</span>
+          <span class="ev__go"><span>Open</span><span>→</span></span>
+        </span>
+      </button>
+    </div>
+  </section>
+
+  <section class="section" id="lines">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">Direct lines</span></div>
+      <div>
+        <h2 class="section-title">Four addresses, and the right one matters.</h2>
+        <p class="section-lead">They reach different desks. Sending an event to reservations or a table to
+          the events team is the one thing that reliably slows an answer down.</p>
+      </div>
+    </div>
+    <div class="svc-grid r d1">
+      <a class="svc" href="mailto:guestexperience@vikretreats.com"><span class="k">01</span><h3>Reservations</h3><p>Availability, rates and stays across more than one house.</p><span class="btn-line"><span>guestexperience@</span><span class="arw">→</span></span></a>
+      <a class="svc" href="#journey"><span class="k">02</span><h3>Journey Designer</h3><p>Itineraries, transfers, riding, the collection and everything between.</p><span class="btn-line"><span>Write a note</span><span class="arw">→</span></span></a>
+      <a class="svc" href="../dining/"><span class="k">03</span><h3>Reserve a table</h3><p>La Susana, Zodiaco, El Asador and CieloMar, booked on the page.</p><span class="btn-line"><span>The four tables</span><span class="arw">→</span></span></a>
+      <a class="svc" href="../celebrate/#enq-form"><span class="k">04</span><h3>Plan an event</h3><p>Weddings, retreats, gatherings and property buyouts.</p><span class="btn-line"><span>events@</span><span class="arw">→</span></span></a>
+    </div>
+  </section>
+
+  <section class="section canvas" id="journey">
+    <div class="section-head aligned r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">Journey Designers</span></div>
+      <div><h2 class="section-title">The person who plans it is included.</h2>
+        <p class="section-lead">Every booking comes with one, at no cost and without asking. They arrange
+          the transfers, the tables, the horses and the hour you actually want to arrive — and they answer
+          before you travel, not on the day.</p></div>
+    </div>
+    <div class="enquiry r d1" style="color:var(--ink)">
+      <div class="enq-side">
+        <p class="enq-statement">Tell us who is coming and what the trip is for. A Journey Designer answers, <em>not a form</em>.</p>
+        <div class="enq-lines">
+          <div class="enq-line"><span class="k">Email</span><a class="v" href="mailto:guestexperience@vikretreats.com">guestexperience@vikretreats.com</a></div>
+          <div class="enq-line"><span class="k">Events</span><a class="v" href="mailto:events@vikretreats.com">events@vikretreats.com</a></div>
+          <div class="enq-line"><span class="k">Address</span><span class="v">Faro de José Ignacio, Maldonado, Uruguay</span></div>
+          <div class="enq-line"><span class="k">Answered</span><span class="v">Within 24 hours, every day</span></div>
+        </div>
+      </div>
+      <form class="enq-form" onsubmit="return false">
+        <div class="enq-field"><span class="n">01</span><label for="n1">Your name</label><input id="n1" type="text" placeholder="Who we are writing back to"></div>
+        <div class="enq-field"><span class="n">02</span><label for="n2">Email</label><input id="n2" type="email" placeholder="you@email.com"></div>
+        <div class="enq-pair">
+          <div class="enq-field"><span class="n">03</span><label for="n3">When</label><input id="n3" type="text" placeholder="January, roughly"></div>
+          <div class="enq-field"><span class="n">04</span><label for="n4">Retreat</label>
+            <select id="n4"><option>Not sure yet — help me choose</option><option>Estancia VIK</option><option>Playa VIK</option><option>Bahía VIK</option></select>
+          </div>
+        </div>
+        <div class="enq-field"><span class="n">05</span><label for="n5">What the trip is for</label><textarea id="n5" rows="3" placeholder="A week off, a birthday, riding, the wine — anything that helps us plan it."></textarea></div>
+        <div class="enq-foot">
+          <button class="bk-submit standalone" type="submit"><span>Send enquiry</span><span class="arw">→</span></button>
+          <p class="enq-note">No account, no newsletter. Your note goes straight to the VIK team.</p>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <section class="section" id="getting-here">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">Getting here</span></div>
+      <div>
+        <h2 class="section-title">Five ways in, and one of them is a boat.</h2>
+        <p class="section-lead">Transfers from any of these are arranged before you land. Send the flight
+          number and somebody is waiting with your name on a board rather than an app notification.</p>
+      </div>
+    </div>
+    <div class="index-list r d1">
+      <a class="index-row" href="#map" data-hover-img="playa/home-img_1789.jpg"><span class="index-n">01</span><span class="index-name">Punta del Este · PDP</span><span class="index-meta">Capitán Curbelo · 40–50 min by road</span><span class="index-cta"><span class="btn-line"><span>On the map</span><span class="arw">→</span></span></span></a>
+      <a class="index-row" href="#map" data-hover-img="bahia/1_bv-0439-scaled.jpg"><span class="index-n">02</span><span class="index-name">Montevideo · MVD</span><span class="index-meta">Carrasco international · 2 h 10 by road</span><span class="index-cta"><span class="btn-line"><span>On the map</span><span class="arw">→</span></span></span></a>
+      <a class="index-row" href="#map" data-hover-img="bahia/dscf5297-min.jpg"><span class="index-n">03</span><span class="index-name">Buenos Aires, by water</span><span class="index-meta">Ferry to Colonia or Montevideo, then road</span><span class="index-cta"><span class="btn-line"><span>On the map</span><span class="arw">→</span></span></span></a>
+      <a class="index-row" href="#map" data-hover-img="estancia/entrance-img_0003-min.jpg"><span class="index-n">04</span><span class="index-name">By road, on Ruta 10</span><span class="index-meta">The coast road · the way everything here is reached</span><span class="index-cta"><span class="btn-line"><span>On the map</span><span class="arw">→</span></span></span></a>
+      <a class="index-row" href="#map" data-hover-img="estancia/estancia-img_7582-min-1.jpg"><span class="index-n">05</span><span class="index-name">Between the houses</span><span class="index-meta">Coast to countryside · 40 min, arranged for you</span><span class="index-cta"><span class="btn-line"><span>On the map</span><span class="arw">→</span></span></span></a>
+    </div>
+    <div class="split-facts" style="max-width:var(--max);margin:3rem auto 0">
+      <div><span>Address</span><span>Ruta 10, 20402 Faro de José Ignacio, Maldonado</span></div>
+      <div><span>Check-in</span><span>From 15:00 · check-out by 12:00</span></div>
+      <div><span>Transfers</span><span>Arranged by your Journey Designer</span></div>
+      <div><span>Send us</span><span>Flight number and arrival time</span></div>
+    </div>
+  </section>
+
+  <section class="section map-section" id="map">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">Where everything is</span></div>
+      <div>
+        <h2 class="section-title">The houses, the airport and the road between.</h2>
+        <p class="section-lead">Touch a name to fly the map. The satellite view is the honest one — it shows
+          how short the distances actually are once you are on this coast.</p>
+      </div>
+    </div>
+    <div class="map-full r">
+      <div id="leafMap" class="leaf-map" aria-label="Map of José Ignacio"></div>
+      <div class="map-view" role="tablist" aria-label="Map view">
+        <button type="button" data-view="map">Map</button>
+        <button type="button" class="active" data-view="sat">Satellite</button>
+      </div>
+      <div class="map-bar"><ul id="mapLegend" class="mb-list"></ul></div>
+    </div>
+  </section>
+
+  <section class="section bone" id="faq" style="color:var(--ink)">
+    <div class="section-head r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">Before you arrive</span></div>
+      <div><h2 class="section-title">The questions that come up.</h2></div>
+    </div>
+    <div class="accordion r d1">
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Booking and cancellation<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">Reservations are confirmed through Bookassist, with PayPal accepted for the José Ignacio properties. Cancellation terms vary by season and by property — peak season carries a longer notice period. The direct rate is the best available, and the Journey Designer is included in it.</div></div></div>
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Check-in and check-out<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">Check-in from 15:00, check-out by 12:00. Early arrival and late departure can usually be arranged — ask before travelling rather than on the day, because in January the room genuinely may not be free.</div></div></div>
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Which house should we book<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">Bahía for families and company, Playa for couples and privacy, Estancia for horses, space and the whole of the rest of the year. If that has not settled it, the chooser lays the three cases side by side and a Journey Designer will simply tell you.</div></div></div>
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Can I use the other houses<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">Yes. Dining, wellness, the horses, the collection and the venue are open to guests of any of the three, and the transfers between them are arranged for you. Where you sleep changes the holiday; it does not fence it in.</div></div></div>
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Children and families<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">Estancia VIK and Bahía VIK are the most family-oriented. Share children's ages before arrival so the rooms, the riding and the dining are arranged around them rather than adjusted on the day.</div></div></div>
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">When to come<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">December and January are full and social. February is the long-day summer. March is warm, empty and the month people who live here prefer. From April the coast quietens and the countryside becomes the reason to travel.</div></div></div>
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Pets<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">Considered case by case. Ask before booking rather than after.</div></div></div>
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Accessibility<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">Accessible accommodation is available at selected properties, and the terrain differs a great deal between the dunes, the point and the countryside. Tell us what you need and we will match you to the right house and the right room, not the nearest one.</div></div></div>
+    </div>
+  </section>
+
+  <section class="section vik">
+    <div class="closing r">
+      <span class="ui-label" style="opacity:.65">Next step</span>
+      <div class="closing-lines">
+        <p>If you know the dates and not the house</p>
+        <p>If you know the house and not the week</p>
+        <p>If you know neither, which is most people</p>
+      </div>
+      <h2 class="closing-title">Then just <em>write</em>.</h2>
+      <div class="closing-actions">
+        <a class="btn-outline" href="#journey"><span>Write to a Journey Designer</span><span class="arw">→</span></a>
+        <a class="btn-line" href="../stay/" data-stay><span>Help Me Choose</span><span class="arw">→</span></a>
+      </div>
+      <p class="closing-note">guestexperience@vikretreats.com</p>
+    </div>
+  </section>
+
+</main>
+
+<div data-vik-checkout></div>
+
+<div data-vik-footer></div>
+
+<script>
+/* Los assets y los diccionarios viven un nivel arriba, en
+   _assets/. El nucleo lo lee de aqui. */
+window.VIK_BASE = "../_assets/";
+</script>
+<script>
+
+/* ── El riel de Instagram ───────────────────────────────────────
+   Mismo motor que la agenda de Pavilion y de Dining: el juego visible
+   se clona una vez y la posicion se envuelve en la mitad del ancho.
+   Deriva sola, se arrastra con inercia, y al tocar abre la ficha.
+
+   CONTENIDOS SIMULADOS: editar IG. Cada entrada necesita la foto, el
+   pie y la direccion del posteo. Mientras no haya API, todas apuntan
+   al perfil — que es honesto: el enlace lleva donde esta la cuenta.
+   ──────────────────────────────────────────────────────────────── */
+(() => {
+  "use strict";
+
+  const PROFILE = "https://www.instagram.com/vikjoseignacio/";
+  const IG = [
+    { where: "Playa Mansa", when: "18 August", name: "The light, again",
+      copy: "The bay does this most evenings between November and March, and it is still the reason half the tables here face west.",
+      img: "../la-susana/assets/img/t/sunset-w900.jpg", href: PROFILE },
+    { where: "Estancia VIK", when: "15 August", name: "Lit at six, eaten at nine",
+      copy: "Three hours between the first flame and the first plate. Nothing about an asado can be hurried, which is the entire point of it.",
+      img: "../_assets/img/t/estancia_bbq-img_7731-w900.jpg", href: PROFILE },
+    { where: "The countryside", when: "11 August", name: "Out before the wind",
+      copy: "Seven in the morning, four thousand acres, and the only hour of the day when the coast road is empty.",
+      img: "../_assets/img/t/estancia_estancia-img_7582-min-1-w900.jpg", href: PROFILE },
+    { where: "Bahía VIK", when: "7 August", name: "Fifteen bungalows, fifteen materials",
+      copy: "Adobe, corten, zinc, glass, thatch, timber and stone. No two exteriors repeat, and the dunes between them do the rest.",
+      img: "../_assets/img/t/bahia_duna-0340-w900.jpg", href: PROFILE },
+    { where: "Playa VIK", when: "2 August", name: "The Atlantic on three sides",
+      copy: "Carlos Ott put the house on the point and then got out of the way. From the terrace the water is the only thing with an opinion.",
+      img: "../_assets/img/t/playa_home-img_1789-w900.jpg", href: PROFILE },
+    { where: "La Susana", when: "28 July", name: "Where the afternoon ends",
+      copy: "Lunch runs into sunset, sunset runs into the bonfire, and nobody has ever asked what time it finishes.",
+      img: "../la-susana/assets/img/t/bonfire-w900.jpg", href: PROFILE }
+  ];
+
+  const rail = document.getElementById("igRail");
+  if (!rail) return;
+
+  /* ── la ficha ─────────────────────────────────────────── */
+  document.body.insertAdjacentHTML("beforeend",
+  '<div class="evlb" id="igLb" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Instagram post">' +
+    '<div class="evlb__panel">' +
+      '<div class="evlb__media" id="igLbMedia">' +
+        '<button class="evlb__x" type="button" id="igLbX" aria-label="Close">&#10005;</button>' +
+      '</div>' +
+      '<div class="evlb__body">' +
+        '<span class="evlb__kind" id="igLbKind"></span>' +
+        '<h3 class="evlb__name" id="igLbName"></h3>' +
+        '<div class="evlb__meta" id="igLbMeta"></div>' +
+        '<p class="evlb__copy" id="igLbCopy"></p>' +
+        '<a class="evlb__cta" id="igLbCta" href="' + PROFILE + '" target="_blank" rel="noopener">' +
+          '<span>Open on Instagram</span><span class="arw">&#8594;</span></a>' +
+        '<span class="evlb__out">The account lives off site</span>' +
+      '</div>' +
+    '</div>' +
+  '</div>');
+
+  const lb = document.getElementById("igLb");
+  const esc = t => String(t == null ? "" : t)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+  const open = n => {
+    const e = IG[n];
+    if (!e) return;
+    document.getElementById("igLbKind").textContent = e.where;
+    document.getElementById("igLbName").textContent = e.name;
+    document.getElementById("igLbCopy").textContent = e.copy;
+    document.getElementById("igLbCta").href = e.href;
+    document.getElementById("igLbMeta").innerHTML =
+      '<div class="evlb__row"><span class="k">Posted</span><span class="v">' + esc(e.when) + '</span></div>' +
+      '<div class="evlb__row"><span class="k">Account</span><span class="v">@vikjoseignacio</span></div>';
+    const m = document.getElementById("igLbMedia");
+    const x = m.querySelector(".evlb__x");
+    m.innerHTML = "";
+    m.insertAdjacentHTML("afterbegin",
+      '<img src="' + esc(e.img) + '" alt="' + esc(e.name) + '">');
+    m.appendChild(x);
+    lb.classList.add("is-open");
+    lb.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+  };
+  const close = () => {
+    lb.classList.remove("is-open");
+    lb.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  };
+  document.getElementById("igLbX").addEventListener("click", close);
+  lb.addEventListener("click", e => { if (e.target === lb) close(); });
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape" && lb.classList.contains("is-open")) close();
+  });
+  document.getElementById("igLbCta").addEventListener("click", close);
+
+  /* ── el riel ──────────────────────────────────────────── */
+  const cards = [...rail.children];
+  cards.forEach(c => {
+    const clone = c.cloneNode(true);
+    clone.setAttribute("data-clone", "");
+    clone.setAttribute("tabindex", "-1");
+    clone.setAttribute("aria-hidden", "true");
+    rail.appendChild(clone);
+  });
+
+  let x = 0, half = 0, v = 0, down = false, lastX = 0, lastT = 0,
+      vel = 0, moved = 0, paused = 0, live = true, last = 0;
+  const SPEED = 24, EASE = 3.4;
+
+  const measure = () => {
+    const gap = parseFloat(getComputedStyle(rail).columnGap) || 0;
+    half = cards.reduce((w, c) => w + c.offsetWidth + gap, 0);
+  };
+  const wrap = () => {
+    if (!half) return;
+    while (-x >= half) x += half;
+    while (x > 0) x -= half;
+  };
+  const draw = () => { rail.style.transform = "translate3d(" + x + "px,0,0)"; };
+
+  measure();
+  addEventListener("resize", () => { measure(); wrap(); draw(); });
+
+  if ("IntersectionObserver" in window)
+    new IntersectionObserver(es => { live = es[0].isIntersecting; },
+      { rootMargin: "200px" }).observe(rail);
+
+  const step = t => {
+    requestAnimationFrame(step);
+    const dt = Math.min(0.05, last ? (t - last) / 1000 : 0.0167);
+    last = t;
+    if (!live || document.hidden) { v = 0; return; }
+    if (down) return;
+    if (v) { v *= Math.exp(-EASE * dt); if (Math.abs(v) < 1) v = 0; }
+    const drift = Date.now() >= paused ? SPEED : 0;
+    const speed = drift + v;
+    if (!speed) return;
+    x -= speed * dt;
+    wrap(); draw();
+  };
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches)
+    requestAnimationFrame(step);
+
+  rail.addEventListener("pointerdown", e => {
+    if (!e.isPrimary || e.button !== 0) return;
+    down = true; moved = 0; v = 0; vel = 0;
+    lastX = e.clientX; lastT = e.timeStamp;
+    if (rail.setPointerCapture) { try { rail.setPointerCapture(e.pointerId); } catch (_) {} }
+    rail.classList.add("is-dragging");
+  });
+  rail.addEventListener("pointermove", e => {
+    if (!down) return;
+    if (!e.buttons) { release(); return; }
+    const dx = e.clientX - lastX;
+    moved += Math.abs(dx);
+    const dtm = e.timeStamp - lastT;
+    if (dtm > 0) vel = vel * 0.7 + (dx / dtm * 1000) * 0.3;
+    lastX = e.clientX; lastT = e.timeStamp;
+    x += dx; wrap(); draw();
+  });
+  function release() {
+    if (!down) return;
+    down = false;
+    paused = Date.now() + 2400;
+    v = Math.max(-2200, Math.min(2200, -vel));
+    if (Math.abs(v) < 40) v = 0;
+    vel = 0;
+    rail.classList.remove("is-dragging");
+  }
+  rail.addEventListener("pointerup", release);
+  rail.addEventListener("pointercancel", release);
+  addEventListener("blur", release);
+
+  rail.addEventListener("click", e => {
+    const card = e.target.closest("[data-ig]");
+    if (!card) return;
+    if (moved > 4) { moved = 0; return; }
+    open(+card.dataset.ig);
+  });
+})();
+</script>
+<script src="../_core/lenis.min.js"></script>
+<script src="../_core/leaflet.js"></script>
+<script src="../_core/vik-chrome-v2.js?v=1"></script>
+<script src="../_core/vik-v2.min.js?v=1"></script>
+<script src="../_core/vik-v2-lib.min.js?v=1"></script>
+</body>
+</html>

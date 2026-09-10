@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1E1E1E">
+<meta name="author" content="Nicolás Castillo">
+<meta name="designer" content="Nicolás Castillo · @donhkoland">
+<meta name="developer" content="Nicolás Castillo · @donhkoland">
+<meta name="copyright" content="VIK Retreats">
+<title>VIK José Ignacio · Module Library</title>
+<link rel="stylesheet" href="../_assets/css/leaflet.css">
+<link rel="stylesheet" href="../_core/vik-core.css?v=43">
+<link rel="stylesheet" href="../_core/vik-modules.css?v=74">
+<style>
+  /* Styleguide chrome only — never ships on a real page. */
+  .sg-spec{position:sticky;top:0;z-index:70;display:flex;align-items:baseline;gap:1.25rem;padding:.85rem var(--pad-x);background:var(--vik);color:#fff;border-top:1px solid rgba(255,255,255,.2)}
+  .sg-spec .id{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.78rem;letter-spacing:.08em}
+  .sg-spec .nm{font-family:"Old Standard VIK",Georgia,serif;font-size:1.05rem}
+  .sg-spec .src{margin-left:auto;font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;letter-spacing:.2em;text-transform:uppercase;opacity:.7;text-align:right}
+  .sg-spec.low{background:#3a3a3a}
+
+
+  /* THE LIGHTBOX, LAID FLAT. A module library has to let you look at
+     the thing, not only open it. This is the same .plb-panel markup
+     the overlay uses, with the fixed positioning, the backdrop and
+     the close/step controls taken off — so the panel can be read in
+     the page. Styleguide only; nothing here ships to a real page. */
+  .plb-flat{position:relative;inset:auto;z-index:1;opacity:1;visibility:visible;
+    display:block;padding:0;background:none}
+  .plb-flat .plb-panel{display:grid;transform:none;max-height:none;width:100%;
+    max-width:var(--max);margin:0 auto}
+  .plb-flat .plb-backdrop,.plb-flat .plb-close,.plb-flat .plb-nav{display:none}
+  /* the overlay reserves a foot for the step controls; laid flat
+     there are none, so the panel would end on 6rem of nothing */
+  .plb-flat .plb-body{padding-bottom:clamp(1.5rem,4vw,2.5rem)}
+  .plb-open-row{display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center;
+    max-width:var(--max);margin:1.75rem auto 0}
+  .sg-toc{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);max-width:var(--max);margin:0 auto}
+  .sg-toc a{background:var(--ink);padding:1rem 1.15rem;display:flex;gap:.75rem;align-items:baseline;transition:background .3s}
+  .sg-toc a:hover{background:var(--vik)}
+  .sg-toc .n{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.72rem;color:var(--vik)}
+  .sg-toc a:hover .n{color:#fff}
+  .sg-toc .l{font-family:"Old Standard VIK",Georgia,serif;font-size:1rem;line-height:1.15}
+  .sg-note{max-width:62ch;margin:0 auto;text-align:center;font-size:.9rem;line-height:1.7;font-weight:300;color:rgba(248,248,240,.5)}
+  @media(max-width:1024px){.sg-toc{grid-template-columns:repeat(2,1fr)}.sg-spec .src{display:none}}
+  @media(max-width:560px){.sg-toc{grid-template-columns:1fr}}
+
+
+  /* ── PAGES ────────────────────────────────────────────────
+     A module is a part; a page is an argument about which parts and in
+     what order. The preview is the live document in a frame at a third
+     scale, so a page that breaks shows itself broken here rather than
+     being remembered as it was on the day someone took a picture. */
+
+  /* ── CONTENTS ON A PHONE ──────────────────────────────────
+     Twenty-nine rows is a wall on a 375px screen. Below 900 the list
+     collapses behind one control that names where you are; opening
+     it lays the whole index over the page. Above 900 the control is
+     not rendered at all and the grid is unchanged. */
+  .sg-toc-toggle{display:none}
+  @media (max-width:900px){
+    .sg-toc-toggle{
+      display:flex;align-items:center;gap:.9rem;width:100%;
+      padding:1rem var(--pad-x);
+      background:rgba(248,248,240,.04);
+      border:1px solid var(--line);border-left:0;border-right:0;
+      color:var(--bone);
+      position:sticky;top:0;z-index:60;
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+    .sg-toc-toggle .n{font-family:"Apercu Mono Pro","Courier New",monospace;
+      font-size:.72rem;color:var(--vik)}
+    .sg-toc-toggle .l{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+      font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;opacity:.6}
+    .sg-toc-toggle .chev{margin-left:auto;transition:transform .4s var(--slow)}
+    .sg-toc-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
+
+    .sg-toc{
+      display:grid;grid-template-columns:1fr;gap:0;
+      /* the grid's frame and gaps become double rules once the list
+         is one column wide — the row rule below is the only line */
+      border:0;background:transparent;
+      max-height:0;overflow:hidden;
+      transition:max-height .5s var(--slow),opacity .35s var(--ease);
+      opacity:0}
+    .sg-toc.is-open{max-height:72vh;overflow-y:auto;opacity:1}
+    .sg-toc a{display:flex;align-items:baseline;gap:.9rem;
+      padding:.85rem var(--pad-x);border-bottom:1px solid rgba(248,248,240,.07);
+      /* each row arrives after the one above it */
+      opacity:0;transform:translateY(-6px);
+      transition:opacity .4s var(--ease),transform .45s var(--slow)}
+    .sg-toc a:last-child{border-bottom:0}
+    .sg-toc.is-open a{opacity:1;transform:none}
+    .sg-toc.is-open a:nth-child(1){transition-delay:0.02s}
+    .sg-toc.is-open a:nth-child(2){transition-delay:0.04s}
+    .sg-toc.is-open a:nth-child(3){transition-delay:0.07s}
+    .sg-toc.is-open a:nth-child(4){transition-delay:0.09s}
+    .sg-toc.is-open a:nth-child(5){transition-delay:0.11s}
+    .sg-toc.is-open a:nth-child(6){transition-delay:0.13s}
+    .sg-toc.is-open a:nth-child(7){transition-delay:0.15s}
+    .sg-toc.is-open a:nth-child(8){transition-delay:0.18s}
+    .sg-toc.is-open a:nth-child(9){transition-delay:0.20s}
+    .sg-toc.is-open a:nth-child(10){transition-delay:0.22s}
+    .sg-toc.is-open a:nth-child(11){transition-delay:0.24s}
+    .sg-toc.is-open a:nth-child(12){transition-delay:0.26s}
+    .sg-toc.is-open a:nth-child(13){transition-delay:0.29s}
+    .sg-toc.is-open a:nth-child(14){transition-delay:0.31s}
+    .sg-toc.is-open a:nth-child(15){transition-delay:0.33s}
+    .sg-toc.is-open a:nth-child(16){transition-delay:0.35s}
+    .sg-toc.is-open a:nth-child(17){transition-delay:0.37s}
+    .sg-toc.is-open a:nth-child(18){transition-delay:0.40s}
+    .sg-toc.is-open a:nth-child(19){transition-delay:0.42s}
+    .sg-toc.is-open a:nth-child(20){transition-delay:0.44s}
+    .sg-toc.is-open a:nth-child(21){transition-delay:0.46s}
+    .sg-toc.is-open a:nth-child(22){transition-delay:0.48s}
+    .sg-toc.is-open a:nth-child(23){transition-delay:0.50s}
+    .sg-toc.is-open a:nth-child(24){transition-delay:0.50s}
+    .sg-toc.is-open a:nth-child(25){transition-delay:0.50s}
+    .sg-toc.is-open a:nth-child(26){transition-delay:0.50s}
+    .sg-toc.is-open a:nth-child(27){transition-delay:0.50s}
+    .sg-toc.is-open a:nth-child(28){transition-delay:0.50s}
+    .sg-toc.is-open a:nth-child(29){transition-delay:0.50s}
+  }
+
+</style>
+</head>
+<body>
+
+<div data-vik-chrome data-page="" data-tag="Module Library" data-logo="retreats"></div>
+
+<main id="top" class="site-shell">
+
+  <section class="hero-page" style="min-height:70vh">
+    <div class="hp-media"><img src="../_assets/img/playa/80c9a60ef2cc735699a0e504cbfa54955f3113fe.jpeg" alt="Playa VIK at dusk"></div>
+    <div class="hp-inner">
+      <div>
+        <span class="ui-label" style="opacity:.5">VIK José Ignacio · Design System v2</span>
+        <h1 class="hp-title">The module<br>library.</h1>
+      </div>
+      <p class="hp-desc">Twenty-five modules, <em>one core</em>. Every block below is derived from an approved VIK reference — the Brand Landing, the Guest Journey and the Wellness page. Pages are composed from these. Nothing else gets designed.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <button class="sg-toc-toggle" type="button" id="sgTocToggle"
+            aria-expanded="false" aria-controls="sgToc">
+      <span class="n" id="sgTocNow">M01</span>
+      <span class="l">Modules</span>
+      <span class="chev">▾</span>
+    </button>
+    <div class="sg-toc" id="sgToc">
+      <a href="#m01"><span class="n">M01</span><span class="l">Booking</span></a>
+      <a href="#m02"><span class="n">M02</span><span class="l">Hero film</span></a>
+      <a href="#m03"><span class="n">M03</span><span class="l">Live ribbon</span></a>
+      <a href="#m04"><span class="n">M04</span><span class="l">Hero page</span></a>
+      <a href="#m05"><span class="n">M05</span><span class="l">Section head</span></a>
+      <a href="#m06"><span class="n">M06</span><span class="l">Intro editorial</span></a>
+      <a href="#m07"><span class="n">M07</span><span class="l">Pillars</span></a>
+      <a href="#m08"><span class="n">M08</span><span class="l">Principles + hover image</span></a>
+      <a href="#m09"><span class="n">M09</span><span class="l">Ecosystem rail</span></a>
+      <a href="#m10"><span class="n">M10</span><span class="l">Chooser</span></a>
+      <a href="#m11"><span class="n">M11</span><span class="l">Retreat lightbox</span></a>
+      <a href="#m12"><span class="n">M12</span><span class="l">Gallery drift</span></a>
+      <a href="#m13"><span class="n">M13</span><span class="l">Wide reel</span></a>
+      <a href="#m14"><span class="n">M14</span><span class="l">Room reel</span></a>
+      <a href="#m15"><span class="n">M15</span><span class="l">Full-bleed band</span></a>
+      <a href="#m16"><span class="n">M16</span><span class="l">Card grid</span></a>
+      <a href="#m17"><span class="n">M17</span><span class="l">Index + hover image</span></a>
+      <a href="#m20"><span class="n">M20</span><span class="l">Rooms · stage</span></a>
+      <a href="#m21"><span class="n">M21</span><span class="l">Week calendar</span></a>
+      <a href="#m22"><span class="n">M22</span><span class="l">Live map</span></a>
+      <a href="#m23"><span class="n">M23</span><span class="l">Accordion</span></a>
+      <a href="#m24"><span class="n">M24</span><span class="l">Closing CTA</span></a>
+      <a href="#m25"><span class="n">M25</span><span class="l">Enquiry</span></a>
+      <a href="#m26"><span class="n">M26</span><span class="l">Lightboxes</span></a>
+      <a href="#m27"><span class="n">M27</span><span class="l">Press rail</span></a>
+      <a href="#m28"><span class="n">M28</span><span class="l">Split</span></a>
+      <a href="#m29"><span class="n">M29</span><span class="l">Pull quote</span></a>
+      <a href="#m30"><span class="n">M30</span><span class="l">Sub-navigation</span></a>
+          <a href="#m31"><span class="n">M31</span><span class="l">Gallery hero</span></a>
+      <a href="#m32"><span class="n">M32</span><span class="l">Specification bar</span></a>
+      <a href="#m33"><span class="n">M33</span><span class="l">Inclusions</span></a>
+      <a href="#m34"><span class="n">M34</span><span class="l">Artist cards</span></a>
+      <a href="#m35"><span class="n">M35</span><span class="l">Breadcrumb</span></a>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m01"><span class="id">M01</span><span class="nm">Booking</span><span class="src">new · wired to Bookassist via vik-booking.js</span></div>
+  <section class="booking">
+    <div class="booking-bg"><img src="../_assets/img/estancia/estancia-img_7582-min-1.jpg" alt=""></div>
+    <div class="booking-inner">
+      <div class="booking-head">
+        <div>
+          <span class="ui-label text-vik">Book your stay</span>
+          <h2 class="booking-title">Three retreats.<br>One <em>search</em>.</h2>
+        </div>
+        <p class="booking-note">Bookassist · PayPal accepted<br>Best rate, booked direct<br>guestexperience@vikretreats.com</p>
+      </div>
+
+      <form class="booking-form" data-booking>
+        <div class="bk-field">
+          <label for="bkProp">Retreat</label>
+          <select id="bkProp" name="property">
+            <option value="any">Help me choose</option>
+            <option value="estancia">Estancia VIK</option>
+            <option value="playa">Playa VIK</option>
+            <option value="bahia">Bahía VIK</option>
+          </select>
+        </div>
+        <div class="bk-field">
+          <label for="bkIn">Arrive</label>
+          <input id="bkIn" name="checkin" type="date">
+        </div>
+        <div class="bk-field">
+          <label for="bkOut">Depart</label>
+          <input id="bkOut" name="checkout" type="date">
+        </div>
+        <div class="bk-field">
+          <label for="bkAd">Guests</label>
+          <select id="bkAd" name="adults">
+            <option value="1">1 guest</option>
+            <option value="2" selected>2 guests</option>
+            <option value="3">3 guests</option>
+            <option value="4">4 guests</option>
+            <option value="6">6 guests</option>
+            <option value="8">Group · 8+</option>
+          </select>
+        </div>
+        <button class="bk-submit" type="submit"><span>Check availability</span><span class="arw">→</span></button>
+      </form>
+
+      <div class="booking-foot">
+        <div class="booking-alts">
+          <a class="btn-line" href="#m09"><span>Help Me Choose</span><span class="arw">→</span></a>
+          <a class="btn-line" href="#m25"><span>Contact a Journey Designer</span><span class="arw">→</span></a>
+          <a class="btn-line" href="#m25"><span>Plan an Event</span><span class="arw">→</span></a>
+        </div>
+        <div class="booking-trust">
+          <span>Direct rate</span><span>Free cancellation*</span><span>Journey Designer included</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m02"><span class="id">M02</span><span class="nm">Hero film</span><span class="src">source · wellness .hero · homepage + property tops</span></div>
+  <section class="hero-film">
+    <div class="hf-media">
+      <video autoplay muted loop playsinline preload="metadata"
+             poster="../_assets/video/estancia-poster.webp"
+             data-src="../_assets/video/estancia.mp4"></video>
+    </div>
+    <div class="hf-grid">
+      <div class="r">
+        <span class="hf-eyebrow">José Ignacio · Uruguay</span>
+        <h2 class="hf-title">One destination.<br>Three ways to <em>experience</em> it.</h2>
+        <p class="hf-desc">Between the ocean and the countryside, a connected world of art, design, nature, gastronomy, wine, wellness and the unmistakable rhythm of Uruguay.</p>
+        <div class="hf-actions">
+          <a class="btn-solid" href="#m01"><span>Plan Your Stay</span><span class="arw">→</span></a>
+          <a class="btn-line" href="#m09"><span>Help Me Choose</span><span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m03"><span class="id">M03</span><span class="nm">Live ribbon</span><span class="src">real data · Open-Meteo · 1:1 reel under 1024</span></div>
+  <section class="fact-ribbon" data-live-ribbon style="--ribbon:#1E1E1E">
+    <div class="fact">
+      <span class="k"><span class="live-dot"></span>Local time</span>
+      <span class="v" data-live="time">—</span>
+      <span class="s" data-live-sub="time">José Ignacio, Uruguay</span>
+    </div>
+    <div class="fact">
+      <span class="k">Weather</span>
+      <span class="v" data-live="weather">—</span>
+      <span class="s" data-live-sub="weather">Loading conditions…</span>
+    </div>
+    <div class="fact">
+      <span class="k">Wind</span>
+      <span class="v" data-live="wind">—</span>
+      <span class="s" data-live-sub="wind">Loading…</span>
+    </div>
+    <div class="fact">
+      <span class="k">Ocean</span>
+      <span class="v" data-live="sea">—</span>
+      <span class="s" data-live-sub="sea">Playa Brava</span>
+    </div>
+    <div class="fact">
+      <span class="k">Season</span>
+      <span class="v" data-live="season">—</span>
+      <span class="s" data-live-sub="season">—</span>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m04"><span class="id">M04</span><span class="nm">Hero page</span><span class="src">one left column · title optional · highlight in Selva</span></div>
+  <section class="hero-page">
+    <div class="hp-media">
+      <div class="hp-slides" data-hold="5600">
+        <div class="hp-slide is-on"><img src="../_assets/img/t/bahia_1_bv-0439-scaled-w1600.jpg" alt="Bahía VIK within the dunes"></div>
+        <div class="hp-slide"><video muted loop playsinline preload="none" poster="../_assets/video/playa-poster.webp" data-src="../_assets/video/playa.mp4"></video></div>
+        <div class="hp-slide"><img src="../_assets/img/t/bahia_cp-bahiavik-0552-scaled-w1600.jpg" alt="Bahía VIK interiors"></div>
+      </div>
+      <div class="hp-dots"><button class="hp-dot is-on" aria-label="1"></button><button class="hp-dot" aria-label="2"></button><button class="hp-dot" aria-label="3"></button></div>
+    </div>
+    <div class="hp-inner left">
+      <div>
+        <span class="ui-label" style="opacity:.55">Retreat 03 · Playa Mansa</span>
+        <h1 class="hp-title">Bahía VIK</h1>
+        <p class="hp-desc">Relaxed beach lifestyle, design-led architecture and social energy. Bungalows tucked into the breezy dunes of <em>Playa Mansa</em>, each one a different material and a different artist.</p>
+        <div class="hf-actions" style="margin-top:1.75rem">
+          <a class="btn-solid" href="#m01"><span>Book Your Stay</span><span class="arw">→</span></a>
+          <a class="btn-line" href="#m10"><span>See the three retreats</span><span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" hidden>
+  <!-- NOTE
+         The copy starts on the same left edge as the mark in the bar — the measure is
+         dropped so a centred block never sits inboard of the logo. The slide controls are
+         34×22 targets carrying a 26×2 rule, clear of the copy on the right.
+    -->
+    <!-- NOTE
+         The eyebrow and .hp-title above are the example title, shown so the module reads as
+         a spec. The three retreat pages run this hero without them — the bar, the sub-nav
+         and the ribbon already carry the name — and keep the title as an .sr-only h1 for
+         structure. Both are the same module.
+    -->
+  </section>
+  <div class="sg-spec" id="m05"><span class="id">M05</span><span class="nm">Section head</span><span class="src">source · guest journey .section-head · opens every section</span></div>
+  <section class="section">
+    <div class="section-head r">
+      <div>
+        <span class="section-eyebrow ui-label">Stay · Three retreats</span>
+      </div>
+      <div>
+        <h2 class="section-title">Choose the retreat, and the trip chooses itself.</h2>
+        <p class="section-lead">Staying at VIK José Ignacio is not about choosing a room. It is about choosing a very specific kind of experience, shaped by the property you stay in and the season in which you visit.</p>
+      </div>
+    </div>
+    <hr class="rule">
+  </section>
+
+  <div class="sg-spec" id="m06"><span class="id">M06</span><span class="nm">Intro editorial</span><span class="src">source · wellness .intro · destination + philosophy copy</span></div>
+  <section class="section canvas">
+    <div class="intro r">
+      <h2 class="intro-h">One connected<br><em>destination</em></h2>
+      <div class="intro-body">
+        <p class="lead">VIK José Ignacio is not three separate hotels. It is one ecosystem, held together by dining, wellness, art, horses, nature, events and the Journey Designer team.</p>
+        <p>Each retreat has its own landscape, architecture and reason to choose it. Playa VIK is contemporary, intimate and ocean-driven. Estancia VIK is rooted in nature, horses and open countryside. Bahía VIK is relaxed, design-led and social, right on the bay.</p>
+        <p>José Ignacio itself changes through the year. Late December and January are vibrant and social. March and the shoulder season are quieter, more intimate and restorative. The website tells you not only where to stay, but when to come.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m07"><span class="id">M07</span><span class="nm">Pillars</span><span class="src">wellness .pls · 2–5 columns · 1:1 reel under 1024</span></div>
+  <section class="section bone">
+    <div class="section-head r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">The VIK pillars</span></div>
+      <div>
+        <h2 class="section-title">Created through art. Rooted in nature and culture. <em class="script">Yours to experience.</em></h2>
+      </div>
+    </div>
+    <div class="pillars c3 r d1">
+      <article class="pillar"><span class="i">01 · Art &amp; Design</span><h3>Creativity, made <em>physical</em></h3><p>Art, architecture, interiors, furniture and creative collaboration. Every VIK building is a commission, not a template.</p></article>
+      <article class="pillar"><span class="i">02 · Nature &amp; Culture</span><h3>Shaped by <em>place</em></h3><p>Unique destinations, traditions and heritage. Each retreat is formed by its landscape, local identity and seasonal rhythm.</p></article>
+      <article class="pillar"><span class="i">03 · Wine</span><h3>Terroir as a <em>language</em></h3><p>Vineyard, winemaking, viticulture, architecture and vineyard experiences — a global VIK asset from Millahue to José Ignacio.</p></article>
+      <article class="pillar"><span class="i">04 · Dining</span><h3>Where flavour meets <em>nourishment</em></h3><p>Local, seasonal, farm-to-table and open fire. Dining as a shared cultural experience rather than a service.</p></article>
+      <article class="pillar"><span class="i">05 · Wellbeing</span><h3>How guests <em>feel</em></h3><p>Movement, recovery, restoration, nourishment, nature, sleep, social connection and balance.</p></article>
+      <article class="pillar"><span class="i">06 · Hospitality</span><h3>Intuitive and <em>personal</em></h3><p>Journey Designers, personal itineraries, recognition, flexibility and human service. Warm, but sophisticated.</p></article>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m08"><span class="id">M08</span><span class="nm">Principles + hover image</span><span class="src">wellness .prs · image trails the cursor · optional per row</span></div>
+  <section class="section canvas">
+    <div class="section-head r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">Culinary philosophy</span></div>
+      <div><h2 class="section-title">What guides every plate.</h2><p class="section-lead">Hover a line. Rows with a photograph reveal it; rows without one simply stay quiet.</p></div>
+    </div>
+    <div class="principles r d1">
+      <article class="principle" data-hover-img="estancia/gardens-img_1111-min.jpg"><span class="n">01</span><h3>Local and seasonal sourcing</h3><p>Producers within reach of the property. The menu follows the season, not the other way round.</p></article>
+      <article class="principle" data-hover-img="estancia/estanciavik-0323-min.jpg"><span class="n">02</span><h3>Farm to table</h3><p>Estancia VIK grows and rears much of what reaches its own tables, from garden beds to the parrilla.</p></article>
+      <article class="principle" data-hover-img="estancia/bbq-img_7731.jpg"><span class="n">03</span><h3>Open-fire cooking</h3><p>The Uruguayan asador, treated as a discipline. Slow heat, whole cuts, embers and time.</p></article>
+      <article class="principle" data-hover-img="bahia/vik_food08.jpg"><span class="n">04</span><h3>Coastal and countryside cuisine</h3><p>Fish from the Atlantic at CieloMar and Zodiaco. Fire and field at El Asador.</p></article>
+      <article class="principle"><span class="n">05</span><h3>Healthy and pleasurable</h3><p>Fresh, organic and light — without ever becoming an exercise in restraint. <em>This row has no image on purpose.</em></p></article>
+      <article class="principle" data-hover-img="bahia/bg-vina-vik.jpeg"><span class="n">06</span><h3>VIK Wines at the centre</h3><p>Millahue Valley on every list. Dining as a shared cultural experience.</p></article>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m09"><span class="id">M09</span><span class="nm">Ecosystem rail</span><span class="src">full-bleed · flush · +42% · continuous drift · photo or video</span></div>
+  <section class="section">
+    <div class="prop-rail-head r">
+      <div>
+        <span class="section-eyebrow ui-label">The ecosystem</span>
+        <h2 class="section-title" style="margin-top:.5rem">Six ways in.</h2>
+      </div>
+      <span class="prop-rail-hint">Drag to explore</span>
+    </div>
+    <div class="prop-rail" id="sgRail" data-rail="auto" data-rail-speed="0.42">
+      <article class="prop">
+        <img src="../_assets/img/estancia/estancia-img_7582-min-1.jpg" alt="Estancia VIK">
+        <div class="prop-body">
+          <span class="prop-loc">Retreat 01 · Countryside</span>
+          <h3 class="prop-name lw">Estancia VIK</h3>
+          <p class="prop-desc">Four thousand acres of open country, horses and open-fire gastronomy. Rooted in Uruguayan tradition.</p>
+          <div class="prop-tags"><span class="tag">Horses</span><span class="tag">Open fire</span><span class="tag">Families</span></div>
+        </div>
+      </article>
+      <article class="prop">
+        <img src="../_assets/img/playa/80c9a60ef2cc735699a0e504cbfa54955f3113fe.jpeg" alt="Playa VIK">
+        <div class="prop-body">
+          <span class="prop-loc">Retreat 02 · Oceanfront</span>
+          <h3 class="prop-name lw">Playa VIK</h3>
+          <p class="prop-desc">Architecture and contemporary art above the point, with the Atlantic on three sides.</p>
+          <div class="prop-tags"><span class="tag">Architecture</span><span class="tag">Art</span><span class="tag">Privacy</span></div>
+        </div>
+      </article>
+      <article class="prop">
+        <img src="../_assets/img/bahia/1_bv-0439-scaled.jpg" alt="Bahía VIK">
+        <div class="prop-body">
+          <span class="prop-loc">Retreat 03 · Playa Mansa</span>
+          <h3 class="prop-name lw">Bahía VIK</h3>
+          <p class="prop-desc">Design bungalows set into the dunes. Relaxed, social, and the most family-facing of the three.</p>
+          <div class="prop-tags"><span class="tag">Design</span><span class="tag">Social</span><span class="tag">Wellness</span></div>
+        </div>
+      </article>
+      <article class="prop">
+        <img src="../_assets/img/bahia/cp-bahiavik-0549-scaled.jpg" alt="Pavilion VIK">
+        <div class="prop-body">
+          <span class="prop-loc">Venue · Oceanfront</span>
+          <h3 class="prop-name lw">Pavilion VIK</h3>
+          <p class="prop-desc">The cultural and celebration venue of the destination. Weddings, retreats and programming.</p>
+          <div class="prop-tags"><span class="tag">Events</span><span class="tag">Culture</span></div>
+        </div>
+      </article>
+      <article class="prop">
+        <img src="../_assets/img/bahia/vik_food08.jpg" alt="La Susana">
+        <div class="prop-body">
+          <span class="prop-loc">Dining · Playa Mansa</span>
+          <h3 class="prop-name lw">La Susana</h3>
+          <p class="prop-desc">Beachfront dining, music and the sunset ritual that defines a José Ignacio evening.</p>
+          <div class="prop-tags"><span class="tag">Beach dining</span><span class="tag">Sunset</span><span class="tag">Music</span></div>
+        </div>
+      </article>
+      <article class="prop">
+        <img src="../_assets/img/playa/spa-img_0817.jpg" alt="The Shack Wellness">
+        <div class="prop-body">
+          <span class="prop-loc">Wellness</span>
+          <h3 class="prop-name lw">The Shack</h3>
+          <p class="prop-desc">Movement, strength, recovery and treatments — nature-led wellbeing across the destination.</p>
+          <div class="prop-tags"><span class="tag">Movement</span><span class="tag">Recovery</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m10"><span class="id">M10</span><span class="nm">Chooser</span><span class="src">full-bleed · film per panel · every panel opens M27b</span></div>
+  <section class="section canvas flush">
+    <div class="section-head r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">Help me choose</span></div>
+      <div><h2 class="section-title">The trip changes completely<br>depending on where you stay.</h2><p class="section-lead">Replaces the comparison table. The photograph is the argument, each panel plays its own film, and clicking opens the case in a lightbox rather than another page. On touch every panel is simply open.</p></div>
+    </div>
+  </section>
+  <div class="chooser r r-fade">
+    <a class="ch-panel" data-key="estancia" href="#m04">
+      <img src="../_assets/img/t/estancia_estancia-img_7582-min-1-w1600.jpg" alt="Estancia VIK">
+      <video muted loop playsinline preload="none" data-src="../_assets/video/millahue.mp4"></video>
+      <span class="ch-index">01</span>
+      <span class="ch-body">
+        <span class="lw ch-mark">Estancia VIK</span>
+        <span class="ch-place">Countryside · 20 min inland</span>
+        <span class="ch-lede">Four thousand acres, horses and fire. The Uruguay that existed before the coast was discovered.</span>
+        <span class="ch-tags"><span class="tag">Families</span><span class="tag">Riders</span><span class="tag">All year</span></span>
+        <span class="ch-cta"><span class="btn-line"><span>See the case</span><span class="arw">→</span></span></span>
+      </span>
+    </a>
+    <a class="ch-panel" data-key="playa" href="#m04">
+      <img src="../_assets/img/t/playa_80c9a60ef2cc735699a0e504cbfa54955f3113fe-w1600.jpg" alt="Playa VIK">
+      <video muted loop playsinline preload="none" data-src="../_assets/video/playa.mp4"></video>
+      <span class="ch-index">02</span>
+      <span class="ch-body">
+        <span class="lw ch-mark">Playa VIK</span>
+        <span class="ch-place">Oceanfront · on the point</span>
+        <span class="ch-lede">Carlos Ott architecture and contemporary art, with the Atlantic on three sides and almost no one else.</span>
+        <span class="ch-tags"><span class="tag">Couples</span><span class="tag">Art</span><span class="tag">Privacy</span></span>
+        <span class="ch-cta"><span class="btn-line"><span>See the case</span><span class="arw">→</span></span></span>
+      </span>
+    </a>
+    <a class="ch-panel" data-key="bahia" href="#m04">
+      <img src="../_assets/img/t/bahia_1_bv-0439-scaled-w1600.jpg" alt="Bahía VIK">
+      <video muted loop playsinline preload="none" data-src="../_assets/video/milano.mp4"></video>
+      <span class="ch-index">03</span>
+      <span class="ch-body">
+        <span class="lw ch-mark">Bahía VIK</span>
+        <span class="ch-place">Playa Mansa · in the dunes</span>
+        <span class="ch-lede">Design bungalows in the beach dunes on the calm side. The most social of the three, the easiest with children.</span>
+        <span class="ch-tags"><span class="tag">Families</span><span class="tag">Groups</span><span class="tag">Beach</span></span>
+        <span class="ch-cta"><span class="btn-line"><span>See the case</span><span class="arw">→</span></span></span>
+      </span>
+    </a>
+  </div>
+
+  <div class="sg-spec" id="m11"><span class="id">M11</span><span class="nm">Retreat lightbox</span><span class="src">what every Help Me Choose opens · this is the comparison</span></div>
+  <section class="section">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">The comparison</span></div>
+      <div><h2 class="section-title">The case for one house,<br>without leaving the page.</h2><p class="section-lead">Clicking any panel in M27 opens this. It replaced the comparison table: instead of reading three columns of specification, the guest reads one house at a time and steps between them with the arrows — which is why the counter says <span class="text-vik">01 / 03</span>. Film on one side, the argument and the facts on the other. ESC closes it, the arrow keys step it, and only one film ever plays.</p></div>
+    </div>
+
+    <div class="plb plb-flat r d1">
+      <div class="plb-panel is-on" data-plb="demo" data-name="Playa VIK">
+        <div class="plb-media">
+          <img src="../_assets/img/t/playa_80c9a60ef2cc735699a0e504cbfa54955f3113fe-w1600.jpg" alt="Playa VIK">
+          <span class="plb-index">02 / 03</span>
+        </div>
+        <div class="plb-body">
+          <span class="plb-place">Oceanfront · on the point</span>
+          <span class="lw plb-mark">Playa VIK</span>
+          <p class="plb-lede">Carlos Ott architecture and contemporary art, with the Atlantic on three sides and almost no one else.</p>
+          <div class="plb-facts">
+            <div><span>Best for</span><span>Couples, art, privacy</span></div>
+            <div><span>Architecture</span><span>Carlos Ott · titanium</span></div>
+            <div><span>Dining</span><span>CieloMar · fish BBQ</span></div>
+            <div><span>Rooms</span><span>Suites and six casas</span></div>
+            <div><span>Season</span><span>December – March</span></div>
+          </div>
+          <div class="plb-actions">
+            <a class="btn-solid" href="../playa-vik/"><span>Explore Playa VIK</span><span class="arw">→</span></a>
+            <a class="btn-line" href="#m01"><span>Check availability</span><span class="arw">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="plb-open-row r d2">
+      <span class="ui-label" style="opacity:.5">Open it for real</span>
+      <button class="btn-line" type="button" data-demo="plb" data-key="estancia"><span>Estancia VIK</span><span class="arw">→</span></button>
+      <button class="btn-line" type="button" data-demo="plb" data-key="playa"><span>Playa VIK</span><span class="arw">→</span></button>
+      <button class="btn-line" type="button" data-demo="plb" data-key="bahia"><span>Bahía VIK</span><span class="arw">→</span></button>
+    </div>
+
+    <!-- NOTE
+         Live on jignacio.html and stay.html, from every panel of the chooser. There is no
+         comparison page and no comparison table anywhere in the system — this is it.
+    -->
+  </section>
+
+  <div class="sg-spec" id="m12"><span class="id">M12</span><span class="nm">Gallery drift</span><span class="src">moves on its own · pauses on hover · drag to override</span></div>
+  <section class="section bone gallery">
+    <div class="section-head r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">Gallery</span></div>
+      <div><h2 class="section-title">It moves on its own.</h2></div>
+    </div>
+    <div class="gallery-rail" data-rail="auto" data-rail-speed="0.5">
+      <figure class="gallery-card"><img src="../_assets/img/estancia/chapel-img_0177-min.jpg" alt="The chapel at Estancia VIK"><span>The Chapel · Estancia</span></figure>
+      <figure class="gallery-card"><img src="../_assets/img/playa/casas-main-scaled.jpg" alt="The casas at Playa VIK"><span>The Casas · Playa</span></figure>
+      <figure class="gallery-card"><img src="../_assets/img/estancia/bbq-img_7731.jpg" alt="Open fire at El Asador"><span>El Asador · Estancia</span></figure>
+      <figure class="gallery-card"><img src="../_assets/img/bahia/cp-bahiavik-0552-scaled.jpg" alt="Bahía VIK interiors"><span>Interiors · Bahía</span></figure>
+      <figure class="gallery-card"><img src="../_assets/img/estancia/gardens-img_1111-min.jpg" alt="Gardens at Estancia VIK"><span>Gardens · Estancia</span></figure>
+      <figure class="gallery-card"><img src="../_assets/img/playa/pool-img_0520.jpg" alt="Pool at Playa VIK"><span>Pool · Playa</span></figure>
+      <figure class="gallery-card"><img src="../_assets/img/estancia/sculpture-img_1789.jpg" alt="Sculpture in the landscape"><span>Sculpture · Playa</span></figure>
+      <figure class="gallery-card"><img src="../_assets/img/bahia/vik_food08.jpg" alt="Dining at Bahía VIK"><span>Zodiaco · Bahía</span></figure>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m13"><span class="id">M13</span><span class="nm">Wide reel</span><span class="src">landscape · larger · almost touching · full-bleed</span></div>
+  <section class="section" style="padding-bottom:2.5rem">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">Gallery · landscape</span></div>
+      <div><h2 class="section-title">One continuous horizon.</h2><p class="section-lead">The wide counterpart to M10. Larger frames, a six-pixel gap, three ratios in rotation so the run never reads as a row of clones. Drag, flick or leave it — it drifts on its own.</p></div>
+    </div>
+  </section>
+  <div class="reel-wide r r-fade" data-rail="auto" data-rail-speed="0.42">
+      <figure class="reel-card"><img src="../_assets/img/t/estancia_estancia-img_7582-min-1-w1600.jpg" alt="The Estancia"><figcaption class="reel-cap"><span class="n">The Estancia</span><span class="m">Countryside · 4,000 acres</span></figcaption></figure>
+      <figure class="reel-card"><img src="../_assets/img/t/playa_casas-main-scaled-w1600.jpg" alt="The Casas"><figcaption class="reel-cap"><span class="n">The Casas</span><span class="m">Playa VIK</span></figcaption></figure>
+      <figure class="reel-card"><img src="../_assets/img/t/bahia_cp-bahiavik-0562-scaled-w1600.jpg" alt="The Dunes"><figcaption class="reel-cap"><span class="n">The Dunes</span><span class="m">Playa Mansa</span></figcaption></figure>
+      <figure class="reel-card"><img src="../_assets/img/t/estancia_bbq-img_7731-w1600.jpg" alt="El Asador"><figcaption class="reel-cap"><span class="n">El Asador</span><span class="m">Open fire</span></figcaption></figure>
+      <figure class="reel-card"><img src="../_assets/img/t/playa_home-img_1789-w1600.jpg" alt="The Point"><figcaption class="reel-cap"><span class="n">The Point</span><span class="m">Playa VIK</span></figcaption></figure>
+      <figure class="reel-card"><img src="../_assets/img/t/bahia_16_bv-1106-scaled-w1600.jpg" alt="The Bay"><figcaption class="reel-cap"><span class="n">The Bay</span><span class="m">Bahía VIK</span></figcaption></figure>
+      <figure class="reel-card"><img src="../_assets/img/t/estancia_gardens-img_1111-min-w1600.jpg" alt="Patios & Gardens"><figcaption class="reel-cap"><span class="n">Patios & Gardens</span><span class="m">Estancia VIK</span></figcaption></figure>
+      <figure class="reel-card"><img src="../_assets/img/t/playa_pool-img_0520-w1600.jpg" alt="The Pool"><figcaption class="reel-cap"><span class="n">The Pool</span><span class="m">Playa VIK</span></figcaption></figure>
+  </div>
+
+  <div class="sg-spec" id="m14"><span class="id">M14</span><span class="nm">Room reel</span><span class="src">every room, full height · filter bar · opens M26b</span></div>
+    <div class="roomreel r r-fade" data-rooms data-rooms-inert tabindex="0" aria-label="All rooms">
+    <div class="roomreel-bar" role="tablist" aria-label="Filter rooms"></div>
+    <div class="roomreel-track">
+      <a class="wall-tile" href="#accommodations" data-cat="master"
+         data-img="rooms/estancia/master-suite-daglio-01.jpg"
+         data-name="Master Suite Daglio" data-meta="Estancia VIK · Master Suite"
+         data-gallery="rooms/estancia/master-suite-daglio-02.jpg">
+        <img src="../_assets/img/t/rooms_estancia_master-suite-daglio-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_master-suite-daglio-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_master-suite-daglio-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Master Suite Daglio" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">01</span>
+          <span class="rr-name">Master Suite Daglio</span>
+          <span class="rr-meta">Estancia VIK · Master Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="master"
+         data-img="rooms/estancia/master-suite-legrand-01.jpg"
+         data-name="Master Suite Legrand" data-meta="Estancia VIK · Master Suite">
+        <img src="../_assets/img/t/rooms_estancia_master-suite-legrand-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_master-suite-legrand-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_master-suite-legrand-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Master Suite Legrand" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">02</span>
+          <span class="rr-name">Master Suite Legrand</span>
+          <span class="rr-meta">Estancia VIK · Master Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="master"
+         data-img="rooms/estancia/master-suite-seveso-01.jpg"
+         data-name="Master Suite Seveso" data-meta="Estancia VIK · Master Suite">
+        <img src="../_assets/img/t/rooms_estancia_master-suite-seveso-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_master-suite-seveso-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_master-suite-seveso-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Master Suite Seveso" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">03</span>
+          <span class="rr-name">Master Suite Seveso</span>
+          <span class="rr-meta">Estancia VIK · Master Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/estancia/amengual-suite-01.jpg"
+         data-name="Amengual Suite" data-meta="Estancia VIK · Guest Suite">
+        <img src="../_assets/img/t/rooms_estancia_amengual-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_amengual-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_amengual-suite-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Amengual Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">04</span>
+          <span class="rr-name">Amengual Suite</span>
+          <span class="rr-meta">Estancia VIK · Guest Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/estancia/badaro-suite-01.jpg"
+         data-name="Badaro Suite" data-meta="Estancia VIK · Guest Suite">
+        <img src="../_assets/img/t/rooms_estancia_badaro-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_badaro-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_badaro-suite-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Badaro Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">05</span>
+          <span class="rr-name">Badaro Suite</span>
+          <span class="rr-meta">Estancia VIK · Guest Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/estancia/barea-suite-01.jpg"
+         data-name="Barea Suite" data-meta="Estancia VIK · Guest Suite">
+        <img src="../_assets/img/t/rooms_estancia_barea-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_barea-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_barea-suite-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Barea Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">06</span>
+          <span class="rr-name">Barea Suite</span>
+          <span class="rr-meta">Estancia VIK · Guest Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/estancia/cardozo-suite-01.jpg"
+         data-name="Cardozo Suite" data-meta="Estancia VIK · Guest Suite">
+        <img src="../_assets/img/t/rooms_estancia_cardozo-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_cardozo-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_cardozo-suite-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Cardozo Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">07</span>
+          <span class="rr-name">Cardozo Suite</span>
+          <span class="rr-meta">Estancia VIK · Guest Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/estancia/duarte-suite-01.jpg"
+         data-name="Duarte Suite" data-meta="Estancia VIK · Guest Suite">
+        <img src="../_assets/img/t/rooms_estancia_duarte-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_duarte-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_duarte-suite-01-w900.jpg 900w, ../_assets/img/t/rooms_estancia_duarte-suite-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Duarte Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">08</span>
+          <span class="rr-name">Duarte Suite</span>
+          <span class="rr-meta">Estancia VIK · Guest Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/estancia/musso-suite-01.jpg"
+         data-name="Musso Suite" data-meta="Estancia VIK · Guest Suite">
+        <img src="../_assets/img/t/rooms_estancia_musso-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_musso-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_musso-suite-01-w900.jpg 900w, ../_assets/img/t/rooms_estancia_musso-suite-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Musso Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">09</span>
+          <span class="rr-name">Musso Suite</span>
+          <span class="rr-meta">Estancia VIK · Guest Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/estancia/trujillo-suite-01.jpg"
+         data-name="Trujillo Suite" data-meta="Estancia VIK · Guest Suite">
+        <img src="../_assets/img/t/rooms_estancia_trujillo-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_trujillo-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_trujillo-suite-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Trujillo Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">10</span>
+          <span class="rr-name">Trujillo Suite</span>
+          <span class="rr-meta">Estancia VIK · Guest Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/estancia/turell-suite-01.jpg"
+         data-name="Turell Suite" data-meta="Estancia VIK · Guest Suite"
+         data-gallery="rooms/estancia/turell-suite-02.jpg">
+        <img src="../_assets/img/t/rooms_estancia_turell-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_estancia_turell-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_estancia_turell-suite-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Turell Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">11</span>
+          <span class="rr-name">Turell Suite</span>
+          <span class="rr-meta">Estancia VIK · Guest Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/playa/atrium-suite-01.jpg"
+         data-name="Atrium Suite" data-meta="Playa VIK · Suite">
+        <img src="../_assets/img/t/rooms_playa_atrium-suite-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_playa_atrium-suite-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Atrium Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">12</span>
+          <span class="rr-name">Atrium Suite</span>
+          <span class="rr-meta">Playa VIK · Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/playa/azul-01.jpg"
+         data-name="Azul" data-meta="Playa VIK · Ocean view suite">
+        <img src="../_assets/img/t/rooms_playa_azul-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_azul-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_azul-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_azul-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Azul" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">13</span>
+          <span class="rr-name">Azul</span>
+          <span class="rr-meta">Playa VIK · Ocean view suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/playa/caras-suite-01.jpg"
+         data-name="Caras Suite" data-meta="Playa VIK · Ocean view suite">
+        <img src="../_assets/img/t/rooms_playa_caras-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_caras-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_caras-suite-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_caras-suite-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Caras Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">14</span>
+          <span class="rr-name">Caras Suite</span>
+          <span class="rr-meta">Playa VIK · Ocean view suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/playa/fuerteventura-suite-01.jpg"
+         data-name="Fuerteventura Suite" data-meta="Playa VIK · Ocean view suite">
+        <img src="../_assets/img/t/rooms_playa_fuerteventura-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_fuerteventura-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_fuerteventura-suite-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Fuerteventura Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">15</span>
+          <span class="rr-name">Fuerteventura Suite</span>
+          <span class="rr-meta">Playa VIK · Ocean view suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/playa/valentina-suite-01.jpg"
+         data-name="Valentina Suite" data-meta="Playa VIK · Ocean view suite">
+        <img src="../_assets/img/t/rooms_playa_valentina-suite-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_valentina-suite-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_valentina-suite-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_valentina-suite-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Valentina Suite" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">16</span>
+          <span class="rr-name">Valentina Suite</span>
+          <span class="rr-meta">Playa VIK · Ocean view suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="room"
+         data-img="rooms/playa/canoa-01.jpg"
+         data-name="Canoa" data-meta="Playa VIK · Garden view">
+        <img src="../_assets/img/t/rooms_playa_canoa-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_canoa-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_canoa-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_canoa-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Canoa" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">17</span>
+          <span class="rr-name">Canoa</span>
+          <span class="rr-meta">Playa VIK · Garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="room"
+         data-img="rooms/playa/cardozo-01.jpg"
+         data-name="Cardozo" data-meta="Playa VIK · Garden view">
+        <img src="../_assets/img/t/rooms_playa_cardozo-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_cardozo-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_cardozo-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_cardozo-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Cardozo" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">18</span>
+          <span class="rr-name">Cardozo</span>
+          <span class="rr-meta">Playa VIK · Garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="room"
+         data-img="rooms/playa/damas-01.jpg"
+         data-name="Damas" data-meta="Playa VIK · Garden view · living area">
+        <img src="../_assets/img/t/rooms_playa_damas-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_damas-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_damas-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_damas-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Damas" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">19</span>
+          <span class="rr-name">Damas</span>
+          <span class="rr-meta">Playa VIK · Garden view · living area</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="room"
+         data-img="rooms/playa/exodus-01.jpg"
+         data-name="Exodus" data-meta="Playa VIK · Garden view · living area">
+        <img src="../_assets/img/t/rooms_playa_exodus-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_exodus-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_exodus-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_exodus-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Exodus" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">20</span>
+          <span class="rr-name">Exodus</span>
+          <span class="rr-meta">Playa VIK · Garden view · living area</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="room"
+         data-img="rooms/playa/imbuya-01.jpg"
+         data-name="Imbuya" data-meta="Playa VIK · Garden view">
+        <img src="../_assets/img/t/rooms_playa_imbuya-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_imbuya-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_imbuya-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_imbuya-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Imbuya" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">21</span>
+          <span class="rr-name">Imbuya</span>
+          <span class="rr-meta">Playa VIK · Garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="room"
+         data-img="rooms/playa/lule-01.jpg"
+         data-name="Lule" data-meta="Playa VIK · Garden view">
+        <img src="../_assets/img/t/rooms_playa_lule-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_lule-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_lule-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_lule-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Lule" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">22</span>
+          <span class="rr-name">Lule</span>
+          <span class="rr-meta">Playa VIK · Garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="room"
+         data-img="rooms/playa/mansa-01.jpg"
+         data-name="Mansa" data-meta="Playa VIK · Garden view">
+        <img src="../_assets/img/t/rooms_playa_mansa-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_mansa-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_mansa-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_mansa-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Mansa" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">23</span>
+          <span class="rr-name">Mansa</span>
+          <span class="rr-meta">Playa VIK · Garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="room"
+         data-img="rooms/playa/ola-01.jpg"
+         data-name="Ola" data-meta="Playa VIK · Garden view · living area">
+        <img src="../_assets/img/t/rooms_playa_ola-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_ola-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_ola-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_ola-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Ola" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">24</span>
+          <span class="rr-name">Ola</span>
+          <span class="rr-meta">Playa VIK · Garden view · living area</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="room"
+         data-img="rooms/playa/olmo-01.jpg"
+         data-name="Olmo" data-meta="Playa VIK · Garden view">
+        <img src="../_assets/img/t/rooms_playa_olmo-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_olmo-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_olmo-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_olmo-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Olmo" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">25</span>
+          <span class="rr-name">Olmo</span>
+          <span class="rr-meta">Playa VIK · Garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="room"
+         data-img="rooms/playa/ryokan-01.jpg"
+         data-name="Ryokan" data-meta="Playa VIK · Garden view">
+        <img src="../_assets/img/t/rooms_playa_ryokan-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_ryokan-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_ryokan-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_ryokan-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Ryokan" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">26</span>
+          <span class="rr-name">Ryokan</span>
+          <span class="rr-meta">Playa VIK · Garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="room"
+         data-img="rooms/playa/sycamore-01.jpg"
+         data-name="Sycamore" data-meta="Playa VIK · Garden view">
+        <img src="../_assets/img/t/rooms_playa_sycamore-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_sycamore-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_sycamore-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_sycamore-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Sycamore" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">27</span>
+          <span class="rr-name">Sycamore</span>
+          <span class="rr-meta">Playa VIK · Garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="room"
+         data-img="rooms/playa/zen-01.jpg"
+         data-name="Zen" data-meta="Playa VIK · Garden view">
+        <img src="../_assets/img/t/rooms_playa_zen-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_zen-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_zen-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_zen-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Zen" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">28</span>
+          <span class="rr-name">Zen</span>
+          <span class="rr-meta">Playa VIK · Garden view</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="casa"
+         data-img="rooms/playa/casa-jose-ignacio-01.jpg"
+         data-name="Casa José Ignacio" data-meta="Playa VIK · Casa"
+         data-gallery="rooms/playa/casa-jose-ignacio-02.jpg">
+        <img src="../_assets/img/t/rooms_playa_casa-jose-ignacio-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_casa-jose-ignacio-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_casa-jose-ignacio-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Casa José Ignacio" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">29</span>
+          <span class="rr-name">Casa José Ignacio</span>
+          <span class="rr-meta">Playa VIK · Casa</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="casa"
+         data-img="rooms/playa/casa-mar-01.jpg"
+         data-name="Casa Mar" data-meta="Playa VIK · Casa">
+        <img src="../_assets/img/t/rooms_playa_casa-mar-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_casa-mar-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_casa-mar-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Casa Mar" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">30</span>
+          <span class="rr-name">Casa Mar</span>
+          <span class="rr-meta">Playa VIK · Casa</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="casa"
+         data-img="rooms/playa/casa-tierra-01.jpg"
+         data-name="Casa Tierra" data-meta="Playa VIK · Casa">
+        <img src="../_assets/img/t/rooms_playa_casa-tierra-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_playa_casa-tierra-01-w480.jpg 480w, ../_assets/img/t/rooms_playa_casa-tierra-01-w900.jpg 900w, ../_assets/img/t/rooms_playa_casa-tierra-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Casa Tierra" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">31</span>
+          <span class="rr-name">Casa Tierra</span>
+          <span class="rr-meta">Playa VIK · Casa</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/bahia/burgos-01.jpg"
+         data-name="Burgos" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_burgos-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_burgos-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_burgos-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_burgos-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Burgos" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">32</span>
+          <span class="rr-name">Burgos</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/bahia/escardo-01.jpg"
+         data-name="Escardo" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_escardo-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_escardo-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Escardo" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">33</span>
+          <span class="rr-name">Escardo</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/bahia/eva-01.jpg"
+         data-name="Eva" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_eva-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_eva-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_eva-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_eva-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Eva" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">34</span>
+          <span class="rr-name">Eva</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/bahia/guerra-01.jpg"
+         data-name="Guerra" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_guerra-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_guerra-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_guerra-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Guerra" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">35</span>
+          <span class="rr-name">Guerra</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/bahia/juan-manuel-01.jpg"
+         data-name="Juan Manuel" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_juan-manuel-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_juan-manuel-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Juan Manuel" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">36</span>
+          <span class="rr-name">Juan Manuel</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/bahia/lopez-lage-01.jpg"
+         data-name="Lopez Lage" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_lopez-lage-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_lopez-lage-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_lopez-lage-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_lopez-lage-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Lopez Lage" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">37</span>
+          <span class="rr-name">Lopez Lage</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/bahia/patrone-01.jpg"
+         data-name="Patrone" data-meta="Bahía VIK · Suite"
+         data-gallery="rooms/bahia/patrone-02.jpg">
+        <img src="../_assets/img/t/rooms_bahia_patrone-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_patrone-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Patrone" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">38</span>
+          <span class="rr-name">Patrone</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/bahia/pemper-01.jpg"
+         data-name="Pemper" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_pemper-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_pemper-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_pemper-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_pemper-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Pemper" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">39</span>
+          <span class="rr-name">Pemper</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="suite"
+         data-img="rooms/bahia/rita-01.jpg"
+         data-name="Rita" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_rita-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_rita-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_rita-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_rita-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Rita" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">40</span>
+          <span class="rr-name">Rita</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="bungalow"
+         data-img="rooms/bahia/adobe-01.jpg"
+         data-name="Adobe" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_adobe-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_adobe-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Adobe" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">41</span>
+          <span class="rr-name">Adobe</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="bungalow"
+         data-img="rooms/bahia/azulejos-01.jpg"
+         data-name="Azulejos" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_azulejos-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_azulejos-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_azulejos-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_azulejos-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Azulejos" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">42</span>
+          <span class="rr-name">Azulejos</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="bungalow"
+         data-img="rooms/bahia/chapa-azul-01.jpg"
+         data-name="Chapa Azul" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_chapa-azul-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_chapa-azul-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Chapa Azul" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">43</span>
+          <span class="rr-name">Chapa Azul</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="bungalow"
+         data-img="rooms/bahia/comporta-01.jpg"
+         data-name="Comporta" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_comporta-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_comporta-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_comporta-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_comporta-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Comporta" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">44</span>
+          <span class="rr-name">Comporta</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="bungalow"
+         data-img="rooms/bahia/corten-01.jpg"
+         data-name="Corten" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_corten-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_corten-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Corten" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">45</span>
+          <span class="rr-name">Corten</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="bungalow"
+         data-img="rooms/bahia/duna-01.jpg"
+         data-name="Duna" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_duna-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_duna-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Duna" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">46</span>
+          <span class="rr-name">Duna</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="bungalow"
+         data-img="rooms/bahia/greek-01.jpg"
+         data-name="Greek" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_greek-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_greek-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_greek-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_greek-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Greek" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">47</span>
+          <span class="rr-name">Greek</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="bungalow"
+         data-img="rooms/bahia/madera-01.jpg"
+         data-name="Madera" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_madera-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_madera-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Madera" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">48</span>
+          <span class="rr-name">Madera</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="bungalow"
+         data-img="rooms/bahia/piedra-01.jpg"
+         data-name="Piedra" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_piedra-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_piedra-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Piedra" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">49</span>
+          <span class="rr-name">Piedra</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="bungalow"
+         data-img="rooms/bahia/quincha-01.jpg"
+         data-name="Quincha" data-meta="Bahía VIK · Bungalow"
+         data-gallery="rooms/bahia/quincha-02.jpg">
+        <img src="../_assets/img/t/rooms_bahia_quincha-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_quincha-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Quincha" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">50</span>
+          <span class="rr-name">Quincha</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="bungalow"
+         data-img="rooms/bahia/ryokan-01.jpg"
+         data-name="Ryokan" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_ryokan-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_ryokan-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_ryokan-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_ryokan-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Ryokan" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">51</span>
+          <span class="rr-name">Ryokan</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="bungalow"
+         data-img="rooms/bahia/titanio-01.jpg"
+         data-name="Titanio" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_titanio-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_titanio-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Titanio" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">52</span>
+          <span class="rr-name">Titanio</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="bungalow"
+         data-img="rooms/bahia/vidrio-01.jpg"
+         data-name="Vidrio" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_vidrio-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_vidrio-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Vidrio" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">53</span>
+          <span class="rr-name">Vidrio</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="bungalow"
+         data-img="rooms/bahia/zinc-marron-01.jpg"
+         data-name="Zinc Marrón" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_zinc-marron-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_zinc-marron-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Zinc Marrón" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">54</span>
+          <span class="rr-name">Zinc Marrón</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+        </span>
+      </a>
+      <a class="wall-tile" href="#accommodations" data-cat="bungalow"
+         data-img="rooms/bahia/zinc-negro-01.jpg"
+         data-name="Zinc Negro" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_zinc-negro-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_zinc-negro-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Zinc Negro" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-i">55</span>
+          <span class="rr-name">Zinc Negro</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  
+  
+    <section class="section" hidden>
+    <!-- NOTE
+         Fifty-five rooms, photographed from the houses' own accommodation pages:
+         bahiavik.com, playavik.com and estanciavik.com. Names come from there too, which
+         is why they are Quincha and Exodus rather than the invented ones this library
+         carried before. Every file and its source is listed in ../_assets/img/rooms/
+         MANIFEST.json. Two — Chapa Azul and Duna — are published below 480px and are the
+         ones worth reshooting first.
+    -->
+  </section>
+
+  <div class="sg-spec" id="m15"><span class="id">M15</span><span class="nm">Full-bleed band</span><span class="src">wellness .rhy / .jou · steps become a 1:1 reel under 1024</span></div>
+  <section class="band">
+    <div class="band-bg" data-parallax="12">
+      <video autoplay muted loop playsinline preload="none" poster="../_assets/video/millahue-poster.webp" data-src="../_assets/video/millahue.mp4"></video>
+    </div>
+    <div class="band-ov"></div>
+    <div class="band-inner">
+      <div class="band-head r">
+        <h2 class="band-title">The place<br><em>becomes your clock</em></h2>
+        <p class="band-desc">José Ignacio transforms across the year. The site should communicate not only where to stay, but when to come — and what kind of VIK experience you want to live.</p>
+      </div>
+      <div class="band-steps r d2">
+        <div class="band-step"><span class="t">Dec – Jan</span><h4>Peak</h4><p>Vibrant, energetic, social. Events, dining and nightlife every evening.</p></div>
+        <div class="band-step"><span class="t">February</span><h4>Full summer</h4><p>Long days on the water. The beach clubs at their best.</p></div>
+        <div class="band-step"><span class="t">March</span><h4>Shoulder</h4><p>Quieter, more intimate, restorative. Space and disconnection.</p></div>
+        <div class="band-step"><span class="t">Apr – Nov</span><h4>Countryside</h4><p>Estancia comes into its own. Horses, fire and empty landscape.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m16"><span class="id">M16</span><span class="nm">Card grid</span><span class="src">source · guest journey .now-grid · experiences, dining, offers</span></div>
+  <section class="section">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">Experiences</span></div>
+      <div><h2 class="section-title">What to do, and who arranges it.</h2><p class="section-lead">Bookable directly, or through your Journey Designer.</p></div>
+    </div>
+    <div class="card-grid alt r d1">
+      <article class="vcard media" style="background-image:linear-gradient(180deg,rgba(30,30,30,.15),rgba(30,30,30,.82)),url('../_assets/img/estancia/estancia-img_0005.jpg')">
+        <div class="vcard-top"><span class="vcard-when"><span class="live-dot"></span>Daily · 17:40</span><span class="vcard-status">3 spots</span></div>
+        <h3>Horseback at the lagoon.</h3>
+        <p>A gentle ride at family level, timed for the hour when the wind drops and the light turns.</p>
+        <div class="vcard-actions"><a class="btn-line" href="#m25"><span>Reserve</span><span class="arw">→</span></a></div>
+      </article>
+      <article class="vcard accent">
+        <div class="vcard-top"><span class="vcard-when"><span class="live-dot"></span>Tonight</span><span class="vcard-status go">Confirmed</span></div>
+        <h3>Fish BBQ on the beach.</h3>
+        <p>Whole fish over embers, long table, feet in the sand. A VIK culinary signature.</p>
+        <div class="vcard-actions"><a class="btn-line" href="#m25"><span>Reserve a table</span><span class="arw">→</span></a></div>
+      </article>
+      <article class="vcard film">
+        <video autoplay muted loop playsinline preload="none" poster="../_assets/video/bahia-vik-poster.webp" data-src="../_assets/video/bahia-vik.mp4"></video>
+        <div class="vcard-top"><span class="vcard-when">The Shack</span><span class="vcard-status">45'</span></div>
+        <h3>Recovery, before dinner.</h3>
+        <p>Movement, strength, treatment and rest — nature-led wellbeing across the destination.</p>
+        <div class="vcard-actions"><a class="btn-line" href="#m25"><span>Explore wellness</span><span class="arw">→</span></a></div>
+      </article>
+      <article class="vcard media" style="background-image:linear-gradient(180deg,rgba(10,9,7,.15),rgba(10,9,7,.82)),url('../_assets/img/t/playa_casas-main-scaled-w900.jpg')">
+        <div class="vcard-top"><span class="vcard-when">Art &amp; culture</span><span class="vcard-status">By arrangement</span></div>
+        <h3>Walk the collection.</h3>
+        <p>The works, the chapel and the sculpture terrace, with the house curator.</p>
+        <div class="vcard-actions"><a class="btn-line" href="#m25"><span>Arrange a visit</span><span class="arw">→</span></a></div>
+      </article>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m17"><span class="id">M17</span><span class="nm">Index + hover image</span><span class="src">landing .asset-grid · same hover-follow as M07</span></div>
+  <section class="section canvas">
+    <div class="section-head r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">Accommodations</span></div>
+      <div><h2 class="section-title">Every suite by a different artist.</h2></div>
+    </div>
+    <div class="index-list r d1">
+      <a class="index-row" href="#m04" data-hover-img="estancia/vik-master-suite.jpg"><span class="index-n">01</span><span class="index-name">Master Suite VIK</span><span class="index-meta">Master suite · terrace · countryside view</span><span class="index-cta"><span class="btn-line"><span>View</span><span class="arw">→</span></span></span></a>
+      <a class="index-row" href="#m04" data-hover-img="estancia/daglio-img_0263.jpg"><span class="index-n">02</span><span class="index-name">Master Suite Daglio</span><span class="index-meta">Master suite · fireplace · garden access</span><span class="index-cta"><span class="btn-line"><span>View</span><span class="arw">→</span></span></span></a>
+      <a class="index-row" href="#m04" data-hover-img="estancia/legrand_1.jpg"><span class="index-n">03</span><span class="index-name">Master Suite Legrand</span><span class="index-meta">Master suite · double aspect</span><span class="index-cta"><span class="btn-line"><span>View</span><span class="arw">→</span></span></span></a>
+      <a class="index-row" href="#m04" data-hover-img="estancia/amengal-img_8677.jpg"><span class="index-n">04</span><span class="index-name">Amengual Suite</span><span class="index-meta">Guest suite · artist-designed</span><span class="index-cta"><span class="btn-line"><span>View</span><span class="arw">→</span></span></span></a>
+      <a class="index-row" href="#m04" data-hover-img="estancia/barea-img_0313.jpg"><span class="index-n">05</span><span class="index-name">Barea Suite</span><span class="index-meta">Guest suite · artist-designed</span><span class="index-cta"><span class="btn-line"><span>View</span><span class="arw">→</span></span></span></a>
+      <a class="index-row" href="#m04" data-hover-img="estancia/cardozo-img_9671.jpg"><span class="index-n">06</span><span class="index-name">Cardozo Suite</span><span class="index-meta">Guest suite · artist-designed</span><span class="index-cta"><span class="btn-line"><span>View</span><span class="arw">→</span></span></span></a>
+      <a class="index-row" href="#m04"><span class="index-n">07</span><span class="index-name">Duarte Suite</span><span class="index-meta">Guest suite · photography not yet supplied</span><span class="index-cta"><span class="btn-line"><span>View</span><span class="arw">→</span></span></span></a>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m20"><span class="id">M20</span><span class="nm">Rooms · stage</span><span class="src">landscape · one at a time · drag · opens the same room view</span></div>
+  <!-- NOTE
+         A third arrangement of the same rooms: large landscape frames, one dominant with the
+         next just showing. Finite — it has a beginning and an end, unlike the cascade.
+         Clicking opens the room view, which now carries a four-up gallery.
+    -->
+  <div class="wall" data-wall data-wall-mode="stage">
+<a class="wall-tile" href="#m20" data-img="estancia/vik-master-suite.jpg" data-name="Master Suite VIK" data-meta="Estancia VIK · Master" data-gallery="estancia/gardens-img_1111-min.jpg | estancia/entrance-img_0003-min.jpg" data-copy="The largest suite in the house, with its own terrace onto the countryside and a fireplace that gets used from April onwards."></a>
+      <a class="wall-tile" href="#m20" data-img="estancia/daglio-img_0263.jpg" data-name="Master Suite Daglio" data-meta="Estancia VIK · Master" data-gallery="estancia/bbq-img_7731.jpg | estancia/gardens-img_1111-min.jpg" data-copy="Fireplace, garden access and work by Daglio throughout. Quiet at the north end of the building."></a>
+      <a class="wall-tile" href="#m20" data-img="estancia/legrand_1.jpg" data-name="Master Suite Legrand" data-meta="Estancia VIK · Master" data-gallery="estancia/chapel-img_0177-min.jpg | estancia/bbq-img_7731.jpg" data-copy="Double aspect, morning light on one side and the long evening on the other."></a>
+      <a class="wall-tile" href="#m20" data-img="estancia/amengal-img_8677.jpg" data-name="Amengual Suite" data-meta="Estancia VIK · Guest" data-gallery="estancia/sculpture-img_1789.jpg | estancia/north-garden-to-living-room-1.jpg" data-copy="One artist, one room, floor to ceiling. No two suites at the Estancia repeat."></a>
+      <a class="wall-tile" href="#m20" data-img="estancia/barea-img_0313.jpg" data-name="Barea Suite" data-meta="Estancia VIK · Guest" data-gallery="estancia/estancia-img_0005.jpg | estancia/sculpture-img_1789.jpg" data-copy="Painted in full by Barea, opening onto the gardens and the pool."></a>
+      <a class="wall-tile" href="#m20" data-img="estancia/cardozo-img_9671.jpg" data-name="Cardozo Suite" data-meta="Estancia VIK · Guest" data-gallery="estancia/estanciavik-0323-min.jpg | estancia/estancia-img_0005.jpg" data-copy="Set over the south gardens, with the horses visible from the bed."></a>
+      <a class="wall-tile" href="#m20" data-img="estancia/badaro-img_7678.jpg" data-name="Badaro Suite" data-meta="Estancia VIK · Guest" data-gallery="estancia/pool-img_1630-min.jpg | estancia/estanciavik-0323-min.jpg" data-copy="Warm, low and enclosed — the one guests ask for in winter."></a>
+      <a class="wall-tile" href="#m20" data-img="estancia/musso-img_0204.jpg" data-name="Musso Suite" data-meta="Estancia VIK · Guest" data-gallery="estancia/entrance-to-living-room.jpeg | estancia/pool-img_1630-min.jpg" data-copy="Musso's work across every surface, including the ceiling."></a>
+      <a class="wall-tile" href="#m20" data-img="estancia/seveso-img_9629.jpg" data-name="Seveso Suite" data-meta="Estancia VIK · Master" data-gallery="estancia/gardens-img_1111-min.jpg | estancia/pool-img_1630-min.jpg | estancia/chapel-img_0177-min.jpg" data-copy="A master suite at the quiet end, facing the open field."></a>
+      <a class="wall-tile" href="#m20" data-img="estancia/trujillo-img_0201.jpg" data-name="Trujillo Suite" data-meta="Estancia VIK · Guest" data-gallery="estancia/gameroom-img_4145-min.jpg | estancia/entrance-to-living-room.jpeg" data-copy="Bold, graphic and the most photographed room in the house."></a>
+      <a class="wall-tile" href="#m20" data-img="estancia/turell_old1.jpg" data-name="Turell Suite" data-meta="Estancia VIK · Guest" data-gallery="estancia/estancia-img_0004.jpg | estancia/gameroom-img_4145-min.jpg" data-copy="Light handled as material. Best at the end of the afternoon."></a>
+      <a class="wall-tile" href="#m20" data-img="estancia/duarte-dsc_0061.jpg" data-name="Duarte Suite" data-meta="Estancia VIK · Guest" data-gallery="estancia/entrance-img_0003-min.jpg | estancia/estancia-img_0004.jpg" data-copy="Opening straight onto the north garden and the long lawn."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/adobe-0098.jpg" data-name="Bungalow Adobe" data-meta="Bahía VIK · Bungalow" data-gallery="bahia/cp-bahiavik-0552-scaled.jpg | bahia/16_bv-1106-scaled.jpg" data-copy="Hand-built earth walls, grass roof, and the dune between you and the bay."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/corten-0368.jpg" data-name="Bungalow Corten" data-meta="Bahía VIK · Bungalow" data-gallery="bahia/dsc_3451-min.jpg | bahia/cp-bahiavik-0552-scaled.jpg" data-copy="Weathered steel that keeps changing colour through the season."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/madera-0122.jpg" data-name="Bungalow Madera" data-meta="Bahía VIK · Bungalow" data-gallery="bahia/cp-bahiavik-0562-scaled.jpg | bahia/dsc_3451-min.jpg" data-copy="All timber, warm and close, with a deck straight onto the sand path."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/piedra-0121.jpg" data-name="Bungalow Piedra" data-meta="Bahía VIK · Bungalow" data-gallery="bahia/dscn2725-scaled.jpg | bahia/cp-bahiavik-0562-scaled.jpg" data-copy="Local stone, cool at midday, one of the largest on the dune."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/quincha-0102.jpg" data-name="Bungalow Quincha" data-meta="Bahía VIK · Bungalow" data-gallery="bahia/dscf5297-min.jpg | bahia/dscn2725-scaled.jpg" data-copy="Thatch and light timber — the most Uruguayan of the twenty-five."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/titanio-0086.jpg" data-name="Bungalow Titanio" data-meta="Bahía VIK · Bungalow" data-gallery="bahia/dscn2783-scaled.jpg | bahia/dscf5297-min.jpg" data-copy="Titanium skin, echoing the roof at Playa VIK across the point."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/vidrio-0092.jpg" data-name="Bungalow Vidrio" data-meta="Bahía VIK · Bungalow" data-gallery="bahia/36_bv_img_0070-1-scaled.jpg | bahia/dscn2783-scaled.jpg" data-copy="Glass on three sides. Nothing between the bed and the bay."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/zinc-negro-0330.jpg" data-name="Bungalow Zinc Negro" data-meta="Bahía VIK · Bungalow" data-gallery="bahia/cp-bahiavik-0546-scaled.jpg | bahia/36_bv_img_0070-1-scaled.jpg" data-copy="Black zinc, low in the dune, almost invisible from the beach."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/zinc-marron-0118.jpg" data-name="Bungalow Zinc Marrón" data-meta="Bahía VIK · Bungalow" data-gallery="bahia/dsc_3096-min.jpg | bahia/cp-bahiavik-0546-scaled.jpg" data-copy="The warmer of the two zinc houses, facing the afternoon."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/duna-0340.jpg" data-name="Bungalow Duna" data-meta="Bahía VIK · Bungalow" data-gallery="bahia/cp-bahiavik-0549-scaled.jpg | bahia/dsc_3096-min.jpg" data-copy="Built into the dune itself, with the roof planted over."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/chapaazul.jpg" data-name="Bungalow Chapa Azul" data-meta="Bahía VIK · Bungalow" data-gallery="bahia/dscn2740-scaled.jpg | bahia/cp-bahiavik-0549-scaled.jpg" data-copy="Blue sheet metal, the loudest and most loved of the row."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/img_1647-eva2.jpg" data-name="Suite Eva" data-meta="Bahía VIK · Suite" data-gallery="bahia/cp-bahiavik-0593-scaled.jpg | bahia/cp-bahiavik-0598.jpg" data-copy="In the main building, above the pool, facing the bay."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/img_1550-guerra5.jpg" data-name="Suite Guerra" data-meta="Bahía VIK · Suite" data-gallery="bahia/img_1589-guerra12.jpg | bahia/img_1589-guerra12-1.jpg" data-copy="Guerra's work throughout, with a terrace over Playa Mansa."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/img_1664-patrone1.jpg" data-name="Suite Patrone" data-meta="Bahía VIK · Suite" data-gallery="bahia/dsc_3451-min.jpg | bahia/16_bv-1106-scaled.jpg" data-copy="Quiet, at the end of the corridor, with the best morning light."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/img_1717-escardo3.jpg" data-name="Suite Escardó" data-meta="Bahía VIK · Suite" data-gallery="bahia/cp-bahiavik-0554-scaled.jpg | bahia/cp-bahiavik-0562-scaled.jpg" data-copy="Escardó from wall to wall. Two beds, ideal for families."></a>
+      <a class="wall-tile" href="#m20" data-img="bahia/img_1624-lopezlaje3.jpg" data-name="Suite López Lage" data-meta="Bahía VIK · Suite" data-gallery="bahia/cp-bahiavik-0562-1-scaled.jpg | bahia/dscn2725-scaled.jpg" data-copy="One of the strongest commissions in the collection."></a>
+  </div>
+
+  <div class="sg-spec" id="m21"><span class="id">M21</span><span class="nm">Week calendar</span><span class="src">seven days · one venue per card · 1:1 reel under 1024</span></div>
+  <section class="section bone">
+    <div class="section-head r" style="color:var(--ink)">
+      <div><span class="section-eyebrow ui-label">What's on</span></div>
+      <div><h2 class="section-title">Seven days in José Ignacio.</h2><p class="section-lead">Everything happening across the three retreats, La Susana, Pavilion VIK and The Shack.</p></div>
+    </div>
+    <div class="week r d1" data-tabs style="color:var(--ink)">
+      <div class="week-rail">
+        <button class="week-day active today" data-tab="w1"><span class="wd-name">Mon</span><span class="wd-num">09</span><span class="wd-count">6 events</span></button>
+        <button class="week-day" data-tab="w2"><span class="wd-name">Tue</span><span class="wd-num">10</span><span class="wd-count">4 events</span></button>
+        <button class="week-day" data-tab="w3"><span class="wd-name">Wed</span><span class="wd-num">11</span><span class="wd-count">5 events</span></button>
+        <button class="week-day" data-tab="w4"><span class="wd-name">Thu</span><span class="wd-num">12</span><span class="wd-count">3 events</span></button>
+        <button class="week-day" data-tab="w5"><span class="wd-name">Fri</span><span class="wd-num">13</span><span class="wd-count">7 events</span></button>
+        <button class="week-day" data-tab="w6"><span class="wd-name">Sat</span><span class="wd-num">14</span><span class="wd-count">8 events</span></button>
+        <button class="week-day" data-tab="w7"><span class="wd-name">Sun</span><span class="wd-num">15</span><span class="wd-count">4 events</span></button>
+      </div>
+
+      <div class="week-panel active" data-panel="w1">
+        <div class="venue">
+          <div class="venue-head"><h3 class="lw venue-mark">Estancia VIK</h3><span class="vh-tag">Countryside</span></div>
+          <div class="slot"><span class="time">09:30</span><div><h4>Morning ride</h4><p>Open countryside at the quietest hour of the day. All levels.</p></div><a class="btn-line" href="#m25"><span>Join</span><span class="arw">→</span></a></div>
+          <div class="slot"><span class="time">13:00</span><div><h4>El Asador · lunch service</h4><p>Whole cuts over embers, vegetables from the garden.</p></div><a class="btn-line" href="#m25"><span>Reserve</span><span class="arw">→</span></a></div>
+        </div>
+        <div class="venue">
+          <div class="venue-head"><h3 class="lw venue-mark">Bahía VIK</h3><span class="vh-tag">Playa Mansa</span></div>
+          <div class="slot"><span class="time">11:00</span><div><h4>The Shack · movement class</h4><p>Strength and mobility on the deck. 45 minutes.</p></div><a class="btn-line" href="#m25"><span>Book</span><span class="arw">→</span></a></div>
+          <div class="slot"><span class="time">20:30</span><div><h4>Zodiaco · dinner service</h4><p>Bay-side, seasonal menu, VIK Wines pairing.</p></div><a class="btn-line" href="#m25"><span>Reserve</span><span class="arw">→</span></a></div>
+        </div>
+        <div class="venue">
+          <div class="venue-head"><h3 class="lw venue-mark">La Susana</h3><span class="vh-tag">Beach dining</span></div>
+          <div class="slot"><span class="time">13:00</span><div><h4>Lunch on the sand</h4><p>Long tables, Atlantic fish, feet in the sand.</p></div><a class="btn-line" href="#m25"><span>Reserve</span><span class="arw">→</span></a></div>
+          <div class="slot"><span class="time">19:30</span><div><h4>Sunset set</h4><p>Resident DJ as the light goes. No reservation needed.</p></div><a class="btn-line" href="#m25"><span>Details</span><span class="arw">→</span></a></div>
+        </div>
+      </div>
+
+      <div class="week-panel" data-panel="w2">
+        <div class="venue">
+          <div class="venue-head"><h3 class="lw venue-mark">Playa VIK</h3><span class="vh-tag">Oceanfront</span></div>
+          <div class="slot"><span class="time">11:00</span><div><h4>Art walk</h4><p>The collection, the casas and the sculpture terrace, with the house guide.</p></div><a class="btn-line" href="#m25"><span>Join</span><span class="arw">→</span></a></div>
+          <div class="slot"><span class="time">20:30</span><div><h4>CieloMar · dinner service</h4><p>Coastal cuisine above Playa Brava.</p></div><a class="btn-line" href="#m25"><span>Reserve</span><span class="arw">→</span></a></div>
+        </div>
+        <div class="venue">
+          <div class="venue-head"><h3 class="lw venue-mark">Pavilion VIK</h3><span class="vh-tag">Culture</span></div>
+          <div class="slot"><span class="time">19:00</span><div><h4>Sunset at the Pavilion</h4><p>Music and the last light over the ocean.</p></div><a class="btn-line" href="#m25"><span>Details</span><span class="arw">→</span></a></div>
+        </div>
+        <div class="venue">
+          <div class="venue-head"><h3 class="lw venue-mark">The Shack</h3><span class="vh-tag">Wellness</span></div>
+          <div class="slot"><span class="time">08:00</span><div><h4>Sunrise breathwork</h4><p>On the dune deck, before the wind rises.</p></div><a class="btn-line" href="#m25"><span>Book</span><span class="arw">→</span></a></div>
+        </div>
+      </div>
+
+      <div class="week-panel" data-panel="w3">
+        <div class="venue">
+          <div class="venue-head"><h3 class="lw venue-mark">Estancia VIK</h3><span class="vh-tag">Countryside</span></div>
+          <div class="slot"><span class="time">10:00</span><div><h4>Farm-to-table cooking class</h4><p>Garden to fire, two hours, hands-on.</p></div><a class="btn-line" href="#m25"><span>Book</span><span class="arw">→</span></a></div>
+          <div class="slot"><span class="time">21:00</span><div><h4>Uruguayan night</h4><p>Asado, music and countryside tradition at the galpón.</p></div><a class="btn-line" href="#m25"><span>Book</span><span class="arw">→</span></a></div>
+        </div>
+      </div>
+
+      <div class="week-panel" data-panel="w4"><p class="week-empty">A quiet day. Your Journey Designer can still arrange anything.</p></div>
+      <div class="week-panel" data-panel="w5"><p class="week-empty">Programme published on Monday.</p></div>
+      <div class="week-panel" data-panel="w6"><p class="week-empty">Programme published on Monday.</p></div>
+      <div class="week-panel" data-panel="w7"><p class="week-empty">Programme published on Monday.</p></div>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m22"><span class="id">M22</span><span class="nm">Live map</span><span class="src">Leaflet, full-bleed · 4:5 and one place at a time on a phone</span></div>
+  <section class="section map-section" id="map">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">Destination · José Ignacio</span></div>
+      <div><h2 class="section-title">Everything, on the map.</h2><p class="section-lead">From the airport to each retreat, restaurant and beach. Tap a point to see the detail and open directions.</p></div>
+    </div>
+    <div class="map-full r">
+      <div id="leafMap" class="leaf-map" aria-label="Map of José Ignacio"></div>
+      <div class="map-view" role="tablist" aria-label="Map view">
+        <button type="button" data-view="map">Map</button>
+        <button type="button" class="active" data-view="sat">Satellite</button>
+      </div>
+      <div class="map-bar">
+        <ul id="mapLegend" class="mb-list"></ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m23"><span class="id">M23</span><span class="nm">Accordion</span><span class="src">new · minimal, core tokens · FAQ, policies, menus</span></div>
+  <section class="section">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">Contact &amp; FAQ</span></div>
+      <div><h2 class="section-title">Before you arrive.</h2></div>
+    </div>
+    <div class="accordion r d1">
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Booking and cancellation<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">Reservations are confirmed through Bookassist, with PayPal accepted for the José Ignacio properties. Cancellation terms vary by season and by property — peak season carries a longer notice period.</div></div></div>
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Check-in and check-out<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">Check-in from 15:00, check-out by 12:00. Early arrival and late departure can usually be arranged — ask your Journey Designer before travelling.</div></div></div>
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Children and families<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">Estancia VIK and Bahía VIK are the most family-oriented retreats. Share children's ages before arrival so rooms, activities and dining can be arranged around them.</div></div></div>
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Pets<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">Pets are considered case by case. Contact the team before booking.</div></div></div>
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Accessibility<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">Accessible accommodation is available at selected properties. Tell us what you need and we will match you to the right retreat and room.</div></div></div>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m24"><span class="id">M24</span><span class="nm">Closing CTA</span><span class="src">source · guest journey .cta + wellness .closing · ends every page</span></div>
+  <section class="section vik">
+    <div class="closing r">
+      <span class="ui-label" style="opacity:.65">Next step</span>
+      <div class="closing-lines">
+        <p>If you want the ocean, and the art that faces it</p>
+        <p>If you want horses, fire and open country</p>
+        <p>If you want the bay, the pool and the people</p>
+      </div>
+      <h2 class="closing-title">Let's find your <em>retreat</em>.</h2>
+      <div class="closing-actions">
+        <a class="btn-outline" href="#m09"><span>Help Me Choose</span><span class="arw">→</span></a>
+        <a class="btn-line" href="#m25"><span>Contact a Journey Designer</span><span class="arw">→</span></a>
+      </div>
+      <p class="closing-note">guestexperience@vikretreats.com</p>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m25"><span class="id">M25</span><span class="nm">Enquiry</span><span class="src">statement + direct lines, then the questions as numbered rules</span></div>
+  <section class="section">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">Plan your stay</span></div>
+      <div><h2 class="section-title">Four direct lines.</h2><p class="section-lead">When the booking engine cannot answer the question, reaching the VIK team should be effortless.</p></div>
+    </div>
+    <div class="svc-grid r d1" style="margin-bottom:4rem">
+      <button class="svc"><span class="k">01</span><h3>Reservations</h3><p>Availability, rates and multi-property stays.</p><span class="btn-line"><span>Contact</span><span class="arw">→</span></span></button>
+      <button class="svc"><span class="k">02</span><h3>Journey Designer</h3><p>Itineraries, transfers and everything in between.</p><span class="btn-line"><span>Contact</span><span class="arw">→</span></span></button>
+      <button class="svc"><span class="k">03</span><h3>Reserve a table</h3><p>Zodiaco, CieloMar, El Asador and La Susana.</p><span class="btn-line"><span>Contact</span><span class="arw">→</span></span></button>
+      <button class="svc"><span class="k">04</span><h3>Plan an event</h3><p>Weddings, retreats, groups and property buyouts.</p><span class="btn-line"><span>Contact</span><span class="arw">→</span></span></button>
+    </div>
+    <div class="enquiry r d2">
+
+      <div class="enq-side">
+        <p class="enq-statement">Tell us who is coming and what the trip is for. A Journey Designer answers, <em>not a form</em>.</p>
+        <div class="enq-lines">
+          <div class="enq-line"><span class="k">Email</span><a class="v" href="mailto:guestexperience@vikretreats.com">guestexperience@vikretreats.com</a></div>
+          <div class="enq-line"><span class="k">Destination</span><span class="v">Faro de José Ignacio, Maldonado, Uruguay</span></div>
+          <div class="enq-line"><span class="k">Reservations</span><span class="v">Direct booking · Bookassist · PayPal</span></div>
+          <div class="enq-line"><span class="k">Answered</span><span class="v">Within 24 hours, every day</span></div>
+        </div>
+      </div>
+
+      <form class="enq-form" onsubmit="return false">
+        <div class="enq-field"><span class="n">01</span><label for="f1">Your name</label><input id="f1" type="text" placeholder="Who we are writing back to"></div>
+        <div class="enq-field"><span class="n">02</span><label for="f2">Email</label><input id="f2" type="email" placeholder="you@email.com"></div>
+        <div class="enq-pair">
+          <div class="enq-field"><span class="n">03</span><label for="f3">When</label><input id="f3" type="text" placeholder="January, roughly"></div>
+          <div class="enq-field"><span class="n">04</span><label for="f4">Retreat</label>
+            <select id="f4"><option>Not sure yet — help me choose</option><option>Estancia VIK</option><option>Playa VIK</option><option>Bahía VIK</option></select>
+          </div>
+        </div>
+        <div class="enq-field"><span class="n">05</span><label for="f5">What the trip is for</label><textarea id="f5" rows="3" placeholder="A week off, a birthday, riding, the wine — anything that helps us plan it."></textarea></div>
+        <div class="enq-foot">
+          <button class="bk-submit standalone" type="submit"><span>Send enquiry</span><span class="arw">→</span></button>
+          <p class="enq-note">No account, no newsletter. Your note goes straight to the VIK team.</p>
+        </div>
+      </form>
+
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m26"><span class="id">M26</span><span class="nm">Lightboxes</span><span class="src">every overlay · retreat case · room view · checkout</span></div>
+  <section class="section">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">Overlays</span></div>
+      <div><h2 class="section-title">Everything that opens in place.</h2><p class="section-lead">Three overlays, and not one of them takes the guest off the page. The retreat case, with film and a way to step between the houses. The room view, with its own scroller and its own prev/next. And the checkout, from availability to confirmation. All three close on ESC, trap focus, and stop the page scrolling behind them.</p></div>
+    </div>
+    <div class="card-grid alt r d1">
+      <article class="vcard film">
+        <video autoplay muted loop playsinline preload="none" poster="../_assets/video/playa-poster.webp" data-src="../_assets/video/playa.mp4"></video>
+        <div class="vcard-top"><span class="vcard-when">M27b</span><span class="vcard-status">Retreat</span></div>
+        <h3>The case for one house.</h3>
+        <p>Film on one side, the argument on the other. Documented in full at <span class="text-vik">M11</span>, where the panel is laid flat and can be read.</p>
+        <div class="vcard-actions"><a class="btn-line" href="#m11"><span>See M27b</span><span class="arw">→</span></a></div>
+      </article>
+      <article class="vcard">
+        <div class="vcard-top"><span class="vcard-when">M26b</span><span class="vcard-status">Room</span></div>
+        <h3>One room, full height.</h3>
+        <p>Opens from the wall or the stage above. Three photographs behind the name, switched on the thumbnails, with the copy and the facts scrolling under it.</p>
+        <div class="vcard-actions"><button class="btn-line" type="button" data-demo="room"><span>Open the room view</span><span class="arw">→</span></button></div>
+      </article>
+      <article class="vcard">
+        <div class="vcard-top"><span class="vcard-when">M29</span><span class="vcard-status">Checkout</span></div>
+        <h3>Availability to confirmation.</h3>
+        <p>Four steps with the stay summary alongside. Bookassist runs in the frame; the card is taken on the provider’s own secure page, never here.</p>
+        <div class="vcard-actions"><button class="btn-line" type="button" data-demo="checkout"><span>Open the checkout</span><span class="arw">→</span></button></div>
+      </article>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m27"><span class="id">M27</span><span class="nm">Press rail</span><span class="src">real logo files · 30% · quotes set in Selva</span></div>
+  <section class="section" style="overflow:hidden">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">Recognition</span></div>
+      <div><h2 class="section-title">On the record.</h2></div>
+    </div>
+    <div class="logo-rail" data-rail="auto" data-rail-speed="0.32">
+      <div class="logo-item"><img src="../_assets/img/press/architectural-digest.png" alt="Architectural Digest"></div>
+      <div class="logo-item"><img src="../_assets/img/press/conde-nast-traveler.png" alt="Condé Nast Traveler"></div>
+      <div class="logo-item"><img src="../_assets/img/press/travel-leisure.png" alt="Travel + Leisure"></div>
+      <div class="logo-item"><img src="../_assets/img/press/wallpaper.png" alt="Wallpaper*"></div>
+      <div class="logo-item"><img src="../_assets/img/press/afar.png" alt="Afar"></div>
+      <div class="logo-item"><img src="../_assets/img/press/departures.png" alt="Departures"></div>
+      <div class="logo-item"><img src="../_assets/img/press/forbes.png" alt="Forbes"></div>
+      <div class="logo-item"><img src="../_assets/img/press/elle-decor.png" alt="Elle Decor"></div>
+      <div class="logo-item"><img src="../_assets/img/press/tatler.png" alt="Tatler"></div>
+    </div>
+    <div class="press-quotes r d2">
+      <figure class="press-quote">
+        <q>An estancia reimagined as a living gallery, where the art was made for the room it hangs in.</q>
+        <cite>Architectural Digest<span class="d">2018</span></cite>
+      </figure>
+      <figure class="press-quote">
+        <q>The most architecturally ambitious house on this coast, and the least interested in saying so.</q>
+        <cite>Wallpaper*<span class="d">2019</span></cite>
+      </figure>
+      <figure class="press-quote">
+        <q>Three houses a few kilometres apart, held together by one singular sense of place.</q>
+        <cite>Condé Nast Traveler<span class="d">2021</span></cite>
+      </figure>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m28"><span class="id">M28</span><span class="nm">Split</span><span class="src">derived · landing grid · About, Location, restaurant intros</span></div>
+  <section class="section">
+    <div class="split r">
+      <div class="split-media"><img src="../_assets/img/estancia/bbq-img_7731.jpg" alt="Open fire at El Asador"></div>
+      <div class="split-body">
+        <span class="ui-label text-vik">Dining · Estancia VIK</span>
+        <h2>El Asador</h2>
+        <p>The Uruguayan asado, treated as architecture. Whole cuts over embers, vegetables from the Estancia garden, and a wine list built around the Millahue Valley.</p>
+        <p>Open to house guests and, by reservation, to visitors staying at the other retreats.</p>
+        <div class="split-facts">
+          <div><span>Cuisine</span><span>Open fire · countryside</span></div>
+          <div><span>Location</span><span>Estancia VIK</span></div>
+          <div><span>Hours</span><span>Lunch 13:00 · Dinner 20:30</span></div>
+        </div>
+        <a class="btn-line" href="#m25" style="margin-top:.5rem"><span>Reserve a table</span><span class="arw">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m29"><span class="id">M29</span><span class="nm">Pull quote</span><span class="src">derived · brand type scale · Our Story, philosophy</span></div>
+  <section class="section canvas">
+    <div class="pull-quote r" style="color:var(--ink)">
+      <q>The website should not feel like a catalogue of separate hotels. It should feel like an <em>invitation</em> to enter the VIK José Ignacio universe.</q>
+      <cite>VIK José Ignacio · Website guide</cite>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m30"><span class="id">M30</span><span class="nm">Sub-navigation</span><span class="src">new · sticky · property long pages</span></div>
+  <div class="subnav">
+    <div class="subnav-inner">
+      <span class="sn-name lw">Estancia VIK</span>
+      <a href="#m28" class="active">About</a>
+      <a href="#m22">Location</a>
+      <a href="#m17">Accommodations</a>
+      <a href="#m28">El Asador</a>
+      <a href="#m16">Experiences</a>
+      <a href="#m25">Contact</a>
+    </div>
+  </div>
+  <section class="section" style="padding-top:3rem;padding-bottom:3rem">
+    <!-- NOTE
+         Sticky under the main nav on every property page. Scroll-spy highlights the active
+         section. This is what replaces six separate sub-pages per retreat.
+    -->
+    <!-- NOTE
+         The top bar always reads the place, then VIK Retreats small beside it. On a retreat
+         page the place is that property, set from its Location Wordmark file — &lt;div
+         data-vik-chrome data-logo="playa"&gt;. Everywhere else it is the destination, and
+         since the manual has no VIK José Ignacio wordmark it is set in Highway Gothic
+         Expanded under the same ID rule. Open playa.html to compare.
+    -->
+  </section>
+
+
+    <div class="sg-spec" id="m31"><span class="id">M31</span><span class="nm">Gallery hero</span><span class="src">one large, three beside it · opens M26</span></div>
+  <!-- NOTE
+       From Galleria VIK's room page. Someone looking at one room wants the
+       photographs first, and wants to know how many there are without clicking to
+       find out — so the last thumbnail carries the count instead of being a fourth
+       picture. The strip is never padded: a room with two photographs shows two.
+  -->
+  <section class="section" style="padding-bottom:0">
+    <div class="ghero" role="group" aria-label="Room photographs">
+      <div class="ghero__main">
+        <img src="../_assets/img/t/rooms_estancia_master-suite-daglio-01-w1600.jpg" alt="Master Suite Daglio" loading="lazy">
+        <span class="ghero__count">01 / 04</span>
+      </div>
+      <div class="ghero__strip">
+        <a class="ghero__thumb" href="#m31"><img src="../_assets/img/t/rooms_estancia_master-suite-daglio-02-w900.jpg" alt="Master Suite Daglio, the terrace" loading="lazy"></a>
+        <a class="ghero__thumb" href="#m31"><img src="../_assets/img/t/rooms_estancia_master-suite-seveso-01-w900.jpg" alt="Master Suite Seveso" loading="lazy"></a>
+        <a class="ghero__thumb" href="#m31"><img src="../_assets/img/t/rooms_estancia_master-suite-legrand-01-w900.jpg" alt="Master Suite Legrand" loading="lazy">
+          <span class="ghero__more">View all 04</span></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m32"><span class="id">M32</span><span class="nm">Specification bar</span><span class="src">six facts, label over value</span></div>
+  <!-- NOTE
+       The facts before the prose. Someone deciding between two rooms is comparing six
+       numbers; making them read a paragraph to find each one is making them work for
+       it. Label above value, never beside — the labels are all different lengths and a
+       two-column list of them never aligns.
+  -->
+  <section class="section">
+    <p class="modlabel"><span>The room</span><span class="c">M32</span></p>
+    <div class="specbar" role="list">
+        <div class="specbar__i" role="listitem"><span class="specbar__l">Size</span><span class="specbar__v">84 m²</span></div>
+        <div class="specbar__i" role="listitem"><span class="specbar__l">Guests</span><span class="specbar__v">Up to 2</span></div>
+        <div class="specbar__i" role="listitem"><span class="specbar__l">Bed</span><span class="specbar__v">King-size</span></div>
+        <div class="specbar__i" role="listitem"><span class="specbar__l">Bathroom</span><span class="specbar__v">Ensuite · outdoor shower</span></div>
+        <div class="specbar__i" role="listitem"><span class="specbar__l">Outside</span><span class="specbar__v">Private terrace</span></div>
+        <div class="specbar__i" role="listitem"><span class="specbar__l">House</span><span class="specbar__v">Estancia VIK</span></div>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m33"><span class="id">M33</span><span class="nm">Inclusions</span><span class="src">what comes with the room, as rows</span></div>
+  <!-- NOTE
+       Prose hides a list. Nobody reads "breakfast, wifi and daily housekeeping are
+       included" and comes away certain about the housekeeping. The mark is drawn
+       rather than set in an icon font: one rule, one weight, and it takes the colour
+       of the line it belongs to — blue would fail, being the accent on a light ground
+       and the field on a dark one, never small type on ink.
+  -->
+  <section class="section">
+    <p class="modlabel"><span>Room inclusions</span><span class="c">08</span></p>
+    <div class="incl" role="list">
+        <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Breakfast, served until eleven</span></div>
+        <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>An original work, commissioned for the room</span></div>
+        <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Wine from Viña VIK on arrival</span></div>
+        <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Bicycles, and four thousand acres</span></div>
+        <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Wi-Fi throughout the house</span></div>
+        <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Transfer from Punta del Este</span></div>
+        <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>The heated pool and the sauna</span></div>
+        <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Daily housekeeping</span></div>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m34"><span class="id">M34</span><span class="nm">Artist cards</span><span class="src">the work, the name, the discipline</span></div>
+  <!-- NOTE
+       Every VIK room was built around a commissioned work, so the artist is not a
+       caption — they are the reason the room is that room. Milano credits sixty-two;
+       Estancia VIK has twelve, one per suite. Portrait format because the works are
+       hung, not laid out. The card has no ground of its own: it is whatever it sits
+       on, divided by hairlines.
+  -->
+  <section class="section">
+    <div class="section-head r">
+      <div><span class="section-eyebrow ui-label">The artists</span></div>
+      <div><h2 class="section-title">Twelve suites, twelve artists.</h2></div>
+    </div>
+    <p class="modlabel"><span>Estancia VIK</span><span class="c">08 / 12</span></p>
+    <div class="artists">
+        <div class="artist-card">
+          <img class="artist-card__img" src="../_assets/img/t/rooms_estancia_turell-suite-01-w900.jpg" alt="Suite by Alejandro Turell" loading="lazy">
+          <div class="artist-card__b">
+            <span class="artist-card__n">Alejandro Turell</span>
+            <span class="artist-card__r">Painter · Montevideo</span>
+            <a class="artist-card__l" href="../estancia-vik/#accommodations">The suite</a>
+          </div>
+        </div>
+        <div class="artist-card">
+          <img class="artist-card__img" src="../_assets/img/t/rooms_estancia_trujillo-suite-01-w900.jpg" alt="Suite by Pablo Trujillo" loading="lazy">
+          <div class="artist-card__b">
+            <span class="artist-card__n">Pablo Trujillo</span>
+            <span class="artist-card__r">Painter</span>
+            <a class="artist-card__l" href="../estancia-vik/#accommodations">The suite</a>
+          </div>
+        </div>
+        <div class="artist-card">
+          <img class="artist-card__img" src="../_assets/img/t/rooms_estancia_musso-suite-01-w900.jpg" alt="Suite by Carlos Musso" loading="lazy">
+          <div class="artist-card__b">
+            <span class="artist-card__n">Carlos Musso</span>
+            <span class="artist-card__r">Painter · engraver</span>
+            <a class="artist-card__l" href="../estancia-vik/#accommodations">The suite</a>
+          </div>
+        </div>
+        <div class="artist-card">
+          <img class="artist-card__img" src="../_assets/img/t/rooms_estancia_duarte-suite-01-w900.jpg" alt="Suite by Marco Duarte" loading="lazy">
+          <div class="artist-card__b">
+            <span class="artist-card__n">Marco Duarte</span>
+            <span class="artist-card__r">Sculptor · stone</span>
+            <a class="artist-card__l" href="../estancia-vik/#accommodations">The suite</a>
+          </div>
+        </div>
+        <div class="artist-card">
+          <img class="artist-card__img" src="../_assets/img/t/rooms_estancia_cardozo-suite-01-w900.jpg" alt="Suite by Ricardo Cardozo" loading="lazy">
+          <div class="artist-card__b">
+            <span class="artist-card__n">Ricardo Cardozo</span>
+            <span class="artist-card__r">Painter</span>
+            <a class="artist-card__l" href="../estancia-vik/#accommodations">The suite</a>
+          </div>
+        </div>
+        <div class="artist-card">
+          <img class="artist-card__img" src="../_assets/img/t/rooms_estancia_barea-suite-01-w900.jpg" alt="Suite by Nelson Barea" loading="lazy">
+          <div class="artist-card__b">
+            <span class="artist-card__n">Nelson Barea</span>
+            <span class="artist-card__r">Painter</span>
+            <a class="artist-card__l" href="../estancia-vik/#accommodations">The suite</a>
+          </div>
+        </div>
+        <div class="artist-card">
+          <img class="artist-card__img" src="../_assets/img/t/rooms_estancia_amengual-suite-01-w900.jpg" alt="Suite by Ernesto Amengual" loading="lazy">
+          <div class="artist-card__b">
+            <span class="artist-card__n">Ernesto Amengual</span>
+            <span class="artist-card__r">Painter</span>
+            <a class="artist-card__l" href="../estancia-vik/#accommodations">The suite</a>
+          </div>
+        </div>
+        <div class="artist-card">
+          <img class="artist-card__img" src="../_assets/img/t/rooms_estancia_badaro-suite-01-w900.jpg" alt="Suite by Kike Badaró" loading="lazy">
+          <div class="artist-card__b">
+            <span class="artist-card__n">Kike Badaró</span>
+            <span class="artist-card__r">Painter</span>
+            <a class="artist-card__l" href="../estancia-vik/#accommodations">The suite</a>
+          </div>
+        </div>
+    </div>
+  </section>
+
+  <div class="sg-spec" id="m35"><span class="id">M35</span><span class="nm">Breadcrumb</span><span class="src">three levels, the whole depth of the system</span></div>
+  <!-- NOTE
+       Only on pages that sit inside something: a room is inside a house is inside the
+       group. Three levels is the whole depth here, so the trail never wraps and never
+       needs truncating.
+  -->
+  <section class="section" style="padding-top:2.25rem;padding-bottom:2.25rem">
+    <nav class="crumb" aria-label="Breadcrumb">
+      <a href="../vik-retreats/">VIK Retreats</a><span class="sep">·</span>
+      <a href="../estancia-vik/">Estancia VIK</a><span class="sep">·</span>
+      <span aria-current="page">Master Suite Daglio</span>
+    </nav>
+  </section>
+
+
+  <div style="height:clamp(4rem,10vh,7rem)" aria-hidden="true"></div>
+
+</main>
+
+<div class="room-view" id="roomView" role="dialog" aria-modal="true" aria-labelledby="roomName">
+  <button class="room-close" type="button" data-room-close aria-label="Close">✕</button>
+  <div class="room-hero">
+    <div class="room-shots"></div>
+    <div class="room-cap">
+      <span class="ui-label" id="roomMeta" style="opacity:.7"></span>
+      <div class="room-head">
+        <h2 id="roomName"></h2>
+        <div class="room-thumbs" id="roomThumbs"></div>
+      </div>
+      <div class="room-actions">
+        <a class="btn-solid" href="#book"><span>Book this room</span><span class="arw">→</span></a>
+        <a class="btn-line" href="#contact"><span>Ask a Journey Designer</span><span class="arw">→</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="room-body">
+    <div>
+      <p id="roomCopy"></p>
+    </div>
+    <div>
+      <p class="mono-copy muted-light">Every room at VIK José Ignacio was commissioned, not decorated. The artist, the material and the position on the site are the room — which is why choosing between them matters more here than the number of square metres.</p>
+      <div class="split-facts" style="margin-top:2rem">
+        <div><span>Retreat</span><span>VIK José Ignacio</span></div>
+        <div><span>Dining</span><span>All four tables</span></div>
+        <div><span>Booking</span><span>Direct · Bookassist</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="room-nav" aria-label="Rooms">
+    <button type="button" data-room-prev aria-label="Previous room"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.2"/></svg></button>
+    <span class="rn-count">01 / 01</span>
+    <button type="button" data-room-next aria-label="Next room"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.2"/></svg></button>
+  </div>
+
+<div data-vik-checkout></div>
+
+<div data-vik-footer></div>
+
+<script>
+/* Los assets y los diccionarios viven un nivel arriba, en
+   _assets/. El nucleo lo lee de aqui. */
+window.VIK_BASE = "../_assets/";
+</script>
+<script src="../_core/vik-chrome.js?v=28"></script>
+<script src="../_core/vik-i18n.js"></script>
+<script src="../_assets/js/lenis.min.js"></script>
+<script src="../_assets/js/gsap.min.js"></script>
+<script src="../_assets/js/scrolltrigger.min.js"></script>
+<script src="../_assets/js/leaflet.js"></script>
+<script src="../_core/vik-motion.js?v=14"></script>
+<script src="../_core/vik-live.js?v=11"></script>
+<script src="../_core/vik-wall.js?v=21"></script>
+<script src="../_core/vik-rooms.js?v=14"></script>
+<script src="../_core/vik-chooser.js?v=3"></script>
+<script src="../_core/vik-checkout.js?v=1"></script>
+<script src="../_core/vik-booking.js?v=4"></script>
+
+<script>
+/* the contents control — phone only, and it names where you are */
+(function () {
+  var t = document.getElementById("sgTocToggle");
+  var l = document.getElementById("sgToc");
+  var now = document.getElementById("sgTocNow");
+  if (!t || !l) return;
+
+  t.addEventListener("click", function () {
+    var open = l.classList.toggle("is-open");
+    t.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  l.addEventListener("click", function (e) {
+    if (e.target.closest("a")) {
+      l.classList.remove("is-open");
+      t.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  /* the number on the button follows the module you are reading */
+  if (!("IntersectionObserver" in window)) return;
+  var io = new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (e.isIntersecting && now) now.textContent =
+        (e.target.querySelector(".id") || {}).textContent || "";
+    });
+  }, { rootMargin: "-10% 0px -80% 0px" });
+  [].slice.call(document.querySelectorAll(".sg-spec")).forEach(function (b) { io.observe(b); });
+})();
+</script>
+
+<script>
+/* styleguide only — the two demo buttons above */
+(function demoWire(){
+  document.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-demo]");
+    if (!b) return;
+    if (b.dataset.demo === "chooser" && window.VIK && VIK.chooser) VIK.chooser.open("playa");
+    if (b.dataset.demo === "plb" && window.VIK && VIK.chooser) VIK.chooser.open(b.dataset.key);
+    if (b.dataset.demo === "room" && window.VIK && VIK.wall) {
+      /* the wall above is the real source — open its first room */
+      var tile = document.querySelector(".wall-tile");
+      if (tile) VIK.wall.expand(tile);
+    }
+    if (b.dataset.demo === "checkout" && window.VIK && VIK.checkout)
+      VIK.checkout.open({ property: "bahia", in: "2026-12-20", out: "2026-12-27", adults: 2 });
+  });
+})();
+</script>
+</body>
+</html>

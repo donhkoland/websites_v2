@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/donhkoland/.claude/skills/vik-brand/assets/**)",
+      "Read(//d/Escritorio/VIK/--- 07. Mayo 26/VIK Assets/**)",
+      "Read(//d/Escritorio/VIK/--- 07. Mayo 26/VIK Assets/Brand/Logo Assets/SVG/**)",
+      "Bash(cd \"D:/Escritorio/VIK/--- 07. Mayo 26\" && echo \"===SVG wordmarks===\" && ls \"VIK Assets/Brand/Logo Assets/SVG/\" && echo \"===DM SANS===\" && ls \"VIK Assets/Brand/Fonts Assets/WOFF/\" 2>/dev/null | grep -i dmsans && echo \"===check parent of Guest Journey===\" && ls \"VIK Guest Journey/\")",
+      "Bash(cp \"VIK Assets/Brand/Logo Assets/SVG/VIK . Logo . White.svg\" \"VIK Guest Journey/Sample/images/vik-logo-white.svg\")",
+      "Bash(cp \"VIK Assets/Brand/Logo Assets/SVG/VIK . Logo . Black.svg\" \"VIK Guest Journey/Sample/images/vik-logo-black.svg\")",
+      "Bash(cp \"VIK Assets/Brand/Fonts Assets/WOFF/DMSans-Regular.woff2\" \"VIK Guest Journey/Sample/Fonts/WOFF/\")",
+      "Bash(cp \"VIK Assets/Brand/Fonts Assets/WOFF/DMSans-Light.woff2\" \"VIK Guest Journey/Sample/Fonts/WOFF/\")",
+      "Bash(cp \"VIK Assets/Brand/Fonts Assets/WOFF/DMSans-Medium.woff2\" \"VIK Guest Journey/Sample/Fonts/WOFF/\")",
+      "Bash(npx -v)",
+      "Bash(sort -k6)",
+      "WebSearch",
+      "WebFetch(domain:vik.cl)",
+      "WebFetch(domain:www.galleriavikmilano.com)",
+      "WebFetch(domain:vikwine.com)"
+    ]
+  }
+}

@@ -1,0 +1,402 @@
+[
+ {
+  "room": "Master Suite VIK",
+  "property": "estancia",
+  "shots": [
+   "estancia/vik-master-suite.jpg",
+   "estancia/gardens-img_1111-min.jpg",
+   "estancia/entrance-img_0003-min.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Master Suite Daglio",
+  "property": "estancia",
+  "shots": [
+   "estancia/daglio-img_0263.jpg",
+   "estancia/bbq-img_7731.jpg",
+   "estancia/gardens-img_1111-min.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Master Suite Legrand",
+  "property": "estancia",
+  "shots": [
+   "estancia/legrand_1.jpg",
+   "estancia/chapel-img_0177-min.jpg",
+   "estancia/bbq-img_7731.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Master Suite Seveso",
+  "property": "estancia",
+  "shots": [
+   "estancia/seveso-img_9629.jpg",
+   "estancia/north-garden-to-living-room-1.jpg",
+   "estancia/chapel-img_0177-min.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Amengual Suite",
+  "property": "estancia",
+  "shots": [
+   "estancia/amengal-img_8677.jpg",
+   "estancia/sculpture-img_1789.jpg",
+   "estancia/north-garden-to-living-room-1.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Barea Suite",
+  "property": "estancia",
+  "shots": [
+   "estancia/barea-img_0313.jpg",
+   "estancia/estancia-img_0005.jpg",
+   "estancia/sculpture-img_1789.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Cardozo Suite",
+  "property": "estancia",
+  "shots": [
+   "estancia/cardozo-img_9671.jpg",
+   "estancia/estanciavik-0323-min.jpg",
+   "estancia/estancia-img_0005.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Badaro Suite",
+  "property": "estancia",
+  "shots": [
+   "estancia/badaro-img_7678.jpg",
+   "estancia/pool-img_1630-min.jpg",
+   "estancia/estanciavik-0323-min.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Musso Suite",
+  "property": "estancia",
+  "shots": [
+   "estancia/musso-img_0204.jpg",
+   "estancia/entrance-to-living-room.jpeg",
+   "estancia/pool-img_1630-min.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Trujillo Suite",
+  "property": "estancia",
+  "shots": [
+   "estancia/trujillo-img_0201.jpg",
+   "estancia/gameroom-img_4145-min.jpg",
+   "estancia/entrance-to-living-room.jpeg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Turell Suite",
+  "property": "estancia",
+  "shots": [
+   "estancia/turell_old1.jpg",
+   "estancia/estancia-img_0004.jpg",
+   "estancia/gameroom-img_4145-min.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Duarte Suite",
+  "property": "estancia",
+  "shots": [
+   "estancia/duarte-dsc_0061.jpg",
+   "estancia/entrance-img_0003-min.jpg",
+   "estancia/estancia-img_0004.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "The Casas",
+  "property": "playa",
+  "shots": [
+   "playa/casas-main-scaled.jpg",
+   "playa/pool-img_0520.jpg",
+   "playa/gym_img_1967.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Casa Blanca",
+  "property": "playa",
+  "shots": [
+   "playa/casa_blanca_img_0860.jpg",
+   "playa/home-img_1789.jpg",
+   "playa/casas-main-scaled.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Garden View Living",
+  "property": "playa",
+  "shots": [
+   "playa/gardenview-living-scaled.jpg",
+   "playa/sculpture-img_1227.jpg",
+   "playa/dscf3708-hdr-scaled.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Sculpture Suites",
+  "property": "playa",
+  "shots": [
+   "playa/1_3_-acommodations-op3-1-scaled.jpg",
+   "playa/dscf3708-hdr-scaled.jpg",
+   "playa/spa-img_0817.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Ocean Suite",
+  "property": "playa",
+  "shots": [
+   "playa/dscf3708-hdr-scaled.jpg",
+   "playa/gym_img_1967.jpg",
+   "playa/casas-main-scaled.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Terrace Suite",
+  "property": "playa",
+  "shots": [
+   "playa/dscf3770-hdr-scaled.jpg",
+   "playa/dscf4068-hdr-scaled.jpg",
+   "playa/parillero_playa-vik-934.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Garden Suite",
+  "property": "playa",
+  "shots": [
+   "playa/dscf3917-hdr-scaled.jpg",
+   "playa/dscf3708-hdr-scaled.jpg",
+   "playa/sculpture-img_1227.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Sunset Suite",
+  "property": "playa",
+  "shots": [
+   "playa/dscf4068-hdr-scaled.jpg",
+   "playa/gameroom_02.jpg",
+   "playa/dscf3917-hdr-scaled.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Art Suite",
+  "property": "playa",
+  "shots": [
+   "playa/dscf4341-hdr-scaled.jpg",
+   "playa/gardenview-living-scaled.jpg",
+   "playa/pool-img_0520.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Casa Living",
+  "property": "playa",
+  "shots": [
+   "playa/1-11-de-12-scaled.jpg",
+   "playa/sculpture-img_1227.jpg",
+   "playa/gardenview-living-scaled.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Casa Bedroom",
+  "property": "playa",
+  "shots": [
+   "playa/1-19-de-44-scaled.jpg",
+   "playa/dscf3917-hdr-scaled.jpg",
+   "playa/sculpture-img_1227.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Casa Garden",
+  "property": "playa",
+  "shots": [
+   "playa/1-26-de-44-scaled.jpg",
+   "playa/gameroom_02.jpg",
+   "playa/sculpture-img_1227.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Bungalow Adobe",
+  "property": "bahia",
+  "shots": [
+   "bahia/adobe-0098.jpg",
+   "bahia/cp-bahiavik-0552-scaled.jpg",
+   "bahia/16_bv-1106-scaled.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Bungalow Corten",
+  "property": "bahia",
+  "shots": [
+   "bahia/corten-0368.jpg",
+   "bahia/dsc_3451-min.jpg",
+   "bahia/cp-bahiavik-0552-scaled.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Bungalow Madera",
+  "property": "bahia",
+  "shots": [
+   "bahia/madera-0122.jpg",
+   "bahia/cp-bahiavik-0562-scaled.jpg",
+   "bahia/dsc_3451-min.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Bungalow Piedra",
+  "property": "bahia",
+  "shots": [
+   "bahia/piedra-0121.jpg",
+   "bahia/dscn2725-scaled.jpg",
+   "bahia/cp-bahiavik-0562-scaled.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Bungalow Quincha",
+  "property": "bahia",
+  "shots": [
+   "bahia/quincha-0102.jpg",
+   "bahia/dscf5297-min.jpg",
+   "bahia/dscn2725-scaled.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Bungalow Titanio",
+  "property": "bahia",
+  "shots": [
+   "bahia/titanio-0086.jpg",
+   "bahia/dscn2783-scaled.jpg",
+   "bahia/dscf5297-min.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Bungalow Vidrio",
+  "property": "bahia",
+  "shots": [
+   "bahia/vidrio-0092.jpg",
+   "bahia/36_bv_img_0070-1-scaled.jpg",
+   "bahia/dscn2783-scaled.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Bungalow Zinc Negro",
+  "property": "bahia",
+  "shots": [
+   "bahia/zinc-negro-0330.jpg",
+   "bahia/cp-bahiavik-0546-scaled.jpg",
+   "bahia/36_bv_img_0070-1-scaled.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Bungalow Zinc Marr\u00f3n",
+  "property": "bahia",
+  "shots": [
+   "bahia/zinc-marron-0118.jpg",
+   "bahia/dsc_3096-min.jpg",
+   "bahia/cp-bahiavik-0546-scaled.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Bungalow Duna",
+  "property": "bahia",
+  "shots": [
+   "bahia/duna-0340.jpg",
+   "bahia/cp-bahiavik-0549-scaled.jpg",
+   "bahia/dsc_3096-min.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Bungalow Chapa Azul",
+  "property": "bahia",
+  "shots": [
+   "bahia/chapaazul.jpg",
+   "bahia/dscn2740-scaled.jpg",
+   "bahia/cp-bahiavik-0549-scaled.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Suite Eva",
+  "property": "bahia",
+  "shots": [
+   "bahia/img_1647-eva2.jpg",
+   "bahia/cp-bahiavik-0593-scaled.jpg",
+   "bahia/cp-bahiavik-0598.jpg"
+  ],
+  "genuine": 3
+ },
+ {
+  "room": "Suite Guerra",
+  "property": "bahia",
+  "shots": [
+   "bahia/img_1550-guerra5.jpg",
+   "bahia/img_1589-guerra12.jpg",
+   "bahia/img_1589-guerra12-1.jpg"
+  ],
+  "genuine": 3
+ },
+ {
+  "room": "Suite Patrone",
+  "property": "bahia",
+  "shots": [
+   "bahia/img_1664-patrone1.jpg",
+   "bahia/dsc_3451-min.jpg",
+   "bahia/16_bv-1106-scaled.jpg"
+  ],
+  "genuine": 1
+ },
+ {
+  "room": "Suite Escard\u00f3",
+  "property": "bahia",
+  "shots": [
+   "bahia/img_1717-escardo3.jpg",
+   "bahia/cp-bahiavik-0554-scaled.jpg",
+   "bahia/cp-bahiavik-0562-scaled.jpg"
+  ],
+  "genuine": 2
+ },
+ {
+  "room": "Suite L\u00f3pez Lage",
+  "property": "bahia",
+  "shots": [
+   "bahia/img_1624-lopezlaje3.jpg",
+   "bahia/cp-bahiavik-0562-1-scaled.jpg",
+   "bahia/dscn2725-scaled.jpg"
+  ],
+  "genuine": 2
+ }
+]

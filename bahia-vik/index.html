@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F8F8F0">
+<meta name="author" content="Nicolás Castillo">
+<meta name="designer" content="Nicolás Castillo · @donhkoland">
+<meta name="developer" content="Nicolás Castillo · @donhkoland">
+<meta name="copyright" content="VIK Retreats">
+<title>Bahía VIK · VIK José Ignacio</title>
+<meta name="description" content="Bahía VIK José Ignacio — ten artist suites and fifteen design bungalows set into the dunes of Playa Mansa, with Zodiaco, pools and The Shack wellness.">
+<link rel="stylesheet" href="../_core/leaflet.min.css">
+<link rel="stylesheet" href="../_core/vik-v2.min.css?v=1">
+<link rel="stylesheet" href="../_core/vik-v2-lib.min.css?v=2">
+</head>
+<body>
+
+<div data-vik-chrome data-page="stay" data-tag="Bahía VIK" data-logo="bahia"></div>
+
+<main id="top">
+
+  <!-- ══ EL MANIFIESTO DE LA CASA ══════════════════════════════
+       Mismo modulo que la portada del destino: cine a sangre y una
+       sola frase encima, centrada en los dos ejes. Esa simetria es
+       lo que la convierte en una declaracion y no en un rotulo.
+
+       Las laminas se turnan solas dentro de .statement-media; con
+       una sola, el modulo se comporta igual.                    -->
+  <section class="statement" id="opening" data-ground="dark">
+    <div class="statement-media">
+      <img class="is-on" src="../_assets/img/t/bahia_1_bv-0439-scaled-w1600.jpg" alt="Bahía VIK">
+      <video muted loop playsinline preload="none" poster="../_assets/video/bahia-vik-poster.webp" data-src="../_assets/video/bahia-vik.mp4">
+      <img src="../_assets/img/t/bahia_cp-bahiavik-0552-scaled-w1600.jpg" alt="Bahía VIK">
+    </div>
+    <div class="statement-in">
+      <span class="kicker bare">Bahía VIK &middot; Retreat 03 &middot; Playa Mansa</span>
+      <h1 class="statement-t lines" data-lines="br">Fifteen bungalows,<br>set <em>into the dunes</em>.</h1>
+      <p class="statement-d">Relaxed beach lifestyle, design-led architecture and social energy. Bungalows tucked into the breezy dunes of Playa Mansa, on the calm side of the peninsula — the most social of the three houses, and the easiest with children.</p>
+      <div class="statement-actions">
+        <a class="pill light" href="#book"><span>Book Your Stay</span><span class="arw">&#8594;</span></a>
+        <a class="pill light" href="../stay/"><span>See the three retreats</span><span class="arw">&#8594;</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="strip" data-live aria-label="Conditions">
+    <div class="fact"><span class="k"><span class="live-dot"></span>Local time</span><span class="v" data-live="time">—</span><span class="s" data-live-sub="time">José Ignacio, Uruguay</span></div>
+    <div class="fact"><span class="k">Weather</span><span class="v" data-live="weather">—</span><span class="s" data-live-sub="weather">Loading conditions…</span></div>
+    <div class="fact"><span class="k">Wind</span><span class="v" data-live="wind">—</span><span class="s" data-live-sub="wind">Loading…</span></div>
+    <div class="fact"><span class="k">Ocean</span><span class="v" data-live="sea">—</span><span class="s" data-live-sub="sea">Playa Brava</span></div>
+    <div class="fact"><span class="k">Season</span><span class="v" data-live="season">—</span><span class="s" data-live-sub="season">—</span></div>
+  </section>
+
+<section class="sec canvas" id="about">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">About</span></div>
+      <div class="h-main">
+        <h2 class="h2 lines">Adobe, corten,<br>zinc and <em>glass</em></h2>
+        <p class="lead">Bahía VIK José Ignacio is built around a collection of uniquely designed bungalows, several of them in privileged beachfront settings, and ten suites on the first and second floors of the main building.</p>
+      </div>
+    </div>
+
+    <div class="ed r d1">
+      <div class="ed-main ed-read"><p>Each bungalow has a distinct exterior, an art-filled interior and its own design scheme — adobe, corten steel, zinc, glass, thatch, timber and stone. Tucked into the beach dunes, each one deliberately blends interior and exterior to encourage the maximum enjoyment of nature.</p>
+        <p>Natural dunes covered in swaying beach grasses and local flora divide one bungalow from the next, so each keeps its own privacy while sharing the same stretch of the bay.</p></div>
+    </div>
+  </section>
+
+  <section class="sec paper tight">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">The house</span></div>
+      <div class="h-main"><h2 class="h2 lines">Pools, patios, the dune and the bay.</h2></div>
+    </div>
+    <div class="rail" data-rail="auto" data-rail-speed="0.32">
+      <figure class="card"><span class="card-fig"><img src="../_assets/img/t/bahia_cp-bahiavik-0552-scaled-w900.jpg" alt="Interiors"></span><span class="card-body"><span class="card-name lw">Interiors</span></span></figure>
+      <figure class="card"><span class="card-fig"><img src="../_assets/img/t/bahia_cp-bahiavik-0562-scaled-w900.jpg" alt="The Dunes"></span><span class="card-body"><span class="card-name lw">The Dunes</span></span></figure>
+      <figure class="card"><span class="card-fig"><img src="../_assets/img/t/bahia_cp-bahiavik-0549-scaled-w900.jpg" alt="The Terrace"></span><span class="card-body"><span class="card-name lw">The Terrace</span></span></figure>
+      <figure class="card"><span class="card-fig"><img src="../_assets/img/t/bahia_vik_food08-w900.jpg" alt="Zodiaco"></span><span class="card-body"><span class="card-name lw">Zodiaco</span></span></figure>
+      <figure class="card"><span class="card-fig"><img src="../_assets/img/t/bahia_cp-bahiavik-0546-scaled-w900.jpg" alt="The Pools"></span><span class="card-body"><span class="card-name lw">The Pools</span></span></figure>
+      <figure class="card"><span class="card-fig"><img src="../_assets/img/t/bahia_dscf5297-min-w900.jpg" alt="Playa Mansa"></span><span class="card-body"><span class="card-name lw">Playa Mansa</span></span></figure>
+      <figure class="card"><span class="card-fig"><img src="../_assets/img/t/bahia_36_bv_img_0070-1-scaled-w900.jpg" alt="The Main Building"></span><span class="card-body"><span class="card-name lw">The Main Building</span></span></figure>
+      <figure class="card"><span class="card-fig"><img src="../_assets/img/t/bahia_16_bv-1106-scaled-w900.jpg" alt="The Bay"></span><span class="card-body"><span class="card-name lw">The Bay</span></span></figure>
+    </div>
+  </section>
+
+  <section class="sec map-section" id="location" data-ground="dark">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">Location</span></div>
+      <div class="h-main"><h2 class="h2 lines">In the dunes, on the calm side.</h2><p class="lead">Bahía VIK sits on Ruta 10 in the dunes of Playa Mansa — the sheltered side of José Ignacio, where the water stays calm and the beach is walkable from every bungalow.</p></div>
+    </div>
+    <div class="map-full r">
+      <div id="leafMap" class="leaf-map" aria-label="Map of José Ignacio"></div>
+      <div class="map-view" role="tablist" aria-label="Map view">
+        <button type="button" data-view="map">Map</button>
+        <button type="button" class="active" data-view="sat">Satellite</button>
+      </div>
+      <div class="map-bar"><ul id="mapLegend" class="mb-list"></ul></div>
+    </div>
+    <div class="getting r">
+      <div class="getting-top">
+        <span class="ed-n">Getting here</span>
+        <p class="getting-addr">Ruta&nbsp;10, km&nbsp;185 &middot; 20402 Faro de José Ignacio,<br>Maldonado, Uruguay</p>
+        <a class="link getting-map" href="#location"><span>Open the map</span><span class="arw">&#8594;</span></a>
+      </div>
+      <div class="getting-legs">
+        <div><span class="k">Punta del Este &middot; PDP</span><span class="v">40 min</span><span class="s">By road, along Ruta 10</span></div>
+        <div><span class="k">Montevideo &middot; MVD</span><span class="v">2 h 10</span><span class="s">By road, or 25 min by air</span></div>
+        <div><span class="k">Transfers</span><span class="v">Arranged</span><span class="s">By your Journey Designer, either way</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="accommodations">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">Accommodations</span></div>
+      <div class="h-main">
+        <h2 class="h2 lines">Ten suites, <em>fifteen bungalows</em>.</h2>
+        <p class="lead">Ten suites in the main building, each one given to an artist before it was given to a guest. Fifteen bungalows in the dunes around it, no two built from the same material.</p>
+      </div>
+    </div>
+
+    <!-- La previa. Dos laminas de proporcion distinta y la copia
+         de la que se mira debajo: las dos viven en el marcado, asi
+         que el cambio es un fundido y no una carga. -->
+    <div class="collage r d1">
+      <div class="collage-figs">
+
+        <a class="prop-fig f-a" data-prop="suites" href="#rooms" aria-label="Rooms">
+          <span class="frame clip"><img src="../_assets/img/t/bahia_cp-bahiavik-0552-scaled-w1600.jpg" alt="A suite at Bahía VIK"></span>
+          <span class="vcap">Suites &middot; Ten, in the main building</span>
+        </a>
+
+        <a class="prop-fig f-b" data-prop="bungalows" href="#rooms" aria-label="Suites and bungalows">
+          <span class="frame clip"><img src="../_assets/img/t/bahia_cp-bahiavik-0562-scaled-w1600.jpg" alt="A bungalow in the dunes"></span>
+          <span class="vcap">Bungalows &middot; Fifteen, in the dunes</span>
+        </a>
+
+      </div>
+
+      <div class="collage-copy" data-collage-copy>
+        <div class="cc is-on" data-prop="suites" data-cta="See the suites" data-href="#rooms">
+          <span class="name">Suites</span>
+          <p class="note">Ten suites on two floors of the main building, above the bay. Each was handed to a Uruguayan artist who worked in the room before anyone slept in it — the headboard, the tiles and the light are the work, not a decoration hung on it afterwards.</p>
+        </div>
+        <div class="cc" data-prop="bungalows" data-cta="See the bungalows" data-href="#rooms">
+          <span class="name">Bungalows</span>
+          <p class="note">Fifteen bungalows set into the dunes around the house, each built from a different material — adobe, corten, zinc, glass, thatch, timber. Beach grass grows between them, so each keeps its own privacy while sharing the same stretch of Playa Mansa.</p>
+        </div>
+        <a class="link" href="#book"><span>Check availability</span></a>
+      </div>
+
+      <a class="collage-link link" href="#rooms"><span>See all twenty-five</span></a>
+    </div>
+  </section>
+
+  <!-- ── ROOM REEL ────────────────────────────────────────────────
+       Every room in the house, full height, drifting. The bar draws
+       itself from the rooms present, so this markup is the same on
+       all three pages. Photographs are ../_assets/img/rooms/bahia/
+       <room>-01..03.jpg - replacing one is dropping a file over it.
+       ───────────────────────────────────────────────────────── -->
+  <div class="roomreel" id="rooms" data-rooms tabindex="0" aria-label="Bahía VIK rooms">
+    <div class="roomreel-bar" role="tablist" aria-label="Filter rooms">
+      <button type="button" class="is-on" data-cat="">All</button>
+      <button type="button" data-cat="suite">Suites</button>
+      <button type="button" data-cat="bungalow">Bungalows</button>
+      <span class="count">24 rooms</span>
+    </div>
+    <div class="roomreel-track">
+      <a class="rr" data-m2="58" data-sleeps="2" data-copy="Ceramic headboard, fired on site. First floor, bay side, with the terrace over the water." href="cuartos/burgos.html" data-cat="suite" data-img="rooms/bahia/burgos-01.jpg" data-name="Burgos" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_burgos-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_burgos-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_burgos-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_burgos-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Burgos" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Burgos</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+          <span class="rr-note"><span>Ana Burgos worked the headboard in ceramic before the room had a bed.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="56" data-sleeps="2" data-copy="Drawn directly onto the wall, unframed and unvarnished, so the plaster still breathes." href="cuartos/escardo.html" data-cat="suite" data-img="rooms/bahia/escardo-01.jpg" data-name="Escardo" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_escardo-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_escardo-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Escardo" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Escardo</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+          <span class="rr-note"><span>Line drawings straight onto the lime plaster, left unframed.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="62" data-sleeps="2" data-copy="Corner glazing on two walls. The room the light reaches first in the morning." href="cuartos/eva.html" data-cat="suite" data-img="rooms/bahia/eva-01.jpg" data-name="Eva" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_eva-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_eva-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_eva-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_eva-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Eva" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Eva</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+          <span class="rr-note"><span>The largest of the suites, with the corner window over Playa Mansa.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="54" data-sleeps="2" data-copy="The work is overhead. Nothing hangs at eye level, which was the point." href="cuartos/guerra.html" data-cat="suite" data-img="rooms/bahia/guerra-01.jpg" data-name="Guerra" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_guerra-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_guerra-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_guerra-01-w900.jpg 900w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Guerra" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Guerra</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+          <span class="rr-note"><span>Oil on the ceiling rather than the wall — you read it lying down.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="56" data-sleeps="2" data-copy="Every fitting was made by hand in Maldonado. Nothing in it was bought finished." href="cuartos/juan-manuel.html" data-cat="suite" data-img="rooms/bahia/juan-manuel-01.jpg" data-name="Juan Manuel" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_juan-manuel-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_juan-manuel-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Juan Manuel" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Juan Manuel</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+          <span class="rr-note"><span>Wood, rope and iron, all of it made within forty kilometres.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="60" data-sleeps="2" data-copy="Turned away from the bay on purpose: the dune moves more than the sea does." href="cuartos/lopez-lage.html" data-cat="suite" data-img="rooms/bahia/lopez-lage-01.jpg" data-name="Lopez Lage" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_lopez-lage-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_lopez-lage-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_lopez-lage-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_lopez-lage-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Lopez Lage" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Lopez Lage</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+          <span class="rr-note"><span>Heavy pigment and a bed set low, facing the dunes rather than the water.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="54" data-sleeps="2" data-copy="The image and the view are the same dune, ten years apart." href="cuartos/patrone.html" data-cat="suite" data-img="rooms/bahia/patrone-01.jpg" data-name="Patrone" data-meta="Bahía VIK · Suite" data-gallery="rooms/bahia/patrone-02.jpg">
+        <img src="../_assets/img/t/rooms_bahia_patrone-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_patrone-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Patrone" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Patrone</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+          <span class="rr-note"><span>Photographs of the dune printed on the wall it looks out at.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="56" data-sleeps="2" data-copy="Glass worked into the wall itself. The room reads wider than it measures." href="cuartos/pemper.html" data-cat="suite" data-img="rooms/bahia/pemper-01.jpg" data-name="Pemper" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_pemper-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_pemper-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_pemper-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_pemper-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Pemper" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Pemper</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+          <span class="rr-note"><span>Mirrors set into the plaster, so the bay arrives twice.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="52" data-sleeps="2" data-copy="Furthest from the terrace, and the one guests ask for a second time." href="cuartos/rita.html" data-cat="suite" data-img="rooms/bahia/rita-01.jpg" data-name="Rita" data-meta="Bahía VIK · Suite">
+        <img src="../_assets/img/t/rooms_bahia_rita-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_rita-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_rita-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_rita-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Rita" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Rita</span>
+          <span class="rr-meta">Bahía VIK · Suite</span>
+          <span class="rr-note"><span>The smallest and the quietest, at the end of the upper corridor.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="55" data-sleeps="2" data-copy="Built from the ground it stands on. The walls hold the night temperature until dusk." href="cuartos/adobe.html" data-cat="bungalow" data-img="rooms/bahia/adobe-01.jpg" data-name="Adobe" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_adobe-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_adobe-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Adobe" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Adobe</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+          <span class="rr-note"><span>Earth walls, half a metre thick, cool at three in the afternoon.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="52" data-sleeps="2" data-copy="Every tile painted and fired for this bungalow. No two repeat." href="cuartos/azulejos.html" data-cat="bungalow" data-img="rooms/bahia/azulejos-01.jpg" data-name="Azulejos" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_azulejos-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_azulejos-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_azulejos-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_azulejos-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Azulejos" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Azulejos</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+          <span class="rr-note"><span>Hand-painted tile across the whole of one wall and into the bath.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="50" data-sleeps="2" data-copy="The roof is the point. A storm here is the reason people ask for it in March." href="cuartos/chapa-azul.html" data-cat="bungalow" data-img="rooms/bahia/chapa-azul-01.jpg" data-name="Chapa Azul" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_chapa-azul-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_chapa-azul-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Chapa Azul" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Chapa Azul</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+          <span class="rr-note"><span>Blue sheet metal, and rain you can hear properly.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="58" data-sleeps="3" data-copy="Low, white and open on two sides. The most Atlantic of the fifteen." href="cuartos/comporta.html" data-cat="bungalow" data-img="rooms/bahia/comporta-01.jpg" data-name="Comporta" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_comporta-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_comporta-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_comporta-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_comporta-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Comporta" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Comporta</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+          <span class="rr-note"><span>Thatch and lime, borrowed from the Portuguese coast.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="54" data-sleeps="2" data-copy="The skin is still oxidising. It has not looked the same in any two seasons." href="cuartos/corten.html" data-cat="bungalow" data-img="rooms/bahia/corten-01.jpg" data-name="Corten" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_corten-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_corten-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Corten" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Corten</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+          <span class="rr-note"><span>Weathered steel that keeps changing colour with the salt.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="56" data-sleeps="2" data-copy="You look up at the dune from inside it. Nothing was flattened to place it." href="cuartos/duna.html" data-cat="bungalow" data-img="rooms/bahia/duna-01.jpg" data-name="Duna" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_duna-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_duna-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Duna" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Duna</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+          <span class="rr-note"><span>Set deepest into the sand, with the dune above the window line.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="52" data-sleeps="2" data-copy="The courtyard is the air conditioning. It was designed before the roof was." href="cuartos/greek.html" data-cat="bungalow" data-img="rooms/bahia/greek-01.jpg" data-name="Greek" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_greek-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_greek-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_greek-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_greek-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Greek" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Greek</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+          <span class="rr-note"><span>Whitewash and shade, and a courtyard that does the cooling.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="55" data-sleeps="2" data-copy="Nothing sealed. The wood is on its second colour and heading for a third." href="cuartos/madera.html" data-cat="bungalow" data-img="rooms/bahia/madera-01.jpg" data-name="Madera" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_madera-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_madera-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Madera" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Madera</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+          <span class="rr-note"><span>Uruguayan timber, unpainted, left to grey in the salt.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="58" data-sleeps="3" data-copy="Stacked without mortar, the way the field walls inland are built." href="cuartos/piedra.html" data-cat="bungalow" data-img="rooms/bahia/piedra-01.jpg" data-name="Piedra" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_piedra-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_piedra-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Piedra" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Piedra</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+          <span class="rr-note"><span>Local stone laid dry, with the largest terrace of the fifteen.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="50" data-sleeps="2" data-copy="Built the way the fishing huts on this beach were, and still are." href="cuartos/quincha.html" data-cat="bungalow" data-img="rooms/bahia/quincha-01.jpg" data-name="Quincha" data-meta="Bahía VIK · Bungalow" data-gallery="rooms/bahia/quincha-02.jpg">
+        <img src="../_assets/img/t/rooms_bahia_quincha-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_quincha-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Quincha" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Quincha</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+          <span class="rr-note"><span>Reed and cane over timber — the oldest way of roofing here.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="54" data-sleeps="2" data-copy="A Japanese plan on a Uruguayan dune, and it works better than it should." href="cuartos/ryokan.html" data-cat="bungalow" data-img="rooms/bahia/ryokan-01.jpg" data-name="Ryokan" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_ryokan-01-w900.jpg"
+             srcset="../_assets/img/t/rooms_bahia_ryokan-01-w480.jpg 480w, ../_assets/img/t/rooms_bahia_ryokan-01-w900.jpg 900w, ../_assets/img/t/rooms_bahia_ryokan-01-w1600.jpg 1600w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Ryokan" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Ryokan</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+          <span class="rr-note"><span>Timber, paper and a bath you sit in rather than lie in.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="56" data-sleeps="2" data-copy="The material that ties this house to the one on the point." href="cuartos/titanio.html" data-cat="bungalow" data-img="rooms/bahia/titanio-01.jpg" data-name="Titanio" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_titanio-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_titanio-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Titanio" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Titanio</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+          <span class="rr-note"><span>Titanium, the same skin as the roof at Playa VIK.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="52" data-sleeps="2" data-copy="The dune grass is the privacy. It grows back every September." href="cuartos/vidrio.html" data-cat="bungalow" data-img="rooms/bahia/vidrio-01.jpg" data-name="Vidrio" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_vidrio-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_vidrio-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Vidrio" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Vidrio</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+          <span class="rr-note"><span>Glass on three sides, and blinds you will not use.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="50" data-sleeps="2" data-copy="It disappears into the dune from the beach and reappears from the road." href="cuartos/zinc-marron.html" data-cat="bungalow" data-img="rooms/bahia/zinc-marron-01.jpg" data-name="Zinc Marrón" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_zinc-marron-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_zinc-marron-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Zinc Marrón" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Zinc Marrón</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+          <span class="rr-note"><span>Brown zinc, warm at sunset and the colour of the sand behind it.</span></span>
+        </span>
+      </a>
+      <a class="rr" data-m2="50" data-sleeps="2" data-copy="Built for the height of summer. In January it is the one people do not leave." href="cuartos/zinc-negro.html" data-cat="bungalow" data-img="rooms/bahia/zinc-negro-01.jpg" data-name="Zinc Negro" data-meta="Bahía VIK · Bungalow">
+        <img src="../_assets/img/t/rooms_bahia_zinc-negro-01-w480.jpg"
+             srcset="../_assets/img/t/rooms_bahia_zinc-negro-01-w480.jpg 480w"
+             sizes="(max-width:560px) 86vw, (max-width:1024px) 74vw, min(56vw,760px)"
+             alt="Zinc Negro" loading="lazy" decoding="async">
+        <span class="rr-body">
+          <span class="rr-name">Zinc Negro</span>
+          <span class="rr-meta">Bahía VIK · Bungalow</span>
+          <span class="rr-note"><span>Black zinc, the darkest of the fifteen and the coolest inside.</span></span>
+        </span>
+      </a>
+    </div>
+  </div>
+
+  <section class="sec canvas" id="dining">
+    <div class="split r">
+      <div class="split-media"><img src="../_assets/img/t/bahia_vik_food08-w900.jpg" alt="Zodiaco"></div>
+      <div class="split-body">
+        <span class="kicker lw">Dining · Bahía VIK</span>
+        <h2>Zodiaco</h2>
+        <p>Dining at Bahía VIK highlights the surrounding terroir through locally grown and produced ingredients, with a continued emphasis on authentic Uruguayan cuisine.</p>
+        <p>Eat on the expansive outdoor terrace, by one of the pools, in the open-air patio or in the dining room. The menu runs on fresh fish and seafood, local fruit and vegetables, and home-made breads and pastries — with VIK wine from the sister vineyard in Millahue.</p>
+        <div class="factlist">
+          <div><span class="k">Cuisine</span><span class="v">Uruguayan · bay-side</span></div>
+          <div><span class="k">Location</span><span class="v">Bahía VIK</span></div>
+          <div><span class="k">Hours</span><span class="v">All day, daily</span></div>
+          <div><span class="k">Open to</span><span class="v">Guests of all three retreats</span></div>
+        </div>
+        <div class="split-actions">
+          <a class="link" href="../la-susana/#zodiaco" data-mesa><span>Reserve a table</span><span class="arw">&#8594;</span></a>
+          <a class="link" href="../la-susana/"><span>All dining</span><span class="arw">→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="experience">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">Experience</span></div>
+      <div class="h-main"><h2 class="h2 lines">The bay, the pools and the people.</h2><p class="lead">Bahía is the most social of the three houses. Everything below is arranged by your Journey Designer.</p></div>
+    </div>
+    <div class="mosaic r d1">
+      <article class="vcard is-wide film-card">
+        <video autoplay muted loop playsinline preload="none" poster="../_assets/video/bahia-vik-poster.webp" data-src="../_assets/video/bahia-vik.mp4"></video>
+        <div class="vcard-top"><span class="vcard-when">The Shack</span><span class="vcard-status">45'</span></div>
+        <h3>Move, then recover.</h3>
+        <p>Movement, strength, treatments and recovery on the dune deck — the wellness centre of the destination, open to guests of all three retreats.</p>
+        <div class="vcard-actions"><a class="link" href="../vik-wellness/"><span>Explore wellness</span><span class="arw">→</span></a></div>
+      </article>
+      <article class="vcard" style="background-image:linear-gradient(180deg,rgba(10,9,7,.15),rgba(10,9,7,.84)),url('../_assets/img/t/bahia_cp-bahiavik-0546-scaled-w900.jpg')">
+        <div class="vcard-top"><span class="vcard-when">Daily</span><span class="vcard-status">All ages</span></div>
+        <h3>Pool life.</h3>
+        <p>The pools, the terrace and the calm water of Playa Mansa, steps from every bungalow.</p>
+        <div class="vcard-actions"><a class="link" href="#contact"><span>Plan a day</span><span class="arw">→</span></a></div>
+      </article>
+      <article class="vcard" style="background-image:linear-gradient(180deg,rgba(10,9,7,.15),rgba(10,9,7,.84)),url('../_assets/img/t/bahia_cp-bahiavik-0549-scaled-w900.jpg')">
+        <div class="vcard-top"><span class="vcard-when">Pavilion VIK</span><span class="vcard-status">Events</span></div>
+        <h3>Celebrate on the ocean.</h3>
+        <p>The primary oceanfront event and cultural venue of VIK José Ignacio.</p>
+        <div class="vcard-actions"><a class="link" href="../pavilion-vik/"><span>Plan an event</span><span class="arw">→</span></a></div>
+      </article>
+      <article class="vcard is-wide" style="background-image:linear-gradient(180deg,rgba(10,9,7,.15),rgba(10,9,7,.84)),url('../_assets/img/t/bahia_dscf5297-min-w900.jpg')">
+        <div class="vcard-top"><span class="vcard-when">Water</span><span class="vcard-status">Daily</span></div>
+        <h3>The calm side.</h3>
+        <p>Paddle, swim and sail from Playa Mansa, where the bay stays flat long after the ocean side has turned.</p>
+        <div class="vcard-actions"><a class="link" href="#contact"><span>Plan a day</span><span class="arw">→</span></a></div>
+      </article>
+    </div>
+  </section>
+
+  <section class="sec canvas" id="book">
+    <div class="reserve-grid r">
+      <div class="r-main">
+        <span class="kicker">Book your stay</span>
+        <h2 class="h2 reserve-t lines">Ten suites.<br>Fifteen <em>bungalows</em>.</h2>
+      </div>
+      <p class="r-note spec">Bookassist · PayPal accepted<br>Best rate, booked direct<br>guestexperience@vikretreats.com</p>
+    </div>
+
+    <form class="counter paper r d1" data-booking>
+      <span class="counter-t">The search</span>
+      <div class="counter-row">
+        <div class="f">
+          <label for="bkIn">Arrival</label>
+          <input id="bkIn" name="checkin" type="date">
+        </div>
+        <span class="f-arw" aria-hidden="true">&#8594;</span>
+        <div class="f">
+          <label for="bkOut">Departure</label>
+          <input id="bkOut" name="checkout" type="date">
+        </div>
+        <span class="f-sep" aria-hidden="true"></span>
+        <div class="f">
+          <label for="bkProp">Retreat</label>
+          <select id="bkProp" name="property">
+            <option value="bahia" selected>Bahía VIK</option>
+            <option value="estancia">Estancia VIK</option>
+            <option value="playa">Playa VIK</option>
+            <option value="bahia">Bahía VIK</option>
+          </select>
+        </div>
+        <span class="f-sep" aria-hidden="true"></span>
+        <div class="f">
+          <label for="bkAd">Guests</label>
+          <select id="bkAd" name="adults">
+            <option value="1">1 Adult</option>
+            <option value="2" selected>2 Adults</option>
+            <option value="3">3 Adults</option>
+            <option value="4">4 Adults</option>
+            <option value="6">6 Adults</option>
+            <option value="8">Group &middot; 8+</option>
+          </select>
+        </div>
+        <button class="pill solid" type="submit"><span>Check availability</span><span class="arw">&#8594;</span></button>
+      </div>
+      <div class="counter-note">
+        <span>Direct rate</span>
+        <span>Free cancellation*</span>
+        <span>Journey Designer included</span>
+      </div>
+    </form>
+
+    <div class="reserve-alts r d2">
+      <a class="pill" href="../stay/#choose"><span>Help Me Choose</span><span class="arw">&#8594;</span></a>
+      <a class="pill" href="#contact"><span>Contact Bahía</span><span class="arw">&#8594;</span></a>
+    </div>
+  </section>
+
+  <section class="sec canvas" id="contact">
+    <div class="head r">
+      <div class="h-label"><span class="kicker">Contact</span></div>
+      <div class="h-main"><h2 class="h2 lines">Talk to the house.</h2><p class="lead">When the booking engine cannot answer the question, reaching the team should take one message.</p></div>
+    </div>
+
+    <div class="enquiry r d1">
+
+      <div class="r-main">
+        <p class="enq-statement">Tell us who is coming and what the trip is for. A Journey Designer answers, <em>not a form</em>.</p>
+        <div class="enq-lines">
+          <div class="enq-line">
+            <span class="k">Email</span>
+            <a class="v" href="mailto:guestexperience@vikretreats.com">guestexperience@vikretreats.com</a>
+          </div>
+          <div class="enq-line">
+            <span class="k">Bahía VIK</span>
+            <span class="v">Ruta 10, 20402 Faro de José Ignacio, Maldonado</span>
+          </div>
+          <div class="enq-line">
+            <span class="k">Reservations</span>
+            <span class="v">Direct booking · Bookassist · PayPal</span>
+          </div>
+          <div class="enq-line">
+            <span class="k">Answered</span>
+            <span class="v">Within 24 hours, every day</span>
+          </div>
+        </div>
+      </div>
+
+      <form class="enq-form" onsubmit="return false">
+        <div class="enq-field">
+          <span class="ed-n">01</span>
+          <label for="f1">Your name</label>
+          <input id="f1" type="text" placeholder="Who we are writing back to">
+        </div>
+        <div class="enq-field">
+          <span class="ed-n">02</span>
+          <label for="f2">Email</label>
+          <input id="f2" type="email" placeholder="you@email.com">
+        </div>
+        <div class="enq-field">
+            <span class="ed-n">03</span>
+            <label for="f3">When</label>
+            <input id="f3" type="text" placeholder="January, roughly">
+          </div>
+          <div class="enq-field">
+            <span class="ed-n">04</span>
+            <label for="f4">Who</label>
+            <input id="f4" type="text" placeholder="Two adults">
+          </div>
+        <div class="enq-field">
+          <span class="ed-n">05</span>
+          <label for="f5">What the trip is for</label>
+          <textarea id="f5" rows="3" placeholder="A week off, a birthday, riding, the wine — anything that helps us plan it."></textarea>
+        </div>
+        <div class="enq-foot">
+          <button class="pill solid" type="submit"><span>Send enquiry</span><span class="arw">→</span></button>
+          <p class="enq-note">No account, no newsletter. Your note goes straight to the Bahía team.</p>
+        </div>
+      </form>
+
+    </div>
+  </section>
+
+</main>
+
+<div class="ovl" id="roomView" role="dialog" aria-modal="true" aria-labelledby="roomName">
+  <div class="ovl-panel">
+    <div class="ovl-bar">
+      <span class="ovl-tag" id="roomMeta"></span>
+      <span class="ovl-nav">
+        <button type="button" data-room-prev aria-label="Previous room">&#8592;</button>
+        <span class="rn-count">01 / 01</span>
+        <button type="button" data-room-next aria-label="Next room">&#8594;</button>
+      </span>
+      <button class="ovl-close" type="button" data-room-close>Close</button>
+    </div>
+
+    <div class="ovl-media" id="roomShots"></div>
+
+    <div class="ovl-body">
+      <h2 class="ovl-mark" id="roomName"></h2>
+      <p class="ovl-lede ed-read" id="roomCopy"></p>
+
+      <div class="ovl-facts">
+        <div><span class="k">Retreat</span><span class="v">Bahía VIK</span></div>
+        <div><span class="k">Type</span><span class="v" data-room-type>&mdash;</span></div>
+        <div><span class="k">Views</span><span class="v" data-room-shots>&mdash;</span></div>
+        <div><span class="k">Dining</span><span class="v">Zodiaco</span></div>
+        <div><span class="k">Booking</span><span class="v">Direct &middot; Bookassist</span></div>
+      </div>
+
+      <div class="ovl-actions">
+        <a class="pill solid" href="#book"><span>Book this room</span><span class="arw">&#8594;</span></a>
+        <a class="link" href="#contact"><span>Ask a Journey Designer</span><span class="arw">&#8594;</span></a>
+      </div>
+
+      <!-- Las otras tomas de la habitacion. El motor las rellena;
+           el muro ya sabe como colocarlas. -->
+      <div class="wall" id="roomThumbs" style="margin-top:2.4rem"></div>
+
+      <p class="ed-cap">Every room at Bahía VIK was commissioned, not decorated &mdash; the artist, the material and the position of the bed were decided together.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- La mesa. Mismo chasis que el visor: un modal por tipo de
+     contenido son cuatro modales que se desincronizan. -->
+<div class="ovl" id="tableView" role="dialog" aria-modal="true" aria-labelledby="tableT">
+  <div class="ovl-panel">
+    <div class="ovl-bar">
+      <span class="ovl-tag">Zodiaco &middot; Bah&iacute;a VIK</span>
+      <button class="ovl-close" type="button" data-ovl-close>Close</button>
+    </div>
+    <figure class="ovl-media">
+      <img src="../_assets/img/t/bahia_vik_food08-w1600.jpg" alt="Zodiaco">
+    </figure>
+    <div class="ovl-body">
+      <p class="ed-cap">Zodiaco, bay-side, all day</p>
+      <h2 class="ovl-mark" id="tableT">Book a table <em>at Zodiaco</em>.</h2>
+      <p class="ovl-lede ed-read">Open to guests of all three retreats and to anyone else who books. Lunch runs into the afternoon and the last table goes out at eleven.</p>
+
+      <div class="ovl-facts">
+        <div><span class="k">Lunch</span><span class="v">12:30 &ndash; 16:00</span></div>
+        <div><span class="k">Dinner</span><span class="v">20:00 &ndash; 23:00</span></div>
+        <div><span class="k">Open to</span><span class="v">Guests and visitors</span></div>
+        <div><span class="k">Dress</span><span class="v">Come as you are</span></div>
+      </div>
+
+      <div class="ovl-actions">
+        <a class="pill solid" href="https://lasusana.meitre.com/" target="_blank" rel="noopener"><span>Choose a time</span><span class="arw">&#8594;</span></a>
+        <a class="link" href="mailto:guestexperience@vikretreats.com"><span>Ask the house instead</span><span class="arw">&#8594;</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div data-vik-footer></div>
+
+<script>
+/* Los assets y los diccionarios viven un nivel arriba, en
+   _assets/. El nucleo lo lee de aqui. */
+window.VIK_BASE = "../_assets/";
+</script>
+<script src="../_core/lenis.min.js"></script>
+<script src="../_core/leaflet.js"></script>
+<script src="../_core/vik-chrome-v2.js?v=1"></script>
+<script src="../_core/vik-v2.min.js?v=1"></script>
+<script src="../_core/vik-v2-lib.min.js?v=1"></script>
+</body>
+</html>

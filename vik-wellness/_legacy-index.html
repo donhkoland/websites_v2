@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VIK Wellness</title>
+<style>
+@font-face{font-family:'Old Standard VIK';src:url('fonts/woff/oldstandardtt-regular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'DM Sans';src:url('fonts/woff/dmsans-light.ttf') format('truetype');font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:'DM Sans';src:url('fonts/woff/dmsans-regular.ttf') format('truetype');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'DM Sans';src:url('fonts/woff/dmsans-medium.ttf') format('truetype');font-weight:500;font-style:normal;font-display:swap}
+@font-face{font-family:'Highway Gothic Expanded';src:url('fonts/woff/highwaygothicexpanded.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:'SelvaScript';src:url('fonts/woff/selvascriptpro.woff') format('woff');font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:'Apercu Mono Pro';src:url('fonts/woff/apercumonopro-regular.woff') format('woff');font-weight:400;font-style:normal;font-display:swap}
+:root{
+  --white:#ffffff;--paper:#eef3dc;--stone:#dde5c4;
+  --warm:#c4aa84;--ink:#1e1e1e;--blue:#002fa7;--blue-lt:#4a78d4;
+  --ink50:rgba(30,30,30,.5);--ink20:rgba(30,30,30,.2);--ink08:rgba(30,30,30,.08);
+  --blue50:rgba(0,47,167,.5);--blue12:rgba(0,47,167,.12);--blue06:rgba(0,47,167,.06);
+  --overlay:rgba(10,10,10,.48);
+  --fs:'Old Standard VIK',Georgia,serif;
+  --fl:'Highway Gothic Expanded','Arial Narrow',sans-serif;
+  --fb:'DM Sans',sans-serif;
+  --fm:'Apercu Mono Pro','Courier New',monospace;
+  --ease:cubic-bezier(.25,.1,.25,1);--slow:cubic-bezier(.16,1,.3,1);
+  --card-width:430px;--card-height:610px;--card-border-radius:6px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;font-synthesis:none}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--fs);color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;overflow-x:hidden;cursor:none}
+h1,h2,h3,h4,h5,h6{font-weight:400}
+img,video{display:block;width:100%;height:100%;object-fit:cover}
+a{color:inherit;text-decoration:none}
+button{font:inherit;border:none;background:none;cursor:none}
+
+/* CURSOR */
+.cursor{position:fixed;z-index:9999;pointer-events:none;mix-blend-mode:difference}
+.cdot{width:6px;height:6px;background:#fff;border-radius:50%;transform:translate(+50%,+50%)}
+.cring{width:32px;height:32px;border:1px solid #fff;border-radius:50%;transform:translate(-50%,-50%);transition:width .3s var(--slow),height .3s var(--slow),transform .08s linear,opacity .3s}
+.cring.grow{width:52px!important;height:52px!important;opacity:.4!important}
+
+/* LOADER */
+#loader{position:fixed;inset:0;z-index:1000;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2rem;transition:opacity .8s var(--slow),visibility .8s}
+#loader.hidden{opacity:0;visibility:hidden}
+.ll{font-family:var(--fl);font-size:.58rem;letter-spacing:.35em;text-transform:uppercase;color:#fff;opacity:0;animation:fu .6s .2s var(--slow) forwards;font-weight:400}
+.lb{width:1px;height:0;background:rgba(255,255,255,.35);animation:lg .9s .5s var(--slow) forwards}
+@keyframes fu{to{opacity:1}}@keyframes lg{to{height:80px}}
+
+/* PROGRESS */
+#prog{position:fixed;top:0;left:0;z-index:200;height:1px;background:var(--warm);width:0;transition:width .1s linear}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:2rem 3.5rem;transition:padding .5s var(--slow),background .4s}
+#nav.s{padding:1.25rem 3.5rem;background:rgba(255,255,255,.96);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.nw{display:flex;align-items:center;color:#fff;transition:color .4s}
+#nav.s .nw{color:var(--ink)}
+.logo-svg{height:13px;width:auto;display:block;flex-shrink:0}
+.nb{display:flex;flex-direction:column;gap:5px;padding:.5rem;cursor:none}
+.nb span{display:block;width:22px;height:1px;background:#fff;transition:background .4s,transform .35s var(--slow),opacity .25s}
+#nav.s .nb span{background:var(--ink)}
+.nb.o span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.nb.o span:nth-child(2){opacity:0;transform:scaleX(0)}
+.nb.o span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+/* MENU */
+#mo{position:fixed;inset:0;z-index:90;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:2.5rem;clip-path:inset(0 0 100% 0);transition:clip-path .75s var(--slow);pointer-events:none;overflow:hidden}
+#mo.o{clip-path:inset(0 0 0% 0);pointer-events:all}
+.m-logo-wrap{color:#fff;opacity:0;transform:translateY(-10px);transition:opacity .5s var(--slow),transform .5s var(--slow)}
+#mo.o .m-logo-wrap{opacity:1;transform:none;transition-delay:.1s}
+.m-logo-wrap .logo-svg{height:15px}
+.mn{list-style:none;text-align:center;display:flex;flex-direction:column;align-items:center;gap:.15rem}
+.mn li{overflow:hidden}
+.mn a{font-family:var(--fs);font-size:clamp(2.4rem,5.5vw,5rem);color:#fff;display:inline-block;opacity:0;transform:translateY(100%);transition:opacity .5s var(--slow),transform .5s var(--slow),color .25s;font-weight:400;letter-spacing:-0.02em}
+#mo.o .mn a{opacity:1;transform:none}
+#mo.o .mn li:nth-child(1) a{transition-delay:.18s}
+#mo.o .mn li:nth-child(2) a{transition-delay:.24s}
+#mo.o .mn li:nth-child(3) a{transition-delay:.30s}
+#mo.o .mn li:nth-child(4) a{transition-delay:.36s}
+#mo.o .mn li:nth-child(5) a{transition-delay:.42s}
+#mo.o .mn li:nth-child(6) a{transition-delay:.48s}
+#mo.o .mn li:nth-child(7) a{transition-delay:.54s}
+.mn a:hover{color:var(--warm)}
+.ms{font-family:var(--fl);font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.22);opacity:0;transition:opacity .5s .65s var(--slow);font-weight:400}
+#mo.o .ms{opacity:1}
+#mo.o ~ #nav{background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border-bottom:none!important;box-shadow:none}
+#mo.o ~ #nav .nw{opacity:0;pointer-events:none;transition:opacity .3s}
+#mo.o ~ #nav .nb span{background:#fff}
+
+/* HERO */
+.hero{position:relative;height:100vh;min-height:640px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
+.hbg{position:absolute;top:-20%;bottom:-20%;left:0;right:0;background:linear-gradient(160deg,#8c7c6c,#3a3028)}
+.hbg img,.hbg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hov{position:absolute;inset:0;background:var(--overlay)}
+.hvg{position:absolute;inset:0;background:radial-gradient(ellipse 120% 80% at 50% 110%,rgba(12,10,8,.6),transparent 70%)}
+.hb{position:relative;z-index:2;padding:0 3.5rem 4.5rem;display:grid;grid-template-columns:1fr auto;align-items:end}
+.hey{font-family:var(--fl);font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-bottom:1.5rem;display:block;font-weight:400}
+.hh1{font-family:var(--fs);font-size:clamp(2.8rem,6.5vw,5.2rem);font-weight:400;line-height:1.02;color:#fff;margin-bottom:2rem;letter-spacing:-0.01em}
+.hh1 em{font-style:italic;font-family:'SelvaScript',var(--fs);font-weight:400}
+.hsb{font-family:var(--fb);font-size:.93rem;line-height:1.72;color:rgba(255,255,255,.52);max-width:380px;font-weight:400}
+.hsc{display:flex;flex-direction:column;align-items:center;gap:.75rem;color:rgba(255,255,255,.3);padding-bottom:.25rem}
+.hsc span{font-family:var(--fl);font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;writing-mode:vertical-rl;font-weight:400}
+.sl{width:1px;height:72px;background:linear-gradient(to bottom,rgba(255,255,255,.35),transparent);animation:sp 2.4s ease-in-out infinite}
+@keyframes sp{0%,100%{opacity:.35;transform:scaleY(1)}50%{opacity:.7;transform:scaleY(1.15)}}
+.wr{display:inline-block;opacity:0;transform:translateY(32px);animation:wu .8s var(--slow) forwards}
+.wr:nth-child(1){animation-delay:.9s}.wr:nth-child(2){animation-delay:1.05s}.wr:nth-child(3){animation-delay:1.2s}.wr:nth-child(4){animation-delay:1.35s}
+.sr{opacity:0;transform:translateY(16px);animation:wu .8s 1.5s var(--slow) forwards}
+@keyframes wu{to{opacity:1;transform:none}}
+
+/* REVEAL */
+.r{opacity:0;transform:translateY(24px);transition:opacity .9s var(--slow),transform .9s var(--slow)}
+.r.in{opacity:1;transform:none}
+.r.d1{transition-delay:.1s}.r.d2{transition-delay:.2s}.r.d3{transition-delay:.3s}.r.d4{transition-delay:.4s}.r.d5{transition-delay:.5s}
+
+/* TYPE */
+.lbl{font-family:var(--fl);font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--ink50);display:block;margin-bottom:1.5rem;font-weight:400}
+.lbl-w{color:rgba(255,255,255,.28)}.lbl-wm{color:var(--blue-lt)}
+.h2{font-family:var(--fs);font-size:clamp(1.75rem,3.2vw,2.8rem);font-weight:400;line-height:1.1;color:var(--ink);letter-spacing:-0.01em}
+.h2 em{font-style:italic;font-family:'SelvaScript',var(--fs);font-weight:400}
+.h2w{color:#fff}
+.bd{font-family:var(--fb);font-size:.93rem;line-height:1.75;color:var(--ink50);font-weight:400}
+.bdw{color:rgba(255,255,255,.48)}
+
+/* INTRO */
+.intro{padding:8rem 3.5rem;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.intro .h2{margin-bottom:2rem}
+.ir{border-left:1px solid var(--ink08);padding-left:3.5rem}
+.th{font-family:var(--fs);font-size:1.38rem;font-style:italic;line-height:1.42;color:var(--ink);padding:1.6rem 0;border-bottom:1px solid var(--ink08);font-weight:400;letter-spacing:-0.01em}
+.th:first-child{padding-top:0}.th:last-child{border-bottom:none}
+
+/* FULLSCREEN BREAK */
+.fsb{position:relative;height:100vh;min-height:560px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.fbg{position:absolute;inset:0;background:linear-gradient(135deg,#8a7868,#3a3028)}
+.fbg img,.fbg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.fov{position:absolute;inset:0;background:var(--overlay)}
+.fc{position:relative;z-index:2;text-align:center;padding:3rem;max-width:none}
+.fc .lbl{text-align:center;margin-bottom:2rem}
+.fq{font-family:'SelvaScript',var(--fs);font-size:clamp(4.2rem,2vw,1.55rem);font-style:italic;color:rgba(255,255,255,.78);line-height:1.32;margin-bottom:1.5rem;letter-spacing:0;white-space:nowrap;text-align:center;width:max-content;margin-inline:auto}
+.flo{font-family:var(--fl);font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.22)}
+
+/* PRINCIPLES */
+.prs{background:var(--paper);padding:8rem 3.5rem}
+.prh{display:grid;grid-template-columns:1fr 2fr;gap:6rem;align-items:end;margin-bottom:4.5rem}
+.prl{list-style:none;border-top:1px solid var(--ink08)}
+.pr{display:grid;grid-template-columns:3.5rem 1fr 2fr;gap:2rem;align-items:start;padding:2.25rem 0;border-bottom:1px solid var(--ink08);transition:background .3s,padding .3s;cursor:default}
+.pr:hover{background:var(--stone);padding-left:1rem;padding-right:1rem;margin:0 -1rem}
+.pn{font-family:var(--fl);font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,47,167,.58);padding-top:.15rem;font-weight:400;line-height:.8}
+.pnm{font-family:var(--fs);font-size:1.08rem;color:var(--ink);font-weight:400;letter-spacing:-0.01em}
+.pnm em{font-style:italic;font-family:'SelvaScript',var(--fs);font-weight:400}
+.pd{font-family:var(--fb);font-size:.93rem;line-height:1.7;color:var(--ink50);font-weight:400}
+
+/* PILLARS */
+.pls{padding:8rem 3.5rem;background:var(--white)}
+.plh{display:grid;grid-template-columns:1fr 2fr;gap:6rem;align-items:end;margin-bottom:3.5rem;padding-bottom:3rem;border-bottom:1px solid var(--ink08)}
+.plg{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--ink08)}
+.pl{padding:2.5rem 1.75rem;border-right:1px solid var(--ink08);position:relative;overflow:hidden;transition:background .35s}
+.pl:last-child{border-right:none}
+.pl::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--warm);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--slow)}
+.pl:hover{background:var(--paper)}.pl:hover::after{transform:scaleX(1)}
+.pli{font-family:var(--fl);font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,47,167,.58);margin-bottom:1.75rem;display:block;font-weight:400;line-height:.8}
+.plnm{font-family:var(--fs);font-size:1.35rem;color:var(--ink);margin-bottom:1.1rem;line-height:1.08;font-weight:400;letter-spacing:-0.01em}
+.plnm em{font-style:italic;font-family:'SelvaScript',var(--fs);font-weight:400}
+.pldc{font-family:var(--fb);font-size:.93rem;line-height:1.7;color:var(--ink50);font-weight:400}
+
+/* PROPERTIES */
+.props{background:var(--paper);padding:8rem 0 8rem 3.5rem;overflow:hidden}
+.ph{display:grid;grid-template-columns:1fr 2fr;gap:6rem;align-items:end;padding-right:3.5rem;margin-bottom:3.5rem}
+.ph-r{display:flex;flex-direction:column;gap:2rem;align-items:flex-start}
+.ph-d{font-family:var(--fb);font-size:.93rem;line-height:1.75;color:var(--ink50);font-weight:400}
+.ca{display:flex;gap:1rem}
+.cb{width:44px;height:44px;border:1px solid var(--ink20);display:flex;align-items:center;justify-content:center;transition:background .25s,border-color .25s;cursor:none}
+.cb:hover{background:var(--ink);border-color:var(--ink)}
+.cb:hover svg path{stroke:#fff}
+.cb svg{width:16px;height:16px}
+.cb svg path{stroke:var(--ink);transition:stroke .25s}
+.cw{overflow:hidden;cursor:grab;user-select:none;-webkit-user-select:none}
+.ct{display:flex;gap:1.5rem;transition:transform .65s var(--slow)}
+.ps{flex:0 0 calc(50% - .75rem);position:relative;overflow:clip;aspect-ratio:3/2;background:var(--stone)}
+.ps .pm{position:absolute;inset:0}
+.ps .pm img,.ps .pm video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ps .po{position:absolute;inset:0;background:linear-gradient(to top,rgba(12,10,8,.65),transparent 55%)}
+.pb{position:absolute;bottom:0;left:0;right:0;padding:2.5rem 2rem}
+.plc{font-family:var(--fl);font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-lt);margin-bottom:.5rem;display:block;font-weight:400;line-height:.8}
+.pnme{font-family:var(--fs);font-size:2rem;color:#fff;margin-bottom:1.1rem;line-height:1.02;font-weight:400;letter-spacing:-0.015em}
+.ptgs{display:flex;flex-wrap:wrap;gap:.4rem}
+.ptg{font-family:var(--fl);font-size:.42rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.52);border:1px solid rgba(255,255,255,.18);padding:.28rem .58rem;background:rgba(255,255,255,.05);backdrop-filter:blur(4px);font-weight:400}
+.pc1{background:linear-gradient(135deg,#b4a090,#6e5a4a)}
+.pc2{background:linear-gradient(135deg,#8a9e7a,#4a6240)}
+.pc3{background:linear-gradient(135deg,#7a9aaa,#3a5a6a)}
+
+/* RHYTHM */
+.rhy{position:relative;height:100vh;min-height:600px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.rbg{position:absolute;top:-20%;bottom:-20%;left:0;right:0;background:linear-gradient(170deg,#b89a78,#5a3e28)}
+.rbg img,.rbg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rov{position:absolute;inset:0;background:rgba(12,10,8,.81)}
+.rph{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:2.5rem;position:relative;padding-top:2rem;border-top:1px solid rgba(255,255,255,.14)}
+.rp{padding-right:1.75rem;position:relative}
+.rp::before{content:'';position:absolute;top:0;left:0;width:7px;height:7px;background:var(--blue-lt);border-radius:50%;transform:translateY(calc(-2rem - 3px))}
+.rdo{display:none}
+.rt{font-family:var(--fl);font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28);display:block;margin-bottom:.65rem;font-weight:400;line-height:.8}
+.rn{font-family:var(--fs);font-size:.98rem;color:#fff;margin-bottom:.6rem;line-height:1.12;font-weight:400;letter-spacing:-0.01em}
+.rn em{font-style:italic;font-family:'SelvaScript',var(--fs);font-weight:400}
+.rd{font-family:var(--fb);font-size:.93rem;line-height:1.7;color:rgba(255,255,255,.38);font-weight:400}
+
+/* EXPERIENCES */
+.exps{padding:8rem 3.5rem;background:var(--paper)}
+.exh{margin-bottom:3.5rem}
+.exg{display:grid;grid-template-columns:2fr 1fr 1fr;grid-template-rows:repeat(2,272px);gap:1.5rem}
+.ec{position:relative;overflow:hidden;background:var(--stone)}
+.ec:first-child{grid-row:span 2}
+.eb{position:absolute;inset:0;transition:transform .65s var(--slow)}
+.ec:hover .eb{transform:scale(1.04)}
+.eo{position:absolute;inset:0;background:linear-gradient(to top,rgba(12,10,8,.65),rgba(12,10,8,.05) 60%)}
+.ebdy{position:absolute;bottom:0;left:0;right:0;padding:1.75rem}
+.ecat{font-family:var(--fl);font-size:.44rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-lt);display:block;margin-bottom:.45rem;font-weight:400;line-height:.8}
+.enm{font-family:var(--fs);font-size:1.15rem;color:#fff;line-height:1.1;font-weight:400;letter-spacing:-0.01em}
+.enm em{font-style:italic;font-family:'SelvaScript',var(--fs);font-weight:400}
+.ec1{background:linear-gradient(155deg,#a89078,#5a4030)}
+.ec2{background:linear-gradient(155deg,#8ea890,#3a5a3a)}
+.ec3{background:linear-gradient(155deg,#8090a0,#304050)}
+.ec4{background:linear-gradient(155deg,#a08878,#5a3828)}
+.ec5{background:linear-gradient(155deg,#9a9060,#4a4020)}
+
+/* JOURNEY */
+.jou{position:relative;height:100vh;min-height:600px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.jbg{position:absolute;top:-20%;bottom:-20%;left:0;right:0;background:linear-gradient(170deg,#9a8878,#3a3028)}
+.jbg img,.jbg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.jov{position:absolute;inset:0;background:rgba(10,10,10,.68)}
+.ji{position:relative;z-index:2;display:flex;flex-direction:column;gap:3rem;padding:5rem 3.5rem;max-width:1400px;width:100%}
+.jih{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:end}
+.jst{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:2.5rem;position:relative;padding-top:2rem;border-top:1px solid rgba(255,255,255,.14)}
+.jst > div{padding-right:1.75rem;position:relative}
+.jst > div::before{content:'';position:absolute;top:0;left:0;width:7px;height:7px;background:var(--blue-lt);border-radius:50%;transform:translateY(calc(-2rem - 3px))}
+.jsn{font-family:var(--fl);font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.28);display:block;margin-bottom:.65rem;font-weight:400;line-height:.8}
+.jsnm{font-family:var(--fs);font-size:.98rem;color:#fff;margin-bottom:.6rem;font-weight:400;letter-spacing:-0.01em}
+.jsd{font-family:var(--fb);font-size:.93rem;line-height:1.65;color:rgba(255,255,255,.38);font-weight:400}
+
+/* COMMERCIAL */
+.com{padding:8rem 3.5rem;background:var(--white)}
+.cmh{display:grid;grid-template-columns:1fr 2fr;gap:6rem;align-items:end;margin-bottom:4rem;padding-bottom:3.5rem;border-bottom:1px solid var(--ink08)}
+.lad{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.ti{padding:3rem 2.25rem;border:1px solid var(--ink08);transition:border-color .3s,box-shadow .3s}
+.ti:hover{border-color:var(--warm);box-shadow:0 12px 40px rgba(0,0,0,.06)}
+.ti.dk{background:var(--ink);border-color:var(--ink)}
+.ti.dk:hover{border-color:var(--warm)}
+.tlv{font-family:var(--fl);font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(0,47,167,.58);display:block;margin-bottom:1.25rem;font-weight:400;line-height:.8}
+.tnm{font-family:var(--fs);font-size:1.38rem;color:var(--ink);margin-bottom:1.65rem;line-height:1.08;font-weight:400;letter-spacing:-0.01em}
+.ti.dk .tnm{color:#fff}
+.ti.dk .tlv{color:rgba(255,255,255,.32)}
+.ti.dk .tit li::before{color:rgba(255,255,255,.22)}
+.tit{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+.tit li{font-family:var(--fb);font-size:.93rem;line-height:1.65;color:var(--ink50);padding-left:1.25rem;position:relative;font-weight:400}
+.tit li::before{content:'—';position:absolute;left:0;color:rgba(0,47,167,.55)}
+.ti.dk .tit li{color:rgba(255,255,255,.4)}
+
+/* WE ARE */
+.wa{padding:8rem 3.5rem;background:var(--ink)}
+.wa .lbl{color:rgba(255,255,255,.25)}
+.wa .h2{color:#fff}
+.wah{margin-bottom:4rem}
+.wag{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.wc{padding:3rem 2.5rem;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04)}
+.wc.alt{background:transparent}
+.wct{font-family:var(--fs);font-size:1.12rem;color:#fff;margin-bottom:1.75rem;padding-bottom:1.25rem;border-bottom:1px solid rgba(255,255,255,.1);font-weight:400;letter-spacing:-0.01em}
+.wl{list-style:none;display:flex;flex-direction:column;gap:1rem}
+.wl li{display:flex;align-items:flex-start;gap:.875rem;font-family:var(--fb);font-size:.93rem;line-height:1.65;color:rgba(255,255,255,.52);font-weight:400}
+.ck{flex-shrink:0;margin-top:.15rem}
+
+/* MARKET */
+.mkt{padding:8rem 3.5rem;background:var(--ink)}
+.mkt .lbl{color:rgba(255,255,255,.25)}
+.mkt .h2{color:#fff;margin-bottom:1.5rem}
+.mst{display:grid;grid-template-columns:repeat(4,1fr);margin-top:5rem;border-top:1px solid rgba(255,255,255,.08);padding-top:4rem}
+.mstt{padding-right:2.5rem;padding-bottom:2.5rem}
+.msn{font-family:var(--fs);font-size:2.6rem;color:#fff;line-height:1;margin-bottom:.4rem;font-weight:400;letter-spacing:-0.025em}
+.mss{font-family:var(--fl);font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-lt);margin-bottom:.45rem;font-weight:400;line-height:.8}
+.msd{font-family:var(--fb);font-size:.93rem;line-height:1.65;color:rgba(255,255,255,.28);font-weight:400}
+.sgs{display:grid;grid-template-columns:repeat(5,1fr);gap:1.5rem;margin-top:4rem;border-top:1px solid rgba(255,255,255,.08);padding-top:3.5rem}
+.sg{padding:2rem 1.5rem;border:1px solid rgba(255,255,255,.08);transition:border-color .3s,background .3s}
+.sg:hover{border-color:var(--warm);background:rgba(255,255,255,.03)}
+.sgn{font-family:var(--fs);font-size:.88rem;color:#fff;margin-bottom:.6rem;line-height:1.2;font-weight:400;letter-spacing:-0.01em}
+.sgd{font-family:var(--fb);font-size:.93rem;line-height:1.65;color:rgba(255,255,255,.32);font-weight:400}
+
+/* FOOTER */
+footer{padding:5rem 3.5rem 4rem;background:var(--ink);border-top:1px solid rgba(255,255,255,.06);display:grid;grid-template-columns:1fr 1fr 1fr;gap:4rem;align-items:end}
+.flo{font-family:var(--fs);font-size:1.05rem;letter-spacing:.28em;text-transform:uppercase;color:#fff}
+.ftg{font-family:var(--fs);font-style:italic;font-size:.85rem;color:rgba(255,255,255,.25);margin-top:.75rem}
+.fls{list-style:none;display:flex;flex-direction:column;gap:.75rem}
+.fls a{font-family:var(--fl);font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.25);transition:color .25s;font-weight:400}
+.fls a:hover{color:#fff}
+.fcp{text-align:right;font-family:var(--fl);font-size:.44rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.14);line-height:1.9;font-weight:400}
+
+/* GALLERY */
+.gal{background:var(--ink);padding:6rem 0}
+.carousel-container{position:relative;height:100vh;overflow:visible;display:flex;justify-content:center;align-items:center;perspective:2500px;user-select:none;-webkit-user-select:none;background:var(--ink)}
+.gal-cover{display:none}
+.gal-txt{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:200;text-align:center;padding:3rem;max-width:700px;pointer-events:none;width:100%}
+.gal-txt .lbl{margin-bottom:2rem}
+.gal-txt .hsb{margin:0 auto;text-align:center}
+.carousel-items{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);transform-origin:center center;user-select:none;-webkit-user-select:none}
+.carousel-items.draggable{cursor:grab}
+.carousel-items.draggable:active{cursor:grabbing}
+.carousel-item{position:absolute;width:var(--card-width);height:var(--card-height);border-radius:var(--card-border-radius);overflow:hidden;box-shadow:0 4px 8px rgba(0,0,0,.2);transform:translate(-50%,-50%);transform-origin:center center;user-select:none;-webkit-user-select:none;cursor:pointer;background-size:cover;background-position:center;background-color:var(--ink)}
+.carousel-item::after{content:'';position:absolute;inset:0;background:rgba(30,30,30,.21);pointer-events:none;z-index:1}
+.card__number{position:absolute;top:10px;left:10px;font-size:16px;color:rgba(255,255,255,.8);z-index:10;font-weight:bold;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+@media screen and (max-height:1000px){:root{--card-width:350px;--card-height:497px}}
+@media screen and (max-height:800px){:root{--card-width:300px;--card-height:400px}}
+
+/* BLUE ACCENTS */
+#prog{background:var(--blue)}
+.pl::after{background:var(--blue)}
+.cb:hover{background:var(--blue);border-color:var(--blue)}
+
+/* CTA LINKS */
+.cta{font-family:var(--fl);font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);display:inline-flex;align-items:center;gap:.75rem;border-bottom:1px solid var(--ink20);padding-bottom:.35rem;transition:gap .3s var(--slow),border-color .3s;text-decoration:none}
+.cta:hover{gap:1.25rem;border-color:var(--ink)}
+.cta-w{color:rgba(255,255,255,.55);border-bottom-color:rgba(255,255,255,.18)}
+.cta-w:hover{color:#fff;border-color:rgba(255,255,255,.55)}
+.cta-blue{color:var(--blue);border-bottom-color:var(--blue12)}
+.cta-blue:hover{border-color:var(--blue)}
+
+/* EXPERIENCE HOVER DESCRIPTION */
+.edsc{position:absolute;inset:0;background:rgba(10,10,10,.82);display:flex;align-items:flex-end;padding:1.75rem;opacity:0;transition:opacity .45s var(--slow);z-index:2}
+.ec:hover .edsc{opacity:1}
+.edsc p{font-family:var(--fb);font-size:.88rem;line-height:1.65;color:rgba(255,255,255,.72);font-weight:400}
+
+/* PROPERTY EXPLORE LINK */
+.pexpl{display:block;margin-top:1rem}
+.pexpl a{font-family:var(--fl);font-size:9.3px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.5);border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:.25rem;transition:color .25s,border-color .25s}
+.pexpl a:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+
+/* PROPERTY DESCRIPTOR */
+.pdesc{font-family:var(--fs);font-size:.85rem;font-style:italic;color:rgba(255,255,255,.48);line-height:1.4;margin-bottom:.85rem}
+
+/* YOUR STAY SECTION */
+.stay{padding:8rem 3.5rem;background:var(--paper);text-align:center}
+.stay .lbl{text-align:center;margin-bottom:1.5rem}
+.stay .h2{text-align:center;margin-bottom:0}
+.stay-body{max-width:720px;margin:3rem auto 0;font-family:var(--fb);font-size:clamp(.95rem,1.4vw,1.1rem);line-height:1.75;color:var(--ink);font-weight:400}
+.stay-body p+p{margin-top:1.5rem}
+.stay-cta{margin-top:4rem}
+
+/* CLOSING PHRASE */
+.closing{padding:7rem 3.5rem;background:var(--ink);text-align:center}
+.closing-qs{max-width:620px;margin:0 auto 4rem;display:flex;flex-direction:column;gap:.2rem}
+.closing-q{font-family:var(--fb);font-size:clamp(.88rem,1.3vw,1rem);color:rgba(255,255,255,.42);line-height:1.25;font-weight:300}
+.closing-end{font-family:'SelvaScript',var(--fs);font-size:58.8px;color:rgba(255,255,255,.85);font-style:italic;line-height:1.32;letter-spacing:0}
+
+
+/* HIGHWAY GOTHIC SIZE LOCK */
+.ll,.hey,.hsc span,.ms,.lbl,.pn,.pli,.plc,.rt,.jsn,.tlv,.ecat,.mss,.fls a,.fcp,.ptg,.flo{font-size:9.3px}
+
+/* RESPONSIVE */
+@media(max-width:1100px){.mst{grid-template-columns:1fr 1fr}.sgs{grid-template-columns:1fr 1fr 1fr}.plg{grid-template-columns:1fr 1fr 1fr}}
+@media(max-width:900px){
+  nav,nav.s{padding:1.25rem 2rem}
+  .hb{padding:0 2rem 4rem;grid-template-columns:1fr;gap:3rem}
+  .intro,.prh,.plh,.rhh,.cmh{grid-template-columns:1fr;gap:2.5rem}
+  .ir{padding-left:0;border-left:none;border-top:1px solid var(--ink08);padding-top:2.5rem}
+  .plg{grid-template-columns:1fr 1fr}
+  .rph{grid-template-columns:1fr 1fr}
+  .exg{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .ec:first-child{grid-row:span 1;aspect-ratio:4/3}
+  .lad,.wag{grid-template-columns:1fr}
+  .mst{grid-template-columns:1fr 1fr}
+  .sgs{grid-template-columns:1fr 1fr}
+  .ji{grid-template-columns:1fr;gap:3rem}
+  .jih{grid-template-columns:1fr;gap:2.5rem}
+  .jst{margin-top:1.5rem;grid-template-columns:1fr 1fr}
+  footer{grid-template-columns:1fr;gap:2.5rem}
+  .fcp{text-align:left}
+  .pr{grid-template-columns:3rem 1fr}
+  .pd{display:none}
+  .ps{flex:0 0 85%}
+  .ph{grid-template-columns:1fr;gap:1.5rem}
+  .gal-txt .hh1{font-size:clamp(1.8rem,5.5vw,3.2rem)}
+}
+@media(hover:none){
+  .cursor{display:none}
+  body{cursor:auto}
+  button{cursor:pointer}
+}
+@media(max-width:580px){
+  :root{font-size:14px}
+  nav,nav.s{padding:1rem 1.5rem}
+  .hb,.intro,.prs,.pls,.props,.rhy,.exps,.com,.wa,.mkt,footer{padding-left:1.5rem;padding-right:1.5rem}
+  .props{padding-left:1.5rem}
+  .ph{padding-right:1.5rem}
+  .plg,.rph{grid-template-columns:1fr}
+  .exg{grid-template-columns:1fr}
+  .jst{grid-template-columns:1fr}
+  .mst,.sgs{grid-template-columns:1fr}
+  .pr:hover{padding-left:0;padding-right:0;margin:0}
+  .hsc{display:none}
+  .wag{grid-template-columns:1fr}
+  .lad{gap:1rem}
+  .carousel-container{height:90vh}
+  .gal-txt{padding:1.5rem}
+  .gal-txt .hh1{font-size:clamp(1.6rem,5vw,2.8rem)}
+  .gal-txt .hsb{font-size:.82rem}
+}
+
+/* ── El pie del sistema ────────────────────────────────────────
+   Tres bandas: la marca y el manifiesto, los enlaces en reja, y la
+   linea legal. La misma que llevan las demas webs. */
+.system-footer{display:block;background:var(--ink);color:var(--paper);
+  border-top:1px solid rgba(255,255,255,.12);padding:0}
+.footer-top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(2rem,6vw,7rem);align-items:end;
+  padding:clamp(3.5rem,7vw,5rem) clamp(1.5rem,4vw,3.5rem) clamp(2rem,4vw,3.5rem);
+  max-width:1240px;margin:0 auto}
+.footer-mark svg{display:block;color:#fff}
+.footer-tagline{font-family:var(--fs);font-size:clamp(1.05rem,2vw,1.4rem);
+  line-height:1.35;color:rgba(255,255,255,.55);margin-top:1.25rem;max-width:34ch}
+.footer-news{display:flex;flex-direction:column;gap:1rem}
+.footer-col-title{font-family:var(--fl);font-size:9.3px;letter-spacing:.22em;
+  text-transform:uppercase;color:rgba(255,255,255,.6);margin:0 0 1rem}
+.footer-social{display:flex;gap:1.75rem;flex-wrap:wrap}
+.footer-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(1.5rem,3vw,2.5rem);max-width:1240px;margin:0 auto;
+  padding:clamp(2rem,4vw,3rem) clamp(1.5rem,4vw,3.5rem);
+  border-top:1px solid rgba(255,255,255,.12)}
+.footer-links{display:flex;flex-direction:column;gap:.7rem}
+.footer-links a{font-family:var(--fb);font-size:.92rem;
+  color:rgba(255,255,255,.62);transition:color .25s}
+.footer-links a:hover{color:#fff}
+.footer-bottom{max-width:1240px;margin:0 auto;
+  padding:clamp(1.5rem,3vw,2rem) clamp(1.5rem,4vw,3.5rem) clamp(2rem,4vw,3rem);
+  border-top:1px solid rgba(255,255,255,.12)}
+.footer-copy{font-family:var(--fl);font-size:9.3px;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(255,255,255,.42);line-height:1.9;margin:0}
+@media (max-width:900px){
+  .footer-top{grid-template-columns:1fr;gap:2.5rem;align-items:start}
+  .footer-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:560px){ .footer-grid{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="cursor" id="cd" aria-hidden="true"><div class="cdot"></div></div>
+<div class="cursor" id="cr" aria-hidden="true"><div class="cring" id="ring"></div></div>
+<div id="prog" aria-hidden="true"></div>
+
+<div id="loader" aria-hidden="true">
+  <div class="ll">VIK Wellness</div>
+  <div class="lb"></div>
+</div>
+
+<div id="mo" role="dialog" aria-modal="true" aria-label="Navigation">
+  <nav aria-label="Menu"><ul class="mn">
+    <li><a href="#vision">Philosophy</a></li>
+    <li><a href="#properties">The Place</a></li>
+    <li><a href="#experiences">Experiences</a></li>
+    <li><a href="#journey">Your Journey</a></li>
+    <li><a href="#stay">Begin &rarr;</a></li>
+  </ul></nav>
+  <p class="ms">VIK Wellness</p>
+</div>
+
+<nav id="nav" aria-label="Primary navigation">
+  <div class="nw">
+    <svg class="logo-svg" viewBox="0 0 342.46 28.17" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="VIK Retreats"><defs><clipPath id="lc-n"><rect width="342.46" height="28.17" fill="none"/></clipPath></defs><g clip-path="url(#lc-n)"><path d="M329.95,28.17c-.79-.07-1.59-.14-2.38-.22-3.64-.39-7-1.56-10.04-3.62-.34-.23-.4-.38-.14-.73.81-1.1,1.59-2.22,2.35-3.35.24-.35.39-.41.77-.16,4.1,2.58,8.54,3.36,13.29,2.47.86-.16,1.69-.45,2.43-.95,1.73-1.17,1.71-3.26-.07-4.35-1.45-.89-3.08-1.2-4.73-1.42-2.6-.35-5.22-.59-7.72-1.45-1.89-.65-3.42-1.7-4.33-3.55-1.5-3.06-.58-6.56,2.23-8.47,2.31-1.57,4.9-2.23,7.64-2.35,4.03-.18,7.72.98,11.18,2.98.24.14.31.25.13.51-.81,1.16-1.61,2.33-2.4,3.52-.21.31-.37.22-.63.09-3.79-1.93-7.76-2.38-11.88-1.39-1.26.3-1.78.94-1.74,1.98.03.79.51,1.26,1.14,1.6,1.15.62,2.43.81,3.7,1.02,2.04.33,4.12.38,6.13.9,2.15.55,4.11,1.39,5.58,3.17,3.57,4.3,2.21,10.17-2.88,12.44-1.71.76-3.51,1.1-5.36,1.23-.35.02-.71-.05-1.04.11h-1.23Z"/><path d="M0,.44c1.68,0,3.35.01,5.03,0,.35,0,.52.11.65.44,2.73,6.62,5.47,13.24,8.21,19.86.06.15.13.31.24.56.16-.37.29-.65.41-.95,2.62-6.47,5.23-12.93,7.84-19.41.15-.37.32-.5.72-.5,1.69.02,3.39.01,5.09.01.07.24-.07.41-.14.58-3.5,8.67-7.01,17.33-10.5,26-.18.45-.39.61-.88.6-1.68-.04-3.36-.04-5.03,0-.53.01-.73-.18-.92-.63C7.5,18.99,4.26,10.98,1.02,2.97.69,2.16.42,1.33,0,.56v-.11Z"/><path d="M125.36,27.62c-1.97,0-3.83,0-5.69,0-.33,0-.39-.23-.51-.43-1.82-3.09-3.64-6.17-5.44-9.27-.22-.37-.44-.51-.88-.5-2.4.02-4.81.02-7.21,0-.48,0-.59.15-.58.61.02,3.01,0,6.02.02,9.03,0,.42-.08.58-.54.57-1.38-.03-2.76-.02-4.14,0-.36,0-.48-.09-.48-.47,0-8.75,0-17.51,0-26.26,0-.39.14-.46.49-.46,5.46,0,10.92-.02,16.38.01,3.77.02,7.36,3.06,8.05,6.72.76,4.07-1.28,7.97-4.98,9.53-.41.17-.5.46-.28.84,1.82,3.13,3.63,6.26,5.45,9.4.11.19.21.38.36.66h0ZM111.12,5.6c-1.84,0-3.69.01-5.53,0-.41,0-.54.1-.54.53.02,1.87.02,3.74,0,5.61,0,.44.12.57.57.57,3.6-.02,7.19,0,10.79-.01.45,0,.89-.05,1.31-.22,1.5-.6,2.37-2.15,2.09-3.74-.26-1.49-1.7-2.7-3.26-2.72-1.81-.02-3.61,0-5.42,0h0Z"/><path d="M218.97,27.61c-1.95,0-3.79-.01-5.64,0-.34,0-.44-.21-.57-.43-1.8-3.06-3.6-6.11-5.38-9.18-.26-.44-.53-.61-1.05-.6-2.39.03-4.77.02-7.16,0-.41,0-.54.11-.53.53.02,3.03,0,6.06.02,9.09,0,.47-.12.59-.59.58-1.29-.03-2.57-.04-3.86,0-.55.02-.71-.11-.71-.7.02-8.4.01-16.8.01-25.2,0-.21.02-.41,0-.62-.07-.52.09-.7.65-.69,1.75.04,3.5.02,5.26.02,3.56,0,7.12,0,10.68,0,4.14,0,7.66,2.98,8.38,7.07.67,3.81-1.42,7.65-5.06,9.18-.56.23-.55.4-.27.87,1.87,3.17,3.7,6.35,5.54,9.54.08.14.15.29.27.51h0ZM204.72,5.6c-1.84,0-3.69.01-5.53,0-.41,0-.54.09-.54.52.02,1.85.03,3.7,0,5.55,0,.49.13.63.62.63,3.56-.02,7.12-.01,10.68-.01.35,0,.71-.02,1.05-.12,1.6-.44,2.63-2,2.43-3.68-.18-1.54-1.64-2.86-3.23-2.88-1.83-.02-3.65,0-5.48,0Z"/><path d="M134.21,14.02c0-4.3,0-8.6-.01-12.9,0-.51.08-.69.65-.69,6.76.02,13.53.02,20.29,0,.53,0,.64.16.63.66-.03,1.31-.03,2.62,0,3.93.01.46-.12.6-.58.6-5.07-.02-10.14,0-15.21-.02-.49,0-.67.1-.65.63.04,1.27.03,2.54,0,3.81-.01.43.12.52.53.52,2.81-.02,5.63,0,8.44-.02.44,0,.57.11.56.56-.03,1.4-.03,2.8,0,4.21,0,.41-.09.54-.52.53-2.81-.02-5.63,0-8.44-.02-.42,0-.57.08-.57.54.03,1.83.03,3.67,0,5.5,0,.48.1.63.61.62,5.18-.02,10.36,0,15.54-.03.53,0,.7.12.68.67-.04,1.33-.02,2.65,0,3.98,0,.36-.05.52-.48.52-7.01-.01-14.01-.01-21.02,0-.45,0-.46-.19-.46-.53,0-4.36,0-8.72,0-13.07h0Z"/><path d="M227.82,14.04c0-4.34,0-8.68-.01-13.02,0-.47.11-.59.58-.58,6.8.02,13.61.02,20.41,0,.46,0,.6.11.59.58-.03,1.35-.03,2.69,0,4.04,0,.46-.15.55-.57.55-5.07-.01-10.14,0-15.21-.02-.56,0-.68.16-.66.68.04,1.25.03,2.51,0,3.76,0,.42.1.53.52.53,2.82-.02,5.63,0,8.44-.02.45,0,.56.13.55.57-.03,1.4-.03,2.81,0,4.21,0,.43-.13.52-.54.52-2.82-.02-5.63,0-8.44-.02-.4,0-.54.07-.54.51.03,1.85.03,3.7,0,5.56,0,.46.11.59.58.59,5.18-.02,10.36,0,15.55-.02.57,0,.72.14.71.71-.04,1.31-.04,2.62,0,3.93.01.47-.16.54-.57.54-6.95-.01-13.91-.01-20.86,0-.46,0-.54-.15-.54-.57.01-4.34,0-8.68,0-13.02h0Z"/><path d="M286.84,27.61c-1.79,0-3.57,0-5.36,0-.35,0-.37-.27-.46-.47-.79-1.67-1.57-3.34-2.33-5.02-.14-.31-.3-.44-.66-.44-4.29.01-8.57.01-12.86,0-.35,0-.53.11-.68.43-.78,1.67-1.59,3.33-2.37,5.01-.17.37-.38.51-.8.5-1.56-.03-3.13-.02-4.7,0-.4,0-.42-.1-.27-.43,2.6-5.5,5.19-11,7.79-16.5,1.54-3.27,3.09-6.55,4.62-9.82.15-.31.31-.44.67-.43,1.38.02,2.76.03,4.14,0,.42-.01.62.14.79.51,1.85,3.95,3.72,7.9,5.58,11.85,2.24,4.74,4.47,9.48,6.7,14.23.08.18.23.34.19.6h0ZM271.62,7.12c-.1.08-.14.1-.15.13-1.4,2.95-2.8,5.89-4.2,8.84-.21.44.05.4.33.4,2.62,0,5.25-.01,7.88,0,.53,0,.48-.17.31-.54-.77-1.6-1.52-3.2-2.27-4.8-.62-1.33-1.25-2.66-1.89-4.03h0Z"/><path d="M56.29,12.32c.85-.9,1.71-1.8,2.56-2.71,2.76-2.93,5.53-5.87,8.28-8.81.25-.27.51-.37.87-.36,1.92.02,3.84,0,5.76,0h.62c-.49.55-.9,1.02-1.32,1.48-2.25,2.47-4.49,4.95-6.76,7.39-.36.39-.36.64-.1,1.08,3.29,5.53,6.56,11.08,9.83,16.63.09.16.18.32.27.48-.14.18-.32.1-.47.1-1.6,0-3.21-.01-4.81.01-.39,0-.59-.13-.78-.46-2.56-4.32-5.14-8.63-7.69-12.95-.24-.4-.36-.5-.72-.11-1.77,1.87-3.56,3.73-5.35,5.57-.23.23-.31.47-.31.79.01,2.21,0,4.41.02,6.62,0,.41-.09.54-.52.53-1.34-.03-2.68-.03-4.02,0-.49.01-.62-.11-.62-.61.02-5.03.01-10.06.01-15.09,0-3.61.01-7.22-.01-10.83,0-.56.16-.68.68-.66,1.32.04,2.65.03,3.97,0,.44-.01.52.13.52.54-.02,3.55,0,7.11,0,10.66v.61s.08.05.12.07h0Z"/><path d="M300.29.44c3.69,0,7.38,0,11.07-.01.44,0,.57.12.56.56-.03,1.35-.03,2.69,0,4.04.01.48-.15.58-.6.58-2.65-.02-5.29,0-7.94-.02-.51,0-.6.15-.6.63.02,6.9,0,13.8.02,20.7,0,.53-.08.74-.68.72-1.28-.06-2.57-.04-3.86,0-.5.01-.61-.13-.61-.62.02-6.69.01-13.39.01-20.08,0-.88-.45-1.33-1.34-1.33-2.37,0-4.73-.02-7.1.01-.54,0-.64-.17-.63-.66.03-1.31.03-2.62,0-3.93-.01-.46.11-.6.58-.59,3.71.02,7.42.01,11.12.01h0Z"/><path d="M174.1.44c3.69,0,7.38,0,11.07,0,.43,0,.58.1.57.55-.03,1.36-.02,2.73,0,4.1,0,.42-.11.53-.53.53-2.67-.02-5.33,0-7.99-.02-.46,0-.59.11-.59.58.02,6.94,0,13.88.02,20.81,0,.52-.14.65-.64.64-1.29-.04-2.57-.03-3.86,0-.5.01-.65-.11-.65-.64.02-6.86.01-13.73.01-20.59,0-.53-.27-.8-.8-.8-2.57,0-5.14-.01-7.71.01-.45,0-.56-.14-.55-.57.03-1.33.03-2.66,0-3.98-.01-.48.09-.63.6-.63,3.69.02,7.38.01,11.07.01h0Z"/><path d="M40.79,14.09c0,4.3,0,8.6.01,12.9,0,.53-.16.65-.65.64-1.34-.03-2.68-.02-4.02,0-.36,0-.47-.1-.47-.47.01-8.75.01-17.5,0-26.25,0-.38.12-.47.47-.46,1.34.02,2.68.03,4.02,0,.5-.01.66.11.65.64-.02,4.34-.01,8.68-.01,13.02h0Z"/></g></svg>
+  </div>
+  <button class="nb" id="mb" aria-label="Toggle menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" aria-label="Hero">
+  <div class="hbg" role="img" aria-label="Coastal landscape">
+    <video autoplay muted loop playsinline src="videos/hero.mp4" poster="images/hero.jpg"></video>
+  </div>
+  <div class="hov"></div><div class="hvg"></div>
+  <div class="hb">
+    <div>
+      <h1 class="hh1">
+        <span class="wr">Restore</span>
+        <span class="wr"> modern humans</span><br>
+        <span class="wr">through <em>nature,</em></span>
+        <span class="wr"> rhythm &amp; precision.</span>
+      </h1>
+      <p class="hsb sr">A nature-led, culturally grounded longevity experience. Delivered as pleasure, not performance.</p>
+      <a href="#vision" class="cta cta-w sr" style="margin-top:2rem">Explore the experience &rarr;</a>
+    </div>
+    <div class="hsc" aria-hidden="true"><div class="sl"></div><span>Scroll</span></div>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="intro" id="vision">
+  <div>
+    <span class="lbl r">The VIK Approach</span>
+    <h2 class="h2 r d1">Wellness as a<br><em>designed guest state</em></h2>
+    <p class="bd r d2" style="margin-top:1.75rem">Rooted in place, aligned with nature&rsquo;s rhythm, bridging ancestral knowledge with modern science, and calibrated to what your nervous system actually needs &mdash; so wellbeing becomes lived, and travels home.</p>
+  </div>
+  <div class="ir r d2">
+    <p class="th">Restorative by default.</p>
+    <p class="th">Quietly personalized.</p>
+    <p class="th"><em>Unmistakably VIK.</em></p>
+  </div>
+</section>
+
+<!-- FULLSCREEN BREAK -->
+<div class="fsb" aria-hidden="true">
+  <div class="fbg">
+    <video autoplay muted loop playsinline src="videos/paisaje.mp4" poster="images/landscape.jpg"></video>
+  </div>
+  <div class="fov"></div>
+  <div class="fc r">
+    <span class="lbl lbl-w">Jos&eacute; Ignacio, Uruguay</span>
+    <p class="fq"><em>Aqu&iacute; solo corre el viento.</em></p>
+  </div>
+</div>
+
+<!-- PRINCIPLES -->
+<section class="prs" id="principles">
+  <div class="prh">
+    <div>
+      <span class="lbl r">What guides everything</span>
+      <h2 class="h2 r d1">Five things<br><em>that don&rsquo;t change</em></h2>
+    </div>
+    <p class="bd r d2">Five principles are the immutable logic behind every decision. They cannot be traded without losing what makes VIK itself.</p>
+  </div>
+  <ul class="prl">
+    <li class="pr r"><span class="pn">01</span><h3 class="pnm"><em>Nature</em> is the therapist</h3><p class="pd">Landscape, daylight, and fresh air are the primary wellness tools. Built spaces support nature &mdash; they don&apos;t replace it.</p></li>
+    <li class="pr r d1"><span class="pn">02</span><h3 class="pnm">Pleasure is the <em>method</em></h3><p class="pd">Rituals guests want to repeat, not rules they escape from. Aspirational, not prescriptive.</p></li>
+    <li class="pr r d2"><span class="pn">03</span><h3 class="pnm"><em>Rhythm</em> before intensity</h3><p class="pd">Circadian alignment, recovery, and timing. Small consistent practices over occasional extremes.</p></li>
+    <li class="pr r d3"><span class="pn">04</span><h3 class="pnm">Sensory <em>precision</em></h3><p class="pd">Light, sound, temperature, texture, scent, and silence curated to reduce stress and invite calm.</p></li>
+    <li class="pr r d4"><span class="pn">05</span><h3 class="pnm"><em>Culture</em> makes it true</h3><p class="pd">Place, food, activities, tradition, and community &mdash; so the experience can&apos;t be copied anywhere else.</p></li>
+  </ul>
+</section>
+
+<!-- PILLARS -->
+<section class="pls" id="pillars">
+  <div class="plh">
+    <div>
+      <h2 class="h2 r d1">Global language,<br><em>local expression</em></h2>
+    </div>
+    <p class="bd r d2">One language, infinite expressions &mdash; each one shaped by the terrain it lives in.</p>
+  </div>
+  <div class="plg">
+    <div class="pl r"><span class="pli">01</span><h3 class="plnm"><em>Move</em></h3><p class="pldc">Movement that belongs to the place &mdash; trails, water, open air. The kind that makes the body remember it&rsquo;s alive.</p></div>
+    <div class="pl r d1"><span class="pli">02</span><h3 class="plnm"><em>Nourish</em></h3><p class="pldc">Food that knows what season it is. Grown close, cooked honestly, eaten slowly.</p></div>
+    <div class="pl r d2"><span class="pli">03</span><h3 class="plnm"><em>Recover</em></h3><p class="pldc">The art of doing less. Bodywork, silence, and the conditions for sleep that actually restores.</p></div>
+    <div class="pl r d3"><span class="pli">04</span><h3 class="plnm"><em>Align</em></h3><p class="pldc">Sunrise, meals, light, rest &mdash; following a rhythm older than the schedule you came from.</p></div>
+    <div class="pl r d4"><span class="pli">05</span><h3 class="plnm"><em>Connect</em></h3><p class="pldc">The conversation with the painting. The gaucho who knows the land. The fire that doesn&rsquo;t need an agenda.</p></div>
+  </div>
+</section>
+
+<!-- PROPERTIES CAROUSEL -->
+<section class="props" id="properties">
+  <div class="ph">
+    <div>
+      <span class="lbl r">The Place</span>
+      <h2 class="h2 r d1">Three landscapes,<br><em>one philosophy</em></h2>
+    </div>
+    <div class="ph-r">
+      <p class="ph-d r d2">Each property is shaped by its terrain &mdash; its light, its soil, its silence, its particular way of restoring.</p>
+    </div>
+  </div>
+  <div class="cw"><div class="ct" id="ct">
+    <div class="ps">
+      <div class="pm pc1"><video autoplay muted loop playsinline src="videos/jose-ignacio.mp4" poster="images/jose-ignacio.jpg"></video></div>
+      <div class="po"></div>
+      <div class="pb">
+        <span class="plc">Uruguay</span>
+        <h3 class="pnme">Jos&eacute; Ignacio</h3>
+        <p class="pdesc">Wild coastline, salt air, wind, cold water, long horizons.</p>
+        <div class="ptgs"><span class="ptg">Ocean Rituals</span><span class="ptg">Equinetherapy</span><span class="ptg">Sauna &amp; Cold Immersion</span><span class="ptg">Coastal Horseback Riding</span><span class="ptg">Gaucho Fire Rituals</span><span class="ptg">Polo</span></div>
+        <div class="pexpl"><a href="#">Explore the place &rarr;</a></div>
+      </div>
+    </div>
+    <div class="ps">
+      <div class="pm pc2"><video autoplay muted loop playsinline src="videos/millahue.mp4" poster="images/millahue.jpg"></video></div>
+      <div class="po"></div>
+      <div class="pb">
+        <span class="plc">Chile</span>
+        <h3 class="pnme">Millahue</h3>
+        <p class="pdesc">Mountain air, silence, vineyards, slowness. Earth. Deep exhale.</p>
+        <div class="ptgs"><span class="ptg">Farm-to-Table Dining</span><span class="ptg">Vineyard Hikes</span><span class="ptg">Wine Baths</span><span class="ptg">Thermal Journeys</span><span class="ptg">Mountain Horseback</span></div>
+        <div class="pexpl"><a href="#">Explore the place &rarr;</a></div>
+      </div>
+    </div>
+    <div class="ps">
+      <div class="pm pc3"><video autoplay muted loop playsinline src="videos/vista-verde.mp4" poster="images/vista-verde.jpg"></video></div>
+      <div class="po"></div>
+      <div class="pb">
+        <span class="plc">Brazil</span>
+        <h3 class="pnme">Vista Verde</h3>
+        <p class="pdesc">Jungle rhythm, expansion, humidity, lush nature, vitality.</p>
+        <div class="ptgs"><span class="ptg">Waterfall Rituals</span><span class="ptg">Jungle Movement</span><span class="ptg">Tropical Breathwork</span><span class="ptg">Floating Sound Baths</span></div>
+        <div class="pexpl"><a href="#">Explore the place &rarr;</a></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<!-- RHYTHM -->
+<section class="rhy" id="rhythm">
+  <div class="rbg"><video autoplay muted loop playsinline src="videos/rhythm.mp4" poster="images/rhythm.jpg"></video></div>
+  <div class="rov"></div>
+  <div class="ji">
+    <div class="jih">
+      <div>
+        <span class="lbl lbl-w r">Daily Architecture</span>
+        <h2 class="h2 h2w r d1">The <em>pace</em><br>of the place</h2>
+      </div>
+      <p class="bd bdw r d2">A designed daily flow &mdash; not a schedule, but an atmosphere. Each phase aligns with circadian biology, supporting restoration without imposing structure.</p>
+    </div>
+    <div class="rph r d3">
+      <div class="rp r"><span class="rt">Morning</span><h3 class="rn">Light &amp; <em>Activation</em></h3><p class="rd">The body wakes slowly here. Morning light, breath, movement &mdash; a quiet conversation with the day before it begins.</p></div>
+      <div class="rp r d1"><span class="rt">Midday</span><h3 class="rn">Vitality &amp; <em>Immersion</em></h3><p class="rd">When the place invites you outside. The land, the horse, the ocean, the vineyard &mdash; peak light for peak living.</p></div>
+      <div class="rp r d2"><span class="rt">Afternoon</span><h3 class="rn"><em>Recovery</em> &amp; Downshift</h3><p class="rd">The hour when the agenda ends. Bodywork, thermal journey, stillness. The body already knows what comes next.</p></div>
+      <div class="rp r d3"><span class="rt">Evening</span><h3 class="rn">Quiet &amp; <em>Sleep</em></h3><p class="rd">The light changes. So does everything else. A long table, a slow fire, silence that&rsquo;s welcome. Sleep begins long before bed.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCES -->
+<section class="exps" id="experiences">
+  <div class="exh">
+    <span class="lbl r">Signature Experiences</span>
+    <h2 class="h2 r d1" style="max-width:520px">Moments that are<br><em>only VIK</em></h2>
+  </div>
+  <div class="exg">
+    <div class="ec r"><div class="eb ec1"><video autoplay muted loop playsinline src="videos/mind-body.mp4" poster="images/mind-body.jpg"></video></div><div class="eo"></div><div class="edsc"><p>Small practices timed to the body&rsquo;s natural windows &mdash; not a schedule, an atmosphere.</p></div><div class="ebdy"><span class="ecat">Mind &mdash; Body</span><h3 class="enm">Daily Rhythm <em>Rituals</em></h3></div></div>
+    <div class="ec r d1"><div class="eb ec2"><img src="images/thermal.jpg" alt=""></div><div class="eo"></div><div class="edsc"><p>Heat, cold, stillness. A sequence designed to reset your nervous system.</p></div><div class="ebdy"><span class="ecat">Therapeutic</span><h3 class="enm"><em>Thermal</em> Journey</h3></div></div>
+    <div class="ec r d2"><div class="eb ec3"><img src="images/nourishment.jpg" alt=""></div><div class="eo"></div><div class="edsc"><p>The menu changes because the garden does. Ingredients arrive with a name and a story. Meals here have a before and after.</p></div><div class="ebdy"><span class="ecat">Nourishment</span><h3 class="enm">Farm-to-Table <em>Rhythm</em></h3></div></div>
+    <div class="ec r d3"><div class="eb ec4"><img src="images/art.jpg" alt=""></div><div class="eo"></div><div class="edsc"><p>The collection was never decoration. Slow-looking, guided contemplation, and the kind of beauty that touches something in you.</p></div><div class="ebdy"><span class="ecat">Culture &mdash; Art</span><h3 class="enm">Art as <em>Medicine</em></h3></div></div>
+    <div class="ec r d4"><div class="eb ec5"><img src="images/outdoors.jpg" alt=""></div><div class="eo"></div><div class="edsc"><p>Trails, water, open paths &mdash; movement that goes somewhere that matters.</p></div><div class="ebdy"><span class="ecat">Outdoors</span><h3 class="enm">Landscape-Led <em>Movement</em></h3></div></div>
+  </div>
+</section>
+
+<!-- JOURNEY -->
+<section class="jou" id="journey" aria-label="Your Journey">
+  <div class="jbg"><video autoplay muted loop playsinline src="videos/guest-journey.mp4" poster="images/guest-journey.jpg"></video></div>
+  <div class="jov"></div>
+  <div class="ji">
+    <div class="jih">
+      <div>
+        <span class="lbl lbl-w r">Your Journey</span>
+        <h2 class="h2 h2w r d1">Wellness at VIK feels like<br>an <em>atmosphere you move through</em></h2>
+      </div>
+      <p class="bd bdw r d2">Not a program you opt into. Subtly regulating, rhythm-based, place-led.</p>
+    </div>
+    <div class="jst r d3">
+      <div><span class="jsn">Before you arrive</span><div class="jsnm">A quiet conversation</div><p class="jsd">A quiet conversation before you land &mdash; what you&rsquo;re carrying, what you&rsquo;re looking for, what you&rsquo;d like to leave behind.</p></div>
+      <div><span class="jsn">When you arrive</span><div class="jsnm">Setting the tone</div><p class="jsd">Your first conversation with the team sets the tone &mdash; not a form, a direction. Where do you need to go from here?</p></div>
+      <div><span class="jsn">While you&rsquo;re here</span><div class="jsnm">Soft cues, not schedules</div><p class="jsd">Each evening, a soft cue for tomorrow. No pressure &mdash; just possibility.</p></div>
+      <div><span class="jsn">After you leave</span><div class="jsnm">The thread continues</div><p class="jsd">What you found here doesn&rsquo;t have to stay here. Practices, recipes, sounds &mdash; a thread back to the rhythm.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- YOUR STAY -->
+<section class="stay" id="stay">
+  <span class="lbl r">How it works</span>
+  <h2 class="h2 r d1">Your stay,<br><em>your rhythm</em></h2>
+  <div class="stay-body r d2">
+    <p>Every stay at VIK includes a designed daily rhythm &mdash; morning rituals, place-led experiences, and evenings calibrated for sleep. Restoration isn&rsquo;t an add-on. It&rsquo;s built into the way the property works.</p>
+    <p>For those who want to go deeper, private sessions, thermal journeys, and multi-day wellness programs are available &mdash; quietly, without pressure, shaped around what you actually need.</p>
+  </div>
+  <div class="stay-cta r d3">
+    <a href="#" class="cta cta-blue">design your stay &rarr;</a>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gal">
+  <div class="carousel-container">
+    <div class="gal-cover"></div>
+    <div class="gal-txt">
+      <span class="hey">Place &mdash; Moments</span>
+      <h2 class="hh1"><em>The place</em>,<br>becomes your clock.</h2>
+      <p class="hsb">The landscape as part of the treatment.<br>Silence, as the signal.</p>
+    </div>
+    <div class="carousel-items"></div>
+  </div>
+</section>
+
+<!-- CLOSING -->
+<section class="closing" id="positioning">
+  <div class="closing-qs r">
+    <p class="closing-q">If you can&rsquo;t remember the last time you slept without an alarm</p>
+    <p class="closing-q">If you&rsquo;re looking for meaning without the ceremony</p>
+    <p class="closing-q">If you want to move your body without it feeling like a goal</p>
+    <p class="closing-q">If you want to share something beautiful with someone you love</p>
+  </div>
+  <p class="closing-end r d2">designed for you.</p>
+</section>
+
+<footer class="system-footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-mark"><svg style="height:22px;width:auto;display:block;color:#fff" viewBox="0 0 342.46 28.17" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="VIK Retreats"><defs><clipPath id="lc-f"><rect width="342.46" height="28.17" fill="none"/></clipPath></defs><g clip-path="url(#lc-f)"><path d="M329.95,28.17c-.79-.07-1.59-.14-2.38-.22-3.64-.39-7-1.56-10.04-3.62-.34-.23-.4-.38-.14-.73.81-1.1,1.59-2.22,2.35-3.35.24-.35.39-.41.77-.16,4.1,2.58,8.54,3.36,13.29,2.47.86-.16,1.69-.45,2.43-.95,1.73-1.17,1.71-3.26-.07-4.35-1.45-.89-3.08-1.2-4.73-1.42-2.6-.35-5.22-.59-7.72-1.45-1.89-.65-3.42-1.7-4.33-3.55-1.5-3.06-.58-6.56,2.23-8.47,2.31-1.57,4.9-2.23,7.64-2.35,4.03-.18,7.72.98,11.18,2.98.24.14.31.25.13.51-.81,1.16-1.61,2.33-2.4,3.52-.21.31-.37.22-.63.09-3.79-1.93-7.76-2.38-11.88-1.39-1.26.3-1.78.94-1.74,1.98.03.79.51,1.26,1.14,1.6,1.15.62,2.43.81,3.7,1.02,2.04.33,4.12.38,6.13.9,2.15.55,4.11,1.39,5.58,3.17,3.57,4.3,2.21,10.17-2.88,12.44-1.71.76-3.51,1.1-5.36,1.23-.35.02-.71-.05-1.04.11h-1.23Z"/><path d="M0,.44c1.68,0,3.35.01,5.03,0,.35,0,.52.11.65.44,2.73,6.62,5.47,13.24,8.21,19.86.06.15.13.31.24.56.16-.37.29-.65.41-.95,2.62-6.47,5.23-12.93,7.84-19.41.15-.37.32-.5.72-.5,1.69.02,3.39.01,5.09.01.07.24-.07.41-.14.58-3.5,8.67-7.01,17.33-10.5,26-.18.45-.39.61-.88.6-1.68-.04-3.36-.04-5.03,0-.53.01-.73-.18-.92-.63C7.5,18.99,4.26,10.98,1.02,2.97.69,2.16.42,1.33,0,.56v-.11Z"/><path d="M125.36,27.62c-1.97,0-3.83,0-5.69,0-.33,0-.39-.23-.51-.43-1.82-3.09-3.64-6.17-5.44-9.27-.22-.37-.44-.51-.88-.5-2.4.02-4.81.02-7.21,0-.48,0-.59.15-.58.61.02,3.01,0,6.02.02,9.03,0,.42-.08.58-.54.57-1.38-.03-2.76-.02-4.14,0-.36,0-.48-.09-.48-.47,0-8.75,0-17.51,0-26.26,0-.39.14-.46.49-.46,5.46,0,10.92-.02,16.38.01,3.77.02,7.36,3.06,8.05,6.72.76,4.07-1.28,7.97-4.98,9.53-.41.17-.5.46-.28.84,1.82,3.13,3.63,6.26,5.45,9.4.11.19.21.38.36.66h0ZM111.12,5.6c-1.84,0-3.69.01-5.53,0-.41,0-.54.1-.54.53.02,1.87.02,3.74,0,5.61,0,.44.12.57.57.57,3.6-.02,7.19,0,10.79-.01.45,0,.89-.05,1.31-.22,1.5-.6,2.37-2.15,2.09-3.74-.26-1.49-1.7-2.7-3.26-2.72-1.81-.02-3.61,0-5.42,0h0Z"/><path d="M218.97,27.61c-1.95,0-3.79-.01-5.64,0-.34,0-.44-.21-.57-.43-1.8-3.06-3.6-6.11-5.38-9.18-.26-.44-.53-.61-1.05-.6-2.39.03-4.77.02-7.16,0-.41,0-.54.11-.53.53.02,3.03,0,6.06.02,9.09,0,.47-.12.59-.59.58-1.29-.03-2.57-.04-3.86,0-.55.02-.71-.11-.71-.7.02-8.4.01-16.8.01-25.2,0-.21.02-.41,0-.62-.07-.52.09-.7.65-.69,1.75.04,3.5.02,5.26.02,3.56,0,7.12,0,10.68,0,4.14,0,7.66,2.98,8.38,7.07.67,3.81-1.42,7.65-5.06,9.18-.56.23-.55.4-.27.87,1.87,3.17,3.7,6.35,5.54,9.54.08.14.15.29.27.51h0ZM204.72,5.6c-1.84,0-3.69.01-5.53,0-.41,0-.54.09-.54.52.02,1.85.03,3.7,0,5.55,0,.49.13.63.62.63,3.56-.02,7.12-.01,10.68-.01.35,0,.71-.02,1.05-.12,1.6-.44,2.63-2,2.43-3.68-.18-1.54-1.64-2.86-3.23-2.88-1.83-.02-3.65,0-5.48,0Z"/><path d="M134.21,14.02c0-4.3,0-8.6-.01-12.9,0-.51.08-.69.65-.69,6.76.02,13.53.02,20.29,0,.53,0,.64.16.63.66-.03,1.31-.03,2.62,0,3.93.01.46-.12.6-.58.6-5.07-.02-10.14,0-15.21-.02-.49,0-.67.1-.65.63.04,1.27.03,2.54,0,3.81-.01.43.12.52.53.52,2.81-.02,5.63,0,8.44-.02.44,0,.57.11.56.56-.03,1.4-.03,2.8,0,4.21,0,.41-.09.54-.52.53-2.81-.02-5.63,0-8.44-.02-.42,0-.57.08-.57.54.03,1.83.03,3.67,0,5.5,0,.48.1.63.61.62,5.18-.02,10.36,0,15.54-.03.53,0,.7.12.68.67-.04,1.33-.02,2.65,0,3.98,0,.36-.05.52-.48.52-7.01-.01-14.01-.01-21.02,0-.45,0-.46-.19-.46-.53,0-4.36,0-8.72,0-13.07h0Z"/><path d="M227.82,14.04c0-4.34,0-8.68-.01-13.02,0-.47.11-.59.58-.58,6.8.02,13.61.02,20.41,0,.46,0,.6.11.59.58-.03,1.35-.03,2.69,0,4.04,0,.46-.15.55-.57.55-5.07-.01-10.14,0-15.21-.02-.56,0-.68.16-.66.68.04,1.25.03,2.51,0,3.76,0,.42.1.53.52.53,2.82-.02,5.63,0,8.44-.02.45,0,.56.13.55.57-.03,1.4-.03,2.81,0,4.21,0,.43-.13.52-.54.52-2.82-.02-5.63,0-8.44-.02-.4,0-.54.07-.54.51.03,1.85.03,3.7,0,5.56,0,.46.11.59.58.59,5.18-.02,10.36,0,15.55-.02.57,0,.72.14.71.71-.04,1.31-.04,2.62,0,3.93.01.47-.16.54-.57.54-6.95-.01-13.91-.01-20.86,0-.46,0-.54-.15-.54-.57.01-4.34,0-8.68,0-13.02h0Z"/><path d="M286.84,27.61c-1.79,0-3.57,0-5.36,0-.35,0-.37-.27-.46-.47-.79-1.67-1.57-3.34-2.33-5.02-.14-.31-.3-.44-.66-.44-4.29.01-8.57.01-12.86,0-.35,0-.53.11-.68.43-.78,1.67-1.59,3.33-2.37,5.01-.17.37-.38.51-.8.5-1.56-.03-3.13-.02-4.7,0-.4,0-.42-.1-.27-.43,2.6-5.5,5.19-11,7.79-16.5,1.54-3.27,3.09-6.55,4.62-9.82.15-.31.31-.44.67-.43,1.38.02,2.76.03,4.14,0,.42-.01.62.14.79.51,1.85,3.95,3.72,7.9,5.58,11.85,2.24,4.74,4.47,9.48,6.7,14.23.08.18.23.34.19.6h0ZM271.62,7.12c-.1.08-.14.1-.15.13-1.4,2.95-2.8,5.89-4.2,8.84-.21.44.05.4.33.4,2.62,0,5.25-.01,7.88,0,.53,0,.48-.17.31-.54-.77-1.6-1.52-3.2-2.27-4.8-.62-1.33-1.25-2.66-1.89-4.03h0Z"/><path d="M56.29,12.32c.85-.9,1.71-1.8,2.56-2.71,2.76-2.93,5.53-5.87,8.28-8.81.25-.27.51-.37.87-.36,1.92.02,3.84,0,5.76,0h.62c-.49.55-.9,1.02-1.32,1.48-2.25,2.47-4.49,4.95-6.76,7.39-.36.39-.36.64-.1,1.08,3.29,5.53,6.56,11.08,9.83,16.63.09.16.18.32.27.48-.14.18-.32.1-.47.1-1.6,0-3.21-.01-4.81.01-.39,0-.59-.13-.78-.46-2.56-4.32-5.14-8.63-7.69-12.95-.24-.4-.36-.5-.72-.11-1.77,1.87-3.56,3.73-5.35,5.57-.23.23-.31.47-.31.79.01,2.21,0,4.41.02,6.62,0,.41-.09.54-.52.53-1.34-.03-2.68-.03-4.02,0-.49.01-.62-.11-.62-.61.02-5.03.01-10.06.01-15.09,0-3.61.01-7.22-.01-10.83,0-.56.16-.68.68-.66,1.32.04,2.65.03,3.97,0,.44-.01.52.13.52.54-.02,3.55,0,7.11,0,10.66v.61s.08.05.12.07h0Z"/><path d="M300.29.44c3.69,0,7.38,0,11.07-.01.44,0,.57.12.56.56-.03,1.35-.03,2.69,0,4.04.01.48-.15.58-.6.58-2.65-.02-5.29,0-7.94-.02-.51,0-.6.15-.6.63.02,6.9,0,13.8.02,20.7,0,.53-.08.74-.68.72-1.28-.06-2.57-.04-3.86,0-.5.01-.61-.13-.61-.62.02-6.69.01-13.39.01-20.08,0-.88-.45-1.33-1.34-1.33-2.37,0-4.73-.02-7.1.01-.54,0-.64-.17-.63-.66.03-1.31.03-2.62,0-3.93-.01-.46.11-.6.58-.59,3.71.02,7.42.01,11.12.01h0Z"/><path d="M174.1.44c3.69,0,7.38,0,11.07,0,.43,0,.58.1.57.55-.03,1.36-.02,2.73,0,4.1,0,.42-.11.53-.53.53-2.67-.02-5.33,0-7.99-.02-.46,0-.59.11-.59.58.02,6.94,0,13.88.02,20.81,0,.52-.14.65-.64.64-1.29-.04-2.57-.03-3.86,0-.5.01-.65-.11-.65-.64.02-6.86.01-13.73.01-20.59,0-.53-.27-.8-.8-.8-2.57,0-5.14-.01-7.71.01-.45,0-.56-.14-.55-.57.03-1.33.03-2.66,0-3.98-.01-.48.09-.63.6-.63,3.69.02,7.38.01,11.07.01h0Z"/><path d="M40.79,14.09c0,4.3,0,8.6.01,12.9,0,.53-.16.65-.65.64-1.34-.03-2.68-.02-4.02,0-.36,0-.47-.1-.47-.47.01-8.75.01-17.5,0-26.25,0-.38.12-.47.47-.46,1.34.02,2.68.03,4.02,0,.5-.01.66.11.65.64-.02,4.34-.01,8.68-.01,13.02h0Z"/></g></svg></div>
+      <p class="footer-tagline">Created through art. Rooted in nature and culture. Yours to experience.</p>
+    </div>
+    <div class="footer-news">
+      <p class="footer-col-title">Begin</p>
+      <div class="footer-social">
+        <a class="cta cta-w" href="#stay">Begin the reset &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-grid">
+    <nav aria-label="Wellness">
+      <p class="footer-col-title">Wellness</p>
+      <div class="footer-links">
+        <a href="#vision">Philosophy</a>
+        <a href="#properties">The Place</a>
+        <a href="#experiences">Experiences</a>
+        <a href="#journey">Your Journey</a>
+      </div>
+    </nav>
+    <nav aria-label="The houses">
+      <p class="footer-col-title">The houses</p>
+      <div class="footer-links">
+        <a href="../bahia-vik/">Bah&iacute;a VIK</a>
+        <a href="../playa-vik/">Playa VIK</a>
+        <a href="../estancia-vik/">Estancia VIK</a>
+        <a href="../vik-jose-ignacio/">Jos&eacute; Ignacio</a>
+      </div>
+    </nav>
+    <nav aria-label="Around">
+      <p class="footer-col-title">Around you</p>
+      <div class="footer-links">
+        <a href="../la-susana/">La Susana</a>
+        <a href="../pavilion-vik/">Pavilion VIK</a>
+        <a href="../guest-journey/">Guest Journey</a>
+      </div>
+    </nav>
+    <nav aria-label="VIK World">
+      <p class="footer-col-title">VIK World</p>
+      <div class="footer-links">
+        <a href="../vik-retreats/">VIK Retreats</a>
+        <a href="../galleria-vik-milano/">Galleria VIK</a>
+        <a href="https://www.vikwine.com/" target="_blank" rel="noopener">VIK Wines</a>
+      </div>
+    </nav>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-copy">&copy; VIK Retreats &middot; Jos&eacute; Ignacio, Uruguay</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/scrolltrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/Draggable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/CustomEase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/InertiaPlugin.min.js"></script>
+<script>
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('loader').classList.add('hidden'),1600));
+const cdEl=document.getElementById('cd'),crEl=document.getElementById('cr'),ring=document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cdEl.style.left=mx+'px';cdEl.style.top=my+'px'});
+(function ac(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;crEl.style.left=rx+'px';crEl.style.top=ry+'px';requestAnimationFrame(ac)})();
+document.querySelectorAll('a,button,.pl,.pr,.ti,.sg,.wc,.ec,.ps').forEach(el=>{el.addEventListener('mouseenter',()=>ring.classList.add('grow'));el.addEventListener('mouseleave',()=>ring.classList.remove('grow'))});
+const progEl=document.getElementById('prog');
+window.addEventListener('scroll',()=>{progEl.style.width=(window.scrollY/(document.body.scrollHeight-window.innerHeight)*100)+'%'},{passive:true});
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('s',window.scrollY>80),{passive:true});
+const mb=document.getElementById('mb'),mo=document.getElementById('mo');
+let open=false;
+mb.addEventListener('click',()=>{open=!open;mb.classList.toggle('o',open);mo.classList.toggle('o',open);mb.setAttribute('aria-expanded',open);document.body.style.overflow=open?'hidden':''});
+mo.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{open=false;mb.classList.remove('o');mo.classList.remove('o');mb.setAttribute('aria-expanded',false);document.body.style.overflow=''}));
+const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('in');obs.unobserve(x.target)}})},{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.r').forEach(el=>obs.observe(el));
+gsap.registerPlugin(ScrollTrigger);
+gsap.to('.hbg',{yPercent:30,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
+gsap.to('.jbg',{yPercent:25,ease:'none',scrollTrigger:{trigger:'.jou',start:'top bottom',end:'bottom top',scrub:true}});
+gsap.from('.jst > div',{opacity:0,y:32,stagger:.15,duration:.9,ease:'power2.out',scrollTrigger:{trigger:'.jst',start:'top 80%'}});
+gsap.from('.gal-txt',{opacity:0,y:30,duration:1.2,ease:'power3.out',scrollTrigger:{trigger:'.carousel-container',start:'top 70%'}});
+(function(){
+  gsap.registerPlugin(Draggable,InertiaPlugin);
+  const CONFIG={
+    totalCards:12,
+    wheelRadius:35,
+    images:['images/gallery-1.jpg','images/gallery-2.jpg','images/gallery-3.jpg','images/gallery-4.jpg','images/gallery-5.jpg','images/gallery-6.jpg','images/gallery-7.jpg','images/gallery-8.jpg','images/gallery-9.jpg','images/gallery-10.jpg','images/gallery-11.jpg','images/gallery-12.jpg'],
+    animations:{transitionDuration:1.2}
+  };
+  const carouselItemsEl=document.querySelector('.carousel-items');
+  let isTransitioning=false,activeAnimations=[],draggableInstance=null,originalZIndices=[];
+  let autoAngle=0,isDragging=false,resumeTimer=null,autoStarted=false;
+
+  function generateCards(){
+    carouselItemsEl.innerHTML='';
+    for(let i=1;i<=CONFIG.totalCards;i++){
+      const cardEl=document.createElement('div');
+      cardEl.className='carousel-item';
+      cardEl.style.backgroundImage='url('+(CONFIG.images[i-1]||CONFIG.images[0])+')';
+      cardEl.innerHTML='<div class="card__number">'+String(i).padStart(3,'0')+'</div>';
+      carouselItemsEl.appendChild(cardEl);
+      cardEl.style.zIndex=i;
+    }
+    initializeZIndices();
+  }
+
+  function initializeZIndices(){
+    const cards=gsap.utils.toArray('.carousel-item');
+    originalZIndices=cards.map((card,index)=>{
+      const zIndex=100+(CONFIG.totalCards-index);
+      gsap.set(card,{zIndex});
+      return zIndex;
+    });
+  }
+
+  function setupCirclePositions(animated){
+    const cards=gsap.utils.toArray('.carousel-item');
+    const viewportSize=Math.min(window.innerWidth,window.innerHeight);
+    const radius=viewportSize*(CONFIG.wheelRadius/100);
+    const angleStep=(2*Math.PI)/CONFIG.totalCards;
+    const currentWheelRotation=gsap.getProperty('.carousel-items','rotation')||0;
+    const currentWheelRotationRad=currentWheelRotation*(Math.PI/180);
+    const tl=gsap.timeline();
+    cards.forEach((card,i)=>{
+      const angle=i*angleStep+currentWheelRotationRad;
+      const x=radius*Math.cos(angle);
+      const y=radius*Math.sin(angle);
+      if(animated){
+        tl.to(card,{x,y,rotation:-currentWheelRotation,scale:0.8,duration:CONFIG.animations.transitionDuration,ease:'power2.inOut'},0);
+      }else{
+        gsap.set(card,{x,y,rotation:-currentWheelRotation,scale:0.8});
+      }
+    });
+    return tl;
+  }
+
+  function syncCards(){
+    const cards=gsap.utils.toArray('.carousel-item');
+    cards.forEach(card=>gsap.set(card,{rotation:-autoAngle}));
+  }
+
+  function startAutoRotate(){
+    if(autoStarted)return;
+    autoStarted=true;
+    autoAngle=gsap.getProperty(carouselItemsEl,'rotation')||0;
+    gsap.ticker.add(function(){
+      if(!isDragging&&!isTransitioning){
+        autoAngle+=0.006;
+        gsap.set(carouselItemsEl,{rotation:autoAngle});
+        syncCards();
+      }
+    });
+  }
+
+  function setupDraggable(){
+    if(draggableInstance){draggableInstance.kill();draggableInstance=null;}
+    carouselItemsEl.classList.add('draggable');
+    draggableInstance=Draggable.create('.carousel-items',{
+      type:'rotation',inertia:true,throwResistance:0.3,
+      snap:function(endValue){return endValue;},
+      onDragStart:function(){
+        isDragging=true;
+        clearTimeout(resumeTimer);
+      },
+      onDrag:function(){
+        autoAngle=this.rotation;
+        syncCards();
+      },
+      onThrowUpdate:function(){
+        autoAngle=this.rotation;
+        syncCards();
+      },
+      onDragEnd:function(){
+        autoAngle=this.rotation;
+        resumeTimer=setTimeout(function(){isDragging=false;},1200);
+      },
+      onThrowComplete:function(){
+        autoAngle=this.rotation;
+        isDragging=false;
+      }
+    })[0];
+    startAutoRotate();
+  }
+
+  function initializeCarousel(){
+    const cards=gsap.utils.toArray('.carousel-item');
+    gsap.set(cards,{x:0,y:0,rotation:0,scale:0,opacity:0});
+    isTransitioning=true;
+    const tl=gsap.timeline({onComplete:()=>{isTransitioning=false;setupDraggable();}});
+    for(let i=0;i<cards.length;i++){
+      gsap.set(cards[i],{zIndex:100+(cards.length-1-i)});
+      tl.to(cards[i],{opacity:1,scale:0.8,duration:0.5,ease:'power2.out'},(cards.length-1-i)*0.1);
+    }
+    tl.to({},{duration:0.3});
+    tl.add(setupCirclePositions(true));
+    activeAnimations.push(tl);
+    return tl;
+  }
+
+  ScrollTrigger.create({trigger:'.carousel-container',start:'top bottom',onEnter:function(){
+    generateCards();
+    initializeCarousel();
+  },once:true});
+})();
+const ct=document.getElementById('ct'),slides=ct.querySelectorAll('.ps');
+const cw=ct.closest('.cw');
+let cur=0,curOff=0;
+function sw(){return slides[0].getBoundingClientRect().width+24}
+function goTo(i){const max=slides.length-(window.innerWidth>900?2:1);cur=Math.max(0,Math.min(i,max));curOff=-(cur*sw());ct.style.transition='transform .65s cubic-bezier(.16,1,.3,1)';ct.style.transform='translateX('+curOff+'px)'}
+window.addEventListener('resize',()=>goTo(cur),{passive:true});
+
+// Triple native drag lock
+ct.querySelectorAll('img,video').forEach(el=>{el.draggable=false;el.ondragstart=()=>false});
+ct.style.userSelect='none';ct.style.webkitUserSelect='none';
+
+// Mouse drag
+let dragX=0,dragging=false;
+cw.addEventListener('mousedown',e=>{dragging=true;dragX=e.clientX;ct.style.transition='none';cw.style.cursor='grabbing';e.preventDefault()});
+document.addEventListener('mousemove',e=>{if(!dragging)return;ct.style.transform='translateX('+(curOff+(e.clientX-dragX))+'px)'});
+document.addEventListener('mouseup',e=>{if(!dragging)return;dragging=false;cw.style.cursor='grab';const d=e.clientX-dragX;goTo(cur+(d<-60?1:d>60?-1:0))});
+
+// Touch
+let tx=0;
+ct.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
+ct.addEventListener('touchend',e=>{const d=tx-e.changedTouches[0].clientX;if(Math.abs(d)>40)goTo(cur+(d>0?1:-1))},{passive:true});
+</script>
+</body>
+</html>

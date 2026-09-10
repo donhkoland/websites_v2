@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VIK Retreats · Site Links</title>
+<meta name="description" content="Editorial and technical directory for VIK Jose Ignacio public routes.">
+<style>
+  :root{
+    --paper:#f7f7f4;
+    --ink:#111;
+    --muted:#666;
+    --soft:#efefea;
+    --line:#d8d8d2;
+    --line-dark:#111;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,sans-serif;font-size:14px;line-height:1.45}
+  main{max-width:920px;margin:0 auto;padding:34px 32px 44px}
+  a{color:var(--ink);text-decoration:none}
+  a{transition:background .22s ease,color .22s ease,border-color .22s ease,transform .22s ease}
+  a:hover{text-decoration:none}
+  .logo{display:block;width:184px;height:auto;margin:0 0 32px}
+  header{display:flex;justify-content:space-between;gap:24px;align-items:end;border-bottom:1px solid var(--line-dark);padding-bottom:14px;margin-bottom:24px}
+  h1,h2,h3,.meta,.n,.tag,.date,.timeline-label,summary{font-family:"Courier New",monospace;font-weight:400;letter-spacing:0}
+  h1{font-size:16px;line-height:1.2;margin:0;text-transform:uppercase}
+  h2{font-size:13px;line-height:1.2;margin:0 0 18px;text-transform:uppercase}
+  h3{font-size:11px;line-height:1.2;margin:0;text-transform:uppercase}
+  .meta{font-size:11px;color:var(--muted);text-align:right}
+  .section{margin-top:34px;border-top:1px solid var(--line-dark);padding-top:22px}
+  ol,.plain-list{margin:0;padding:0;list-style:none;border-top:1px solid var(--line)}
+  li,.plain-list a{display:grid;grid-template-columns:44px 1fr auto;gap:14px;border-bottom:1px solid var(--line);padding:9px 0;align-items:baseline;transition:background .22s ease,color .22s ease,padding-left .22s ease}
+  .plain-list a{grid-template-columns:44px 1fr}
+  li:hover,.plain-list a:hover{background:#fff;padding-left:8px}
+  .n{font-size:11px;color:var(--muted)}
+  .tag{font-size:10px;color:var(--muted);text-transform:uppercase}
+
+  .map{display:flex;flex-direction:column;align-items:center;gap:0;overflow-x:auto;padding-bottom:6px}
+  .map-row{display:flex;justify-content:center;gap:38px;min-width:720px;position:relative}
+  .map-row.root{padding-bottom:42px}
+  .map-row.root::after{content:"";position:absolute;left:50%;bottom:0;width:1px;height:42px;background:var(--ink)}
+  .map-row.children{padding-top:28px}
+  .map-row.children::before{content:"";position:absolute;top:0;left:96px;right:96px;height:1px;background:var(--ink)}
+  .map-card{position:relative;z-index:1;width:180px;min-height:64px;display:flex;align-items:center;justify-content:center;text-align:center;border:1px solid var(--ink);background:#fff;padding:12px;font-size:13px}
+  .map-card.dark{background:var(--ink);color:#fff}
+  .map-row.children .map-card::before{content:"";position:absolute;left:50%;top:-29px;width:1px;height:28px;background:var(--ink)}
+  .map-sub{display:flex;flex-direction:column;align-items:center;gap:10px}
+  .map-list{position:relative;display:flex;flex-direction:column;gap:8px;padding-left:14px;margin-top:16px}
+  .map-list::before{content:"";position:absolute;top:-10px;bottom:20px;left:0;width:1px;background:var(--ink)}
+  .map-list a{position:relative;width:146px;min-height:38px;display:flex;align-items:center;justify-content:center;text-align:center;border:1px solid var(--ink);background:var(--soft);padding:8px;font-size:12px}
+  .map-list a::before{content:"";position:absolute;top:50%;left:-14px;width:14px;height:1px;background:var(--ink)}
+  .map-card:hover,.map-list a:hover{background:var(--ink);color:#fff;transform:translateY(-2px)}
+
+  .site-tree{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;border:1px solid var(--line-dark);background:var(--line-dark)}
+  .tree-panel{background:#fff;min-height:320px;padding:12px;display:flex;flex-direction:column;gap:12px}
+  .tree-panel.primary{background:var(--ink);color:#fff}
+  .scenario-strip{display:grid;grid-template-columns:1.05fr repeat(4,1fr);gap:1px;border:1px solid var(--line-dark);background:var(--line-dark);margin-bottom:1px}
+  .scenario-node{background:#fff;min-height:108px;padding:12px;display:flex;flex-direction:column;justify-content:space-between;gap:18px;position:relative}
+  .scenario-node.dark{background:var(--ink);color:#fff}
+  .scenario-node::after{content:"";position:absolute;right:-1px;top:50%;width:1px;height:22px;background:var(--line-dark);transform:translateY(-50%)}
+  .scenario-node:last-child::after{display:none}
+  .scenario-node strong{font-family:"Courier New",monospace;font-size:11px;font-weight:400;text-transform:uppercase}
+  .scenario-node span{font-size:12px;color:currentColor;opacity:.68}
+  .scenario-node small{font-family:"Courier New",monospace;font-size:9px;color:currentColor;opacity:.5;text-transform:uppercase}
+  .tree-head{display:flex;justify-content:space-between;gap:16px;border-bottom:1px solid currentColor;padding-bottom:10px}
+  .tree-head span{font-family:"Courier New",monospace;font-size:10px;text-transform:uppercase;color:currentColor;opacity:.64}
+  .tree-title{font-size:14px;line-height:1.2}
+  .tree-block{border-top:1px solid var(--line);padding-top:10px}
+  .tree-panel.primary .tree-block{border-color:rgba(255,255,255,.28)}
+  .tree-block h4{font-family:"Courier New",monospace;font-size:10px;font-weight:400;text-transform:uppercase;margin:0 0 8px;color:currentColor;opacity:.58}
+  .mini-links{display:grid;grid-template-columns:1fr;gap:6px}
+  .mini-links a,.mini-links span{display:flex;justify-content:space-between;gap:10px;min-height:30px;align-items:center;border:1px solid var(--line);padding:7px 8px;font-size:12px;background:var(--paper)}
+  .tree-panel.primary .mini-links a,.tree-panel.primary .mini-links span{background:#1c1c1c;border-color:rgba(255,255,255,.26);color:#fff}
+  .mini-links a:hover{background:var(--ink);color:#fff;transform:translateX(3px)}
+  .tree-panel.primary .mini-links a:hover{background:#fff;color:var(--ink)}
+  .tree-panel.wide{grid-column:span 2;min-height:auto}
+  .micro-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .micro-grid span,.micro-grid a{border:1px solid var(--line);background:var(--paper);padding:8px;min-height:42px;font-size:11px;display:flex;flex-direction:column;justify-content:center;gap:2px}
+  .micro-grid small{font-family:"Courier New",monospace;font-size:9px;text-transform:uppercase;color:var(--muted)}
+  .mini-links small{font-family:"Courier New",monospace;font-size:9px;color:currentColor;opacity:.5;text-transform:uppercase}
+
+  .module-matrix{display:grid;grid-template-columns:170px repeat(5,1fr);gap:1px;border:1px solid var(--line-dark);background:var(--line-dark)}
+  .mx-head,.mx-cell{min-height:44px;background:#fff;padding:9px;display:flex;flex-direction:column;justify-content:center;gap:3px}
+  .mx-head{background:var(--soft)}
+  .mx-head strong,.mx-cell a{font-family:"Courier New",monospace;font-size:10px;font-weight:400;text-transform:uppercase}
+  .mx-cell span{font-size:10px;color:var(--muted)}
+  .mx-cell a:hover{background:transparent;text-decoration:underline}
+
+  @keyframes openFade{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  details[open] .details-body{animation:openFade .24s ease both}
+
+  details{border:1px solid var(--line-dark);background:#fff}
+  summary{display:flex;justify-content:space-between;gap:20px;padding:12px 14px;cursor:pointer;list-style:none;font-size:11px;text-transform:uppercase}
+  summary::-webkit-details-marker{display:none}
+  details[open] summary{border-bottom:1px solid var(--line-dark)}
+  .details-body{padding:16px 14px 14px}
+  .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+
+  .date{font-size:10px;color:var(--muted);text-transform:uppercase}
+
+  .timeline{display:flex;flex-direction:column;gap:12px}
+  .track{display:grid;grid-template-columns:190px 1fr 112px;gap:16px;align-items:center}
+  .timeline-label{font-size:10px;text-transform:uppercase;color:var(--ink)}
+  .bar{height:8px;background:var(--line);position:relative}
+  .bar span{position:absolute;top:0;bottom:0;background:var(--ink)}
+  .aug10-17{left:30%;width:23.5%}
+  .aug10-15{left:30%;width:16.7%}
+  .aug11-19{left:33.3%;width:26.7%}
+  .aug12-19{left:36.7%;width:23.3%}
+  .aug15-19{left:46.7%;width:13.3%}
+  .aug17-19{left:53.3%;width:6.7%}
+  .aug19{left:60%;width:2px}
+  .ticks{display:grid;grid-template-columns:repeat(5,1fr);font-family:"Courier New",monospace;font-size:10px;color:var(--muted);margin-left:206px;margin-right:128px}
+  .ticks span:nth-child(2){text-align:center}
+  .ticks span:nth-child(3){text-align:center}
+  .ticks span:nth-child(4){text-align:center}
+  .ticks span:nth-child(5){text-align:right}
+
+  @media(max-width:760px){
+    main{padding:26px 18px}
+    header{display:block}
+    .meta{text-align:left;margin-top:12px}
+    li{grid-template-columns:34px 1fr}
+    .tag{display:none}
+    .cols,.site-tree,.module-matrix,.scenario-strip,.micro-grid{grid-template-columns:1fr}
+    .tree-panel.wide{grid-column:auto}
+    .track{grid-template-columns:1fr;gap:6px}
+    .ticks{margin:0}
+  }
+
+  /* Lo que todavia no existe se queda en la hoja, en gris y sin
+     puerta: el mapa sigue siendo completo aunque la pagina no lo
+     este. */
+  .is-off{color:var(--ink-3);cursor:default;pointer-events:none}
+  .is-off *{color:inherit}
+  .node.is-off,.map-card.is-off{border-style:dashed;border-color:var(--rule-soft);
+    background:var(--paper);color:var(--ink-3)}
+  .page__open.is-off{opacity:.45}
+</style>
+<link rel="stylesheet" href="../_core/leaflet.min.css">
+<link rel="stylesheet" href="../_core/vik-v2.min.css?v=1">
+<link rel="stylesheet" href="../_core/vik-v2-lib.min.css?v=2">
+</head>
+<body>
+<main>
+  <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/vik-retreats" aria-label="VIK Retreats">
+    <img class="logo" src="../_assets/img/brand/vik_retreats_wordmark_dark_blue.svg" alt="VIK Retreats">
+  </a>
+
+  <header>
+    <h1>VIK Jose Ignacio<br>site links</h1>
+    <div class="meta">
+      <div>public routes · names only</div>
+      <div>source window: 2026-08-10 / 2026-08-19</div>
+    </div>
+  </header>
+
+  <ol aria-label="Links principales">
+    <li><span class="n">01</span><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/vik-retreats">VIK Retreats</a><span class="tag">root</span></li>
+    <li><span class="n">02</span><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/vik-jose-ignacio">VIK Jose Ignacio</a><span class="tag">destination</span></li>
+    <li><span class="n">03</span><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/estancia-vik">Estancia VIK</a><span class="tag">property</span></li>
+    <li><span class="n">04</span><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/playa-vik">Playa VIK</a><span class="tag">property</span></li>
+    <li><span class="n">05</span><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/bahia-vik">Bahia VIK</a><span class="tag">property</span></li>
+    <li><span class="n">06</span><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/stay">Stay</a><span class="tag">rooms</span></li>
+    <li><span class="n">07</span><span class="is-off" aria-disabled="true" title="En preparacion">Room Detail</span><span class="tag">template</span></li>
+    <li><span class="n">08</span><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/destination">Destination</a><span class="tag">context</span></li>
+    <li><span class="n">09</span><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/experiences">Experiences</a><span class="tag">program</span></li>
+    <li><span class="n">10</span><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/vik-wellness">VIK Wellness</a><span class="tag">program</span></li>
+    <li><span class="n">11</span><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/celebrate">Celebrate</a><span class="tag">events</span></li>
+    <li><span class="n">12</span><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/pavilion-vik">Pavilion VIK</a><span class="tag">venue</span></li>
+    <li><span class="n">13</span><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/la-susana">La Susana</a><span class="tag">venue</span></li>
+    <li><span class="n">14</span><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/campo-y-polo">Campo y Polo</a><span class="tag">venue</span></li>
+    <li><span class="n">15</span><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/dining">Dining</a><span class="tag">tables</span></li>
+    <li><span class="n">16</span><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/contact">Contact</a><span class="tag">assist</span></li>
+  </ol>
+
+  <section class="section" aria-label="Detailed technical tree">
+    <h2>Global scenario · Jose Ignacio property system</h2>
+    <div class="scenario-strip" aria-label="Global scenario line">
+      <a class="scenario-node dark" href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/vik-retreats">
+        <strong>VIK Retreats</strong>
+        <span>Global umbrella, destination selector and brand source.</span>
+        <small>world layer</small>
+      </a>
+      <a class="scenario-node" href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/vik-jose-ignacio">
+        <strong>Jose Ignacio</strong>
+        <span>Destination organism: three properties, events, stay and service.</span>
+        <small>territory layer</small>
+      </a>
+      <a class="scenario-node" href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/stay">
+        <strong>Stay</strong>
+        <span>Booking corridor for property selection and room templates.</span>
+        <small>conversion layer</small>
+      </a>
+      <a class="scenario-node" href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/celebrate">
+        <strong>Events</strong>
+        <span>Pavilion, La Susana, Campo y Polo and private tables.</span>
+        <small>sales layer</small>
+      </a>
+      <a class="scenario-node" href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/styleguide">
+        <strong>Styleguide</strong>
+        <span>Module library, interface rules and production vocabulary.</span>
+        <small>system layer</small>
+      </a>
+    </div>
+    <div class="site-tree">
+      <article class="tree-panel primary">
+        <div class="tree-head">
+          <div class="tree-title">VIK Retreats</div>
+          <span>root / brand</span>
+        </div>
+        <div class="tree-block">
+          <h4>entry points</h4>
+          <div class="mini-links">
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/vik-retreats">World chooser <small>M10</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/vik-jose-ignacio">Jose Ignacio <small>destination</small></a>
+            <span>Secondary destinations <small>folded in Italy panel</small></span>
+          </div>
+        </div>
+        <div class="tree-block">
+          <h4>system fields</h4>
+          <div class="mini-links">
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/styleguide">Styleguide <small>35 modules</small></a>
+            <span>Core runtime <small>chrome / booking / metrics</small></span>
+            <span>Assets library <small>brand / rooms / video / maps</small></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="tree-panel">
+        <div class="tree-head">
+          <div class="tree-title">Destination</div>
+          <span>navigation spine</span>
+        </div>
+        <div class="tree-block">
+          <h4>primary pages</h4>
+          <div class="mini-links">
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/vik-jose-ignacio">Destination home <small>M04/M10/M22</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/destination">Destination context <small>M28/M22</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/experiences">Experiences <small>M16/M21</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/vik-wellness">Wellness <small>M06/M07/M15</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/dining">Dining <small>tables</small></a>
+          </div>
+        </div>
+        <div class="tree-block">
+          <h4>conversion</h4>
+          <div class="mini-links">
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/stay">Stay chooser <small>M20</small></a>
+            <span class="is-off" aria-disabled="true" title="En preparacion">Room detail <small>M31/M32/M33</small></span>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/contact">Contact + FAQ <small>M23/M25</small></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="tree-panel">
+        <div class="tree-head">
+          <div class="tree-title">Event Zones</div>
+          <span>sales / venues</span>
+        </div>
+        <div class="tree-block">
+          <h4>event hub</h4>
+          <div class="mini-links">
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/celebrate">Celebrate <small>M16/M25</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/pavilion-vik">Pavilion VIK <small>waterfront</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/la-susana">La Susana <small>beach</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/campo-y-polo">Campo y Polo <small>field</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/contact">Event enquiry <small>brief</small></a>
+          </div>
+        </div>
+        <div class="tree-block">
+          <h4>menus / tables</h4>
+          <div class="mini-links">
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/dining">Dining <small>all tables</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/la-susana/menu.html">La Susana menu <small>menu</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/pavilion-vik/menu.html">Pavilion menu <small>menu</small></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="tree-panel">
+        <div class="tree-head">
+          <div class="tree-title">Estancia VIK</div>
+          <span>property / field</span>
+        </div>
+        <div class="tree-block">
+          <h4>site structure</h4>
+          <div class="mini-links">
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/estancia-vik">Property page <small>M02/M06/M28</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/campo-y-polo">Campo y Polo <small>club</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/dining">El Asador / Dining <small>tables</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/experiences">Horses / Outdoors <small>activities</small></a>
+          </div>
+        </div>
+        <div class="tree-block">
+          <h4>content fields</h4>
+          <div class="mini-links">
+            <span>Accommodations <small>room data</small></span>
+            <span>Landscape / chapel / fire <small>media</small></span>
+            <span>Family / riding / field <small>audience</small></span>
+            <span>Rural ceremony logic <small>event context</small></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="tree-panel">
+        <div class="tree-head">
+          <div class="tree-title">Playa VIK</div>
+          <span>property / point</span>
+        </div>
+        <div class="tree-block">
+          <h4>site structure</h4>
+          <div class="mini-links">
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/playa-vik">Property page <small>M02/M06/M28</small></a>
+            <span class="is-off" aria-disabled="true" title="En preparacion">Room detail <small>template</small></span>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/celebrate">Private events <small>sales</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/experiences">Art / coast <small>activity</small></a>
+          </div>
+        </div>
+        <div class="tree-block">
+          <h4>content fields</h4>
+          <div class="mini-links">
+            <span>Architecture <small>Carlos Ott</small></span>
+            <span>Art collection <small>culture</small></span>
+            <span>Ocean / Casas / suites <small>rooms</small></span>
+            <span>Point / sunset / social rituals <small>atmosphere</small></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="tree-panel">
+        <div class="tree-head">
+          <div class="tree-title">Bahia VIK</div>
+          <span>property / dune</span>
+        </div>
+        <div class="tree-block">
+          <h4>site structure</h4>
+          <div class="mini-links">
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/bahia-vik">Property page <small>M02/M06/M28</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/la-susana">La Susana <small>beach</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/vik-wellness">VIK Wellness <small>program</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/pavilion-vik">Pavilion VIK <small>events</small></a>
+          </div>
+        </div>
+        <div class="tree-block">
+          <h4>content fields</h4>
+          <div class="mini-links">
+            <span>Bungalows <small>rooms</small></span>
+            <span>Dunes / beach / social <small>position</small></span>
+            <span>Wellness / beach dining <small>services</small></span>
+            <span>Global gathering stage <small>Jose Ignacio scale</small></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="tree-panel wide">
+        <div class="tree-head">
+          <div class="tree-title">Property Deployment</div>
+          <span>missing / next fields</span>
+        </div>
+        <div class="micro-grid">
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/estancia-vik">Estancia VIK <small>home / rooms / field rituals / polo / dining</small></a>
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/playa-vik">Playa VIK <small>home / suites / art / ocean / private events</small></a>
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/bahia-vik">Bahia VIK <small>home / bungalows / beach / wellness / La Susana</small></a>
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/vik-jose-ignacio">Jose Ignacio global stage <small>umbrella narrative / location / all properties / all venues</small></a>
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/stay">Stay architecture <small>chooser / rooms / property logic / booking intent</small></a>
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/celebrate">Event architecture <small>venues / capacity language / enquiry / dining routes</small></a>
+        </div>
+      </article>
+
+      <article class="tree-panel">
+        <div class="tree-head">
+          <div class="tree-title">Operational Support</div>
+          <span>system / assist</span>
+        </div>
+        <div class="tree-block">
+          <h4>production spine</h4>
+          <div class="mini-links">
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/styleguide">Styleguide <small>modules</small></a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/contact">Contact <small>assist</small></a>
+            <span>SEO / metadata <small>per page</small></span>
+            <span>Responsive QA <small>mobile / desktop</small></span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Module map · assignment</h2>
+    <div class="module-matrix">
+      <div class="mx-head"><strong>Page family</strong><span class="tag">surface</span></div>
+      <div class="mx-cell"><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/styleguide#m02">M02</a><span>Hero film</span></div>
+      <div class="mx-cell"><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/styleguide#m10">M10</a><span>Chooser</span></div>
+      <div class="mx-cell"><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/styleguide#m16">M16</a><span>Card grid</span></div>
+      <div class="mx-cell"><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/styleguide#m22">M22</a><span>Live map</span></div>
+      <div class="mx-cell"><a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/styleguide#m25">M25</a><span>Enquiry</span></div>
+
+      <div class="mx-head"><strong>Retreats</strong><span class="tag">global</span></div>
+      <div class="mx-cell"><span>media panels</span></div>
+      <div class="mx-cell"><span>destination selection</span></div>
+      <div class="mx-cell"><span>world cards</span></div>
+      <div class="mx-cell"><span>country map</span></div>
+      <div class="mx-cell"><span>close</span></div>
+
+      <div class="mx-head"><strong>Jose Ignacio</strong><span class="tag">destination</span></div>
+      <div class="mx-cell"><span>hero context</span></div>
+      <div class="mx-cell"><span>three houses</span></div>
+      <div class="mx-cell"><span>experience grid</span></div>
+      <div class="mx-cell"><span>territory</span></div>
+      <div class="mx-cell"><span>assist</span></div>
+
+      <div class="mx-head"><strong>Properties</strong><span class="tag">house</span></div>
+      <div class="mx-cell"><span>property opener</span></div>
+      <div class="mx-cell"><span>related house</span></div>
+      <div class="mx-cell"><span>venues / rooms</span></div>
+      <div class="mx-cell"><span>location</span></div>
+      <div class="mx-cell"><span>request</span></div>
+
+      <div class="mx-head"><strong>Events</strong><span class="tag">sales</span></div>
+      <div class="mx-cell"><span>venue opener</span></div>
+      <div class="mx-cell"><span>venue choice</span></div>
+      <div class="mx-cell"><span>use cases</span></div>
+      <div class="mx-cell"><span>proximity</span></div>
+      <div class="mx-cell"><span>brief</span></div>
+    </div>
+  </section>
+
+  <section class="section" aria-label="VIK Jose Ignacio property map">
+    <h2>Property map · VIK Jose Ignacio</h2>
+    <div class="map">
+      <div class="map-row root">
+        <a class="map-card dark" href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/vik-jose-ignacio">VIK Jose Ignacio</a>
+      </div>
+      <div class="map-row children">
+        <div class="map-sub">
+          <a class="map-card" href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/estancia-vik">Estancia VIK</a>
+          <div class="map-list">
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/campo-y-polo">Campo y Polo</a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/dining">Dining</a>
+          </div>
+        </div>
+        <div class="map-sub">
+          <a class="map-card" href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/playa-vik">Playa VIK</a>
+          <div class="map-list">
+            <span class="is-off" aria-disabled="true" title="En preparacion">Room Detail</span>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/celebrate">Celebrate</a>
+          </div>
+        </div>
+        <div class="map-sub">
+          <a class="map-card" href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/bahia-vik">Bahia VIK</a>
+          <div class="map-list">
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/la-susana">La Susana</a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/vik-wellness">VIK Wellness</a>
+            <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/pavilion-vik">Pavilion VIK</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Other projects / folded</h2>
+    <details>
+      <summary><span>Open brand work, Italy and supporting systems</span><span>collapsed</span></summary>
+      <div class="details-body cols">
+        <div class="plain-list">
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/galleria-vik-milano"><span class="n">IT</span><span>Galleria VIK Milano</span></a>
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/galleria-vik-milano/hotel.html"><span class="n">IT</span><span>Hotel</span></a>
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/galleria-vik-milano/stay.html"><span class="n">IT</span><span>Stay</span></a>
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/galleria-vik-milano/dining.html"><span class="n">IT</span><span>Dining</span></a>
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/galleria-vik-milano/events.html"><span class="n">IT</span><span>Events</span></a>
+        </div>
+        <div class="plain-list">
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/pellico-otto"><span class="n">IT</span><span>Pellico Otto</span></a>
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/pellico-otto/menu.html"><span class="n">IT</span><span>Pellico Otto Menu</span></a>
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/dodici-gatti"><span class="n">IT</span><span>I 12 Gatti</span></a>
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/dodici-gatti/menu.html"><span class="n">IT</span><span>I 12 Gatti Menu</span></a>
+        </div>
+        <div class="plain-list">
+          <a href="https://www.donhkoland.com/clients/vik/global/website/vik_global/websites/styleguide"><span class="n">SYS</span><span>Styleguide / module library</span></a>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <section class="section">
+    <h2>Timeline / August 2026</h2>
+    <div class="timeline">
+      <div class="track"><span class="timeline-label">Project kickoff</span><div class="bar"><span class="aug11-19"></span></div><span class="date">11-19 Aug</span></div>
+      <div class="track"><span class="timeline-label">Jose Ignacio source data</span><div class="bar"><span class="aug10-17"></span></div><span class="date">10-17 Aug</span></div>
+      <div class="track"><span class="timeline-label">Rooms origin files</span><div class="bar"><span class="aug10-15"></span></div><span class="date">10-15 Aug</span></div>
+      <div class="track"><span class="timeline-label">Notes / media docs</span><div class="bar"><span class="aug15-19"></span></div><span class="date">15-19 Aug</span></div>
+      <div class="track"><span class="timeline-label">Properties public html</span><div class="bar"><span class="aug17-19"></span></div><span class="date">17-19 Aug</span></div>
+      <div class="track"><span class="timeline-label">Events / venues</span><div class="bar"><span class="aug12-19"></span></div><span class="date">12-19 Aug</span></div>
+      <div class="track"><span class="timeline-label">Jose Ignacio public html</span><div class="bar"><span class="aug19"></span></div><span class="date">19 Aug</span></div>
+      <div class="track"><span class="timeline-label">Stay / Room / Contact</span><div class="bar"><span class="aug19"></span></div><span class="date">19 Aug</span></div>
+    </div>
+    <div class="ticks"><span>Aug 01</span><span>Aug 11</span><span>Aug 15</span><span>Aug 19</span><span>Aug 31</span></div>
+  </section>
+</main>
+<script src="../_core/lenis.min.js"></script>
+<script src="../_core/leaflet.js"></script>
+<script src="../_core/vik-chrome-v2.js?v=1"></script>
+<script src="../_core/vik-v2.min.js?v=1"></script>
+<script src="../_core/vik-v2-lib.min.js?v=1"></script>
+</body>
+</html>

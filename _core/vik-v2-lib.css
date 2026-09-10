@@ -1,0 +1,1051 @@
+/* ══════════════════════════════════════════════════════════════
+   VIK · BIBLIOTECA HEREDADA, EN LENGUA V2
+   ──────────────────────────────────────────────────────────────
+   Dieciseis modulos que la v1 tenia y la v2 todavia no, traidos
+   al vocabulario nuevo. Hoja aparte a proposito: vik-v2.css es el
+   sistema aprobado y no se toca. Esta solo agrega — cero
+   selectores compartidos, cero tokens redefinidos.
+
+   ──────────────────────────────────────────────────────────────
+   LA DIRECCION DE ARTE, EN SIETE REGLAS
+   Que las cumplan los dieciseis es lo unico que hace que esto sea
+   un sistema y no una caja de piezas sueltas.
+
+   1 · LA MEDIDA ES ASIMETRICA.
+       Reja de doce. El rotulo cuelga en 1–2 y el contenido corre
+       de 3 a 12. Una columna centrada es una diapositiva; una
+       columna que arranca despues del margen es una pagina.
+
+   2 · EL FOLIO ES TIPOGRAFICO.
+       El numero no vive dentro del bloque de texto: vive en el
+       margen, sobre la linea base del primer renglon. Es lo que
+       convierte una lista en una serie numerada.
+
+   3 · TODO ENCUADRE LLEVA EPIGRAFE.
+       Mono, debajo, con un filete corto delante. Es la senal
+       editorial mas barata y la mas fuerte: una fotografia con
+       pie es un documento, sin pie es una decoracion.
+
+   4 · EL FILETE SIGNIFICA.
+       Arriba de una fila: pertenece a una serie. A todo el ancho:
+       fin de capitulo. Nunca un borde alrededor de una caja — el
+       sistema no tiene cajas, tiene renglones.
+
+   5 · EL RITMO ES DESIGUAL.
+       La cita respira seis unidades; la ficha tecnica se comprime
+       a una. Una publicacion donde todo tiene el mismo aire es un
+       formulario.
+
+   6 · UN GESTO QUE ROMPE LA REJA, POR MODULO.
+       Algo cuelga del margen, se monta sobre lo de al lado o
+       sangra al canto. Uno solo: dos ya no es composicion, es
+       ruido.
+
+   7 · EL HOVER ES EDITORIAL, NO DE INTERFAZ.
+       El texto se corre tres pixeles, un filete se dibuja solo,
+       la imagen sale del zoom. Nunca un relleno de color sobre
+       una caja: eso es un boton, y aqui no hay botones.
+
+   Y las del manual, que no se negocian: esquina viva, nada en
+   negrita, cinco papeles de letra, el filete es --hair, sin
+   sombras.
+
+   Nicolas Castillo · @donhkoland
+   ══════════════════════════════════════════════════════════════ */
+
+
+/* ══ LA REJA ════════════════════════════════════════════════════
+   Doce columnas y dos zonas. Es la misma particion que usa .head
+   del sistema, escrita como utilidad para que los dieciseis la
+   compartan en vez de inventar cada uno su margen. */
+.ed{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:0 var(--gap);max-width:var(--max);margin:0 auto}
+.ed-folio{grid-column:1 / 3}
+.ed-main {grid-column:3 / 13}
+/* La medida de lectura. Sesenta y dos signos es donde el ojo deja
+   de tener que buscar el principio del renglon siguiente. */
+.ed-read{max-width:62ch}
+@media (max-width:860px){
+  .ed{grid-template-columns:1fr}
+  .ed-folio,.ed-main{grid-column:1 / -1}
+}
+
+/* El folio. Highway Gothic pequeno y en tinta al 26%: tiene que
+   estar, no tiene que competir. Se enciende en azul con la fila,
+   que es como se sabe cual se esta leyendo. */
+.ed-n{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--i-26);transition:color .4s var(--ease)}
+
+/* El epigrafe. Filete corto, hueco, texto. El filete es lo que lo
+   ata a la fotografia de arriba — sin el flota. */
+.ed-cap{display:flex;align-items:baseline;gap:.7rem;margin-top:.85rem;
+  font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.7rem;line-height:1.5;color:var(--i-40)}
+.ed-cap::before{content:"";flex:0 0 18px;height:1px;
+  background:var(--i-26);transform:translateY(-.3em)}
+
+/* Fin de capitulo. */
+.ed-rule{height:1px;background:var(--hair);max-width:var(--max);margin:0 auto}
+
+
+/* ══ L01 · PORTADA DE PAGINA INTERIOR ═══════════════════════════
+   La portada de la home lleva mostrador; una interior no. Aqui el
+   sitio ocupa la pantalla y el texto cuelga a la izquierda, sobre
+   la reja: una interior es un capitulo, y un capitulo empieza en
+   el margen, no en el centro.
+
+   GESTO · el contador de laminas sangra al canto derecho, contra
+   el borde de la pantalla, a la altura de la linea base del
+   titular. Es lo unico de la pagina que toca el canto.        */
+.hero-page{position:relative;min-height:clamp(560px,82svh,880px);
+  display:flex;align-items:flex-end;overflow:hidden;isolation:isolate;
+  background:var(--ink);color:#fff;
+  padding:calc(var(--nav-h) + 4rem) var(--pad-x) clamp(2.6rem,5vw,4rem)}
+.hp-media{position:absolute;inset:0;z-index:0}
+.hp-media img,.hp-media video{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;opacity:0;transition:opacity 1.2s var(--ease);
+  filter:saturate(.86) contrast(1.03)}
+.hp-media > .is-on{opacity:1}
+.hp-media::after{content:"";position:absolute;inset:0;z-index:2;
+  background:linear-gradient(180deg,rgba(12,11,9,.46) 0%,rgba(12,11,9,.14) 40%,rgba(12,11,9,.84) 100%)}
+.hp-inner{position:relative;z-index:3;width:100%}
+/* El rotulo cuelga en las dos primeras columnas y comparte linea
+   base con la primera linea del titular. */
+.hp-inner .ed-folio{align-self:end;padding-bottom:.5rem}
+.hp-kicker{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(248,248,240,.6)}
+/* La escala del titular es la del manifiesto de Jose Ignacio, sin
+   una decima de diferencia: clamp(1.75, 5.6vw, 4.8), interlineado
+   1 y -.028 de interletrado. Dos paginas del mismo sistema no
+   pueden titular con dos escalas.
+
+   Lo unico que cambia es que aqui puede partir en varias lineas —
+   el manifiesto va en una sola porque esta centrado. */
+.hp-title{font-family:"Old Standard VIK",Georgia,serif;font-weight:400;
+  font-size:clamp(1.75rem,5.6vw,4.8rem);line-height:1;letter-spacing:-.028em;
+  margin:0;max-width:16ch}
+.hp-title em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.hp-desc{max-width:52ch;margin-top:1.5rem;
+  font-size:1rem;line-height:1.74;font-weight:300;color:rgba(248,248,240,.7)}
+.hp-actions{display:flex;flex-wrap:wrap;gap:1.4rem;align-items:center;margin-top:2.2rem}
+/* El contador, sangrando. Mono, porque es un dato. */
+.hp-count{position:absolute;right:0;bottom:.4rem;z-index:3;
+  display:flex;align-items:baseline;gap:.8rem;
+  font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.72rem;color:rgba(248,248,240,.5)}
+.hp-count::before{content:"";width:clamp(28px,4vw,64px);height:1px;
+  background:rgba(248,248,240,.3);transform:translateY(-.3em)}
+.hp-count b{font-weight:400;color:#fff}
+@media (max-width:860px){
+  .hero-page{min-height:clamp(460px,74svh,640px)}
+  .hp-title{max-width:none}
+  .hp-count{position:static;margin-top:1.8rem}
+  .hp-inner .ed-folio{padding-bottom:.9rem}
+}
+
+
+/* ══ L02 · PRINCIPIOS ═══════════════════════════════════════════
+   Renglones de cuerpo grande separados por filete. Cada uno puede
+   llevar data-hover-img y la miniatura del sistema lo sigue: el
+   mismo mecanismo del indice, no una segunda pieza que hace lo
+   mismo.
+
+   GESTO · el numero no se alinea con el texto: se alinea con la
+   linea base del titular, colgando dos columnas afuera. Es lo que
+   hace que la lista se lea como una serie y no como vinetas.  */
+.principles{border-top:1px solid var(--hair)}
+.principle{border-bottom:1px solid var(--hair);
+  padding:clamp(2.2rem,4vw,3.4rem) 0;
+  transition:padding-left .6s var(--slow)}
+.principle:hover{padding-left:clamp(.5rem,1.2vw,1.2rem)}
+.principle .ed-folio{padding-top:.35rem}
+.principle:hover .ed-n{color:var(--vik)}
+.principle h3{font-family:"Old Standard VIK",Georgia,serif;font-weight:400;
+  font-size:clamp(1.45rem,3.1vw,2.35rem);line-height:1.06;letter-spacing:-.02em;
+  transition:color .45s var(--ease)}
+.principle:hover h3{color:var(--vik)}
+.principle h3 em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.principle p{margin-top:1rem;
+  font-size:.95rem;line-height:1.78;font-weight:300;color:var(--i-55)}
+/* El enlace no se dibuja hasta que la fila importa. */
+.principle .link{margin-top:1.2rem;opacity:0;transform:translateY(4px);
+  transition:opacity .45s var(--ease),transform .45s var(--slow)}
+.principle:hover .link{opacity:1;transform:none}
+@media (hover:none){.principle .link{opacity:1;transform:none}}
+
+
+/* ══ L03 · LA CAPA ══════════════════════════════════════════════
+   Un solo chasis para todos los modales de la casa: el caso de un
+   retiro, la vista de una habitacion, el checkout, la galeria.
+   Cambia lo de adentro; esto no.
+
+   Sin radio y sin sombra. Un modal con esquina redonda y sombra
+   larga es una ventana de aplicacion; este es un pliego que se
+   pone encima del periodico, y por eso entra desde abajo y ocupa
+   el ancho entero.
+
+   GESTO · el cierre no es una cruz flotando sobre el velo. Es una
+   palabra en Highway Gothic con su filete, dentro del pliego,
+   alineada al margen derecho de la reja. Se lee, no se adivina. */
+.ovl{position:fixed;inset:0;z-index:8600;
+  display:flex;align-items:flex-end;justify-content:center;
+  background:rgba(12,11,9,.74);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  opacity:0;pointer-events:none;transition:opacity .5s var(--ease)}
+.ovl.is-on{opacity:1;pointer-events:auto}
+.ovl-panel{position:relative;width:min(1180px,100%);max-height:92svh;
+  overflow-y:auto;overscroll-behavior:contain;
+  background:var(--bone);color:var(--ink);
+  transform:translateY(3rem);transition:transform .65s var(--slow)}
+.ovl.is-on .ovl-panel{transform:none}
+.ovl-panel[data-ground="dark"]{background:var(--ink);color:var(--bone)}
+
+.ovl-bar{position:sticky;top:0;z-index:4;
+  display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
+  padding:1.1rem var(--pad-x);
+  background:var(--bone);border-bottom:1px solid var(--hair)}
+.ovl-panel[data-ground="dark"] .ovl-bar{background:var(--ink);
+  border-bottom-color:rgba(248,248,240,.16)}
+.ovl-tag{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.72rem;color:var(--i-40)}
+.ovl-close{display:inline-flex;align-items:center;gap:.75rem;min-height:44px;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--i-40);transition:color .3s var(--ease)}
+.ovl-close:hover{color:var(--vik)}
+.ovl-close::after{content:"";width:16px;height:1px;background:currentColor;
+  transition:width .4s var(--slow)}
+.ovl-close:hover::after{width:26px}
+
+.ovl-media{position:relative;aspect-ratio:16/9;overflow:hidden;background:var(--canvas)}
+.ovl-media img,.ovl-media video{width:100%;height:100%;object-fit:cover;display:block}
+.ovl-body{padding:clamp(2rem,4.4vw,3.4rem) var(--pad-x) clamp(2.6rem,5vw,4rem)}
+.ovl-mark{font-family:"Old Standard VIK",Georgia,serif;font-weight:400;
+  font-size:clamp(1.7rem,3.6vw,2.8rem);line-height:1.02;letter-spacing:-.022em;
+  margin:0}
+.ovl-mark em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.ovl-lede{margin-top:1.2rem;
+  font-size:.98rem;line-height:1.78;font-weight:300;color:var(--i-55)}
+.ovl-panel[data-ground="dark"] .ovl-lede{color:rgba(248,248,240,.6)}
+
+/* Los datos no van en reja de cuatro: van como una lista con
+   filete, rotulo a la izquierda y valor a la derecha. Asi se lee
+   una ficha en papel, y asi cabe cualquier cantidad de filas sin
+   que la reja quede coja. */
+.ovl-facts{margin-top:2.2rem;border-top:1px solid var(--hair)}
+.ovl-panel[data-ground="dark"] .ovl-facts{border-top-color:rgba(248,248,240,.16)}
+.ovl-facts > div{display:flex;align-items:baseline;gap:1.5rem;
+  padding:.9rem 0;border-bottom:1px solid var(--hair-soft)}
+.ovl-panel[data-ground="dark"] .ovl-facts > div{border-bottom-color:rgba(248,248,240,.1)}
+.ovl-facts .k{flex:0 0 auto;min-width:11ch;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:var(--i-40)}
+/* El puntillo que une rotulo y valor: es lo que hace que se lea
+   como una ficha y no como dos columnas sueltas. */
+.ovl-facts .k::after{content:"";display:inline-block;width:0}
+.ovl-facts .v{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:1.05rem;line-height:1.2;margin-left:auto;text-align:right}
+.ovl-actions{display:flex;flex-wrap:wrap;gap:1.4rem;align-items:center;margin-top:2.2rem}
+
+.ovl-steps{display:flex;gap:.5rem;padding:0 var(--pad-x) clamp(1.8rem,3vw,2.6rem)}
+.ovl-step{flex:1;height:1px;background:var(--hair);transition:background .5s var(--ease)}
+.ovl-step.is-on{background:var(--vik)}
+@media (max-width:860px){
+  .ovl{align-items:stretch}
+  .ovl-panel{max-height:100svh}
+  .ovl-facts .v{text-align:left;margin-left:auto}
+}
+
+
+/* ══ L04 · LA TIRA DE HABITACIONES ══════════════════════════════
+   Cada habitacion a altura completa, una al lado de otra, con su
+   barra de filtro encima. Las fichas se tocan, como la tira del
+   ecosistema: son la misma casa en cortes distintos, no un
+   catalogo de productos.
+
+   GESTO · el numero de habitacion no esta sobre la fotografia
+   sino colgado en su canto superior, cortado por el borde de la
+   lamina siguiente. Es una foliacion de contactos.            */
+/* Se desliza de verdad, no por transformacion: la tira se filtra,
+   y una tira que clona sus hijos para derivar sin fin no puede
+   esconder la mitad sin que el clon la delate. Scroll nativo, que
+   ademas le da al dedo el gesto que ya conoce. */
+.roomreel{position:relative;left:50%;right:50%;width:var(--vw);
+  margin-left:calc(var(--vw) / -2);margin-right:calc(var(--vw) / -2);
+  overflow-x:auto;overscroll-behavior-x:contain;
+  scroll-snap-type:x proximity;scroll-padding-inline:var(--pad-x);
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;
+  cursor:grab;user-select:none}
+.roomreel::-webkit-scrollbar{display:none}
+.roomreel.is-dragging{cursor:grabbing}
+.roomreel .rr{scroll-snap-align:start}
+.rr.is-out{display:none}
+.roomreel-bar{display:flex;gap:clamp(1.2rem,2.4vw,2.2rem);flex-wrap:wrap;
+  align-items:baseline;max-width:var(--max);
+  margin:0 auto clamp(1.4rem,2.6vw,2rem);padding:0 var(--pad-x)}
+.roomreel-bar button{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:var(--i-40);
+  min-height:44px;position:relative;transition:color .3s var(--ease)}
+.roomreel-bar button:hover{color:var(--ink)}
+.roomreel-bar button.is-on{color:var(--vik)}
+.roomreel-bar button.is-on::after{content:"";position:absolute;
+  left:0;right:0;bottom:calc(50% - .95em);height:1px;background:var(--vik)}
+.roomreel-bar .count{margin-left:auto;
+  font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.7rem;color:var(--i-26)}
+.roomreel-track{display:flex;gap:0;align-items:stretch;
+  padding-inline:var(--pad-x);width:max-content}
+/* Mas grande: una habitacion es lo que se viene a ver, y a
+   trescientos pixeles no se ve una habitacion, se ve una miniatura.
+   Y 4:5 en vez de 3:4 — un interior necesita ancho para que se lea
+   el fondo del cuarto, no solo la cama. */
+.rr{position:relative;flex:0 0 clamp(320px,44vw,660px);
+  aspect-ratio:4/5;overflow:hidden;isolation:isolate;
+  display:flex;align-items:flex-end;color:var(--bone)}
+.rr img,.rr video{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;transform:scale(1.03);transition:transform 1s var(--slow)}
+.rr:hover img,.rr:hover video{transform:scale(1)}
+.rr::after{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top,rgba(10,9,7,.86) 0%,rgba(10,9,7,.1) 54%,rgba(10,9,7,.34) 100%)}
+/* El folio arriba, contra el canto. */
+.rr-i{position:absolute;top:0;left:0;z-index:2;
+  padding:.9rem 1.1rem;
+  font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.7rem;color:rgba(248,248,240,.7)}
+.rr-body{position:relative;z-index:2;width:100%;
+  display:flex;flex-direction:column;gap:.4rem;
+  padding:clamp(1.2rem,2.4vw,1.8rem)}
+.rr-name{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.2rem,2.2vw,1.6rem);line-height:1.04;
+  transition:transform .5s var(--slow)}
+.rr:hover .rr-name{transform:translateX(3px)}
+.rr-meta{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.7rem;color:rgba(248,248,240,.55)}
+@media (max-width:860px){.rr{flex-basis:min(72vw,340px)}}
+
+
+/* ══ L05 · EL MURO ══════════════════════════════════════════════
+   La reja de fotografias de una habitacion, sin hueco. Una pieza
+   grande y el resto alrededor: si todas midieran lo mismo seria
+   una hoja de contactos, y esto es un reportaje.
+
+   GESTO · los pies no van bajo cada encuadre — van todos juntos
+   en una tira mono debajo del muro, numerados. Es como se
+   epigrafia una plancha en una revista, y deja la reja limpia. */
+.wall{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--hair);max-width:var(--max);margin:0 auto}
+.wall-tile{position:relative;aspect-ratio:1/1;overflow:hidden;
+  background:var(--canvas);display:block}
+.wall-tile:first-child{grid-column:span 2;grid-row:span 2}
+.wall-tile img{width:100%;height:100%;object-fit:cover;display:block;
+  transform:scale(1.02);transition:transform 1.3s var(--slow)}
+.wall-tile:hover img{transform:scale(1)}
+/* El folio de cada pieza, arriba a la izquierda, sin fondo. */
+.wall-tile .n{position:absolute;top:.7rem;left:.85rem;z-index:2;
+  font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.68rem;color:rgba(255,255,255,.75);
+  opacity:0;transition:opacity .4s var(--ease)}
+.wall-tile:hover .n{opacity:1}
+.wall-caps{display:flex;flex-wrap:wrap;gap:.5rem 2rem;
+  max-width:var(--max);margin:1.1rem auto 0;
+  font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.7rem;line-height:1.6;color:var(--i-40)}
+.wall-caps span b{font-weight:400;color:var(--i-26);margin-right:.55rem}
+@media (max-width:860px){
+  .wall{grid-template-columns:repeat(2,1fr)}
+  .wall-tile:first-child{grid-column:span 2;grid-row:auto;aspect-ratio:4/3}
+}
+
+
+/* ══ L06 · EL PLEGABLE ══════════════════════════════════════════
+   Preguntas, politicas y cartas. Filete arriba de cada fila y
+   nada mas: sin caja, sin fondo, sin flecha girando.
+
+   GESTO · la respuesta no vuelve al margen — arranca donde
+   arranca la pregunta, en la columna tres, con el numero
+   sosteniendo las dos. La sangria es lo que dice que una cosa
+   pertenece a la otra.                                        */
+.accordion{border-top:1px solid var(--hair)}
+.acc-item{border-bottom:1px solid var(--hair)}
+.acc-head{width:100%;text-align:left;color:inherit;cursor:pointer;
+  padding:clamp(1.3rem,2.6vw,2rem) 0;list-style:none;
+  display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:0 var(--gap)}
+.acc-head::-webkit-details-marker{display:none}
+.acc-head .ed-n{grid-column:1 / 3;padding-top:.3rem}
+.acc-q{grid-column:3 / 12;
+  font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.1rem,2.1vw,1.45rem);line-height:1.2;
+  transition:color .4s var(--ease)}
+.acc-item:hover .acc-q{color:var(--vik)}
+.acc-item[open] .ed-n{color:var(--vik)}
+/* El signo, en la doceava columna: cruz que se vuelve raya. */
+.acc-sign{grid-column:12 / 13;justify-self:end;align-self:center;
+  position:relative;width:13px;height:13px}
+.acc-sign::before,.acc-sign::after{content:"";position:absolute;
+  left:0;right:0;top:50%;height:1px;background:currentColor;
+  transition:transform .5s var(--slow),opacity .4s var(--ease)}
+.acc-sign::after{transform:rotate(90deg)}
+.acc-item[open] .acc-sign::after{transform:rotate(0)}
+.acc-body{display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows .6s var(--slow)}
+.acc-item[open] .acc-body{grid-template-rows:1fr}
+.acc-body-inner{overflow:hidden}
+.acc-body-inner > .ed{padding-bottom:1.8rem}
+.acc-body-inner p{font-size:.95rem;line-height:1.8;font-weight:300;color:var(--i-55)}
+@media (max-width:860px){
+  .acc-head{grid-template-columns:2.5rem minmax(0,1fr) 1.5rem}
+  .acc-head .ed-n{grid-column:1;padding-top:.4rem}
+  .acc-q{grid-column:2}
+  .acc-sign{grid-column:3}
+}
+
+
+/* ══ L07 · LA CONSULTA ══════════════════════════════════════════
+   A la izquierda una declaracion y las vias directas; a la
+   derecha las preguntas como renglones con filete. Un formulario
+   con cajas parece un tramite; con renglones parece una carta,
+   que es lo que es.
+
+   GESTO · cada campo lleva su folio en el margen, igual que los
+   principios y el plegable. Es lo que hace que un formulario
+   pertenezca a la misma publicacion que el resto.             */
+.enquiry{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,7fr);
+  gap:clamp(2.5rem,7vw,7rem);max-width:var(--max);margin:0 auto}
+.enq-statement{font-family:"Old Standard VIK",Georgia,serif;font-weight:400;
+  font-size:clamp(1.6rem,3.4vw,2.7rem);line-height:1.04;letter-spacing:-.022em;
+  margin:1.2rem 0 0}
+.enq-statement em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.enq-lines{margin-top:2.2rem;border-top:1px solid var(--hair)}
+.enq-line{display:flex;align-items:baseline;gap:1.2rem;
+  padding:.85rem 0;border-bottom:1px solid var(--hair-soft)}
+.enq-line .k{flex:0 0 auto;min-width:9ch;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:var(--i-40)}
+.enq-line .v{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.82rem;margin-left:auto;text-align:right}
+
+.enq-form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 clamp(1.5rem,3vw,2.6rem);align-content:start}
+.enq-field{position:relative;display:grid;
+  grid-template-columns:2.4rem minmax(0,1fr);gap:0 .8rem;align-items:baseline;
+  padding:1.15rem 0;border-bottom:1px solid var(--hair);
+  transition:border-color .4s var(--ease)}
+.enq-field.enq-wide{grid-column:1 / -1}
+.enq-field .ed-n{grid-column:1;grid-row:1 / span 2;padding-top:.15rem}
+.enq-field label{grid-column:2;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:var(--i-40);
+  transition:color .4s var(--ease)}
+.enq-field input,.enq-field select,.enq-field textarea{
+  grid-column:2;width:100%;margin-top:.45rem;
+  background:none;border:0;color:inherit;
+  font-family:"DM Sans",sans-serif;font-size:1rem;font-weight:300;line-height:1.5}
+.enq-field textarea{resize:vertical;min-height:5rem}
+.enq-field :focus{outline:none}
+.enq-field:focus-within{border-bottom-color:var(--vik)}
+.enq-field:focus-within label,
+.enq-field:focus-within .ed-n{color:var(--vik)}
+.enq-foot{grid-column:1 / -1;display:flex;flex-wrap:wrap;gap:1.5rem;
+  align-items:center;justify-content:space-between;margin-top:2.2rem}
+.enq-note{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.72rem;color:var(--i-40);max-width:42ch;line-height:1.65}
+@media (max-width:960px){
+  .enquiry{grid-template-columns:1fr}
+  .enq-form{grid-template-columns:1fr}
+}
+
+
+/* ══ L08 · EL PARTIDO ═══════════════════════════════════════════
+   Una fotografia y un argumento. El modulo mas usado del sistema
+   y por eso el que mas facil cae en generico: cincuenta y
+   cincuenta, centrado, sin gesto, es la seccion de cualquier
+   plantilla.
+
+   GESTO · la lamina sangra al canto de la ventana y el texto se
+   queda dentro de la reja, en medida corta. Esa asimetria — foto
+   fuera de caja, texto dentro — es la diferencia entre una
+   pagina y una diapositiva. Con .rev sangra por el otro lado. */
+.split{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:clamp(1.6rem,3vw,3rem) var(--gap);align-items:center;
+  max-width:var(--max);margin:0 auto}
+.split-media{position:relative;grid-column:1 / 8;
+  aspect-ratio:5/4;overflow:hidden;background:var(--canvas);isolation:isolate;
+  /* LA SANGRIA.
+     La distancia entre el canto de la ventana y el canto de la
+     reja es lo que hay que recuperar, y no siempre es lo mismo:
+     en pantalla ancha manda la mitad del sobrante contra --max;
+     en pantalla angosta manda el relleno de la seccion. max() de
+     los dos da el numero correcto en todo el rango.
+
+     Escrito como una resta fija se pasaba de largo justo el
+     relleno en pantallas anchas, y la lamina sobresalia de la
+     ventana arrastrando la pagina en horizontal. */
+  margin-left:calc(-1 * max(var(--pad-x), (var(--vw) - var(--max)) / 2))}
+.split-media img,.split-media video{width:100%;height:100%;object-fit:cover;display:block;
+  transform:scale(1.03);transition:transform 1.5s var(--slow);
+  filter:saturate(.9) contrast(.97)}
+.split:hover .split-media img{transform:scale(1)}
+.split-body{grid-column:9 / 13}
+.split.rev .split-media{grid-column:6 / 13;order:2;
+  margin-left:0;
+  margin-right:calc(-1 * max(var(--pad-x), (var(--vw) - var(--max)) / 2))}
+.split.rev .split-body{grid-column:1 / 5;order:1}
+.split-body h2{font-family:"Old Standard VIK",Georgia,serif;font-weight:400;
+  font-size:clamp(1.5rem,3vw,2.4rem);line-height:1.04;letter-spacing:-.02em;
+  margin:1.1rem 0 0}
+.split-body h2 em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.split-body p{margin-top:1.2rem;
+  font-size:.95rem;line-height:1.8;font-weight:300;color:var(--i-55)}
+.split-body .link{margin-top:1.6rem}
+@media (max-width:1024px){
+  .split-media,.split.rev .split-media{grid-column:1 / -1;
+    margin-left:calc(var(--pad-x) * -1);margin-right:calc(var(--pad-x) * -1);
+    order:0;aspect-ratio:16/10}
+  .split-body,.split.rev .split-body{grid-column:1 / -1;order:1}
+}
+
+
+/* ══ L09 · LA CITA SUELTA ═══════════════════════════════════════
+   Una frase en Selva. Es el unico sitio de la publicacion donde
+   centrar es lo correcto: una cita no pertenece a la columna, se
+   sale de ella.
+
+   RITMO · el modulo mas aireado de los dieciseis, a proposito. Es
+   una pausa, y una pausa que no se nota no es una pausa.
+
+   GESTO · dos filetes cortos, arriba y abajo, del ancho de la
+   medida y no del bloque. Enmarcan sin encerrar.              */
+.pull-quote{max-width:26ch;margin:0 auto;text-align:center;
+  padding:clamp(4rem,9vw,8rem) 0}
+.pull-quote::before,.pull-quote::after{content:"";display:block;
+  width:56px;height:1px;background:var(--i-26);margin:0 auto}
+.pull-quote q{quotes:none;display:block;
+  font-family:"Selva Script",Georgia,serif;
+  font-size:clamp(1.55rem,3.8vw,2.9rem);line-height:1.32;color:var(--i-90);
+  padding:clamp(1.8rem,3.4vw,2.8rem) 0}
+.pull-quote cite{display:block;font-style:normal;
+  padding-top:clamp(1.4rem,2.6vw,2rem);
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:var(--i-40)}
+
+
+/* ══ L10 · LA SUB-BARRA ═════════════════════════════════════════
+   En una pagina larga de propiedad, el indice de esa pagina. Se
+   pega bajo la barra principal y marca donde se esta.
+
+   GESTO · el nombre de la casa no es un rotulo mas: va en serif y
+   lo separa un filete que ocupa el hueco sobrante. La barra se
+   lee como una cabecera de seccion de revista, no como pestanas
+   de aplicacion.                                              */
+.subnav{position:sticky;top:var(--nav-h);z-index:60;
+  background:rgba(248,248,240,.9);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.subnav-inner{display:flex;align-items:center;gap:clamp(1.2rem,2.6vw,2.4rem);
+  max-width:var(--max);margin:0 auto;padding:0 var(--pad-x);
+  overflow-x:auto;scrollbar-width:none}
+.subnav-inner::-webkit-scrollbar{display:none}
+.sn-name{flex:0 0 auto;font-family:"Old Standard VIK",Georgia,serif;
+  font-size:1.05rem;white-space:nowrap}
+.sn-rule{flex:1 1 2rem;min-width:1.5rem;height:1px;background:var(--hair)}
+.subnav a{flex:0 0 auto;position:relative;white-space:nowrap;
+  padding:1.15rem 0;min-height:44px;display:inline-flex;align-items:center;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:var(--i-40);
+  transition:color .3s var(--ease)}
+.subnav a:hover{color:var(--ink)}
+.subnav a.is-on{color:var(--vik)}
+.subnav a.is-on::after{content:"";position:absolute;left:0;right:0;bottom:-1px;
+  height:1px;background:var(--vik)}
+
+
+/* ══ L11 · PORTADA DE GALERIA ═══════════════════════════════════
+   Una grande y tres al lado.
+
+   GESTO · el recuento no es una capsula sobre un velo — eso es
+   interfaz. Es un renglon mono debajo de la tira, con filete,
+   diciendo cuantas hay y de que son. Decir "veinticuatro
+   fotografias, Playa VIK, 2024" es informacion; un "+24" flotando
+   sobre una foto es un adorno.                                */
+.ghero{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);
+  gap:1px;background:var(--hair);max-width:var(--max);margin:0 auto}
+.ghero__main{position:relative;aspect-ratio:4/3;overflow:hidden;background:var(--canvas)}
+.ghero__strip{display:grid;grid-template-rows:repeat(3,1fr);gap:1px}
+.ghero__thumb{position:relative;overflow:hidden;background:var(--canvas);display:block}
+.ghero img{width:100%;height:100%;object-fit:cover;display:block;
+  transform:scale(1.02);transition:transform 1.3s var(--slow)}
+.ghero a:hover img{transform:scale(1)}
+.ghero-foot{display:flex;align-items:baseline;gap:1.2rem;flex-wrap:wrap;
+  max-width:var(--max);margin:1.1rem auto 0;
+  font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.72rem;color:var(--i-40)}
+.ghero-foot .rule{flex:1 1 3rem;min-width:2rem;height:1px;
+  background:var(--hair);transform:translateY(-.3em)}
+.ghero-foot .link{margin-left:0}
+@media (max-width:860px){
+  .ghero{grid-template-columns:1fr}
+  .ghero__strip{grid-template-rows:none;grid-template-columns:repeat(3,1fr)}
+  .ghero__thumb{aspect-ratio:1/1}
+}
+
+
+/* ══ L12 · LA FICHA TECNICA ═════════════════════════════════════
+   Seis datos con el rotulo encima del valor. Es la tira viva del
+   sistema sin el dato vivo — misma reja, mismo filete, misma
+   letra — para que una pagina de habitacion y la portada hablen
+   con la misma voz.
+
+   RITMO · el modulo mas comprimido de los dieciseis. Es una
+   ficha: tiene que leerse de un vistazo, no recorrerse.       */
+.specbar{display:grid;grid-template-columns:repeat(6,1fr);
+  max-width:var(--max);margin:0 auto;
+  border-top:1px solid var(--hair);border-bottom:1px solid var(--hair)}
+.specbar > div{display:flex;flex-direction:column;gap:.5rem;min-width:0;
+  padding:clamp(1.2rem,1.8vw,1.6rem) clamp(.9rem,1.5vw,1.5rem)
+          clamp(1.2rem,1.8vw,1.6rem) 0;
+  border-right:1px solid var(--hair-soft)}
+.specbar > div:last-child{border-right:0}
+.specbar__l{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:var(--i-40)}
+.specbar__v{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.05rem,1.7vw,1.4rem);line-height:1.04}
+.specbar__i{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.68rem;color:var(--i-26);line-height:1.45}
+@media (max-width:1180px){
+  .specbar{grid-template-columns:repeat(3,1fr)}
+  .specbar > div:nth-child(3n){border-right:0}
+  .specbar > div:nth-child(-n+3){border-bottom:1px solid var(--hair-soft)}
+}
+@media (max-width:640px){
+  .specbar{grid-template-columns:repeat(2,1fr)}
+  .specbar > div:nth-child(3n){border-right:1px solid var(--hair-soft)}
+  .specbar > div:nth-child(2n){border-right:0}
+  .specbar > div{border-bottom:1px solid var(--hair-soft)}
+  .specbar > div:nth-last-child(-n+2){border-bottom:0}
+}
+
+
+/* ══ L13 · LO QUE INCLUYE ═══════════════════════════════════════
+   Renglones, no vinetas. Nombre a la izquierda, detalle a la
+   derecha, el filete uniendolos: se lee como una cuenta, que es
+   exactamente lo que el lector esta haciendo.
+
+   GESTO · el folio en el margen y el nombre en serif contra un
+   detalle en cuerpo pequeno. La diferencia de escala entre las
+   dos columnas es lo que dice cual se lee primero.            */
+.incl{border-top:1px solid var(--hair)}
+.incl__row{border-bottom:1px solid var(--hair);
+  padding:clamp(1rem,1.8vw,1.35rem) 0}
+.incl__row .ed-n{padding-top:.3rem}
+.incl__row .n{grid-column:3 / 7;
+  font-family:"Old Standard VIK",Georgia,serif;font-size:1.1rem;line-height:1.18}
+.incl__row .d{grid-column:7 / 13;
+  font-size:.9rem;line-height:1.7;font-weight:300;color:var(--i-55)}
+@media (max-width:860px){
+  .incl__row .n,.incl__row .d{grid-column:1 / -1}
+  .incl__row .d{margin-top:.3rem}
+}
+
+
+/* ══ L14 · LOS ARTISTAS ═════════════════════════════════════════
+   La obra manda: encuadre alto y debajo el nombre y la
+   disciplina. El nombre en serif, la disciplina en mono — es un
+   dato, no un titulo.
+
+   GESTO · las fichas no comparten linea base. La segunda y la
+   cuarta bajan un tercio de columna, que es como se maqueta una
+   plancha de retratos en una revista: una reja perfectamente
+   alineada de cuatro retratos es un directorio de empleados. */
+.artists{display:grid;grid-template-columns:repeat(4,1fr);
+  gap:var(--gap);align-items:start;max-width:var(--max);margin:0 auto}
+.artist-card{display:block}
+.artists > .artist-card:nth-child(2n){margin-top:clamp(2rem,5vw,4.5rem)}
+.artist-card__img{position:relative;aspect-ratio:4/5;overflow:hidden;
+  background:var(--canvas);isolation:isolate}
+/* Las impares en 4:5 y las pares en 3:4: la diferencia es chica y
+   es justo lo que impide que la plancha se lea mecanica. */
+.artists > .artist-card:nth-child(2n) .artist-card__img{aspect-ratio:3/4}
+.artist-card__img img{width:100%;height:100%;object-fit:cover;display:block;
+  transform:scale(1.02);transition:transform 1.3s var(--slow);
+  filter:saturate(.88) contrast(.94)}
+.artist-card:hover .artist-card__img img{transform:scale(1)}
+.artist-card__b{display:block;padding-top:1rem;
+  border-top:1px solid var(--hair);margin-top:.9rem}
+.artist-card__n{display:block;font-family:"Old Standard VIK",Georgia,serif;
+  font-size:1.1rem;line-height:1.14;transition:transform .5s var(--slow)}
+.artist-card:hover .artist-card__n{transform:translateX(3px)}
+.artist-card__r{display:block;margin-top:.35rem;
+  font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.7rem;color:var(--i-40)}
+@media (max-width:1024px){
+  .artists{grid-template-columns:repeat(2,1fr)}
+  .artists > .artist-card:nth-child(2n){margin-top:clamp(1.5rem,4vw,3rem)}
+}
+@media (max-width:520px){
+  .artists{grid-template-columns:1fr}
+  .artists > .artist-card:nth-child(2n){margin-top:0}
+  .artists > .artist-card:nth-child(2n) .artist-card__img{aspect-ratio:4/5}
+}
+
+
+/* ══ L15 · LA MIGA ══════════════════════════════════════════════
+   Tres niveles y el separador en mono. Marca la profundidad del
+   sistema, que es justo lo que un visitante que entro por una
+   habitacion no tiene forma de saber.
+
+   GESTO · el filete que la cierra corre hasta el canto de la
+   medida. Una miga sin filete flota; con el, es una cabecera. */
+.crumb{display:flex;flex-wrap:wrap;align-items:baseline;gap:.7rem;
+  max-width:var(--max);margin:0 auto;padding-bottom:.9rem;
+  border-bottom:1px solid var(--hair);
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase}
+.crumb a{color:var(--i-40);transition:color .3s var(--ease)}
+.crumb a:hover{color:var(--vik)}
+.crumb .sep{font-family:"Apercu Mono Pro","Courier New",monospace;
+  letter-spacing:0;color:var(--i-26)}
+.crumb [aria-current]{color:var(--ink)}
+
+
+/* ══ L16 · LOS SERVICIOS ════════════════════════════════════════
+   Lo que la casa hace, sin fotografia. Cuando la lista es larga,
+   una foto por fila la vuelve un catalogo; sin ellas se lee
+   entera.
+
+   GESTO · dos columnas de renglones, no una reja de cajas. Cada
+   servicio es una linea de la misma publicacion — folio, nombre,
+   una frase — y el filete superior los ata en serie. Ocho cajas
+   con hover de color eran ocho botones; ocho renglones son un
+   indice.                                                     */
+.svc-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:0 clamp(2rem,5vw,5rem);max-width:var(--max);margin:0 auto}
+.svc{display:grid;grid-template-columns:2.6rem minmax(0,1fr);gap:0 1rem;
+  align-items:baseline;padding:clamp(1.1rem,2vw,1.6rem) 0;
+  border-top:1px solid var(--hair);
+  transition:padding-left .55s var(--slow)}
+.svc:hover{padding-left:.6rem}
+.svc:hover .ed-n{color:var(--vik)}
+.svc h3{font-family:"Old Standard VIK",Georgia,serif;font-weight:400;
+  font-size:1.1rem;line-height:1.14;transition:color .4s var(--ease)}
+.svc:hover h3{color:var(--vik)}
+.svc p{grid-column:2;margin-top:.45rem;
+  font-size:.88rem;line-height:1.7;font-weight:300;color:var(--i-55)}
+@media (max-width:760px){
+  .svc-list{grid-template-columns:1fr}
+}
+
+
+/* ══ L03b · LA NAVEGACION DEL PLIEGO ════════════════════════════
+   Anterior, contador, siguiente. Vive en la cabecera del modal, no
+   en una barra flotante: lo que navega tiene que estar dentro de
+   lo navegado.
+
+   Flechas de texto y no iconos. En una publicacion donde no hay un
+   solo icono, dos chevrons dibujados son las dos unicas piezas de
+   interfaz de toda la casa — y se notan.                        */
+.ovl-nav{display:inline-flex;align-items:center;gap:1.1rem;margin-left:auto;
+  margin-right:1.6rem}
+.ovl-nav button{min-width:44px;min-height:44px;
+  display:inline-flex;align-items:center;justify-content:center;
+  color:var(--i-40);font-size:1rem;line-height:1;
+  transition:color .3s var(--ease),transform .4s var(--slow)}
+.ovl-nav button:hover{color:var(--vik)}
+.ovl-nav button[data-room-prev]:hover{transform:translateX(-3px)}
+.ovl-nav button[data-room-next]:hover{transform:translateX(3px)}
+.ovl-nav .rn-count{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.72rem;color:var(--i-26);min-width:6ch;text-align:center}
+.ovl-panel[data-ground="dark"] .ovl-nav .rn-count{color:rgba(248,248,240,.4)}
+
+
+/* ══ L17 · LA LISTA DE DATOS ════════════════════════════════════
+   Rotulo a la izquierda, valor a la derecha, filete entre medio.
+   Es la ficha tecnica cuando no hay ancho para la tira: dentro de
+   una columna de cuatro, .specbar se aplasta a seis celdas de
+   cincuenta pixeles y deja de leerse.
+
+   Misma letra y mismo filete que la tira, para que una casa no
+   parezca dos publicaciones segun donde caiga el dato.         */
+.factlist{margin-top:1.8rem;border-top:1px solid var(--hair)}
+.factlist > div{display:flex;align-items:baseline;gap:1.2rem;
+  padding:.75rem 0;border-bottom:1px solid var(--hair-soft)}
+.factlist .k{flex:0 0 auto;min-width:10ch;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:var(--i-40)}
+.factlist .v{margin-left:auto;text-align:right;
+  font-family:"Old Standard VIK",Georgia,serif;font-size:1rem;line-height:1.25}
+[data-ground="dark"] .factlist{border-top-color:rgba(248,248,240,.16)}
+[data-ground="dark"] .factlist > div{border-bottom-color:rgba(248,248,240,.1)}
+@media (max-width:520px){
+  .factlist .v{text-align:left}
+}
+
+/* La fila de acciones al pie de un partido. Estaba escrita con
+   estilo a mano en cada pagina; es la misma fila siempre. */
+.split-actions{display:flex;flex-wrap:wrap;gap:1.6rem;align-items:center;margin-top:1.8rem}
+
+
+/* ══ L18 · EL LOGOTIPO EN LA BARRA ══════════════════════════════
+   El sistema nunca tuvo imagen en la barra: firmaba con .nav-mark,
+   que es texto. Cuando una casa firma con su lockup, ese <img>
+   entraba sin una sola regla — y un SVG sin alto declarado dentro
+   de un flex mide cero. Estaba puesto y no se veia.
+
+   Y despues, con alto declarado, se veia serruchado: el filtro que
+   lo pasaba a blanco lo manda a una capa de composicion propia, y
+   el navegador rasteriza esa capa a su resolucion y no a la de la
+   pantalla. Los cantos de las letras salian escalonados.
+
+   La solucion no es afinar el filtro: es no tener filtro. Van dos
+   archivos ya rasterizados —negro y blanco— y se cambia de uno a
+   otro por opacidad. Quinientos veinte pixeles de ancho para trece
+   de alto: cuarenta veces los que hacen falta, siete kilos cada
+   uno, y ningun paso de rasterizado en el navegador.
+
+   Trece pixeles, que es la altura del renglon que lleva al lado:
+   el lockup y el apellido comparten linea base. El ancho lo pone
+   la proporcion del archivo — los lockups van de 8:1 a 12:1 segun
+   cuantas palabras tenga la casa, y forzar un ancho comun los
+   deformaria.                                                  */
+.nav-lw{position:relative;display:block;height:13px}
+.nav-lw img{display:block;height:13px;width:auto;
+  transition:opacity .45s var(--ease)}
+.nav-lw .lw-b{position:absolute;top:0;left:0;opacity:0}
+/* Sobre papel manda el negro. */
+.nav.scrolled .nav-lw .lw-w,
+.nav.past-hero .nav-lw .lw-w,
+body.menu-open .nav-lw .lw-w{opacity:0}
+.nav.scrolled .nav-lw .lw-b,
+.nav.past-hero .nav-lw .lw-b,
+body.menu-open .nav-lw .lw-b{opacity:1}
+/* El apellido, alineado a la base del lockup y no a su caja. */
+.nav-left:has(.nav-lw) .nav-tag{align-self:flex-end;padding-bottom:1px}
+
+
+/* ══ FLUIDEZ DE LAS TIRAS ═══════════════════════════════════════
+   Una tira de dieciseis laminas grandes se mueve un pixel por
+   fotograma, y en cada uno el navegador vuelve a pintar las
+   dieciseis: cada .card-fig lleva un filter de saturacion, y un
+   filtro se recalcula en cada repintado del elemento.
+
+   contain:paint le dice al navegador que lo que hay dentro de la
+   lamina no puede salirse de ella, asi que puede tratarla como una
+   capa aparte y no repintar la vecina. El resultado es la
+   diferencia entre arrastrar la tira y empujarla.             */
+.rail-track,.roomreel-track{will-change:transform}
+.rail .card,.roomreel .rr,.chooser .ch{contain:paint}
+.rail .card-fig,.rr,.ch{transform:translateZ(0)}
+
+
+/* ══ L19 · COMO SE LLEGA ════════════════════════════════════════
+   Una direccion y tres distancias. Estaba puesto como texto sobre
+   la pagina, sin jerarquia: cuatro pares de lineas del mismo
+   cuerpo, que es como se ve un dato pegado de un correo.
+
+   Es una ficha de viaje, asi que se lee como una: la direccion
+   ocupa el ancho y manda, y debajo las distancias en columnas con
+   filete vertical — la misma reja de la tira viva, porque son el
+   mismo tipo de dato.
+
+   GESTO · el rotulo cuelga en el margen y la direccion arranca en
+   la columna tres, alineada con todo lo demas de la pagina.    */
+.getting{max-width:var(--max);margin:0 auto;
+  border-top:1px solid var(--hair)}
+.getting-top{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
+  gap:0 var(--gap);padding:clamp(1.6rem,3vw,2.4rem) 0}
+.getting-top .ed-n{grid-column:1 / 3;padding-top:.4rem}
+.getting-addr{grid-column:3 / 10;
+  font-family:"Old Standard VIK",Georgia,serif;font-weight:400;
+  font-size:clamp(1.25rem,2.4vw,1.9rem);line-height:1.16;letter-spacing:-.016em}
+.getting-map{grid-column:10 / 13;justify-self:end;align-self:end}
+/* Las distancias: misma reja y mismo filete que la tira viva. */
+.getting-legs{display:grid;grid-template-columns:repeat(3,1fr);
+  border-top:1px solid var(--hair)}
+.getting-legs > div{display:flex;flex-direction:column;gap:.55rem;min-width:0;
+  padding:clamp(1.2rem,2vw,1.7rem) clamp(1rem,1.6vw,1.6rem)
+          clamp(1.2rem,2vw,1.7rem) 0;
+  border-right:1px solid var(--hair-soft)}
+.getting-legs > div:last-child{border-right:0}
+.getting-legs .k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:var(--i-40)}
+.getting-legs .v{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.1rem,1.8vw,1.5rem);line-height:1}
+.getting-legs .s{font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.68rem;color:var(--i-26);line-height:1.45}
+@media (max-width:860px){
+  .getting-top{grid-template-columns:1fr;gap:.6rem}
+  .getting-top .ed-n,.getting-addr,.getting-map{grid-column:1 / -1}
+  .getting-map{justify-self:start;margin-top:.5rem}
+  .getting-legs{grid-template-columns:1fr}
+  .getting-legs > div{border-right:0;border-bottom:1px solid var(--hair-soft);
+    padding-right:0}
+  .getting-legs > div:last-child{border-bottom:0}
+}
+
+
+/* ══ LA RESERVA, EN LA CABECERA ═════════════════════════════════
+   En la portada la capsula aparece al dejar el cine, porque ahi
+   arriba ya hay un mostrador y dos veces la misma pregunta en la
+   misma pantalla es una de mas.
+
+   Una pagina interior no tiene mostrador: si la capsula espera al
+   scroll, la unica accion de la casa no existe durante la primera
+   pantalla. Aqui esta desde el principio.                      */
+.nav.nav-siempre .nav-book{opacity:1;pointer-events:auto;max-width:14rem;
+  margin-left:1.9rem;padding:1.15rem 1.55rem;
+  border:1px solid currentColor}
+@media (max-width:1250px){
+  .nav.nav-siempre .nav-book{padding-top:1.05rem;padding-bottom:1.05rem}
+}
+@media (max-width:640px){
+  .nav.nav-siempre .nav-book{margin-left:.85rem;padding-left:1.1rem;padding-right:1.1rem}
+}
+
+
+/* ══ LA TIRA DE HABITACIONES, FLUIDA ════════════════════════════
+   Cuatro cosas que la hacian dura:
+
+   · Las fichas aparecian de golpe con la pagina. Ahora entran
+     escalonadas, cuarenta milisegundos una de otra: el ojo lee una
+     tira que se despliega en vez de un bloque que aparece.
+
+   · La fotografia saltaba al cargar. Entra por fundido desde su
+     propio fondo, asi que el hueco nunca es blanco.
+
+   · El filtro escondia con display:none — un corte seco y un
+     salto de maqueta. Ahora se desvanece y encoge, y recien
+     entonces desaparece.
+
+   · No habia nada al pasar por encima salvo el zoom. Se agrega lo
+     que hace el resto de la publicacion: el nombre se corre tres
+     pixeles y su filete se dibuja solo.                        */
+/* SIN scroll-behavior:smooth EN LA TIRA.
+   Parece inofensivo y mata la deriva: con el puesto, cada
+   asignacion de scrollLeft arranca una animacion suave nueva que
+   la del fotograma siguiente cancela, asi que la tira no se mueve
+   nunca. Y ademas leer scrollLeft justo despues devuelve el valor
+   viejo, porque el navegador todavia esta interpolando.
+
+   El unico sitio donde hace falta suavidad es el salto al filtrar,
+   y ese lo pide scrollTo({behavior:"smooth"}) por su cuenta. */
+.rr{opacity:0;transform:translateY(14px);
+  transition:opacity .7s var(--ease),transform .7s var(--slow),
+             width .45s var(--slow),flex-basis .45s var(--slow)}
+.rr.is-in{opacity:1;transform:none}
+.rr img{opacity:0;transition:opacity .8s var(--ease),transform 1s var(--slow)}
+.rr img.is-ready{opacity:1}
+.rr:hover img{transform:scale(1)}
+
+/* El filtro: se va encogiendo, no desaparece de un corte. */
+.rr.is-out{opacity:0;transform:translateY(8px);
+  flex-basis:0;min-width:0;pointer-events:none;
+  margin:0;overflow:hidden}
+
+/* El nombre, con el filete que se dibuja — igual que .link. */
+.rr-name{position:relative;display:inline-block}
+.rr-name::after{content:"";position:absolute;left:0;bottom:-.28rem;
+  width:100%;height:1px;background:currentColor;opacity:.55;
+  transform:scaleX(0);transform-origin:left;
+  transition:transform .55s var(--slow)}
+.rr:hover .rr-name::after{transform:scaleX(1)}
+/* Y la ficha entera se aclara un punto, para que la que se mira
+   sea la que se ve. */
+.roomreel:hover .rr{opacity:.62}
+.roomreel:hover .rr:hover{opacity:1}
+@media (hover:none){.roomreel:hover .rr{opacity:1}}
+
+
+/* ══ LA DESCRIPCION AL PASAR POR ENCIMA ═════════════════════════
+   Dos renglones que dicen que es esa habitacion. Estaban en la
+   interna y en ningun otro sitio, asi que para saber cual era cual
+   habia que abrir las veinticuatro.
+
+   Entra empujando el nombre hacia arriba en vez de taparlo: el
+   nombre no se mueve de sitio, se levanta — es la misma pieza con
+   mas cuerpo, no dos estados distintos.                        */
+.rr-note{display:grid;grid-template-rows:0fr;
+  opacity:0;margin-top:0;
+  transition:grid-template-rows .6s var(--slow),opacity .5s var(--ease),
+             margin-top .6s var(--slow)}
+.rr-note > span{overflow:hidden;
+  font-size:.88rem;line-height:1.6;font-weight:300;
+  color:rgba(248,248,240,.78);max-width:34ch}
+.rr:hover .rr-note{grid-template-rows:1fr;opacity:1;margin-top:.55rem}
+/* Sin raton no hay over: la descripcion se queda puesta. */
+@media (hover:none){
+  .rr-note{grid-template-rows:1fr;opacity:1;margin-top:.55rem}
+}
+
+/* Y el velo se cierra un punto cuando hay texto que leer. */
+.rr::after{transition:opacity .6s var(--ease)}
+.rr:hover::after{opacity:1}
+
+
+/* ══ L20 · LA FICHA DE HABITACION ═══════════════════════════════
+   La estructura de Galleria VIK, en la lengua de la v2: portada
+   con su tira de tomas, miga, cabecera, datos, descripcion,
+   dotacion, y el mostrador pegado al costado mientras se lee.
+
+   Casi todo lo pone la biblioteca que ya existe — .ghero para la
+   portada, .crumb para la miga, .specbar para los datos, .incl
+   para la dotacion, .ovl para la ampliacion. Lo unico propio es
+   esta reja de dos columnas, porque una ficha de producto se lee
+   con el precio a la vista.
+
+   GESTO · el mostrador no baja con la pagina: se queda. Es lo que
+   convierte una ficha en algo que se puede cerrar.             */
+.roomdoc{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);
+  gap:clamp(2.5rem,6vw,6rem);max-width:var(--max);margin:0 auto;
+  align-items:start}
+.roomdoc-main{min-width:0}
+
+/* ── La cabecera de la ficha ──────────────────────────────── */
+.room-head{padding-bottom:clamp(1.6rem,3vw,2.4rem);
+  border-bottom:1px solid var(--hair)}
+.room-cat{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:var(--i-40)}
+.room-t{font-family:"Old Standard VIK",Georgia,serif;font-weight:400;
+  font-size:clamp(1.9rem,4.4vw,3.4rem);line-height:1;letter-spacing:-.026em;
+  margin:1.1rem 0 0}
+.room-t em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.room-lede{margin-top:1.3rem;max-width:58ch;
+  font-size:1rem;line-height:1.8;font-weight:300;color:var(--i-55)}
+
+/* ── Un capitulo dentro de la ficha ───────────────────────── */
+.room-sec{margin-top:clamp(2.4rem,5vw,4rem)}
+.room-sec > .kicker{display:block;padding-bottom:1.1rem;
+  border-bottom:1px solid var(--hair)}
+
+/* ── El mostrador del costado ─────────────────────────────────
+   Pegado bajo la barra mientras dura la lectura. Filetes y no
+   caja: el sistema no tiene cajas.                            */
+.roomdoc-aside{position:sticky;top:calc(var(--nav-h) + 1.5rem);
+  border-top:1px solid var(--ink);padding-top:1.4rem}
+.roomdoc-aside .ask{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.15rem,2vw,1.5rem);line-height:1.14}
+.roomdoc-form{margin-top:1.4rem}
+.roomdoc-form .f{display:flex;flex-direction:column;gap:.4rem;
+  padding:.95rem 0;border-bottom:1px solid var(--hair)}
+.roomdoc-form .f label{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;color:var(--i-40)}
+.roomdoc-form .f input,.roomdoc-form .f select{width:100%;
+  background:none;border:0;color:inherit;
+  font-family:"DM Sans",sans-serif;font-size:.98rem;font-weight:300}
+.roomdoc-form .f :focus{outline:none}
+.roomdoc-form .f:focus-within{border-bottom-color:var(--vik)}
+.roomdoc-form .pill{width:100%;justify-content:center;margin-top:1.5rem}
+.roomdoc-note{margin-top:1.2rem;
+  font-family:"Apercu Mono Pro","Courier New",monospace;
+  font-size:.72rem;line-height:1.65;color:var(--i-40)}
+
+@media (max-width:1024px){
+  .roomdoc{grid-template-columns:1fr}
+  .roomdoc-aside{position:static;margin-top:clamp(2.5rem,5vw,4rem)}
+}
+
+
+/* El wordmark del pie ya viene blanco: el filtro que lo invertia
+   sobraba, y era el que lo mandaba a una capa propia y le comia
+   los cantos. */
+.footer-mark img{filter:none}

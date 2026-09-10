@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- ==================================================================
+     ROOM . VIK JOSE IGNACIO
+     ------------------------------------------------------------------
+     Una habitacion, en claro.
+
+     LA RESTRICCION QUE DEFINE EL DISENO
+     Cincuenta de las cincuenta y cinco habitaciones tienen UNA sola
+     fotografia. El maximo son dos. Cualquier maqueta con tira de
+     miniaturas y "ver todas" -- la de Galleria VIK Milano, la que
+     tenia esta pagina -- se queda vacia cincuenta veces de cincuenta
+     y cinco: una foto chica flotando en una caja con hueco al lado.
+
+     Asi que la pagina se hizo para lo que hay. Una foto, grande, y
+     alrededor tipografia y aire. Es un pliego de revista, no una
+     galeria: el peso lo lleva la imagen unica y la escala del nombre.
+
+     Y en claro. Una foto sola sobre tinta pesa y deja la pagina medio
+     vacia; sobre hueso el mismo material se lee como papel.
+
+     LA LAMINA SE MIDE CONTRA SU ORIGEN
+     Diecisiete fotos solo existen a 480px de ancho. Estirarlas a mil
+     doscientos es publicarlas borrosas. Asi que la lamina no tiene un
+     ancho fijo: lo toma de la derivada mas grande que existe para esa
+     foto. Una habitacion bien fotografiada abre a pliego completo; una
+     que solo tiene un archivo chico abre mas contenida y con mas
+     margen. Ninguna de las dos sale mal, y la diferencia se lee como
+     una decision.
+
+     ESTRUCTURA
+       la portada ......... el pliego: nombre a la izquierda, lamina a
+                            la derecha, alto de ventana
+       los datos .......... M32 specbar a sangre
+       la prosa ........... una medida editorial y nada mas
+       la segunda foto .... banda, solo si existe; si no, la cita
+       lo que incluye ..... M33
+       la reserva ......... el cierre, en claro
+       antes de reservar .. M17
+       las otras .......... M14, el riel de habitaciones
+
+     LOS DATOS SALEN DE UN SOLO SITIO
+       window.VIK_ROOMS, al pie . 55 habitaciones . ?r=<casa>/<slug>
+     ================================================================== -->
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#F8F8F0">
+<meta name="author" content="Nicol\u00e1s Castillo">
+<meta name="designer" content="Nicol\u00e1s Castillo \u00b7 @donhkoland">
+<meta name="copyright" content="VIK Retreats">
+<title>Room \u00b7 VIK Jos\u00e9 Ignacio</title>
+<meta name="description" content="One room at VIK Jos\u00e9 Ignacio \u2014 the photograph, the dimensions, what is included and the house it belongs to.">
+<style>
+/* == LA PAGINA EN CLARO ==========================================
+   El sistema esta dibujado sobre tinta y todo lo que hay debajo
+   hereda color, no lo declara. Cambiar el suelo del documento
+   alcanza para que M32, M33, M35 y el acordeon vengan en tinta sin
+   una sola regla de excepcion -- para eso se escribieron heredando.
+   ================================================================ */
+body{background:var(--bone);color:var(--ink)}
+
+/* La barra no puede seguir en blanco sobre papel. */
+.nav .nav-mark,.nav .nav-tag,.nav .nav-link,.nav .lang-btn{color:var(--ink)}
+.nav .menu-toggle span{background:var(--ink)}
+.nav-logo{filter:brightness(0)}
+.nav.scrolled{background:rgba(248,248,240,.94);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--line-dark)}
+body.menu-open .nav .menu-toggle span{background:#fff}
+
+/* == EL PLIEGO ===================================================
+   Alto de ventana, dos columnas: el nombre a la izquierda con todo
+   el aire que pide un titulo de portada, la lamina a la derecha.
+   Asimetrico a proposito -- centrado seria un catalogo.
+   ================================================================ */
+/* La lamina sangra por el borde derecho. Encajada en la medida
+   quedaba en 528px de ancho: una postal con un titulo enorme al lado.
+   Rompiendo el margen exterior la fotografia recupera el peso que
+   tiene que tener cuando es la unica que hay, y el pliego se lee como
+   pliego y no como ficha. */
+.rm-open{min-height:100vh;display:grid;
+  grid-template-columns:minmax(0,.74fr) minmax(0,1.26fr);
+  align-items:center;gap:clamp(2rem,5vw,5rem);
+  padding:calc(var(--pad-y) + 4rem) 0 var(--pad-y) var(--pad-x)}
+
+.rm-say{display:flex;flex-direction:column;gap:1.5rem;min-width:0;
+  max-width:44ch}
+.rm-crumb{margin-bottom:.5rem}
+.rm-eyebrow{display:flex;flex-wrap:wrap;align-items:baseline;gap:.7rem;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+  letter-spacing:.22em;text-transform:uppercase;color:rgba(30,30,30,.62)}
+.rm-eyebrow .dot{opacity:.4}
+
+/* El nombre entra letra por letra, y ese es todo el movimiento que
+   se permite arriba: lo demas ya se mueve al bajar. */
+.rm-name{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(2.6rem,6.4vw,5.6rem);line-height:.98;letter-spacing:-.02em;
+  color:var(--ink)}
+.rm-name .l{display:inline-block;opacity:0;transform:translateY(.42em);
+  transition:opacity .7s var(--slow),transform .8s var(--slow)}
+.rm-open.is-in .rm-name .l{opacity:1;transform:none}
+.rm-place{font-size:1.02rem;line-height:1.7;font-weight:300;
+  color:rgba(30,30,30,.72);max-width:34ch}
+.rm-acts{display:flex;flex-wrap:wrap;gap:1.5rem;align-items:center;margin-top:.5rem}
+
+/* -- la lamina ---------------------------------------------------
+   El ancho lo pone --plate, que el script calcula desde la derivada
+   mas grande que existe. La proporcion la decide la foto: object-fit
+   cover dentro de una caja alta, que es como se publica una
+   habitacion. */
+.rm-plate{position:relative;width:100%}
+/* Alto de ventana menos la barra. La foto cubre: un original vertical
+   se recorta, no se deforma, y a esta escala el recorte es la
+   decision correcta -- lo que interesa de una habitacion es el aire
+   que tiene, no sus cuatro esquinas. */
+.rm-plate__f{position:relative;overflow:hidden;background:rgba(30,30,30,.06);
+  height:min(76vh,760px)}
+.rm-plate img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  transform:scale(1.06);opacity:0;
+  transition:opacity 1.1s var(--ease),transform 1.9s var(--slow)}
+.rm-open.is-in .rm-plate img{opacity:1;transform:scale(1)}
+/* La cortina sube y descubre la foto. Un solo elemento, una sola
+   transformacion: el navegador no compone nada mas que esto. */
+.rm-plate__f::after{content:"";position:absolute;inset:0;z-index:2;
+  background:var(--bone);transform-origin:bottom;
+  transition:transform 1.05s var(--slow)}
+.rm-open.is-in .rm-plate__f::after{transform:scaleY(0)}
+/* Diecisiete fotos solo existen a 480px. Estirarlas a 800 de ancho
+   es publicarlas blandas, asi que en ese caso la lamina se achica y
+   gana margen: la pagina sigue siendo la misma, la foto se ve bien. */
+.rm-small-src .rm-plate__f{height:min(62vh,600px);
+  max-width:620px;margin-left:auto}
+.rm-plate__n{position:absolute;top:1rem;left:1.1rem;z-index:3;
+  font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.68rem;
+  color:#fff;mix-blend-mode:difference}
+.rm-plate__c{display:flex;align-items:baseline;justify-content:space-between;
+  gap:1rem;padding-top:.85rem;
+  font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+  letter-spacing:.22em;text-transform:uppercase;color:rgba(30,30,30,.5)}
+.rm-plate__zoom{min-height:44px;display:inline-flex;align-items:center;
+  border-bottom:1px solid currentColor;padding-bottom:2px;
+  transition:color .25s var(--ease)}
+.rm-plate__zoom:hover{color:var(--vik)}
+
+/* == LOS DATOS, A SANGRE =========================================
+   La ficha tecnica deja de ser una caja dentro de la medida y pasa a
+   cruzar la pagina. Seis datos sobre lienzo: es lo primero que se
+   compara entre habitaciones y merece el ancho entero.
+   ================================================================ */
+.rm-facts{position:relative;left:50%;right:50%;width:var(--vw,100vw);
+  margin-left:calc(var(--vw,100vw) / -2);margin-right:calc(var(--vw,100vw) / -2);
+  background:var(--canvas);color:var(--ink);
+  border-top:1px solid var(--line-dark);border-bottom:1px solid var(--line-dark);
+  padding:clamp(2rem,4vw,3rem) var(--pad-x)}
+.rm-facts .specbar{max-width:var(--max);margin:0 auto}
+
+/* == LA PROSA ====================================================
+   Una medida y nada mas. La primera linea entra mas grande porque es
+   la que decide si se sigue leyendo.
+   ================================================================ */
+.rm-prose{max-width:var(--max);margin:0 auto;
+  padding:clamp(3.5rem,8vw,6.5rem) var(--pad-x);
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.45fr);
+  gap:clamp(2rem,5vw,5rem);align-items:start}
+.rm-prose__k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(30,30,30,.5)}
+.rm-prose__b{display:flex;flex-direction:column;gap:1.5rem}
+.rm-lede{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.3rem,2.3vw,1.85rem);line-height:1.35;letter-spacing:-.01em;
+  color:var(--ink);max-width:32ch}
+.rm-copy{font-size:1rem;line-height:1.85;font-weight:300;
+  color:rgba(30,30,30,.74);max-width:62ch}
+.rm-fine{font-size:.9rem;line-height:1.8;font-weight:300;
+  color:rgba(30,30,30,.55);max-width:62ch;
+  padding-top:1.4rem;border-top:1px solid var(--line-dark)}
+
+/* == LA SEGUNDA FOTO, O LA CITA ================================== */
+.rm-band{position:relative;left:50%;right:50%;width:var(--vw,100vw);
+  margin-left:calc(var(--vw,100vw) / -2);margin-right:calc(var(--vw,100vw) / -2);
+  height:min(72vh,680px);overflow:hidden;background:rgba(30,30,30,.06)}
+.rm-band img{width:100%;height:100%;object-fit:cover;display:block;
+  transform:scale(1.04)}
+
+/* == BLOQUES EN CLARO ============================================ */
+.rm-block{max-width:var(--max);margin:0 auto;
+  padding:clamp(3.5rem,8vw,6rem) var(--pad-x)}
+.rm-h{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;font-size:9.3px;
+  letter-spacing:.22em;text-transform:uppercase;color:rgba(30,30,30,.5);
+  display:block;padding-bottom:1rem;margin-bottom:2rem;
+  border-bottom:1px solid var(--line-dark)}
+
+/* == LA RESERVA ================================================== */
+.rm-book{background:var(--canvas);color:var(--ink);
+  border-top:1px solid var(--line-dark)}
+.rm-book__in{max-width:var(--max);margin:0 auto;
+  padding:clamp(3.5rem,8vw,6rem) var(--pad-x);
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.8fr);
+  gap:clamp(2rem,5vw,4.5rem);align-items:start}
+.rm-book__t{font-family:"Old Standard VIK",Georgia,serif;
+  font-size:clamp(1.8rem,3.4vw,2.8rem);line-height:1.08;letter-spacing:-.015em;
+  margin-top:1.2rem;max-width:18ch}
+.rm-book__t em{font-family:"Selva Script",Georgia,serif;font-style:normal}
+.rm-book__rows{display:flex;flex-direction:column;margin-top:2rem;max-width:34rem}
+.rm-book__row{display:flex;align-items:baseline;justify-content:space-between;
+  gap:1.25rem;padding:.78rem 0;border-top:1px solid var(--line-dark)}
+.rm-book__row .k{font-family:"Highway Gothic Expanded","Arial Narrow",sans-serif;
+  font-size:9.3px;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(30,30,30,.55);white-space:nowrap}
+.rm-book__row .v{font-family:"Old Standard VIK",Georgia,serif;font-size:1.05rem;
+  text-align:right}
+.rm-desk{display:flex;flex-direction:column;gap:1.1rem;
+  padding:clamp(1.6rem,3vw,2.1rem);border:1px solid var(--line-dark);
+  background:var(--bone)}
+.rm-desk p{font-size:.9rem;line-height:1.7;font-weight:300;color:rgba(30,30,30,.66)}
+.rm-desk .btn-solid{width:100%;justify-content:center}
+.rm-desk__fine{font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.68rem;
+  line-height:1.6;color:rgba(30,30,30,.5)}
+
+/* == LA LUPA ===================================================== */
+.rm-lb{position:fixed;inset:0;z-index:7400;display:flex;align-items:center;
+  justify-content:center;padding:clamp(1rem,4vw,3rem);background:rgba(20,19,18,.94);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  opacity:0;pointer-events:none;transition:opacity .4s var(--ease)}
+.rm-lb.is-open{opacity:1;pointer-events:auto}
+.rm-lb figure{position:relative;max-width:min(1400px,94vw);max-height:88vh;
+  transform:scale(.985);transition:transform .45s var(--slow)}
+.rm-lb.is-open figure{transform:none}
+.rm-lb img{max-width:100%;max-height:88vh;width:auto;height:auto;display:block}
+.rm-lb__x{position:absolute;top:-3.2rem;right:0;width:44px;height:44px;
+  display:flex;align-items:center;justify-content:center;color:var(--bone);font-size:1.1rem}
+.rm-lb__c{position:absolute;left:0;bottom:-2.5rem;
+  font-family:"Apercu Mono Pro","Courier New",monospace;font-size:.72rem;
+  color:rgba(248,248,240,.6)}
+.rm-lb__nav{position:absolute;right:0;bottom:-2.7rem;display:flex;gap:.5rem}
+.rm-lb__nav button{width:44px;height:44px;display:flex;align-items:center;
+  justify-content:center;border:1px solid rgba(248,248,240,.28);color:var(--bone);
+  transition:background .25s var(--ease),color .25s var(--ease)}
+.rm-lb__nav button:hover{background:var(--bone);color:var(--ink)}
+
+@media (max-width:1024px){
+  .rm-open{grid-template-columns:1fr;min-height:0;
+    padding:calc(var(--pad-y) + 5rem) var(--pad-x) var(--pad-y);gap:2.5rem}
+  .rm-say{max-width:none}
+  .rm-plate__f{height:min(64vh,560px)}
+  .rm-small-src .rm-plate__f{max-width:none;height:min(58vh,480px)}
+  .rm-prose,.rm-book__in{grid-template-columns:1fr}
+  .rm-band{height:min(56vh,480px)}
+}
+@media (prefers-reduced-motion:reduce){
+  .rm-name .l,.rm-plate img,.rm-plate__f::after,.rm-lb,.rm-lb figure{transition:none}
+  .rm-plate img{opacity:1;transform:none}
+  .rm-plate__f::after{transform:scaleY(0)}
+}
+</style>
+<link rel="stylesheet" href="../_core/leaflet.min.css">
+<link rel="stylesheet" href="../_core/vik-v2.min.css?v=1">
+<link rel="stylesheet" href="../_core/vik-v2-lib.min.css?v=2">
+</head>
+<body data-site="destination">
+
+<div data-vik-chrome data-page="stay" data-logo="ji"></div>
+
+<main id="main">
+
+  <!-- el pliego -->
+  <section class="rm-open" id="rmOpen">
+    <div class="rm-say">
+      <nav class="crumb rm-crumb" aria-label="Breadcrumb" id="rmCrumb"></nav>
+      <span class="rm-eyebrow" id="rmEyebrow"></span>
+      <h1 class="rm-name" id="rmName"></h1>
+      <p class="rm-place" id="rmPlace"></p>
+      <div class="rm-acts">
+        <a class="btn-solid" href="#book"><span>Check availability</span><span class="arw">&#8594;</span></a>
+        <a class="btn-line" href="#others"><span>The other rooms</span><span class="arw">&#8594;</span></a>
+      </div>
+    </div>
+
+    <figure class="rm-plate" id="rmPlate">
+      <div class="rm-plate__f">
+        <span class="rm-plate__n" id="rmPlateN">01</span>
+        <img id="rmPlateImg" alt="">
+      </div>
+      <figcaption class="rm-plate__c">
+        <span id="rmPlateCap"></span>
+        <button class="rm-plate__zoom" type="button" id="rmZoom">View full</button>
+      </figcaption>
+    </figure>
+  </section>
+
+  <!-- los datos -->
+  <div class="rm-facts">
+    <div class="specbar r" role="list" id="rmSpecs"></div>
+  </div>
+
+  <!-- la prosa -->
+  <section class="rm-prose">
+    <span class="rm-prose__k r">The room</span>
+    <div class="rm-prose__b r d1">
+      <p class="rm-lede" id="rmLede"></p>
+      <p class="rm-copy" id="rmCopy"></p>
+      <p class="rm-fine">Every room at VIK is individual. What is reserved is the room type,
+        not the individual room, unless one is named on the confirmation &mdash; which the
+        reservations team is glad to do.</p>
+    </div>
+  </section>
+
+  <!-- la segunda foto, si existe -->
+  <div class="rm-band r" id="rmBand" hidden><img id="rmBandImg" alt="" loading="lazy"></div>
+
+  <!-- lo que incluye -->
+  <section class="rm-block">
+    <span class="rm-h r">In this room</span>
+    <div class="incl r d1" role="list">
+      <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Breakfast, served until eleven</span></div>
+      <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>An original work, commissioned for the room</span></div>
+      <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Wine from Vi\u00f1a VIK on arrival</span></div>
+      <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Wi-Fi throughout the house</span></div>
+      <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Daily housekeeping, turned down at dusk</span></div>
+      <div class="incl__row" role="listitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 12.5l5.5 5.5L20 6.5"/></svg><span>Your Journey Designer, from the first message</span></div>
+    </div>
+  </section>
+
+  <!-- la reserva -->
+  <section class="rm-book" id="book">
+    <div class="rm-book__in">
+      <div class="r">
+        <span class="ui-label text-vik">Reserve</span>
+        <h2 class="rm-book__t">Booked direct is the <em>best rate</em>.</h2>
+        <div class="rm-book__rows" id="rmBookRows"></div>
+      </div>
+      <div class="rm-desk r d1">
+        <span class="ui-label" style="opacity:.6">This room</span>
+        <p>Rates vary by season and by house. The Journey Designer is included in the
+          direct rate, and answers before you travel rather than on the day.</p>
+        <a class="btn-solid" href="https://vikjoseignacio.bookassist.com/" target="_blank" rel="noopener"><span>Check availability</span><span class="arw">&#8594;</span></a>
+        <a class="btn-line" href="../contact/#journey"><span>Ask a Journey Designer</span><span class="arw">&#8594;</span></a>
+        <p class="rm-desk__fine">Direct rate \u00b7 free cancellation on selected rates \u00b7
+          answered within 24 hours, every day.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- antes de reservar -->
+  <section class="rm-block">
+    <span class="rm-h r">Before you book</span>
+    <div class="accordion r d1">
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Check-in and check-out<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">Check-in from 15:00, check-out by 12:00. Early arrival and late departure can usually be arranged &mdash; ask before travelling rather than on the day.</div></div></div>
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Children<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">Children are welcome in every house. Share their ages before arrival so the room, the beds and the dining are arranged around them rather than adjusted on the day.</div></div></div>
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Cancellation<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">Terms vary by season and by house; peak season carries a longer notice period. The direct rate is the best available and includes the Journey Designer.</div></div></div>
+      <div class="acc-item"><button class="acc-head" type="button" aria-expanded="false">Accessibility<span class="acc-sign"></span></button><div class="acc-body"><div class="acc-body-inner">The terrain differs a great deal between the dunes, the point and the countryside. Tell us what you need and we will match you to the right house and the right room, not the nearest one.</div></div></div>
+    </div>
+  </section>
+
+  <!-- las otras, M14 -->
+  <section class="rm-block" id="others" style="padding-bottom:0">
+    <span class="rm-h r" id="rmOthersH">The same house</span>
+  </section>
+  <div class="roomreel" data-rooms tabindex="0" aria-label="Other rooms" id="rmReel">
+    <div class="roomreel-bar" role="tablist" aria-label="Filter rooms"></div>
+    <div class="roomreel-track" id="rmReelTrack"></div>
+  </div>
+
+</main>
+
+<div class="rm-lb" id="rmLb" role="dialog" aria-modal="true" aria-hidden="true" aria-label="Photograph">
+  <figure>
+    <button class="rm-lb__x" type="button" id="rmLbX" aria-label="Close">&#10005;</button>
+    <img id="rmLbImg" alt="">
+    <figcaption class="rm-lb__c" id="rmLbC"></figcaption>
+    <div class="rm-lb__nav">
+      <button type="button" id="rmLbP" aria-label="Previous"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.2"/></svg></button>
+      <button type="button" id="rmLbN" aria-label="Next"><svg viewBox="0 0 24 24" width="15" height="15" fill="none"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.2"/></svg></button>
+    </div>
+  </figure>
+</div>
+
+<div data-vik-footer></div>
+
+<script>
+window.VIK_BASE = "../_assets/";
+</script>
+<script>
+window.VIK_ROOMS = {"bahia/quincha":{"house":"bahia","slug":"quincha","name":"Quincha","shots":[{"file":"quincha-01.jpg","w":[480]},{"file":"quincha-02.jpg","w":[480]}],"group":"Bungalow","copy":"Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.","specs":[["Bedrooms","2 – 5"],["Guests","Up to 10"],["Bathrooms","One per bedroom"],["Outside","Private deck"],["Setting","The dune"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/chapa-azul":{"house":"bahia","slug":"chapa-azul","name":"Chapa Azul","shots":[{"file":"chapa-azul-01.jpg","w":[480]}],"group":"Bungalow","copy":"Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.","specs":[["Bedrooms","2 – 5"],["Guests","Up to 10"],["Bathrooms","One per bedroom"],["Outside","Private deck"],["Setting","The dune"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/greek":{"house":"bahia","slug":"greek","name":"Greek","shots":[{"file":"greek-01.jpg","w":[480,900,1600]}],"group":"Bungalow","copy":"Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.","specs":[["Bedrooms","2 – 5"],["Guests","Up to 10"],["Bathrooms","One per bedroom"],["Outside","Private deck"],["Setting","The dune"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/azulejos":{"house":"bahia","slug":"azulejos","name":"Azulejos","shots":[{"file":"azulejos-01.jpg","w":[480,900,1600]}],"group":"Bungalow","copy":"Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.","specs":[["Bedrooms","2 – 5"],["Guests","Up to 10"],["Bathrooms","One per bedroom"],["Outside","Private deck"],["Setting","The dune"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/comporta":{"house":"bahia","slug":"comporta","name":"Comporta","shots":[{"file":"comporta-01.jpg","w":[480,900,1600]}],"group":"Bungalow","copy":"Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.","specs":[["Bedrooms","2 – 5"],["Guests","Up to 10"],["Bathrooms","One per bedroom"],["Outside","Private deck"],["Setting","The dune"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/ryokan":{"house":"bahia","slug":"ryokan","name":"Ryokan","shots":[{"file":"ryokan-01.jpg","w":[480,900,1600]}],"group":"Bungalow","copy":"Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.","specs":[["Bedrooms","2 – 5"],["Guests","Up to 10"],["Bathrooms","One per bedroom"],["Outside","Private deck"],["Setting","The dune"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/adobe":{"house":"bahia","slug":"adobe","name":"Adobe","shots":[{"file":"adobe-01.jpg","w":[480]}],"group":"Bungalow","copy":"Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.","specs":[["Bedrooms","2 – 5"],["Guests","Up to 10"],["Bathrooms","One per bedroom"],["Outside","Private deck"],["Setting","The dune"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/titanio":{"house":"bahia","slug":"titanio","name":"Titanio","shots":[{"file":"titanio-01.jpg","w":[480]}],"group":"Bungalow","copy":"Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.","specs":[["Bedrooms","2 – 5"],["Guests","Up to 10"],["Bathrooms","One per bedroom"],["Outside","Private deck"],["Setting","The dune"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/vidrio":{"house":"bahia","slug":"vidrio","name":"Vidrio","shots":[{"file":"vidrio-01.jpg","w":[480]}],"group":"Bungalow","copy":"Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.","specs":[["Bedrooms","2 – 5"],["Guests","Up to 10"],["Bathrooms","One per bedroom"],["Outside","Private deck"],["Setting","The dune"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/zinc-marron":{"house":"bahia","slug":"zinc-marron","name":"Zinc Marrón","shots":[{"file":"zinc-marron-01.jpg","w":[480]}],"group":"Bungalow","copy":"Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.","specs":[["Bedrooms","2 – 5"],["Guests","Up to 10"],["Bathrooms","One per bedroom"],["Outside","Private deck"],["Setting","The dune"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/piedra":{"house":"bahia","slug":"piedra","name":"Piedra","shots":[{"file":"piedra-01.jpg","w":[480]}],"group":"Bungalow","copy":"Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.","specs":[["Bedrooms","2 – 5"],["Guests","Up to 10"],["Bathrooms","One per bedroom"],["Outside","Private deck"],["Setting","The dune"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/madera":{"house":"bahia","slug":"madera","name":"Madera","shots":[{"file":"madera-01.jpg","w":[480]}],"group":"Bungalow","copy":"Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.","specs":[["Bedrooms","2 – 5"],["Guests","Up to 10"],["Bathrooms","One per bedroom"],["Outside","Private deck"],["Setting","The dune"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/corten":{"house":"bahia","slug":"corten","name":"Corten","shots":[{"file":"corten-01.jpg","w":[480]}],"group":"Bungalow","copy":"Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.","specs":[["Bedrooms","2 – 5"],["Guests","Up to 10"],["Bathrooms","One per bedroom"],["Outside","Private deck"],["Setting","The dune"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/zinc-negro":{"house":"bahia","slug":"zinc-negro","name":"Zinc Negro","shots":[{"file":"zinc-negro-01.jpg","w":[480]}],"group":"Bungalow","copy":"Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.","specs":[["Bedrooms","2 – 5"],["Guests","Up to 10"],["Bathrooms","One per bedroom"],["Outside","Private deck"],["Setting","The dune"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/duna":{"house":"bahia","slug":"duna","name":"Duna","shots":[{"file":"duna-01.jpg","w":[480]}],"group":"Bungalow","copy":"Fifteen bungalows stand in the dune, each built in a different material and named for it. Two bedrooms and a living area as a rule, some of three, four and five, every bedroom with its own bathroom.","specs":[["Bedrooms","2 – 5"],["Guests","Up to 10"],["Bathrooms","One per bedroom"],["Outside","Private deck"],["Setting","The dune"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/patrone":{"house":"bahia","slug":"patrone","name":"Patrone","shots":[{"file":"patrone-01.jpg","w":[480]},{"file":"patrone-02.jpg","w":[480]}],"group":"Suite","copy":"Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.","specs":[["Size","45 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["View","Garden and ocean"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/juan-manuel":{"house":"bahia","slug":"juan-manuel","name":"Juan Manuel","shots":[{"file":"juan-manuel-01.jpg","w":[480]}],"group":"Suite","copy":"Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.","specs":[["Size","45 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["View","Garden and ocean"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/escardo":{"house":"bahia","slug":"escardo","name":"Escardo","shots":[{"file":"escardo-01.jpg","w":[480]}],"group":"Suite","copy":"Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.","specs":[["Size","45 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["View","Garden and ocean"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/eva":{"house":"bahia","slug":"eva","name":"Eva","shots":[{"file":"eva-01.jpg","w":[480,900,1600]}],"group":"Suite","copy":"Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.","specs":[["Size","45 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["View","Garden and ocean"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/burgos":{"house":"bahia","slug":"burgos","name":"Burgos","shots":[{"file":"burgos-01.jpg","w":[480,900,1600]}],"group":"Suite","copy":"Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.","specs":[["Size","45 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["View","Garden and ocean"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/pemper":{"house":"bahia","slug":"pemper","name":"Pemper","shots":[{"file":"pemper-01.jpg","w":[480,900,1600]}],"group":"Suite","copy":"Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.","specs":[["Size","45 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["View","Garden and ocean"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/lopez-lage":{"house":"bahia","slug":"lopez-lage","name":"Lopez Lage","shots":[{"file":"lopez-lage-01.jpg","w":[480,900,1600]}],"group":"Suite","copy":"Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.","specs":[["Size","45 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["View","Garden and ocean"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/guerra":{"house":"bahia","slug":"guerra","name":"Guerra","shots":[{"file":"guerra-01.jpg","w":[480,900]}],"group":"Suite","copy":"Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.","specs":[["Size","45 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["View","Garden and ocean"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"bahia/rita":{"house":"bahia","slug":"rita","name":"Rita","shots":[{"file":"rita-01.jpg","w":[480,900,1600]}],"group":"Suite","copy":"Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.","specs":[["Size","45 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["View","Garden and ocean"],["House","Bahía VIK"]],"houseName":"Bahía VIK","houseHref":"../bahia-vik/","place":"In the dunes of Playa Mansa"},"playa/exodus":{"house":"playa","slug":"exodus","name":"Exodus","shots":[{"file":"exodus-01.jpg","w":[480,900,1600]}],"group":"Garden view · living area","copy":"A bedroom and its own living space, opening straight into the private garden through a retractable wall.","specs":[["Guests","Up to 3"],["Bed","King-size"],["Living","Private"],["Bathroom","Ensuite"],["Outside","Private garden"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/damas":{"house":"playa","slug":"damas","name":"Damas","shots":[{"file":"damas-01.jpg","w":[480,900,1600]}],"group":"Garden view · living area","copy":"A bedroom and its own living space, opening straight into the private garden through a retractable wall.","specs":[["Guests","Up to 3"],["Bed","King-size"],["Living","Private"],["Bathroom","Ensuite"],["Outside","Private garden"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/ola":{"house":"playa","slug":"ola","name":"Ola","shots":[{"file":"ola-01.jpg","w":[480,900,1600]}],"group":"Garden view · living area","copy":"A bedroom and its own living space, opening straight into the private garden through a retractable wall.","specs":[["Guests","Up to 3"],["Bed","King-size"],["Living","Private"],["Bathroom","Ensuite"],["Outside","Private garden"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/cardozo":{"house":"playa","slug":"cardozo","name":"Cardozo","shots":[{"file":"cardozo-01.jpg","w":[480,900,1600]}],"group":"Garden view","copy":"Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.","specs":[["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Outside","Private garden"],["Roof","Living, planted"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/ryokan":{"house":"playa","slug":"ryokan","name":"Ryokan","shots":[{"file":"ryokan-01.jpg","w":[480,900,1600]}],"group":"Garden view","copy":"Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.","specs":[["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Outside","Private garden"],["Roof","Living, planted"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/zen":{"house":"playa","slug":"zen","name":"Zen","shots":[{"file":"zen-01.jpg","w":[480,900,1600]}],"group":"Garden view","copy":"Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.","specs":[["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Outside","Private garden"],["Roof","Living, planted"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/imbuya":{"house":"playa","slug":"imbuya","name":"Imbuya","shots":[{"file":"imbuya-01.jpg","w":[480,900,1600]}],"group":"Garden view","copy":"Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.","specs":[["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Outside","Private garden"],["Roof","Living, planted"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/olmo":{"house":"playa","slug":"olmo","name":"Olmo","shots":[{"file":"olmo-01.jpg","w":[480,900,1600]}],"group":"Garden view","copy":"Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.","specs":[["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Outside","Private garden"],["Roof","Living, planted"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/canoa":{"house":"playa","slug":"canoa","name":"Canoa","shots":[{"file":"canoa-01.jpg","w":[480,900,1600]}],"group":"Garden view","copy":"Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.","specs":[["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Outside","Private garden"],["Roof","Living, planted"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/sycamore":{"house":"playa","slug":"sycamore","name":"Sycamore","shots":[{"file":"sycamore-01.jpg","w":[480,900,1600]}],"group":"Garden view","copy":"Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.","specs":[["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Outside","Private garden"],["Roof","Living, planted"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/lule":{"house":"playa","slug":"lule","name":"Lule","shots":[{"file":"lule-01.jpg","w":[480,900,1600]}],"group":"Garden view","copy":"Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.","specs":[["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Outside","Private garden"],["Roof","Living, planted"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/mansa":{"house":"playa","slug":"mansa","name":"Mansa","shots":[{"file":"mansa-01.jpg","w":[480,900,1600]}],"group":"Garden view","copy":"Rooms opening onto the planted roofscape, quiet and entirely private, under living roofs of rayitos del sol.","specs":[["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Outside","Private garden"],["Roof","Living, planted"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/valentina-suite":{"house":"playa","slug":"valentina-suite","name":"Valentina Suite","shots":[{"file":"valentina-suite-01.jpg","w":[480,900,1600]}],"group":"Ocean view suite","copy":"Suites within the Sculpture, under the double-curved titanium roof, facing the water with Patagonian ebony floors running out to the terrace.","specs":[["Guests","Up to 2"],["Bed","King-size"],["Floors","Patagonian ebony"],["Bathroom","Ensuite"],["View","Playa Mansa"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/fuerteventura-suite":{"house":"playa","slug":"fuerteventura-suite","name":"Fuerteventura Suite","shots":[{"file":"fuerteventura-suite-01.jpg","w":[480,900]}],"group":"Ocean view suite","copy":"Suites within the Sculpture, under the double-curved titanium roof, facing the water with Patagonian ebony floors running out to the terrace.","specs":[["Guests","Up to 2"],["Bed","King-size"],["Floors","Patagonian ebony"],["Bathroom","Ensuite"],["View","Playa Mansa"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/caras-suite":{"house":"playa","slug":"caras-suite","name":"Caras Suite","shots":[{"file":"caras-suite-01.jpg","w":[480,900,1600]}],"group":"Ocean view suite","copy":"Suites within the Sculpture, under the double-curved titanium roof, facing the water with Patagonian ebony floors running out to the terrace.","specs":[["Guests","Up to 2"],["Bed","King-size"],["Floors","Patagonian ebony"],["Bathroom","Ensuite"],["View","Playa Mansa"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/azul":{"house":"playa","slug":"azul","name":"Azul","shots":[{"file":"azul-01.jpg","w":[480,900,1600]}],"group":"Ocean view suite","copy":"Suites within the Sculpture, under the double-curved titanium roof, facing the water with Patagonian ebony floors running out to the terrace.","specs":[["Guests","Up to 2"],["Bed","King-size"],["Floors","Patagonian ebony"],["Bathroom","Ensuite"],["View","Playa Mansa"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/atrium-suite":{"house":"playa","slug":"atrium-suite","name":"Atrium Suite","shots":[{"file":"atrium-suite-01.jpg","w":[480]}],"group":"Suite","copy":"Suites in the main building, each created around the work of a different Uruguayan artist, looking over the gardens and the ocean beyond them.","specs":[["Size","45 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["View","Garden and ocean"],["House","Bahía VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/casa-jose-ignacio":{"house":"playa","slug":"casa-jose-ignacio","name":"Casa José Ignacio","shots":[{"file":"casa-jose-ignacio-01.jpg","w":[480,900]},{"file":"casa-jose-ignacio-02.jpg","w":[480,900,1600]}],"group":"Casa","copy":"Casas of two and three bedrooms flanking the Sculpture, each with a fireplace, a private garden and fully retractable windows onto it.","specs":[["Bedrooms","2 – 3"],["Guests","Up to 6"],["Fireplace","Yes"],["Outside","Private garden"],["Windows","Fully retractable"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/casa-tierra":{"house":"playa","slug":"casa-tierra","name":"Casa Tierra","shots":[{"file":"casa-tierra-01.jpg","w":[480,900,1600]}],"group":"Casa","copy":"Casas of two and three bedrooms flanking the Sculpture, each with a fireplace, a private garden and fully retractable windows onto it.","specs":[["Bedrooms","2 – 3"],["Guests","Up to 6"],["Fireplace","Yes"],["Outside","Private garden"],["Windows","Fully retractable"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"playa/casa-mar":{"house":"playa","slug":"casa-mar","name":"Casa Mar","shots":[{"file":"casa-mar-01.jpg","w":[480,900]}],"group":"Casa","copy":"Casas of two and three bedrooms flanking the Sculpture, each with a fireplace, a private garden and fully retractable windows onto it.","specs":[["Bedrooms","2 – 3"],["Guests","Up to 6"],["Fireplace","Yes"],["Outside","Private garden"],["Windows","Fully retractable"],["House","Playa VIK"]],"houseName":"Playa VIK","houseHref":"../playa-vik/","place":"On the point, above Mansa beach"},"estancia/turell-suite":{"house":"estancia","slug":"turell-suite","name":"Turell Suite","shots":[{"file":"turell-suite-01.jpg","w":[480,900]},{"file":"turell-suite-02.jpg","w":[480,900,1600]}],"group":"Guest Suite","copy":"Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.","specs":[["Size","46 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Level","Ground floor"],["House","Estancia VIK"]],"houseName":"Estancia VIK","houseHref":"../estancia-vik/","place":"Four thousand acres of countryside"},"estancia/trujillo-suite":{"house":"estancia","slug":"trujillo-suite","name":"Trujillo Suite","shots":[{"file":"trujillo-suite-01.jpg","w":[480,900]}],"group":"Guest Suite","copy":"Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.","specs":[["Size","46 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Level","Ground floor"],["House","Estancia VIK"]],"houseName":"Estancia VIK","houseHref":"../estancia-vik/","place":"Four thousand acres of countryside"},"estancia/musso-suite":{"house":"estancia","slug":"musso-suite","name":"Musso Suite","shots":[{"file":"musso-suite-01.jpg","w":[480,900,1600]}],"group":"Guest Suite","copy":"Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.","specs":[["Size","46 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Level","Ground floor"],["House","Estancia VIK"]],"houseName":"Estancia VIK","houseHref":"../estancia-vik/","place":"Four thousand acres of countryside"},"estancia/duarte-suite":{"house":"estancia","slug":"duarte-suite","name":"Duarte Suite","shots":[{"file":"duarte-suite-01.jpg","w":[480,900,1600]}],"group":"Guest Suite","copy":"Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.","specs":[["Size","46 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Level","Ground floor"],["House","Estancia VIK"]],"houseName":"Estancia VIK","houseHref":"../estancia-vik/","place":"Four thousand acres of countryside"},"estancia/cardozo-suite":{"house":"estancia","slug":"cardozo-suite","name":"Cardozo Suite","shots":[{"file":"cardozo-suite-01.jpg","w":[480,900]}],"group":"Guest Suite","copy":"Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.","specs":[["Size","46 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Level","Ground floor"],["House","Estancia VIK"]],"houseName":"Estancia VIK","houseHref":"../estancia-vik/","place":"Four thousand acres of countryside"},"estancia/barea-suite":{"house":"estancia","slug":"barea-suite","name":"Barea Suite","shots":[{"file":"barea-suite-01.jpg","w":[480,900]}],"group":"Guest Suite","copy":"Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.","specs":[["Size","46 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Level","Ground floor"],["House","Estancia VIK"]],"houseName":"Estancia VIK","houseHref":"../estancia-vik/","place":"Four thousand acres of countryside"},"estancia/amengual-suite":{"house":"estancia","slug":"amengual-suite","name":"Amengual Suite","shots":[{"file":"amengual-suite-01.jpg","w":[480,900]}],"group":"Guest Suite","copy":"Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.","specs":[["Size","46 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Level","Ground floor"],["House","Estancia VIK"]],"houseName":"Estancia VIK","houseHref":"../estancia-vik/","place":"Four thousand acres of countryside"},"estancia/badaro-suite":{"house":"estancia","slug":"badaro-suite","name":"Badaro Suite","shots":[{"file":"badaro-suite-01.jpg","w":[480,900]}],"group":"Guest Suite","copy":"Eight guest suites on the ground floor, five hundred square feet each, every one designed around an original work conceived for that particular room.","specs":[["Size","46 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite"],["Level","Ground floor"],["House","Estancia VIK"]],"houseName":"Estancia VIK","houseHref":"../estancia-vik/","place":"Four thousand acres of countryside"},"estancia/master-suite-daglio":{"house":"estancia","slug":"master-suite-daglio","name":"Master Suite Daglio","shots":[{"file":"master-suite-daglio-01.jpg","w":[480,900]},{"file":"master-suite-daglio-02.jpg","w":[480,900,1600]}],"group":"Master Suite","copy":"Master suites on the upper level, nine hundred square feet, with a fireplace, a private terrace and an outdoor shower onto the landscape.","specs":[["Size","84 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite + outdoor shower"],["Outside","Private terrace"],["House","Estancia VIK"]],"houseName":"Estancia VIK","houseHref":"../estancia-vik/","place":"Four thousand acres of countryside"},"estancia/master-suite-seveso":{"house":"estancia","slug":"master-suite-seveso","name":"Master Suite Seveso","shots":[{"file":"master-suite-seveso-01.jpg","w":[480,900]}],"group":"Master Suite","copy":"Master suites on the upper level, nine hundred square feet, with a fireplace, a private terrace and an outdoor shower onto the landscape.","specs":[["Size","84 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite + outdoor shower"],["Outside","Private terrace"],["House","Estancia VIK"]],"houseName":"Estancia VIK","houseHref":"../estancia-vik/","place":"Four thousand acres of countryside"},"estancia/master-suite-legrand":{"house":"estancia","slug":"master-suite-legrand","name":"Master Suite Legrand","shots":[{"file":"master-suite-legrand-01.jpg","w":[480,900]}],"group":"Master Suite","copy":"Master suites on the upper level, nine hundred square feet, with a fireplace, a private terrace and an outdoor shower onto the landscape.","specs":[["Size","84 m²"],["Guests","Up to 2"],["Bed","King-size"],["Bathroom","Ensuite + outdoor shower"],["Outside","Private terrace"],["House","Estancia VIK"]],"houseName":"Estancia VIK","houseHref":"../estancia-vik/","place":"Four thousand acres of countryside"}};
+</script>
+<script>
+
+/* -- La habitacion ------------------------------------------------ */
+(() => {
+  "use strict";
+
+  const ROOMS = window.VIK_ROOMS || {};
+  const keys = Object.keys(ROOMS);
+  if (!keys.length) return;
+
+  const want = new URLSearchParams(location.search).get("r");
+  const key  = ROOMS[want] ? want : keys[0];
+  const room = ROOMS[key];
+
+  const A   = p => (window.VIK_BASE || "") + p;
+  const pad = n => String(n).padStart(2, "0");
+  const esc = t => String(t == null ? "" : t)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+  const $ = s => document.getElementById(s);
+
+  const base = sh => "rooms__" + room.house + "__" + sh.file.replace(/\.[^.]+$/, "");
+  const widths = sh => (sh.w && sh.w.length ? sh.w : [480]);
+  const src = (sh, px) => {
+    const w = widths(sh).find(n => n >= px) || widths(sh).slice(-1)[0];
+    return A("img/t/" + base(sh) + "-w" + w + ".jpg");
+  };
+  const srcset = sh => widths(sh)
+    .map(w => A("img/t/" + base(sh) + "-w" + w + ".jpg") + " " + w + "w").join(", ");
+
+  const shots = room.shots || [];
+  const top   = shots[0];
+
+  /* -- la lamina se mide contra su origen -------------------------
+     Publicar un archivo de 480px a mil doscientos es publicarlo
+     borroso. La lamina toma su ancho de la derivada mas grande que
+     existe, asi que una foto chica abre contenida y con margen en
+     vez de estirada. */
+  const biggest = top ? widths(top).slice(-1)[0] : 480;
+  /* La lamina ocupa siempre el mismo hueco; lo que cambia con el
+     origen es que archivo se pide. Un 480 se sigue viendo entero
+     porque cubre, y el navegador nunca pide mas de lo que existe. */
+  const plate = "60vw";
+  document.documentElement.style.setProperty("--plate", plate);
+  if (biggest < 900) document.documentElement.classList.add("rm-small-src");
+
+  /* -- el pliego --------------------------------------------------- */
+  $("rmCrumb").innerHTML =
+    '<a href="../stay/">Stay</a><span class="sep">/</span>' +
+    '<a href="' + esc(room.houseHref) + '">' + esc(room.houseName) + "</a>" +
+    '<span class="sep">/</span><span aria-current="page">' + esc(room.name) + "</span>";
+
+  $("rmEyebrow").innerHTML = esc(room.houseName) +
+    '<span class="dot">&middot;</span>' + esc(room.group || "Room");
+
+  /* el nombre, letra por letra */
+  const nameEl = $("rmName");
+  nameEl.textContent = "";
+  let n = 0;
+  room.name.split(/(\s+)/).forEach(part => {
+    if (/^\s+$/.test(part)) { nameEl.appendChild(document.createTextNode(" ")); return; }
+    const w = document.createElement("span");
+    w.style.display = "inline-block";
+    [...part].forEach(ch => {
+      const l = document.createElement("span");
+      l.className = "l";
+      l.textContent = ch;
+      l.style.transitionDelay = (0.16 + n * 0.028) + "s";
+      n++;
+      w.appendChild(l);
+    });
+    nameEl.appendChild(w);
+  });
+
+  $("rmPlace").textContent = room.place || "";
+
+  if (top) {
+    const img = $("rmPlateImg");
+    img.src = src(top, 1600);
+    img.srcset = srcset(top);
+    img.sizes = "(max-width:1024px) 92vw, " + plate;
+    img.alt = room.name + ", " + room.houseName;
+    $("rmPlateN").textContent = pad(1) + " / " + pad(shots.length);
+    $("rmPlateCap").textContent = room.houseName + " \u00b7 " + (room.group || "Room");
+  }
+
+  document.title = room.name + " \u00b7 " + room.houseName;
+
+  /* -- los datos, la prosa ----------------------------------------- */
+  $("rmSpecs").innerHTML = (room.specs || []).map(s =>
+    '<div class="specbar__i" role="listitem"><span class="specbar__l">' + esc(s[0]) +
+    '</span><span class="specbar__v">' + esc(s[1]) + "</span></div>").join("");
+
+  /* La primera frase sube a titulo y el resto queda de cuerpo: el
+     mismo parrafo, leido en dos velocidades. */
+  const copy = (room.copy || "").trim();
+  const cut  = copy.indexOf(". ");
+  $("rmLede").textContent = cut > 30 ? copy.slice(0, cut + 1) : copy;
+  $("rmCopy").textContent = cut > 30 ? copy.slice(cut + 2) : "";
+
+  $("rmBookRows").innerHTML = (room.specs || []).map(s =>
+    '<div class="rm-book__row"><span class="k">' + esc(s[0]) +
+    '</span><span class="v">' + esc(s[1]) + "</span></div>").join("");
+
+  /* -- la segunda foto --------------------------------------------- */
+  if (shots[1]) {
+    const b = $("rmBand");
+    const bi = $("rmBandImg");
+    bi.src = src(shots[1], 1600);
+    bi.srcset = srcset(shots[1]);
+    bi.sizes = "100vw";
+    bi.alt = room.name + ", " + room.houseName;
+    b.hidden = false;
+  }
+
+  /* -- las otras, en el riel M14 ----------------------------------- */
+  const others = keys.filter(k => ROOMS[k].house === room.house && k !== key);
+  const list = others.length ? others : keys.filter(k => k !== key).slice(0, 12);
+  $("rmOthersH").textContent = others.length
+    ? "The other rooms at " + room.houseName
+    : "Every room in the destination";
+
+  $("rmReelTrack").innerHTML = list.map(k => {
+    const r = ROOMS[k], s0 = (r.shots || [])[0];
+    if (!s0) return "";
+    const b2 = "rooms__" + r.house + "__" + s0.file.replace(/\.[^.]+$/, "");
+    const ws = (s0.w && s0.w.length ? s0.w : [480]);
+    const big = ws.slice(-1)[0];
+    return '<a class="wall-tile" href="?r=' + esc(k) + '"' +
+      ' data-img="rooms/' + r.house + "/" + esc(s0.file) + '"' +
+      ' data-name="' + esc(r.name) + '"' +
+      ' data-meta="' + esc(r.houseName + " \u00b7 " + (r.group || "Room")) + '">' +
+      '<img src="' + A("img/t/" + b2 + "-w" + big + ".jpg") + '"' +
+      ' srcset="' + ws.map(w => A("img/t/" + b2 + "-w" + w + ".jpg") + " " + w + "w").join(", ") + '"' +
+      ' sizes="(max-width:1024px) 92vw, calc(100vw - 180px)"' +
+      ' alt="' + esc(r.name) + '" loading="lazy" decoding="async">' +
+      '<span class="rr-cap"><span class="n">' + esc(r.name) + "</span>" +
+      '<span class="m">' + esc(r.houseName) + "</span></span></a>";
+  }).join("");
+
+  /* -- la lupa ------------------------------------------------------ */
+  const lb = $("rmLb"), lbImg = $("rmLbImg"), lbC = $("rmLbC");
+  let at = 0;
+  const show = i => {
+    at = (i + shots.length) % shots.length;
+    lbImg.src = src(shots[at], 1600);
+    lbImg.srcset = srcset(shots[at]);
+    lbImg.sizes = "94vw";
+    lbImg.alt = room.name;
+    lbC.textContent = room.name + " \u00b7 " + pad(at + 1) + " / " + pad(shots.length);
+  };
+  const open = i => {
+    if (!shots.length) return;
+    show(i);
+    lb.classList.add("is-open");
+    lb.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    $("rmLbX").focus();
+  };
+  const close = () => {
+    lb.classList.remove("is-open");
+    lb.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+  };
+  $("rmZoom").addEventListener("click", () => open(0));
+  $("rmPlateImg").addEventListener("click", () => open(0));
+  $("rmLbX").addEventListener("click", close);
+  $("rmLbP").addEventListener("click", () => show(at - 1));
+  $("rmLbN").addEventListener("click", () => show(at + 1));
+  lb.addEventListener("click", e => { if (e.target === lb) close(); });
+  addEventListener("keydown", e => {
+    if (!lb.classList.contains("is-open")) return;
+    if (e.key === "Escape")     close();
+    if (e.key === "ArrowRight") show(at + 1);
+    if (e.key === "ArrowLeft")  show(at - 1);
+  });
+
+  /* -- la entrada ---------------------------------------------------
+     El pliego se enciende en el primer cuadro despues de pintar. No
+     espera al observador: es lo que ya esta en pantalla. */
+  requestAnimationFrame(() => requestAnimationFrame(() =>
+    $("rmOpen").classList.add("is-in")));
+
+  /* La lamina cede un poco al bajar, y la banda al reves. Dos
+     transformaciones, una sola lectura por cuadro. */
+  const plateEl = document.querySelector(".rm-plate__f");
+  const bandImg = $("rmBandImg");
+  if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    let run = false;
+    const draw = () => {
+      run = false;
+      const y = scrollY;
+      if (plateEl && y < innerHeight * 1.2)
+        plateEl.style.transform = "translate3d(0," + (y * 0.06) + "px,0)";
+      if (bandImg) {
+        const r = bandImg.parentElement.getBoundingClientRect();
+        if (r.bottom > 0 && r.top < innerHeight) {
+          const k = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+          bandImg.style.transform = "scale(1.06) translate3d(0," + (k * -26) + "px,0)";
+        }
+      }
+    };
+    addEventListener("scroll", () => {
+      if (!run) { run = true; requestAnimationFrame(draw); }
+    }, { passive: true });
+    draw();
+  }
+})();
+</script>
+<script src="../_core/lenis.min.js"></script>
+<script src="../_core/leaflet.js"></script>
+<script src="../_core/vik-chrome-v2.js?v=1"></script>
+<script src="../_core/vik-v2.min.js?v=1"></script>
+<script src="../_core/vik-v2-lib.min.js?v=1"></script>
+</body>
+</html>
