@@ -1,6 +1,6 @@
 # Media inventory
 
-**563 / 566 selected files published · 329.1 MB.**
+**566 / 566 selected files published · 475.6 MB.**
 
 VIK José Ignacio first. Within each group: assets, images from lightest to heaviest, then video. File order describes publication batches; GitHub manages the underlying transfer.
 
@@ -571,6 +571,6 @@ The selection follows references in current pages and their dependencies, includ
 | [guest-journey/videos/estancia_.mp4](./guest-journey/videos/estancia_.mp4) | 18839389 | Beta | videos | guest-journey | Published |
 | [la-susana/assets/video/menu.mp4](./la-susana/assets/video/menu.mp4) | 22263194 | Beta | videos | la-susana | Published |
 | [guest-journey/videos/bahia.mp4](./guest-journey/videos/bahia.mp4) | 26266872 | Beta | videos | guest-journey | Published |
-| [vik-wellness/videos/millahue.mp4](./vik-wellness/videos/millahue.mp4) | 48518037 | Beta | videos | vik-wellness | Pending |
-| [vik-wellness/videos/vista-verde.mp4](./vik-wellness/videos/vista-verde.mp4) | 48885448 | Beta | videos | vik-wellness | Pending |
-| [vik-wellness/videos/jose-ignacio.mp4](./vik-wellness/videos/jose-ignacio.mp4) | 49155773 | Beta | videos | vik-wellness | Pending |
+| [vik-wellness/videos/millahue.mp4](./vik-wellness/videos/millahue.mp4) | 48518037 | Beta | videos | vik-wellness | Published |
+| [vik-wellness/videos/vista-verde.mp4](./vik-wellness/videos/vista-verde.mp4) | 48885448 | Beta | videos | vik-wellness | Published |
+| [vik-wellness/videos/jose-ignacio.mp4](./vik-wellness/videos/jose-ignacio.mp4) | 49155773 | Beta | videos | vik-wellness | Published |
