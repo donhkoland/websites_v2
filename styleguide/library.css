@@ -20,8 +20,9 @@
 .sg-spec .src{display:none}
 .sg-spec .nm{grid-column:3 / 13}
 .sg-library-module{min-width:0;scroll-margin-top:var(--nav-h)}
-.sg-library-module>.sg-spec{border:0;margin-top:1.5rem;position:relative;z-index:1}
-.sg-library-module .principles,.sg-library-module .principle,.sg-library-module .svc,.sg-library-module .crumb,.sg-library-module .subnav{border:0}
+/* Keep the original full-width module headers and structural dividers.
+   Only the short decorative accents are suppressed below. */
+.sg-library-module>.sg-spec{margin-top:1.5rem;position:relative;z-index:1}
 .sg-library-module .principle::after,.sg-library-module .pull-quote::before,.sg-library-module .pull-quote::after{display:none}
 .sg-library-module[data-module=l08]>.sec{padding-block:0}
 .sg-library-module[data-module=l08] .split{align-items:stretch}
