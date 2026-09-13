@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const tag = $('#nav .nav-tag');
   if (tag) tag.textContent = 'Module Library';
   const logo = $('footer.sg-footer .footer-mark img');
-  if (logo) logo.src = '../vik-jose-ignacio/assets/logo/wordmark-dark-blue.svg';
+  if (logo) logo.src = 'assets/vik-retreats-white.png';
   const signature = $('footer.sg-footer .footer-copy');
   if (signature) signature.textContent = 'VIK Retreats, José Ignacio Uruguay';
 
@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, true);
   }
   entries.forEach(enableJump);
+  $$('.sg-inclusion').forEach(enableJump);
   $$('#nav .nav-book').forEach(enableJump);
   function filter() {
     const value = search.value.trim().toLowerCase();
@@ -148,9 +149,12 @@ document.addEventListener('DOMContentLoaded', () => {
     track.prepend(before); track.append(after);
     let period = 0, offset = 0, rendered = 0, active = false, paused = reduced.matches;
     let pointer = null, startX = 0, lastX = 0, moved = false, lastTime = 0, hovered = false;
+    let velocity = 0, lastPointerTime = 0;
+    const portrait = carousel.classList.contains('sg-portrait');
+    const slides = $$('.sg-slide', track);
     function resize() {
       const old = period;
-      period = original.getBoundingClientRect().width + parseFloat(getComputedStyle(track).gap);
+      period = original.getBoundingClientRect().width + (parseFloat(getComputedStyle(track).gap) || 0);
       offset = old ? (offset / old) * period : 0;
       track.scrollLeft = period + offset;
       rendered = track.scrollLeft;
@@ -164,25 +168,26 @@ document.addEventListener('DOMContentLoaded', () => {
       track.scrollLeft = period + offset;
       rendered = track.scrollLeft;
     }
-    const pause = $('[data-sg-pause]', carousel);
-    function pauseLabel() { pause.textContent = paused ? 'Play motion' : 'Pause motion'; pause.setAttribute('aria-pressed', String(paused)); }
-    pauseLabel();
-    pause.addEventListener('click', () => { paused = !paused; pauseLabel(); });
-    $('[data-sg-prev]', carousel).addEventListener('click', () => move(-$('.sg-slide', original).getBoundingClientRect().width - 20));
-    $('[data-sg-next]', carousel).addEventListener('click', () => move($('.sg-slide', original).getBoundingClientRect().width + 20));
     track.addEventListener('pointerdown', event => {
       if (event.button !== 0) return;
       pointer = event.pointerId; startX = lastX = event.clientX; moved = false;
+      velocity = 0; lastPointerTime = performance.now();
     });
     track.addEventListener('pointermove', event => {
       if (pointer !== event.pointerId) return;
       if (Math.abs(event.clientX - startX) > 5) { moved = true; track.setPointerCapture(pointer); track.classList.add('is-dragging'); }
-      if (moved) { move(lastX - event.clientX); event.preventDefault(); }
+      if (moved) {
+        const now = performance.now(), dt = now-lastPointerTime;
+        // Same release velocity and .93 decay as vik-v2.js dragScroll.
+        if (dt > 0) velocity = Math.max(-60,Math.min(60,(lastX-event.clientX)*(16/dt)));
+        move(lastX - event.clientX); event.preventDefault(); lastPointerTime = now;
+      }
       lastX = event.clientX;
     });
     function release(event) {
       if (event.pointerId !== pointer) return;
       if (track.hasPointerCapture(pointer)) track.releasePointerCapture(pointer);
+      if (event.type === 'pointercancel' || performance.now()-lastPointerTime > 100 || reduced.matches) velocity = 0;
       pointer = null; track.classList.remove('is-dragging');
     }
     track.addEventListener('pointerup', release); track.addEventListener('pointercancel', release);
@@ -196,6 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
     track.addEventListener('keydown', event => {
       const mediaLink = event.target.closest('[data-sg-media]');
       if (event.key === 'Enter' && mediaLink) { event.preventDefault(); enlarge(mediaLink); return; }
+      if (event.code === 'Space') { event.preventDefault(); paused = !paused; velocity = 0; return; }
       if (!['ArrowLeft','ArrowRight'].includes(event.key)) return;
       event.preventDefault(); move((event.key === 'ArrowLeft' ? -1 : 1) * 280);
     });
@@ -203,11 +209,69 @@ document.addEventListener('DOMContentLoaded', () => {
     track.addEventListener('mouseleave', () => { hovered = false; });
     new IntersectionObserver(records => { active = records[0].isIntersecting; }, {threshold:0}).observe(carousel);
     function tick(time) {
-      if (active && !paused && !hovered && pointer === null && !dialog.open && !track.contains(document.activeElement) && !document.hidden) move(Math.min(time-lastTime,50)*.018);
+      const dt = Math.min(time-lastTime,50);
+      if (active && !dialog.open && !document.hidden) {
+        if (pointer === null && Math.abs(velocity) >= .4) {
+          move(velocity*dt/16); velocity *= Math.pow(.93,dt/16);
+        } else if (!paused && !hovered && pointer === null && !track.contains(document.activeElement)) move(dt*.018);
+        if (portrait && !reduced.matches) {
+          const width = track.clientWidth;
+          slides.forEach(slide => {
+            const position = slide.offsetLeft-track.scrollLeft;
+            if (position > -slide.offsetWidth && position < width) {
+              const depth = Math.max(-1,Math.min(1,(position+slide.offsetWidth/2-width/2)/width));
+              $('img,video',slide).style.transform = `translateX(${depth*6}px) scale(1.035)`;
+            }
+          });
+        }
+      }
       lastTime = time; requestAnimationFrame(tick);
     }
     requestAnimationFrame(tick);
-    reduced.addEventListener('change', () => { paused = reduced.matches; pauseLabel(); });
+    reduced.addEventListener('change', () => {
+      paused = reduced.matches; velocity = 0;
+      if (reduced.matches) slides.forEach(slide => $('img,video',slide).style.transform = '');
+    });
   });
   observeVideos(document);
+
+  // Local review only: validate the guest step, without sending or storing data.
+  const guest = $('#r01 form'), next = $('[data-review-next]'), confirm = $('[data-review-confirm]');
+  const guestName = $('#sg-ckName'), guestEmail = $('#sg-ckMail');
+  const methodButtons = $$('[data-review-method]');
+  let method = 'card';
+  function validGuest() { return guestName.value.trim().length > 1 && guestEmail.validity.valid && !!guestEmail.value.trim(); }
+  function updateBooking() {
+    const valid = validGuest(); next.disabled = !valid; confirm.disabled = !valid;
+    $('span',confirm).textContent = method === 'paypal' ? 'Continue to PayPal' : method === 'hold' ? 'Confirm hold' : 'Confirm booking';
+    if (!valid) $('#r02 .sg-review-status').textContent = 'Complete your name and email above to continue.';
+    else $('#r02 .sg-review-status').textContent = 'Your stay is a little closer.';
+  }
+  guest.addEventListener('input',updateBooking);
+  function jumpTo(id) {
+    const target = $(id);
+    if (window.VIKLibraryScroll) window.VIKLibraryScroll.scrollTo(target,{offset:-100,immediate:true});
+    else target.scrollIntoView({block:'start'});
+  }
+  next.addEventListener('click',()=>{ if(validGuest()) { jumpTo('#r02'); methodButtons[0].focus({preventScroll:true}); } });
+  $$('[data-review-back]').forEach(button=>button.addEventListener('click',()=>jumpTo(button.closest('#r02')?'#r01':'#book')));
+  methodButtons.forEach(button=>button.addEventListener('click',()=>{
+    method = button.dataset.reviewMethod;
+    methodButtons.forEach(b=>{const selected=b===button;b.classList.toggle('is-on',selected);b.setAttribute('aria-pressed',String(selected));});
+    $$('[data-review-panel]').forEach(panel=>panel.hidden=panel.dataset.reviewPanel!==method);
+    updateBooking();
+  }));
+  confirm.addEventListener('click',()=>{
+    if(validGuest()) $('#r02 .sg-review-status').textContent = 'Ready for secure booking. No reservation is made in this preview.';
+  });
+  updateBooking();
+  const enquiry = $('#r03 form'), send = $('[data-review-send]');
+  enquiry.addEventListener('input',()=>{
+    send.disabled = !enquiry.checkValidity() || $('#review-eqn').value.trim().length < 2;
+    $('#r03 .sg-review-status').textContent = '';
+  });
+  enquiry.addEventListener('submit',event=>{
+    event.preventDefault();
+    if (!send.disabled) $('#r03 .sg-review-status').textContent = 'Your enquiry is ready. Nothing is sent from this preview.';
+  });
 });

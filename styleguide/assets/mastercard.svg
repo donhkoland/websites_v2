@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="25" viewBox="0 0 44 25">
+  <g id="Grupo_2987" data-name="Grupo 2987" transform="translate(-756 -1565)">
+    <g id="Grupo_2916" data-name="Grupo 2916" transform="translate(756.236 1565.5)">
+      <rect id="Rectángulo_975" data-name="Rectángulo 975" width="44" height="25" rx="2" transform="translate(-0.237 -0.5)" fill="#fff"/>
+    </g>
+    <g id="XMLID_328_" transform="translate(766.901 1570.84)">
+      <rect id="Rectángulo_973" data-name="Rectángulo 973" width="5.887" height="10.583" transform="translate(7.946 1.446)" fill="#ff5f00"/>
+      <path id="XMLID_330_" d="M40.32,52.938a6.712,6.712,0,0,1,2.569-5.292,6.738,6.738,0,1,0,0,10.583A6.737,6.737,0,0,1,40.32,52.938Z" transform="translate(-32 -46.2)" fill="#eb001b"/>
+      <path id="Trazado_3285" data-name="Trazado 3285" d="M106.89,52.938A6.724,6.724,0,0,1,96,58.23a6.734,6.734,0,0,0,0-10.583,6.724,6.724,0,0,1,10.89,5.292Zm-.647,4.169v-.221h.085v-.051h-.221v.051h.085v.221Zm.442,0v-.255h-.068l-.085.187-.085-.187h-.068v.255h.051v-.2l.068.17h.051l.068-.17v.2Z" transform="translate(-85.11 -46.2)" fill="#f79e1b"/>
+    </g>
+  </g>
+</svg>
