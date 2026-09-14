@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const tag = $('#nav .nav-tag');
-  if (tag) tag.textContent = 'Module Library';
+  if (tag) tag.textContent = 'Style Guide';
   const logo = $('footer.sg-footer .footer-mark img');
   if (logo) logo.src = 'assets/vik-retreats-white.png';
   const signature = $('footer.sg-footer .footer-copy');
@@ -39,72 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
   search.addEventListener('input', filter);
   category.addEventListener('change', filter);
   filter();
-
-  // The live chrome markup, with independent IDs inside the inline preview.
-  const demo = $('.sg-nav-demo');
-  function clone(source) {
-    if (!source) return null;
-    const copy = source.cloneNode(true);
-    [copy, ...$$('*', copy)].forEach(el => {
-      ['id', 'for', 'aria-controls', 'aria-labelledby'].forEach(attr => {
-        if (el.hasAttribute(attr)) el.setAttribute(attr, el.getAttribute(attr).split(' ').map(id => `sg-demo-${id}`).join(' '));
-      });
-      el.removeAttribute('data-booking');
-    });
-    return copy;
-  }
-  const nav = clone($('#nav')), book = clone($('#bookbar'));
-  if (nav) demo.append(nav);
-  $$('.nav-book', demo).forEach(enableJump);
-  const menu = document.createElement('div');
-  menu.className = 'sg-demo-menu'; menu.id = 'sg-demo-menu'; menu.hidden = true;
-  $$('#menu .menu-list a').forEach(a => menu.append(a.cloneNode(true)));
-  $$('a', menu).forEach(a => a.addEventListener('click', event => {
-    event.preventDefault(); location.assign(a.href);
-  }));
-  demo.append(menu);
-  if (book) {
-    demo.append(book);
-    const arrival = $('input[name="checkin"]', book), departure = $('input[name="checkout"]', book);
-    function paintDates() {
-      if (arrival.value) {
-        const next = new Date(`${arrival.value}T12:00:00Z`);
-        next.setUTCDate(next.getUTCDate()+1);
-        departure.min = next.toISOString().slice(0,10);
-        if (departure.value <= arrival.value) departure.value = departure.min;
-      }
-      $$('input[type="date"]', book).forEach(input => {
-        const face = $('.date-face', input.parentElement);
-        if (face && input.value) {
-          const date = new Date(`${input.value}T12:00:00`);
-          face.textContent = `${date.toLocaleDateString('en-GB',{day:'numeric',month:'short'})}, ${date.toLocaleDateString('en-GB',{weekday:'short'})}`;
-        }
-      });
-    }
-    book.addEventListener('change', paintDates);
-    paintDates();
-    book.addEventListener('submit', event => {
-      event.preventDefault();
-      const form = $('#book [data-booking]') || $('#book form');
-      if (!form) return;
-      $$('input,select', book).forEach(field => {
-        const target = $$('input,select', form).find(x => x.name === field.name);
-        if (target) { target.value = field.value; target.dispatchEvent(new Event('change', {bubbles:true})); }
-      });
-      if (window.VIKLibraryScroll) window.VIKLibraryScroll.scrollTo(form, {offset:-100,immediate:true});
-      else form.scrollIntoView({behavior:'instant', block:'center'});
-    });
-  }
-  const toggle = $('.menu-toggle', demo);
-  if (toggle) toggle.addEventListener('click', () => {
-    menu.hidden = !menu.hidden;
-    toggle.setAttribute('aria-expanded', String(!menu.hidden));
-  });
-  demo.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && !menu.hidden) {
-      menu.hidden = true; toggle.setAttribute('aria-expanded','false'); toggle.focus();
-    }
-  });
 
   const dialog = $('.sg-lightbox'), mediaBox = $('.sg-lightbox-media');
   let returnTo, previousOverflow;

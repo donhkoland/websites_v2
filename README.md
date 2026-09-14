@@ -5,7 +5,7 @@
 | Start here | What you'll find |
 | :--- | :--- |
 | **[VIK José Ignacio ↗](https://donhkoland.github.io/websites_v2/vik-jose-ignacio/)** | The destination experience. First approved, first to explore. |
-| **[Styleguide ↗](https://donhkoland.github.io/websites_v2/styleguide/)** | Our standalone workshop: all 32 platform modules in one place. |
+| **[Style Guide ↗](https://donhkoland.github.io/websites_v2/styleguide/)** | The visual rules, responsive states and reusable patterns behind every VIK website. |
 
 ### The platform
 
@@ -16,7 +16,7 @@ VIK Retreats
 ├── Celebrate → Pavilion VIK · La Susana · Dining
 └── Stay & connect → Stay · Contact · Guest Journey
 
-Styleguide → The shared module library behind every branch
+Style Guide → The shared visual language behind every branch
 ```
 
 [All page previews →](./PREVIEWS.md) · [Media inventory →](./MEDIA-INVENTORY.md)

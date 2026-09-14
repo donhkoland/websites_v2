@@ -9,4 +9,6 @@ Payment marks retain their supplied proportions:
 - [American Express](https://www.aexp-static.com/cdaas/one/statics/axp-dls/5.10.0/package/dist/img/dls_logos/dls-logo-bluebox-solid.svg)
 - [PayPal newsroom logo package](https://newsroom.paypal-corp.com/download/PayPal-Logo-Black-2024.zip)
 
-Recognition links are inactive pending the original articles. The pull-quote attribution is an editorial placeholder. Booking and enquiry interactions are local previews; they do not send data or create reservations.
+Recognition excerpts and verified source URLs are recorded in `../quotes.js`. The separate pull-quote attribution remains an editorial placeholder. Booking and enquiry interactions are local previews; they do not send data or create reservations.
+
+The supplied PNG location wordmarks cover Estancia VIK, Playa VIK, Bahía VIK, VIK Chile, La Susana and Pavilion VIK. No approved PNG for the exact Club Polo VIK or The Shack identities was found in the supplied collection; those names remain text labels pending their official marks. A different Campo y Polo identity is intentionally not substituted.

@@ -7,8 +7,8 @@
 <meta name="author" content="Nicolás Castillo">
 <meta name="designer" content="Nicolás Castillo · @donhkoland">
 <meta name="copyright" content="VIK Retreats">
-<title>Module Library · VIK Retreats</title>
-<meta name="description" content="Every block of the VIK V2 system, shown live rather than described.">
+<title>Style Guide · VIK Retreats</title>
+<meta name="description" content="The visual rules, responsive patterns and reusable modules behind the VIK digital experience.">
 <meta name="robots" content="noindex">
 <link rel="stylesheet" href="../_core/leaflet.min.css">
 <link rel="stylesheet" href="../_core/vik-v2.min.css?v=1">
@@ -18,7 +18,6 @@
 <link rel="stylesheet" href="../_core/vik-v2-lib.min.css?v=2">
 <style>
 /* Catalog shell. Library-specific refinements live in library.css. */
-
 
 /* ── LA APERTURA ──────────────────────────────────────────────
    Tinta a sangre. Es la unica pantalla oscura de la guia: marca
@@ -41,7 +40,6 @@
   font-family:"Apercu Mono Pro","Courier New",monospace;
   font-size:.72rem;color:rgba(248,248,240,.4)}
 .sg-colophon b{font-weight:400;color:rgba(248,248,240,.75)}
-
 
 /* ── EL INDICE ────────────────────────────────────────────────
    Indice de publicacion, no reja de botones: folio, nombre y una
@@ -80,7 +78,6 @@
 .sg-toc .g{height:1px;background:var(--hair);transform:translateY(-.35em)}
 .sg-toc .s{font-family:"Apercu Mono Pro","Courier New",monospace;
   font-size:.7rem;color:var(--i-26);text-align:right}
-
 
 /* ── LA CABECERA CORRIDA ──────────────────────────────────────
    En un catalogo de treinta y dos piezas, saber cual se esta
@@ -125,11 +122,11 @@
 }
 </style>
 <link rel="stylesheet" href="library.css?v=9d34df9872">
-</head>
+<link rel="stylesheet" href="guide.css?v=f45a79a1e8"></head>
 
 <!--
   ══════════════════════════════════════════════════════════════
-  VIK · MODULE LIBRARY V2
+  VIK · DIGITAL STYLE GUIDE V2
 
   Esta pagina no describe el sistema: lo muestra. Las fichas M se
   recortan en vivo de vik-jose-ignacio/index.html, que es donde el
@@ -140,7 +137,7 @@
   La razon de cada modulo esta en el comentario que precede a su
   demo. No se imprime.
 
-  M02–M16 preserve the approved source. Edit the library independently.
+  M03–M17 preserve the approved source. Edit the library independently.
   ══════════════════════════════════════════════════════════════
 -->
 
@@ -151,33 +148,41 @@
 <main id="top">
 
   <section class="sg-open" data-ground="dark"><div class="sg-open-in ed">
-    <div class="ed-folio"><span class="ed-n">VIK<br>Digital<br>Library</span></div>
+    <div class="ed-folio"><span class="ed-n">VIK<br>Digital<br>Style Guide</span></div>
     <div class="ed-main"><h1>One language.<br><em>Endless stories.</em></h1>
-    <p>A flexible collection of reusable modules, made to tell each VIK story in its own way. Combine them into new page narratives while keeping the same visual rhythm, intuitive interactions and unmistakable sense of place.</p>
-    <div class="sg-colophon"><span>José Ignacio <b>Validated</b></span><span>Library <b>In exploration</b></span></div></div>
+    <p>The visual language behind every VIK story. Explore the rules, responsive states and reusable patterns that bring our digital world together.</p>
+    <div class="sg-colophon"><span>José Ignacio <b>Validated</b></span><span>Style Guide <b>In exploration</b></span></div></div>
   </div></section>
   <section class="sg-index" aria-label="Find a module">
     <div class="sg-tools"><label for="sg-search">Find a module<input id="sg-search" type="search" placeholder="Search by name or number" autocomplete="off"></label>
     <label for="sg-category">Explore<select id="sg-category"><option>All modules</option><option>Editorial</option><option>Forms</option><option>Galleries</option><option>Highlights</option><option>Media</option><option>Navigation</option><option>Rooms</option><option>Text</option></select></label></div>
-    <nav class="sg-toc" aria-label="Module index"><a href="#m01" data-category="Navigation"><span class="n">M01</span><span class="l">Bar, menu and booking strip</span></a><a href="#m02" data-category="Media"><span class="n">M02</span><span class="l">Cover with the counter</span></a><a href="#m03" data-category="Highlights"><span class="n">M03</span><span class="l">Live ribbon</span></a><a href="#m04" data-category="Editorial"><span class="n">M04</span><span class="l">The collage</span></a><a href="#m05" data-category="Galleries"><span class="n">M05</span><span class="l">Ecosystem rail</span></a><a href="#m06" data-category="Text"><span class="n">M06</span><span class="l">The statement</span></a><a href="#m07" data-category="Rooms"><span class="n">M07</span><span class="l">The chooser</span></a><a href="#m08" data-category="Galleries"><span class="n">M08</span><span class="l">Filtered mosaic</span></a><a href="#m09" data-category="Editorial"><span class="n">M09</span><span class="l">The manifesto index</span></a><a href="#m10" data-category="Media"><span class="n">M10</span><span class="l">Full-bleed band with calendar</span></a><a href="#m11" data-category="Navigation"><span class="n">M11</span><span class="l">The index</span></a><a href="#m12" data-category="Highlights"><span class="n">M12</span><span class="l">The week</span></a><a href="#m13" data-category="Navigation"><span class="n">M13</span><span class="l">Live map</span></a><a href="#m14" data-category="Text"><span class="n">M14</span><span class="l">Press</span></a><a href="#m15" data-category="Editorial"><span class="n">M15</span><span class="l">Recognitions</span></a><a href="#m16" data-category="Forms"><span class="n">M16</span><span class="l">The reservation</span></a><a href="#m17" data-category="Editorial"><span class="n">M17</span><span class="l">The closing</span></a><a href="#l01" data-category="Media"><span class="n">L01</span><span class="l">Interior page cover</span></a><a href="#l02" data-category="Text"><span class="n">L02</span><span class="l">Principles</span></a><a href="#l05" data-category="Galleries"><span class="n">L05</span><span class="l">The gallery</span></a><a href="#l06" data-category="Text"><span class="n">L06</span><span class="l">The accordion</span></a><a href="#l07" data-category="Forms"><span class="n">L07</span><span class="l">Enquiry</span></a><a href="#l08" data-category="Editorial"><span class="n">L08</span><span class="l">Split</span></a><a href="#l09" data-category="Text"><span class="n">L09</span><span class="l">Pull quote</span></a><a href="#l10" data-category="Navigation"><span class="n">L10</span><span class="l">Sub-navigation</span></a><a href="#l12" data-category="Rooms"><span class="n">L12</span><span class="l">Specification bar</span></a><a href="#l13" data-category="Highlights"><span class="n">L13</span><span class="l">What is included</span></a><a href="#l14" data-category="Media"><span class="n">L14</span><span class="l">Life in motion</span></a><a href="#l15" data-category="Navigation"><span class="n">L15</span><span class="l">Breadcrumb</span></a><a href="#l16" data-category="Highlights"><span class="n">L16</span><span class="l">Services</span></a><a href="#review" data-category="Forms"><span class="n">R</span><span class="l">The guest journey</span></a></nav>
-    <p class="sg-results" role="status" aria-live="polite"></p>
+    <nav class="sg-toc" aria-label="Module index"><a href="#m01" data-category="Navigation"><span class="n">M01</span><span class="l">Primary header / navigation</span></a><a href="#m02" data-category="Forms"><span class="n">M02</span><span class="l">Booking / availability strip</span></a><a href="#m03" data-category="Media"><span class="n">M03</span><span class="l">Cover with the counter</span></a><a href="#m04" data-category="Highlights"><span class="n">M04</span><span class="l">Live ribbon</span></a><a href="#m05" data-category="Editorial"><span class="n">M05</span><span class="l">The collage</span></a><a href="#m06" data-category="Galleries"><span class="n">M06</span><span class="l">Ecosystem rail</span></a><a href="#m07" data-category="Text"><span class="n">M07</span><span class="l">The statement</span></a><a href="#m08" data-category="Rooms"><span class="n">M08</span><span class="l">The chooser</span></a><a href="#m09" data-category="Galleries"><span class="n">M09</span><span class="l">Filtered mosaic</span></a><a href="#m10" data-category="Editorial"><span class="n">M10</span><span class="l">The manifesto index</span></a><a href="#m11" data-category="Media"><span class="n">M11</span><span class="l">Full-bleed band with calendar</span></a><a href="#m12" data-category="Navigation"><span class="n">M12</span><span class="l">The index</span></a><a href="#m13" data-category="Highlights"><span class="n">M13</span><span class="l">The week</span></a><a href="#m14" data-category="Navigation"><span class="n">M14</span><span class="l">Live map</span></a><a href="#m15" data-category="Text"><span class="n">M15</span><span class="l">Press</span></a><a href="#m16" data-category="Editorial"><span class="n">M16</span><span class="l">Recognitions</span></a><a href="#m17" data-category="Forms"><span class="n">M17</span><span class="l">The reservation</span></a><a href="#m18" data-category="Editorial"><span class="n">M18</span><span class="l">The closing</span></a><a href="#l01" data-category="Media"><span class="n">L01</span><span class="l">Interior page cover</span></a><a href="#l02" data-category="Text"><span class="n">L02</span><span class="l">Principles</span></a><a href="#l05" data-category="Galleries"><span class="n">L05</span><span class="l">The gallery</span></a><a href="#l06" data-category="Text"><span class="n">L06</span><span class="l">The accordion</span></a><a href="#l07" data-category="Forms"><span class="n">L07</span><span class="l">Enquiry</span></a><a href="#l08" data-category="Editorial"><span class="n">L08</span><span class="l">Split</span></a><a href="#l09" data-category="Text"><span class="n">L09</span><span class="l">Pull quote</span></a><a href="#l10" data-category="Navigation"><span class="n">L10</span><span class="l">Sub-navigation</span></a><a href="#l12" data-category="Rooms"><span class="n">L12</span><span class="l">Specification bar</span></a><a href="#l13" data-category="Highlights"><span class="n">L13</span><span class="l">What is included</span></a><a href="#l14" data-category="Media"><span class="n">L14</span><span class="l">Life in motion</span></a><a href="#l15" data-category="Navigation"><span class="n">L15</span><span class="l">Breadcrumb</span></a><a href="#l16" data-category="Highlights"><span class="n">L16</span><span class="l">Services</span></a><a href="#review" data-category="Forms"><span class="n">R</span><span class="l">The guest journey</span></a></nav>
+    <p class="sg-results" role="status" aria-live="polite"></p><details class="sg-guidance"><summary>The rules behind the modules</summary><div><p><b>Brand.</b> Use approved PNG marks at their native proportions. Keep Highway Gothic Expanded uppercase and Selva’s original tracking.</p><p><b>Responsive.</b> Switch navigation to its compact state before elements crowd. Recompose forms; never scale the whole interface.</p><p><b>Motion.</b> Keep transitions quiet, paired with their content, and respect reduced motion.</p><p><b>Build on it.</b> M documents primary modules, L editorial patterns and R guest flows. Add new IDs at the end of each family; keep retired IDs reserved. <a href="README.md">Implementation notes</a></p></div></details>
   </section>
-  <div class="sg-spec" id="m01">
-    <span class="id">M01</span>
-    <span class="nm">Bar, menu and booking strip</span>
-    <span class="src">Navigation · Menu · Booking</span>
-  </div>
-  <!-- M01 · Bar, menu and booking strip
-       One file draws the top of every site in the system. The bar goes solid once it leaves the cover; the index drops out the moment there is no width for it and the burger appears at the same breakpoint, so no window is ever left without a way to navigate. The booking strip retires itself when the reservation block or the footer come into view — asking the same question twice in one screen is one time too many. -->
-<div class="sg-nav-demo" aria-label="Navigation and booking preview"></div>
-
-
-  <div class="sg-spec" id="m02">
-    <span class="id">M02</span>
+<div class="sg-spec" id="m01"><span class="id">M01</span><span class="nm">Primary header / navigation</span></div><section class="sg-cases"><article class="sg-nav-case sg-case-a"><header class="sg-case-note"><span>State A</span><h3>Standard header</h3><p>A quiet brand signature, with the full menu one tap away.</p></header>
+ <div class="sg-header-demo" data-nav-mode="standard"><nav class="sg-case-header" aria-label="Standard header">
+ <div class="sg-case-brands"><a href="../estancia-vik/"><img src="assets/estancia-vik-black.png" alt="Estancia VIK" class="sg-property-logo"></a><a href="../vik-retreats/"><img src="assets/vik-retreats-black.png" alt="VIK Retreats" class="sg-parent-logo"></a></div>
+ <div class="sg-case-nav"><a href="../estancia-vik/">The house</a><a href="../stay/">Stay</a><a href="../dining/">Dining</a><a href="../experiences/">Experiences</a></div><div class="sg-case-actions"><a class="pill" href="#r01"><span>Book</span></a><button class="sg-case-toggle" type="button" aria-label="Open standard header menu" aria-expanded="false" aria-controls="sg-menu-a"><span></span><span></span></button></div></nav>
+ <nav class="sg-case-menu" id="sg-menu-a" aria-label="Standard header destinations" hidden><a href="../estancia-vik/">The house</a><a href="../stay/">Stay</a><a href="../dining/">Dining</a><a href="../experiences/">Experiences</a><a href="#r01">Book your stay</a></nav></div></article><article class="sg-nav-case sg-case-b"><header class="sg-case-note"><span>State B</span><h3>Expanded navigation</h3><p>Primary destinations stay visible while there is comfortable room.</p></header>
+ <div class="sg-header-demo" data-nav-mode="fluid"><nav class="sg-case-header" aria-label="Expanded navigation">
+ <div class="sg-case-brands"><a href="../estancia-vik/"><img src="assets/estancia-vik-black.png" alt="Estancia VIK" class="sg-property-logo"></a><a href="../vik-retreats/"><img src="assets/vik-retreats-black.png" alt="VIK Retreats" class="sg-parent-logo"></a></div>
+ <div class="sg-case-nav"><a href="../estancia-vik/">The house</a><a href="../stay/">Stay</a><a href="../dining/">Dining</a><a href="../experiences/">Experiences</a></div><div class="sg-case-actions"><a class="pill" href="#r01"><span>Book</span></a><button class="sg-case-toggle" type="button" aria-label="Open expanded navigation menu" aria-expanded="false" aria-controls="sg-menu-b"><span></span><span></span></button></div></nav>
+ <nav class="sg-case-menu" id="sg-menu-b" aria-label="Expanded navigation destinations" hidden><a href="../estancia-vik/">The house</a><a href="../stay/">Stay</a><a href="../dining/">Dining</a><a href="../experiences/">Experiences</a><a href="#r01">Book your stay</a></nav></div></article><article class="sg-nav-case sg-case-c"><header class="sg-case-note"><span>State C</span><h3>Compact navigation</h3><p>When space gets tight, the menu changes state. Type and spacing stay intact.</p></header>
+ <div class="sg-header-demo" data-nav-mode="compact"><nav class="sg-case-header" aria-label="Compact navigation">
+ <div class="sg-case-brands"><a href="../estancia-vik/"><img src="assets/estancia-vik-black.png" alt="Estancia VIK" class="sg-property-logo"></a><a href="../vik-retreats/"><img src="assets/vik-retreats-black.png" alt="VIK Retreats" class="sg-parent-logo"></a></div>
+ <div class="sg-case-nav"><a href="../estancia-vik/">The house</a><a href="../stay/">Stay</a><a href="../dining/">Dining</a><a href="../experiences/">Experiences</a></div><div class="sg-case-actions"><a class="pill" href="#r01"><span>Book</span></a><button class="sg-case-toggle" type="button" aria-label="Open compact navigation menu" aria-expanded="false" aria-controls="sg-menu-c"><span></span><span></span></button></div></nav>
+ <nav class="sg-case-menu" id="sg-menu-c" aria-label="Compact navigation destinations" hidden><a href="../estancia-vik/">The house</a><a href="../stay/">Stay</a><a href="../dining/">Dining</a><a href="../experiences/">Experiences</a><a href="#r01">Book your stay</a></nav></div></article></section><div class="sg-spec" id="m02"><span class="id">M02</span><span class="nm">Booking / check availability strip</span></div><section class="sg-cases"><p class="sg-case-intro">Operational examples. Availability below is illustrative.</p><article class="sg-book-case"><header class="sg-case-note"><span>State 01</span><h3>Check availability</h3></header><form class="sg-book-strip" data-book-state="1">
+ <p class="sg-book-message">Choose your dates. We’ll take it from here.</p><div class="sg-book-dates"><label for="sg-arrival-1">Arrival<input id="sg-arrival-1" name="arrival" type="date" required></label><label for="sg-departure-1">Departure<input id="sg-departure-1" name="departure" type="date" required></label></div><button class="pill solid" type="submit"><span>Check availability</span><span class="arw">→</span></button><p class="sg-book-feedback" role="status" aria-live="polite"></p></form></article><article class="sg-book-case"><header class="sg-case-note"><span>State 02</span><h3>Your dates, selected</h3></header><form class="sg-book-strip" data-book-state="2">
+ <p class="sg-book-message">Three nights at Estancia VIK. A little closer.</p><div class="sg-book-dates"><label for="sg-arrival-2">Arrival<input id="sg-arrival-2" name="arrival" type="date" required></label><label for="sg-departure-2">Departure<input id="sg-departure-2" name="departure" type="date" required></label></div><button class="pill solid" type="submit"><span>Continue</span><span class="arw">→</span></button><p class="sg-book-feedback" role="status" aria-live="polite"></p></form></article><article class="sg-book-case"><header class="sg-case-note"><span>State 03</span><h3>Not available</h3></header><form class="sg-book-strip" data-book-state="3">
+ <p class="sg-book-message">These dates are full. Let’s find another way in.</p><div class="sg-book-dates"><label for="sg-arrival-3">Arrival<input id="sg-arrival-3" name="arrival" type="date" required></label><label for="sg-departure-3">Departure<input id="sg-departure-3" name="departure" type="date" required></label></div><button class="pill solid" type="submit"><span>Change dates</span><span class="arw">→</span></button><p class="sg-book-feedback" role="status" aria-live="polite"></p></form></article><article class="sg-book-case"><header class="sg-case-note"><span>State 04</span><h3>High season</h3></header><form class="sg-book-strip" data-book-state="4">
+ <p class="sg-book-message">A five-night minimum applies to these sample dates.</p><div class="sg-book-dates"><label for="sg-arrival-4">Arrival<input id="sg-arrival-4" name="arrival" type="date" required></label><label for="sg-departure-4">Departure<input id="sg-departure-4" name="departure" type="date" required></label></div><button class="pill solid" type="submit"><span>Explore dates</span><span class="arw">→</span></button><p class="sg-book-feedback" role="status" aria-live="polite"></p></form></article><article class="sg-book-case"><header class="sg-case-note"><span>State 05</span><h3>A little flexibility</h3></header><form class="sg-book-strip" data-book-state="5">
+ <p class="sg-book-message">Arrive one day later for an alternative stay.</p><div class="sg-book-dates"><label for="sg-arrival-5">Arrival<input id="sg-arrival-5" name="arrival" type="date" required></label><label for="sg-departure-5">Departure<input id="sg-departure-5" name="departure" type="date" required></label></div><button class="pill solid" type="submit"><span>View alternative</span><span class="arw">→</span></button><p class="sg-book-feedback" role="status" aria-live="polite"></p></form></article></section>
+  <div class="sg-spec" id="m03">
+    <span class="id">M03</span>
     <span class="nm">Cover with the counter</span>
     <span class="src">.hero</span>
   </div>
-  <!-- M02 · Cover with the counter
+  <!-- M03 · Cover with the counter
        Full-bleed film and one box on top of it. Underneath the clip sits a photograph that never goes out: between one film and the next what you see is the still of the destination you picked, never the empty element. That gap was the grey box, and this is what closes it. -->
 <section class="hero" data-ground="dark">
     <!-- LAS PELICULAS DE LA PORTADA
@@ -248,13 +253,12 @@
     </form>
   </section>
 
-
-  <div class="sg-spec" id="m03">
-    <span class="id">M03</span>
+  <div class="sg-spec" id="m04">
+    <span class="id">M04</span>
     <span class="nm">Live ribbon</span>
     <span class="src">.strip[data-live]</span>
   </div>
-  <!-- M03 · Live ribbon
+  <!-- M04 · Live ribbon
        Six figures divided by hairlines. Real weather from Open-Meteo, no key. Six numbers in two columns would be three rows and a block of table; in a ribbon they read as what they are — a bulletin, running left to right. -->
 <section class="strip" data-live aria-label="Conditions in José Ignacio">
     <div class="fact season-cell">
@@ -278,13 +282,12 @@
     <div class="fact"><span class="k">Sunset</span><span class="v" data-live="sunset">—</span><span class="s" data-live-sub="sunset">Best light from La Susana</span></div>
   </section>
 
-
-  <div class="sg-spec" id="m04">
-    <span class="id">M04</span>
+  <div class="sg-spec" id="m05">
+    <span class="id">M05</span>
     <span class="nm">The collage</span>
     <span class="src">.collage · Destination</span>
   </div>
-  <!-- M04 · The collage
+  <!-- M05 · The collage
        Three plates at deliberately different sizes with the copy between them. On a narrow screen it stops being a collage and becomes a sequence you scroll sideways: stacked, it was twelve hundred pixels of scrolling for three photographs. -->
 <section class="sec" id="destination">
     <div class="collage">
@@ -295,17 +298,17 @@
            de la composicion. -->
       <div class="collage-figs">
 
-      <a class="prop-fig f-a" data-prop="estancia" href="#ch-estancia" aria-label="Estancia Vik">
+      <a class="prop-fig f-a" data-prop="estancia" href="../estancia-vik/" aria-label="Estancia Vik">
         <span class="frame clip"><img src="../vik-jose-ignacio/assets/video/dest-estancia-poster.webp?v=179" alt="Estancia Vik, open countryside"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/dest-estancia.mp4?v=179"></video></span>
         <span class="vcap">Estancia Vik · Countryside, Uruguay</span>
       </a>
 
-      <a class="prop-fig f-b" data-prop="bahia" href="#ch-bahia" aria-label="Bahía Vik">
+      <a class="prop-fig f-b" data-prop="bahia" href="../bahia-vik/" aria-label="Bahía Vik">
         <span class="frame clip"><img src="../vik-jose-ignacio/assets/video/dest-bahia-poster.webp?v=179" alt="Bahía Vik from the water"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/dest-bahia.mp4?v=179"></video></span>
         <span class="vcap">Bahía Vik · Playa Mansa, Uruguay</span>
       </a>
 
-      <a class="prop-fig f-c" data-prop="playa" href="#ch-playa" aria-label="Playa Vik">
+      <a class="prop-fig f-c" data-prop="playa" href="../playa-vik/" aria-label="Playa Vik">
         <span class="frame clip"><img src="../vik-jose-ignacio/assets/video/dest-playa-poster.webp?v=179" alt="Playa Vik, on the point"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/dest-playa.mp4?v=179"></video></span>
         <span class="vcap">Playa Vik · On the point</span>
       </a>
@@ -317,35 +320,32 @@
            pagina entera sin motor y sin red, y el cambio es un
            fundido, no una carga. -->
       <div class="collage-copy" data-collage-copy>
-        <div class="cc is-on" data-prop="estancia" data-cta="Explore the rooms" data-href="#ch-estancia">
-          <span class="name">Estancia Vik</span>
+        <div class="cc is-on" data-prop="estancia" data-cta="Explore the rooms" data-href="../estancia-vik/">
+          <span class="name"><img class="sg-brand-mark" src="assets/estancia-vik-black.png" alt="Estancia Vik"></span>
           <p class="note">Four thousand acres of open country, horses and open-fire gastronomy, rooted in Uruguayan tradition. Twelve suites, each one commissioned from a different artist.</p>
         </div>
-        <div class="cc" data-prop="bahia" data-cta="Explore the bungalows" data-href="#ch-bahia">
-          <span class="name">Bahía Vik</span>
+        <div class="cc" data-prop="bahia" data-cta="Explore the bungalows" data-href="../bahia-vik/">
+          <span class="name"><img class="sg-brand-mark" src="assets/bahia-vik-black.png" alt="Bahía Vik"></span>
           <p class="note">Design bungalows set into the dunes of Playa Mansa, on the calm side of the peninsula. The most social of the three, and the easiest with children.</p>
         </div>
-        <div class="cc" data-prop="playa" data-cta="Explore the houses" data-href="#ch-playa">
-          <span class="name">Playa Vik</span>
+        <div class="cc" data-prop="playa" data-cta="Explore the houses" data-href="../playa-vik/">
+          <span class="name"><img class="sg-brand-mark" src="assets/playa-vik-black.png" alt="Playa Vik"></span>
           <p class="note">Carlos Ott architecture on the point, with the Atlantic on three sides. Contemporary art in every room, a black granite pool, and almost no one else.</p>
         </div>
         <a class="link" href="#book"><span>Book your stay</span></a>
       </div>
 
-
-
-      <a class="collage-link link" href="#ch-estancia"><span>Explore the rooms</span></a>
+      <a class="collage-link link" href="../estancia-vik/"><span>Explore the rooms</span></a>
 
     </div>
   </section>
 
-
-  <div class="sg-spec" id="m05">
-    <span class="id">M05</span>
+  <div class="sg-spec" id="m06">
+    <span class="id">M06</span>
     <span class="nm">Ecosystem rail</span>
     <span class="src">.rail[data-rail=&quot;auto&quot;] + .card</span>
   </div>
-  <!-- M05 · Ecosystem rail
+  <!-- M06 · Ecosystem rail
        Seven cards with no gap between them. Separated they read as seven loose objects; touching, as a contact strip — which is what they are, one destination in seven frames. It drifts on its own, takes the mouse and takes the finger, and since V2 a vertical gesture passes straight through instead of smearing it sideways. -->
 <section class="sec paper tight" id="retreats">
     <div class="rail-head r">
@@ -357,38 +357,38 @@
     </div>
 
     <div class="rail" data-rail="auto" data-rail-speed="0.32">
-      <a class="card" href="#choose">
+      <a class="card" href="../estancia-vik/">
         <span class="card-fig"><img src="../vik-jose-ignacio/assets/video/card-estancia-poster.webp?v=179" alt="Estancia VIK"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/card-estancia.mp4?v=179"></video></span>
         <span class="card-body">
           <span class="card-loc">Countryside</span>
-          <span class="card-name lw">Estancia VIK</span>
+          <span class="card-name lw"><img class="sg-brand-mark" src="assets/estancia-vik-black.png" alt="Estancia VIK"></span>
           <p>Four thousand acres of open country, horses and open-fire gastronomy, rooted in Uruguayan tradition.</p>
           <span class="tags"><span>Horses</span><span>Open fire</span><span>Families</span></span>
         </span>
       </a>
-      <a class="card" href="#choose">
+      <a class="card" href="../playa-vik/">
         <span class="card-fig"><img src="../vik-jose-ignacio/assets/video/playa-poster.webp?v=179" alt="Playa VIK"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/playa.mp4?v=179"></video></span>
         <span class="card-body">
           <span class="card-loc">Oceanfront</span>
-          <span class="card-name lw">Playa VIK</span>
+          <span class="card-name lw"><img class="sg-brand-mark" src="assets/playa-vik-black.png" alt="Playa VIK"></span>
           <p>Carlos Ott architecture and contemporary art above the point, with the Atlantic on three sides.</p>
           <span class="tags"><span>Architecture</span><span>Art</span><span>Privacy</span></span>
         </span>
       </a>
-      <a class="card" href="#choose">
+      <a class="card" href="../bahia-vik/">
         <span class="card-fig"><img src="../vik-jose-ignacio/assets/video/card-bahia-poster.webp?v=179" alt="Bahía VIK"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/card-bahia.mp4?v=179"></video></span>
         <span class="card-body">
           <span class="card-loc">Playa Mansa</span>
-          <span class="card-name lw">Bahía VIK</span>
+          <span class="card-name lw"><img class="sg-brand-mark" src="assets/bahia-vik-black.png" alt="Bahía VIK"></span>
           <p>Design bungalows set into the dunes. Relaxed, social, and the easiest of the three with children.</p>
           <span class="tags"><span>Design</span><span>Social</span><span>Wellness</span></span>
         </span>
       </a>
-      <a class="card" href="#choose">
+      <a class="card" href="../pavilion-vik/">
         <span class="card-fig"><img src="../vik-jose-ignacio/assets/video/card-pavilion-poster.webp?v=179" alt="Pavilion VIK"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/card-pavilion.mp4?v=179"></video></span>
         <span class="card-body">
           <span class="card-loc">Venue · Oceanfront</span>
-          <span class="card-name lw">Pavilion VIK</span>
+          <span class="card-name lw"><img class="sg-brand-mark" src="assets/pavilion-vik-black.png" alt="Pavilion VIK"></span>
           <p>The cultural and celebration venue of the destination. Weddings, retreats and programming.</p>
           <span class="tags"><span>Events</span><span>Culture</span><span>Weddings</span></span>
         </span>
@@ -397,7 +397,7 @@
         <span class="card-fig"><img src="../vik-jose-ignacio/assets/video/card-susana-poster.webp?v=179" alt="La Susana"><video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/card-susana.mp4?v=179"></video></span>
         <span class="card-body">
           <span class="card-loc">Dining · Playa Mansa</span>
-          <span class="card-name lw">La Susana</span>
+          <span class="card-name lw"><img class="sg-brand-mark" src="assets/la-susana-black.png" alt="La Susana"></span>
           <p>Beachfront dining, music and the sunset ritual that defines a José Ignacio evening.</p>
           <span class="tags"><span>Beach dining</span><span>Sunset</span><span>Music</span></span>
         </span>
@@ -423,13 +423,12 @@
     </div>
   </section>
 
-
-  <div class="sg-spec" id="m06">
-    <span class="id">M06</span>
+  <div class="sg-spec" id="m07">
+    <span class="id">M07</span>
     <span class="nm">The statement</span>
     <span class="src">.statement</span>
   </div>
-  <!-- M06 · The statement
+  <!-- M07 · The statement
        The only block on the page centred on both axes, and that symmetry is what turns it into a declaration. It arrives after the reader has seen the doors, so the line has something to refer back to. -->
 <section class="statement" id="statement" data-ground="dark">
     <div class="statement-media">
@@ -442,48 +441,47 @@
       <h1 class="statement-t lines" data-lines="br">One destination.<br>Three ways to<br><em>experience</em> it.</h1>
       <p class="statement-d">Between the ocean and the countryside, a connected world of art, design, nature, gastronomy, wine, wellness and the unmistakable rhythm of Uruguay.</p>
       <div class="statement-actions">
-        <a class="pill light" href="#choose"><span>Help Me Choose</span><span class="arw">&#8594;</span></a>
+        <a class="pill light" href="../stay/"><span>Help Me Choose</span><span class="arw">&#8594;</span></a>
         <a class="pill light" href="#book"><span>Check availability</span><span class="arw">&#8594;</span></a>
       </div>
     </div>
   </section>
 
-
-  <div class="sg-spec" id="m07">
-    <span class="id">M07</span>
+  <div class="sg-spec" id="m08">
+    <span class="id">M08</span>
     <span class="nm">The chooser</span>
     <span class="src">.chooser + .ch</span>
   </div>
-  <!-- M07 · The chooser
+  <!-- M08 · The chooser
        Three full-bleed plates, touching, with no rule between them. The decision is one image cut in three, not three separate cards. On a phone it becomes a strip with gentle snapping — proximity, never mandatory, so a thumb that hesitates is not trapped. -->
 <div class="chooser r fade" data-ground="dark">
-    <a class="ch" id="ch-estancia" href="#book">
+    <a class="ch" id="ch-estancia" href="../estancia-vik/">
       <img src="../vik-jose-ignacio/assets/video/room-estancia-poster.webp?v=179" alt="Estancia VIK">
       <video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/room-estancia.mp4?v=179"></video>
       <span class="ch-body">
-        <span class="lw ch-mark">Estancia VIK</span>
+        <span class="lw ch-mark"><img class="sg-brand-mark" src="assets/estancia-vik-white.png" alt="Estancia VIK"></span>
         <span class="ch-place">Countryside · 20 min inland</span>
         <span class="ch-lede">Four thousand acres, horses and fire. The Uruguay that existed before the coast was discovered.</span>
         <span class="ch-cta"><span class="link"><span>See the case</span><span class="arw">&#8594;</span></span></span>
       </span>
     </a>
 
-    <a class="ch" id="ch-playa" href="#book">
+    <a class="ch" id="ch-playa" href="../playa-vik/">
       <img src="../vik-jose-ignacio/assets/video/room-playa-poster.webp?v=179" alt="Playa VIK">
       <video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/room-playa.mp4?v=179"></video>
       <span class="ch-body">
-        <span class="lw ch-mark">Playa VIK</span>
+        <span class="lw ch-mark"><img class="sg-brand-mark" src="assets/playa-vik-white.png" alt="Playa VIK"></span>
         <span class="ch-place">Oceanfront · on the point</span>
         <span class="ch-lede">Carlos Ott architecture and contemporary art, with the Atlantic on three sides and almost no one else.</span>
         <span class="ch-cta"><span class="link"><span>See the case</span><span class="arw">&#8594;</span></span></span>
       </span>
     </a>
 
-    <a class="ch" id="ch-bahia" href="#book">
+    <a class="ch" id="ch-bahia" href="../bahia-vik/">
       <img src="../vik-jose-ignacio/assets/video/room-bahia-poster.webp?v=179" alt="Bahía VIK">
       <video muted loop playsinline preload="none" data-src="../vik-jose-ignacio/assets/video/room-bahia.mp4?v=179"></video>
       <span class="ch-body">
-        <span class="lw ch-mark">Bahía VIK</span>
+        <span class="lw ch-mark"><img class="sg-brand-mark" src="assets/bahia-vik-white.png" alt="Bahía VIK"></span>
         <span class="ch-place">Playa Mansa · in the dunes</span>
         <span class="ch-lede">Design bungalows in the beach dunes on the calm side. The most social of the three, the easiest with children.</span>
         <span class="ch-cta"><span class="link"><span>See the case</span><span class="arw">&#8594;</span></span></span>
@@ -491,13 +489,12 @@
     </a>
   </div>
 
-
-  <div class="sg-spec" id="m08">
-    <span class="id">M08</span>
+  <div class="sg-spec" id="m09">
+    <span class="id">M09</span>
     <span class="nm">Filtered mosaic</span>
     <span class="src">.mosaic + .vcard + [data-mosaic-filter]</span>
   </div>
-  <!-- M08 · Filtered mosaic
+  <!-- M09 · Filtered mosaic
        Four slots, always. With no filter, four experiences; with one, three and the way out. The two wide slots are the ends of the row and they are the ones that carry film — four moving cards in a block of four is not a live module, it is noise. -->
 <section class="sec canvas" id="experiences">
     <div class="head">
@@ -514,7 +511,7 @@
          solo, y ninguna categoria puede quedar vacia. -->
     <div class="mo-bar">
       <div class="mo-filter" data-mosaic-filter role="tablist" aria-label="Filter experiences"></div>
-      <a class="mo-all link" href="experiences.html"><span>Full experiences</span><span class="arw">&#8594;</span></a>
+      <a class="mo-all link" href="../experiences/"><span>Full experiences</span><span class="arw">&#8594;</span></a>
     </div>
 
     <!-- La cuarta plaza no es una experiencia: es la salida. El
@@ -629,7 +626,7 @@
         <p>Four thousand acres and everything on the plate comes from the half hectare behind the house.</p>
         <div class="vcard-actions"><a class="link" href="#book"><span>Explore</span><span class="arw">&#8594;</span></a></div>
       </article>
-      <a class="vcard vcard--cta" href="experiences.html" data-mosaic-cta>
+      <a class="vcard vcard--cta" href="../experiences/" data-mosaic-cta>
         <span class="cta-k">More to do</span>
         <span class="cta-t" data-cta-title>All experiences</span>
         <span class="cta-n" data-cta-count></span>
@@ -638,13 +635,12 @@
     </div>
   </section>
 
-
-  <div class="sg-spec" id="m09">
-    <span class="id">M09</span>
+  <div class="sg-spec" id="m10">
+    <span class="id">M10</span>
     <span class="nm">The manifesto index</span>
     <span class="src">.gallery + .gx + .gallery-stage</span>
   </div>
-  <!-- M09 · The manifesto index
+  <!-- M10 · The manifesto index
        Six entries and one sticky plate that follows whichever is being read. Below 900 the plate is not drawn at all and each entry carries its own image underneath — otherwise the engine kept loading film for an element the CSS had hidden. -->
 <section class="sec" id="pillars">
     <div class="head">
@@ -754,13 +750,12 @@
     </div>
   </section>
 
-
-  <div class="sg-spec" id="m10">
-    <span class="id">M10</span>
+  <div class="sg-spec" id="m11">
+    <span class="id">M11</span>
     <span class="nm">Full-bleed band with calendar</span>
     <span class="src">.film + .season[data-season-table]</span>
   </div>
-  <!-- M10 · Full-bleed band with calendar
+  <!-- M11 · Full-bleed band with calendar
        Film across the full width with the year on top of it. The engine marks the season you are actually in and counts the days to the next one, which is the question the module exists to answer. -->
 <section class="sec canvas" id="seasons">
     <div class="film" data-ground="dark">
@@ -784,13 +779,12 @@
     </div>
   </section>
 
-
-  <div class="sg-spec" id="m11">
-    <span class="id">M11</span>
+  <div class="sg-spec" id="m12">
+    <span class="id">M12</span>
     <span class="nm">The index</span>
     <span class="src">.index + .index-row</span>
   </div>
-  <!-- M11 · The index
+  <!-- M12 · The index
        Rows with a number, a name and a fact. With a mouse a thumbnail trails the cursor across the page; in strip form the photograph moves inside the card and the booking link rests on its base. -->
 <section class="sec" id="dining">
     <div class="head bare">
@@ -805,19 +799,18 @@
       <a class="index-row" href="#book" data-hover-img="../vik-jose-ignacio/assets/video/dining-asador-poster.webp?v=179" data-hover-film="../vik-jose-ignacio/assets/video/dining-asador.mp4?v=179"><span class="index-n">01</span><span class="index-name">El Asador</span><span class="index-meta">Estancia VIK · open fire, farm to table</span><span class="index-cta"><span class="link"><span>Reserve</span><span class="arw">&#8594;</span></span></span></a>
       <a class="index-row" href="#book" data-hover-img="../vik-jose-ignacio/assets/video/dining-cielomar-poster.webp?v=179" data-hover-film="../vik-jose-ignacio/assets/video/dining-cielomar.mp4?v=179"><span class="index-n">02</span><span class="index-name">CieloMar</span><span class="index-meta">Playa VIK · fish BBQ over the Atlantic</span><span class="index-cta"><span class="link"><span>Reserve</span><span class="arw">&#8594;</span></span></span></a>
       <a class="index-row" href="#book" data-hover-img="../vik-jose-ignacio/assets/video/dining-zodiaco-poster.webp?v=179" data-hover-film="../vik-jose-ignacio/assets/video/dining-zodiaco.mp4?v=179"><span class="index-n">03</span><span class="index-name">Zodiaco</span><span class="index-meta">Bahía VIK · bay-side, all day</span><span class="index-cta"><span class="link"><span>Reserve</span><span class="arw">&#8594;</span></span></span></a>
-      <a class="index-row" href="#book" data-hover-img="../vik-jose-ignacio/assets/video/dining-susana-poster.webp?v=179" data-hover-film="../vik-jose-ignacio/assets/video/dining-susana.mp4?v=179"><span class="index-n">04</span><span class="index-name">La Susana</span><span class="index-meta">Playa Mansa · beach dining, music, sunset</span><span class="index-cta"><span class="link"><span>Reserve</span><span class="arw">&#8594;</span></span></span></a>
+      <a class="index-row" href="#book" data-hover-img="../vik-jose-ignacio/assets/video/dining-susana-poster.webp?v=179" data-hover-film="../vik-jose-ignacio/assets/video/dining-susana.mp4?v=179"><span class="index-n">04</span><span class="index-name"><img class="sg-brand-mark" src="assets/la-susana-black.png" alt="La Susana"></span><span class="index-meta">Playa Mansa · beach dining, music, sunset</span><span class="index-cta"><span class="link"><span>Reserve</span><span class="arw">&#8594;</span></span></span></a>
       <a class="index-row" href="#book" data-hover-img="../vik-jose-ignacio/assets/video/dining-azur-poster.webp?v=179" data-hover-film="../vik-jose-ignacio/assets/video/dining-azur.mp4?v=179"><span class="index-n">05</span><span class="index-name">Azur</span><span class="index-meta">Playa VIK &middot; seafood, whatever came in that morning</span><span class="index-cta"><span class="link"><span>Reserve</span><span class="arw">&#8594;</span></span></span></a>
       <a class="index-row" href="#book" data-hover-img="../vik-jose-ignacio/assets/video/dining-fogon-poster.webp?v=179" data-hover-film="../vik-jose-ignacio/assets/video/dining-fogon.mp4?v=179"><span class="index-n">06</span><span class="index-name">Fogón</span><span class="index-meta">Estancia Vik · the country asado, as it was</span><span class="index-cta"><span class="link"><span>Reserve</span><span class="arw">&#8594;</span></span></span></a>
     </div>
   </section>
 
-
-  <div class="sg-spec" id="m12">
-    <span class="id">M12</span>
+  <div class="sg-spec" id="m13">
+    <span class="id">M13</span>
     <span class="nm">The week</span>
     <span class="src">.agenda + .ev</span>
   </div>
-  <!-- M12 · The week
+  <!-- M13 · The week
        Seven days in a black strip with no seam. The day names and dates are written by the destination's own clock, and the card nearest the current hour is marked. It refreshes itself every half hour. -->
 <section class="agenda" id="now" data-ground="dark"
            data-refresh="sunday 23:30 America/Montevideo">
@@ -915,13 +908,12 @@
     </div>
   </section>
 
-
-  <div class="sg-spec" id="m13">
-    <span class="id">M13</span>
+  <div class="sg-spec" id="m14">
+    <span class="id">M14</span>
     <span class="nm">Live map</span>
     <span class="src">.map-section + .map-full</span>
   </div>
-  <!-- M13 · Live map
+  <!-- M14 · Live map
        Map and satellite, with the legend as a bottom bar. Leaflet anchors its credit to the foot of the map, so the map is stretched below the crop and the signature falls outside the frame — it is never hidden, it lives in the page footer instead. -->
 <section class="sec map-section" id="map">
     <div class="head">
@@ -944,13 +936,12 @@
     </div>
   </section>
 
-
-  <div class="sg-spec" id="m14">
-    <span class="id">M14</span>
+  <div class="sg-spec" id="m15">
+    <span class="id">M15</span>
     <span class="nm">Press</span>
     <span class="src">.logo-rail</span>
   </div>
-  <!-- M14 · Press
+  <!-- M15 · Press
        A row of marks that drifts on its own. On a phone the three quotes go and the row stays: a seal reads at a glance, three long paragraphs between the map and the booking form are a stop. -->
 <section class="sec" id="press" style="overflow:hidden">
     <div class="logo-rail" data-rail="auto" data-rail-speed="0.26">
@@ -966,25 +957,15 @@
     </div>
 
   </section>
-  <div class="sg-spec" id="m15"><span class="id">M15</span><span class="nm">Recognitions</span></div>
-  <section class="sec sg-recognitions" aria-label="Recognitions"><div class="sg-recognition-grid"><article class="sg-recognition" role="link" tabindex="0" aria-disabled="true">
-        <q>An estancia reimagined as a living gallery, where the art was made for the room it hangs in.</q>
-        <cite>Architectural Digest<span class="d">2018</span></cite>
-      <span class="link sg-story-cta">Read story <span aria-hidden="true">→</span></span></article><article class="sg-recognition" role="link" tabindex="0" aria-disabled="true">
-        <q>The most architecturally ambitious house on this coast, and the least interested in saying so.</q>
-        <cite>Wallpaper*<span class="d">2019</span></cite>
-      <span class="link sg-story-cta">Read story <span aria-hidden="true">→</span></span></article><article class="sg-recognition" role="link" tabindex="0" aria-disabled="true">
-        <q>Three houses a few kilometres apart, held together by one singular sense of place.</q>
-        <cite>Condé Nast Traveler<span class="d">2021</span></cite>
-      <span class="link sg-story-cta">Read story <span aria-hidden="true">→</span></span></article></div></section>
+  <div class="sg-spec" id="m16"><span class="id">M16</span><span class="nm">Recognitions</span></div>
+  <section class="sec sg-recognitions" aria-label="Recognitions"><div class="sg-recognition-grid"><noscript>Enable JavaScript to explore three excerpts from our curated press selection.</noscript></div></section>
 
-
-  <div class="sg-spec" id="m16">
-    <span class="id">M16</span>
+  <div class="sg-spec" id="m17">
+    <span class="id">M17</span>
     <span class="nm">The reservation</span>
     <span class="src">.reserve-grid + .counter</span>
   </div>
-  <!-- M15 · The reservation
+  <!-- M16 · The reservation
        The same engine as the counter on the cover and the strip at the foot: same fields, same names, one piece of booking logic rather than three. -->
 <section class="sec canvas" id="book">
     <div class="reserve-grid r">
@@ -1039,19 +1020,18 @@
     </form>
 
     <div class="reserve-alts r d2">
-      <a class="pill" href="#choose"><span>Help Me Choose</span><span class="arw">&#8594;</span></a>
+      <a class="pill" href="../stay/"><span>Help Me Choose</span><span class="arw">&#8594;</span></a>
       <a class="pill" href="mailto:guestexperience@vikretreats.com"><span>Contact a Journey Designer</span><span class="arw">&#8594;</span></a>
       <a class="pill" href="#book"><span>Plan an Event</span><span class="arw">&#8594;</span></a>
     </div>
   </section>
 
-
-  <div class="sg-spec" id="m17">
-    <span class="id">M17</span>
+  <div class="sg-spec" id="m18">
+    <span class="id">M18</span>
     <span class="nm">The closing</span>
     <span class="src">.club + .club-in</span>
   </div>
-  <!-- M16 · The closing
+  <!-- M17 · The closing
        The last door on the page, with its own footage. It is the only one that leads outside the hotel, which is why it goes at the end rather than repeating the question the booking strip already asked. -->
 <section class="sec club-sec" id="club" data-ground="dark">
     <div class="club">
@@ -1089,7 +1069,6 @@
     </div>
   </section>
 
-
 <section class="sg-library-module" data-module="l01">
   <div class="sg-spec" id="l01">
     <span class="id">L01</span>
@@ -1101,20 +1080,18 @@
 <section class="hero-page">
   <div class="hp-media"><video class="is-on" data-sg-src="../vik-jose-ignacio/assets/video/spring.mp4" poster="../vik-jose-ignacio/assets/video/spring-poster.webp" muted loop playsinline preload="none" aria-label="Spring at Playa VIK"></video></div>
   <div class="hp-inner ed">
-    <div class="ed-folio"><span class="hp-kicker">Playa VIK<br>On the point</span></div>
+
     <div class="ed-main">
       <h1 class="hp-title"><span>Carlos Ott</span><em>Cut into the rock</em></h1>
       <p class="hp-desc">Twelve suites and a titanium roof above the Atlantic, with the ocean on three sides and a contemporary collection hung through every room of the house.</p>
       <div class="hp-actions">
-        <a class="pill light" href="#"><span>See the rooms</span><span class="arw">&#8594;</span></a>
-        <a class="link" href="#"><span>The architecture</span><span class="arw">&#8594;</span></a>
+        <a class="pill light" href="../playa-vik/#accommodations"><span>See the rooms</span><span class="arw">&#8594;</span></a>
+        <a class="link" href="../playa-vik/"><span>The architecture</span><span class="arw">&#8594;</span></a>
       </div>
     </div>
   </div>
 
 </section>
-
-
 
 </section>
 <section class="sg-library-module" data-module="l02">
@@ -1132,7 +1109,7 @@
       <div class="ed-main">
         <h3>Nothing travels further than <em>the garden</em>.</h3>
         <p class="ed-read">Half a hectare behind the house feeds four kitchens. What is not cut that morning is not on the menu that night — a constraint the chefs asked for rather than one imposed on them.</p>
-        <a class="link" href="#"><span>Walk the garden</span><span class="arw">&#8594;</span></a>
+        <a class="link" href="../dining/"><span>Walk the garden</span><span class="arw">&#8594;</span></a>
       </div>
     </article>
     <article class="principle ed" data-hover-img="../_assets/img/t/estancia_sculpture-img_1789-w900.jpg">
@@ -1140,7 +1117,7 @@
       <div class="ed-main">
         <h3>The art is <em>not decoration</em>.</h3>
         <p class="ed-read">Every room was given to an artist before a guest ever saw it. You sleep inside the work rather than beside it, and no two rooms argue the same thing.</p>
-        <a class="link" href="#"><span>The collection</span><span class="arw">&#8594;</span></a>
+        <a class="link" href="../playa-vik/"><span>The collection</span><span class="arw">&#8594;</span></a>
       </div>
     </article>
     <article class="principle ed" data-hover-img="../_assets/img/t/bahia_16_bv-1106-scaled-w900.jpg">
@@ -1148,13 +1125,11 @@
       <div class="ed-main">
         <h3>The land was here <em>first</em>.</h3>
         <p class="ed-read">Bahía sits inside the dunes rather than on top of them. Nothing was flattened to build it, and the sand still moves across the paths every September.</p>
-        <a class="link" href="#"><span>See Bahía VIK</span><span class="arw">&#8594;</span></a>
+        <a class="link" href="../bahia-vik/"><span>See Bahía VIK</span><span class="arw">&#8594;</span></a>
       </div>
     </article>
   </div>
 </section>
-
-
 
 </section>
 <section class="sg-library-module" data-module="l05">
@@ -1195,8 +1170,6 @@
   </div>
 </section>
 
-
-
 </section>
 <section class="sg-library-module" data-module="l07">
   <div class="sg-spec" id="l07">
@@ -1208,7 +1181,7 @@
        A statement and the direct lines on the left; the questions on the right as ruled lines rather than boxes. A form made of boxes looks like paperwork; made of rules it looks like a letter, which is what it is. -->
 <section class="sec">
   <div class="enquiry r">
-    <div>
+    <div class="enq-aside">
       <span class="kicker">Talk to someone</span>
       <p class="enq-statement">A Journey Designer answers, <em>not a form</em>.</p>
       <div class="enq-lines">
@@ -1231,35 +1204,11 @@
   </div>
 </section>
 
-
-
 </section>
-<section class="sg-library-module" data-module="l08">
-  <div class="sg-spec" id="l08">
-    <span class="id">L08</span>
-    <span class="nm">Split</span>
-    <span class="src">.split · reversible with .rev</span>
-  </div>
-  <!-- L08 · Split
-       One photograph and one argument, fifty-fifty. The simplest module in the system and the most used: About, Location, the introduction to a restaurant. It reverses with a class and no change to the markup. -->
-<section class="sec canvas">
-  <div class="split r">
-    <figure class="split-media">
-      <video class="is-on" data-sg-src="../vik-jose-ignacio/assets/video/dest-playa.mp4" poster="../vik-jose-ignacio/assets/video/dest-playa-poster.webp" muted loop playsinline preload="none" aria-label="Playa VIK, the house facing the Atlantic"></video>
-    </figure>
-    <div class="split-body">
-      <span class="kicker">The collection</span>
-      <h2>Two hundred works, and <em>not one label</em>.</h2>
-      <p>The houses were handed to artists before they were handed to guests. Nothing is roped off and nothing is captioned — if you want to know what you are looking at, the curator walks it with you on Thursdays.</p>
-      <a class="link" href="#"><span>Walk the collection</span><span class="arw">&#8594;</span></a>
-      <p class="ed-cap">Playa VIK · Architecture by Carlos Ott</p>
-    </div>
-  </div>
-</section>
-
-
-
-</section>
+<section class="sg-library-module" data-module="l08"><div class="sg-spec" id="l08"><span class="id">L08</span><span class="nm">Split / changing stories</span></div><section class="sec canvas"><div class="sg-stories"><div class="split sg-story-state is-active" id="sg-story-0" data-story-state="0" aria-hidden="false" >
+ <figure class="split-media"><video data-story-src="../vik-jose-ignacio/assets/video/dest-playa.mp4" poster="../vik-jose-ignacio/assets/video/dest-playa-poster.webp" muted loop playsinline preload="none" aria-label="Playa VIK · Architecture by Carlos Ott"></video></figure><div class="split-body"><div class="sg-story-copy"><span class="kicker">The collection</span><h2>Two hundred works, and <em>not one label</em>.</h2><p>The houses were handed to artists before they were handed to guests. Art lives in every room, with no velvet rope between you and the work.</p><a class="link" href="../playa-vik/"><span>Walk the collection</span><span class="arw">→</span></a><p class="ed-cap">Playa VIK · Architecture by Carlos Ott</p></div></div></div><div class="split sg-story-state" id="sg-story-1" data-story-state="1" aria-hidden="true" inert>
+ <figure class="split-media"><video data-story-src="../vik-jose-ignacio/assets/video/dest-estancia.mp4" poster="../vik-jose-ignacio/assets/video/dest-estancia-poster.webp" muted loop playsinline preload="none" aria-label="Estancia VIK · The countryside"></video></figure><div class="split-body"><div class="sg-story-copy"><span class="kicker">Open country</span><h2>A different kind of <em>wide open</em>.</h2><p>Ride out across the pampas, follow the river, and come home to the fire. At Estancia VIK, the landscape sets the pace.</p><a class="link" href="../estancia-vik/"><span>Explore Estancia</span><span class="arw">→</span></a><p class="ed-cap">Estancia VIK · The countryside</p></div></div></div><div class="split sg-story-state" id="sg-story-2" data-story-state="2" aria-hidden="true" inert>
+ <figure class="split-media"><video data-story-src="../vik-jose-ignacio/assets/video/dest-bahia.mp4" poster="../vik-jose-ignacio/assets/video/dest-bahia-poster.webp" muted loop playsinline preload="none" aria-label="Bahía VIK · Life in the dunes"></video></figure><div class="split-body"><div class="sg-story-copy"><span class="kicker">By the water</span><h2>Let the coast <em>set the rhythm</em>.</h2><p>A house in the dunes. A table by the sea. Long afternoons that turn into evenings before you think to look at the time.</p><a class="link" href="../bahia-vik/"><span>Discover Bahía</span><span class="arw">→</span></a><p class="ed-cap">Bahía VIK · Life in the dunes</p></div></div></div><div class="sg-story-indicators" role="group" aria-label="Choose a story"><button type="button" data-story-select="0" aria-label="Show the collection" aria-controls="sg-story-0" aria-pressed="true"><span></span></button><button type="button" data-story-select="1" aria-label="Show open country" aria-controls="sg-story-1" aria-pressed="false"><span></span></button><button type="button" data-story-select="2" aria-label="Show by the water" aria-controls="sg-story-2" aria-pressed="false"><span></span></button></div></div></section></section>
 <section class="sg-library-module" data-module="l09">
   <div class="sg-spec" id="l09">
     <span class="id">L09</span>
@@ -1275,8 +1224,6 @@
   </blockquote>
 </section>
 
-
-
 </section>
 <section class="sg-library-module" data-module="l10">
   <div class="sg-spec" id="l10">
@@ -1288,18 +1235,16 @@
        On a long property page, the index of that page. It sticks under the main bar and marks where you are. The position marker is a one-pixel rule under the name rather than a pill: in a bar built of hairlines, a pill shouts. -->
 <nav class="subnav" style="position:relative;top:auto" aria-label="On this page">
   <div class="subnav-inner">
-    <span class="sn-name">Playa VIK</span>
+    <span class="sn-name"><img class="sg-brand-mark" src="assets/playa-vik-black.png" alt="Playa VIK"></span>
 
-    <a href="#" class="is-on">The house</a>
-    <a href="#">Rooms</a>
-    <a href="#">Art</a>
-    <a href="#">Dining</a>
-    <a href="#">Wellness</a>
-    <a href="#">Getting here</a>
+    <a href="../playa-vik/" class="is-on">The house</a>
+    <a href="../playa-vik/#accommodations">Rooms</a>
+    <a href="../playa-vik/">Art</a>
+    <a href="../playa-vik/#dining">Dining</a>
+    <a href="../vik-wellness/">Wellness</a>
+    <a href="../contact/">Getting here</a>
   </div>
 </nav>
-
-
 
 </section>
 <section class="sg-library-module" data-module="l12">
@@ -1321,8 +1266,6 @@
   </div>
 </section>
 
-
-
 </section>
 <section class="sg-library-module" data-module="l13">
   <div class="sg-spec" id="l13">
@@ -1342,8 +1285,6 @@
   </div>
 </section>
 
-
-
 </section>
 <section class="sg-library-module" data-module="l14">
   <div class="sg-spec" id="l14">
@@ -1362,14 +1303,12 @@
        Three levels with the separator in mono. It marks the depth of the system, which is exactly what a visitor who arrived through a single room has no other way of knowing. -->
 <section class="sec" style="padding-top:clamp(2rem,4vw,3rem);padding-bottom:clamp(2rem,4vw,3rem)">
   <nav class="crumb r" aria-label="Breadcrumb">
-    <a href="#">VIK Retreats</a><span class="sep">/</span>
-    <a href="#">José Ignacio</a><span class="sep">/</span>
-    <a href="#">Playa VIK</a><span class="sep">/</span>
+    <a href="../vik-retreats/">VIK Retreats</a><span class="sep">/</span>
+    <a href="../vik-jose-ignacio/">José Ignacio</a><span class="sep">/</span>
+    <a href="../playa-vik/">Playa VIK</a><span class="sep">/</span>
     <span aria-current="page">Ocean Suite</span>
   </nav>
 </section>
-
-
 
 </section>
 <section class="sg-library-module" data-module="l16">
@@ -1393,13 +1332,11 @@
   </div>
 </section>
 
-
-
 </section>
 <section class="sg-library-module sg-review" data-module="review">
 <div class="sg-spec" id="review"><span class="id">R</span><span class="nm">The guest journey</span></div>
-<div class="sg-review-intro"><h2>A closer look.</h2><p>A little closer to your stay. Explore the flow below; this preview makes no reservation.</p></div>
-<article class="sg-preview" id="r01"><h3><span class="sg-r-number">R01</span> Guest details</h3><div class="sg-preview-surface"><header class="sg-preview-head"><span>01 Stay &nbsp; / &nbsp; <b>02 Guest</b> &nbsp; / &nbsp; 03 Payment</span><span>Journey preview</span></header><div class="sg-checkout">
+<div class="sg-review-intro"><h2>A little closer.</h2><p>Explore an example stay. These forms demonstrate the flow; nothing is booked or sent.</p></div>
+<article class="sg-preview" id="r01"><h3><span class="sg-r-number">R01</span> Your details</h3><div class="sg-preview-surface"><div class="sg-checkout">
           <form class="enq-form ck-form" onsubmit="return false">
             <div class="enq-field"><span class="n">01</span><label for="sg-ckName">Full name</label><input id="sg-ckName" type="text" required autocomplete="name" placeholder="As it appears on your passport"></div>
             <div class="enq-field"><span class="n">02</span><label for="sg-ckMail">Email</label><input id="sg-ckMail" type="email" required autocomplete="email" placeholder="you@email.com"></div>
@@ -1410,11 +1347,11 @@
             <div class="enq-field"><span class="n">05</span><label for="sg-ckNotes">Anything we should know</label><textarea id="sg-ckNotes" rows="2" placeholder="Arrival time, dietary needs, a birthday, children's ages."></textarea></div>
           </form>
           <aside class="ck-summary">
-            <span class="ui-label" style="opacity:.45">Your stay</span>
+            <a class="sg-stay-brand" href="../estancia-vik/"><img src="assets/estancia-vik-black.png" alt="Estancia VIK"></a>
             <div class="ck-facts">
-              <div><span>Retreat</span><span>—</span></div>
-              <div><span>Dates</span><span>—</span></div>
-              <div><span>Guests</span><span>—</span></div>
+              <div><span>Room</span><span>Guest suite</span></div>
+              <div><span>Length of stay</span><span>Three nights</span></div>
+              <div><span>Guests</span><span>Two adults</span></div>
             </div>
             <p class="ck-note">A Journey Designer reads every booking and writes back before you arrive.</p>
             <div class="ck-actions">
@@ -1423,25 +1360,24 @@
             </div>
           <p class="sg-review-status" role="status" aria-live="polite"></p></aside>
         </div></div></article>
-<article class="sg-preview" id="r02"><h3><span class="sg-r-number">R02</span> Payment choices</h3><div class="sg-preview-surface"><header class="sg-preview-head"><span>01 Stay &nbsp; / &nbsp; 02 Guest &nbsp; / &nbsp; <b>03 Payment</b></span><span>Journey preview</span></header><div class="sg-checkout">
+<article class="sg-preview" id="r02"><h3><span class="sg-r-number">R02</span> How would you like to pay?</h3><div class="sg-preview-surface"><div class="sg-checkout">
           <div class="ck-pay">
-            <span class="ui-label" style="opacity:.45">Payment</span>
-            <h3 class="ck-h">Choose how to pay.</h3>
+
             <div class="ck-methods">
               <button class="ck-method is-on" data-review-method="card" type="button" aria-pressed="true">
                 <span class="k">Card</span>
                 <span class="sg-payment-marks"><img src="assets/visa.png" alt="Visa"><img src="assets/mastercard.svg" alt="Mastercard"><img src="assets/amex.svg" alt="American Express"></span>
-                <span class="s">Taken on the Bookassist secure page</span>
+                <span class="s">Credit or debit, securely.</span>
               </button>
               <button class="ck-method" data-review-method="paypal" type="button" aria-pressed="false">
                 <span class="k">PayPal</span>
                 <span class="sg-payment-marks"><img class="sg-paypal-mark" src="assets/paypal.png" alt="PayPal"></span>
-                <span class="s">You approve the amount in your PayPal account</span>
+                <span class="s">Approve in your PayPal account.</span>
               </button>
               <button class="ck-method" data-review-method="hold" type="button" aria-pressed="false">
                 <span class="k">Hold</span>
-                <span class="sg-payment-marks"><svg viewBox="0 0 64 32" width="64" height="32" aria-label="A place held for you" role="img"><path d="M15 26V8h34v18M11 26h42M23 8V4h18v4M23 15h18M23 19h18" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M30 12h4v11h-4z" fill="none" stroke="currentColor" stroke-width="1"/></svg></span>
-                <span class="s">Held for 24 hours. A Journey Designer confirms</span>
+                <span class="sg-payment-marks"><svg viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Hold your stay"><rect x="7" y="14" width="18" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M11 14V9a5 5 0 0 1 10 0v5M16 20v3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+                <span class="s">A little time to decide. We’ll confirm the hold.</span>
               </button>
             </div>
 
@@ -1462,11 +1398,10 @@
           </div>
 
           <aside class="ck-summary">
-            <span class="ui-label" style="opacity:.45">Total</span>
+            <a class="sg-stay-brand" href="../estancia-vik/"><img src="assets/estancia-vik-black.png" alt="Estancia VIK"></a>
             <div class="ck-facts">
-              <div><span>Retreat</span><span>—</span></div>
-              <div><span>Dates</span><span>—</span></div>
-              <div><span>Nights</span><span>—</span></div>
+              <div><span>Room</span><span>Guest suite</span></div>
+              <div><span>Length of stay</span><span>Three nights</span></div>
               <div><span>Rate</span><span>Confirmed by the engine</span></div>
             </div>
             <p class="ck-note">Free cancellation applies outside the season window. Terms shown by the engine before you confirm.</p>
@@ -1556,7 +1491,7 @@
 <div class="footer-bottom">
   <p class="footer-copy">VIK Retreats, José Ignacio Uruguay</p>
   <nav class="footer-legal" aria-label="Legal">
-    <a href="#top">Privacy</a><a href="#top">Terms</a><a href="#top">Accessibility</a><a href="#top">Cookies</a>
+    <a aria-disabled="true" data-placeholder="Legal pages pending">Privacy</a><a aria-disabled="true" data-placeholder="Legal pages pending">Terms</a><a aria-disabled="true" data-placeholder="Legal pages pending">Accessibility</a><a aria-disabled="true" data-placeholder="Legal pages pending">Cookies</a>
   </nav>
 </div></footer>
 
@@ -1573,6 +1508,6 @@ if (window.Lenis) {
 <script src="../_core/vik-chrome-v2.js?v=1"></script>
 <script src="../_core/vik-v2.min.js?v=1"></script>
 <script src="../_core/vik-v2-lib.min.js?v=1"></script>
-<script src="library.js?v=5c80eb9da0"></script>
+<script src="quotes.js?v=6bc35076d7"></script><script src="guide.js?v=344ab17e5d"></script><script src="library.js?v=7496223499"></script>
 </body>
 </html>
