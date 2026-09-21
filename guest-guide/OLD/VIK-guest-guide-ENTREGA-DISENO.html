@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VIK Digital Journey Designer — Documento de entrega para diseño web</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chivo:wght@400;700;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Azeret+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EAEBE5;
+    --sheet:#F4F4F0;
+    --ink:#17262B;
+    --body:#33454A;
+    --mute:#6E7D7F;
+    --rule:#C3C7BE;
+    --sea:#1F6B6F;
+    --flag:#A5402B;
+    --disp:"Chivo",system-ui,sans-serif;
+    --txt:"Source Serif 4",Georgia,serif;
+    --mono:"Azeret Mono",ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--paper);color:var(--body);
+    font-family:var(--txt);font-size:16px;line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+  /* ---------------------------------------------------------- carátula */
+  .cover{max-width:1180px;margin:0 auto;padding:5rem 2rem 2.5rem}
+  .stamp{
+    font-family:var(--mono);font-size:.68rem;letter-spacing:.24em;
+    text-transform:uppercase;color:var(--sea);margin:0 0 1.6rem;
+  }
+  h1{
+    font-family:var(--disp);font-weight:900;font-size:clamp(2.1rem,5.4vw,4rem);
+    line-height:.98;letter-spacing:-.025em;color:var(--ink);margin:0;text-wrap:balance;
+  }
+  h1 span{display:block;font-weight:400;color:var(--mute);font-size:.42em;
+    letter-spacing:.02em;margin-top:1rem;line-height:1.3}
+  .meta{
+    display:grid;gap:1px;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));
+    background:var(--rule);border:1px solid var(--rule);margin:2.6rem 0 0;
+  }
+  .meta div{background:var(--paper);padding:.85rem 1rem}
+  .meta dt{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--mute);margin:0 0 .3rem}
+  .meta dd{margin:0;font-size:.88rem;color:var(--ink);line-height:1.35}
+
+  /* -------------------------------------------------------------- shell */
+  .shell{max-width:1180px;margin:0 auto;padding:0 2rem 6rem;
+    display:grid;grid-template-columns:15rem 1fr;gap:3.5rem;align-items:start}
+  nav.index{position:sticky;top:2rem;font-family:var(--mono);font-size:.72rem}
+  nav.index p{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+    color:var(--mute);margin:0 0 .9rem;padding-bottom:.5rem;border-bottom:1px solid var(--rule)}
+  nav.index a{display:flex;gap:.6rem;padding:.3rem 0;color:var(--body);
+    text-decoration:none;line-height:1.35;transition:color .12s}
+  nav.index a b{color:var(--mute);font-weight:400;flex:none}
+  nav.index a:hover,nav.index a:focus-visible{color:var(--sea)}
+  nav.index a.on{color:var(--sea)}
+  nav.index a.on b{color:var(--sea)}
+
+  /* ------------------------------------------------------------- sheets */
+  section.sheet{
+    background:var(--sheet);border:1px solid var(--rule);
+    padding:2.2rem 2.4rem 2.6rem;margin:0 0 1.6rem;scroll-margin-top:1.5rem;
+  }
+  .sheet > .no{
+    font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--sea);
+    display:block;margin-bottom:.7rem
+  }
+  h2{font-family:var(--disp);font-weight:700;font-size:1.55rem;line-height:1.1;
+    letter-spacing:-.015em;color:var(--ink);margin:0 0 1.1rem;text-wrap:balance}
+  h3{font-family:var(--disp);font-weight:700;font-size:1.02rem;color:var(--ink);
+    margin:2rem 0 .6rem;letter-spacing:-.005em}
+  h4{font-family:var(--mono);font-weight:500;font-size:.68rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--mute);margin:1.5rem 0 .5rem}
+  p{margin:0 0 .85rem}
+  .sheet > p:last-child{margin-bottom:0}
+  ul,ol{margin:0 0 .95rem;padding-left:1.15rem}
+  li{margin-bottom:.35rem}
+  code,.k{font-family:var(--mono);font-size:.82em;background:#E2E4DC;
+    padding:.08em .35em;border-radius:2px;color:var(--ink)}
+  a{color:var(--sea)}
+  strong{color:var(--ink);font-weight:600}
+
+  table{width:100%;border-collapse:collapse;margin:.4rem 0 1.1rem;font-size:.85rem}
+  th{font-family:var(--mono);font-weight:500;font-size:.62rem;letter-spacing:.13em;
+    text-transform:uppercase;color:var(--mute);text-align:left;
+    border-bottom:1px solid var(--rule);padding:.5rem .7rem .5rem 0;vertical-align:bottom}
+  td{padding:.55rem .7rem .55rem 0;border-bottom:1px solid #DEE0D8;vertical-align:top;line-height:1.45}
+  tr:last-child td{border-bottom:0}
+  td.n{font-family:var(--mono);font-size:.78rem;white-space:nowrap;color:var(--ink)}
+  .compact td,.compact th{padding-top:.35rem;padding-bottom:.35rem}
+
+  /* copy en inglés destinado al huésped */
+  .copy{border-left:2px solid var(--sea);padding:.1rem 0 .1rem 1rem;margin:.5rem 0 1.1rem}
+  .copy .tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--sea);display:block;margin-bottom:.4rem}
+  .copy p{margin:0 0 .5rem}
+  .copy p:last-child{margin:0}
+
+  .flag{border-left:2px solid var(--flag);padding:.1rem 0 .1rem 1rem;margin:.9rem 0}
+  .flag .tag{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--flag);display:block;margin-bottom:.35rem}
+  .flag p{margin:0;font-size:.9rem}
+
+  .rule{border:0;border-top:1px solid var(--rule);margin:1.8rem 0}
+
+  .pill{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+    border:1px solid var(--rule);padding:.15rem .45rem;color:var(--mute);white-space:nowrap}
+  .pill.f1{border-color:var(--sea);color:var(--sea)}
+  .pill.f2{border-color:var(--rule);color:var(--mute)}
+  .pill.blk{border-color:var(--flag);color:var(--flag)}
+
+  .map{overflow-x:auto;margin:1rem 0 1.4rem;border:1px solid var(--rule);background:var(--paper)}
+  .map svg{display:block;min-width:900px;width:100%}
+
+  footer.end{max-width:1180px;margin:0 auto;padding:0 2rem 5rem;
+    font-family:var(--mono);font-size:.66rem;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--mute)}
+
+  @media (max-width:900px){
+    .shell{grid-template-columns:1fr;gap:1.5rem;padding:0 1.1rem 4rem}
+    nav.index{position:static;border-bottom:1px solid var(--rule);padding-bottom:1rem}
+    nav.index a{display:inline-flex;margin-right:1rem}
+    .cover{padding:3rem 1.1rem 2rem}
+    section.sheet{padding:1.5rem 1.2rem 1.8rem}
+    footer.end{padding:0 1.1rem 3rem}
+  }
+  @media print{
+    body{background:#fff}
+    nav.index{display:none}
+    .shell{display:block;max-width:none;padding:0}
+    section.sheet{border:0;border-top:1px solid var(--rule);background:#fff;
+      page-break-inside:avoid;padding:1.2rem 0}
+  }
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <p class="stamp">Documento de entrega &middot; diseño y desarrollo web</p>
+  <h1>VIK Digital<br>Journey Designer
+    <span>Guía digital del huésped para Playa VIK, Bahía VIK y Estancia VIK — José Ignacio, Uruguay. Especificación de arquitectura, contenido y pantallas.</span>
+  </h1>
+  <dl class="meta">
+    <div><dt>Destinatario</dt><dd>Estudio de diseño / desarrollo web</dd></div>
+    <div><dt>Acceso</dt><dd>QR en habitación + enlace web</dd></div>
+    <div><dt>Plataforma</dt><dd>Web mobile-first, sin app</dd></div>
+    <div><dt>Idioma de interfaz</dt><dd>Inglés</dd></div>
+    <div><dt>Propiedades</dt><dd>3 + 3 venues</dd></div>
+    <div><dt>Reservas</dt><dd>Fuera de la web, vía WhatsApp</dd></div>
+  </dl>
+</header>
+
+<div class="shell">
+
+<nav class="index" aria-label="Índice del documento">
+  <p>Índice</p>
+  <a href="#s00"><b>00</b> Cómo usar este documento</a>
+  <a href="#s01"><b>01</b> Alcance y fases</a>
+  <a href="#s02"><b>02</b> Reglas globales</a>
+  <a href="#s03"><b>03</b> Arquitectura de información</a>
+  <a href="#s04"><b>04</b> Modelo de contenido</a>
+  <a href="#s05"><b>05</b> Componentes</a>
+  <a href="#s06"><b>06</b> Home</a>
+  <a href="#s07"><b>07</b> Guest Information</a>
+  <a href="#s08"><b>08</b> Dining</a>
+  <a href="#s09"><b>09</b> Experiences</a>
+  <a href="#s10"><b>10</b> Wellness</a>
+  <a href="#s11"><b>11</b> Explore VIK</a>
+  <a href="#s12"><b>12</b> Reservas y WhatsApp</a>
+  <a href="#s13"><b>13</b> Contenido faltante</a>
+  <a href="#s14"><b>14</b> Inconsistencias</a>
+  <a href="#s15"><b>15</b> Decisiones abiertas</a>
+</nav>
+
+<main>
+
+<!-- ============================================================== 00 -->
+<section class="sheet" id="s00">
+  <span class="no">00</span>
+  <h2>Cómo usar este documento</h2>
+  <p>Este documento reordena el brief original en el orden en que se construye un sitio: primero las reglas que no cambian, después la estructura, después el dato, y al final el contenido pantalla por pantalla. No agrega contenido nuevo: reorganiza el existente y marca lo que falta.</p>
+
+  <h4>Convenciones</h4>
+  <table class="compact">
+    <tr><td class="n" style="width:9rem"><span class="pill f1">Fase 1</span></td><td>Entra en el primer lanzamiento.</td></tr>
+    <tr><td class="n"><span class="pill f2">Fase 2</span></td><td>Queda fuera del primer lanzamiento, pero la estructura debe admitirlo.</td></tr>
+    <tr><td class="n"><span class="pill blk">Bloqueante</span></td><td>Falta contenido o una definición. No se puede maquetar la pantalla sin esto.</td></tr>
+  </table>
+  <p>Los bloques con filete azul son <strong>copy definitivo en inglés destinado al huésped</strong>. Se maquetan tal cual y no se traducen. El resto del documento está en castellano porque es material de trabajo interno.</p>
+  <p>Los bloques con filete rojo señalan algo que el equipo de VIK tiene que resolver antes o durante el desarrollo. Están recopilados en las secciones 13, 14 y 15.</p>
+</section>
+
+<!-- ============================================================== 01 -->
+<section class="sheet" id="s01">
+  <span class="no">01</span>
+  <h2>Alcance y fases</h2>
+  <p>El brief describe dos productos superpuestos: una <strong>guest guide</strong> que resuelve las preguntas repetidas de la estadía, y un <strong>journey designer</strong> que además inspira y empuja reservas. El propio brief propone arrancar por la guía. Esta entrega mantiene esa decisión: se diseña y construye la guía completa, con la estructura de datos preparada para que lo demás entre encima sin rehacer nada.</p>
+
+  <h4>Los cuatro objetivos del proyecto, y cómo se traducen</h4>
+  <table>
+    <tr><th style="width:38%">Objetivo del brief</th><th>Cómo se resuelve en el producto</th></tr>
+    <tr><td>Orientar dentro de la propiedad</td><td>Guest Information con acceso por QR ya contextualizado a la propiedad donde se aloja el huésped.</td></tr>
+    <tr><td>Centralizar la información de la estadía</td><td>Una sola URL, cinco secciones, todo a dos taps.</td></tr>
+    <tr><td>Aumentar reservas de experiencias, wellness y gastronomía</td><td>Catálogo navegable con precio y duración visibles, y un CTA de reserva en cada ítem.</td></tr>
+    <tr><td>Reducir consultas a recepción</td><td>Wi-Fi, horarios, check-out y servicios en la primera pantalla útil, sin buscador.</td></tr>
+  </table>
+
+  <h4>Qué entra en cada fase</h4>
+  <table>
+    <tr><th style="width:9rem">Fase</th><th>Contenido</th></tr>
+    <tr><td class="n"><span class="pill f1">Fase 1</span></td><td>Home, Guest Information (×3 propiedades), Dining, Experiences, Wellness, Explore VIK, CTA fijo a WhatsApp.</td></tr>
+    <tr><td class="n"><span class="pill f2">Fase 2</span></td><td>Video de bienvenida, menús de restaurantes navegables, sección Nourish, recursos de Sleep, itinerario personalizado por huésped, reserva dentro de la web, idiomas adicionales.</td></tr>
+  </table>
+
+  <h4>Fuera de alcance</h4>
+  <ul>
+    <li>No hay login, ni cuenta de huésped, ni datos personales. La web es pública y anónima.</li>
+    <li>No hay motor de reservas ni pasarela de pago. Todo termina en WhatsApp (ver sección 12).</li>
+    <li>No hay app nativa.</li>
+  </ul>
+</section>
+
+<!-- ============================================================== 02 -->
+<section class="sheet" id="s02">
+  <span class="no">02</span>
+  <h2>Reglas globales</h2>
+
+  <h3>1. Mobile-first, de verdad</h3>
+  <p>El huésped llega escaneando un QR con el teléfono, muchas veces recién llegado y con una mano ocupada. Se diseña a 375&nbsp;px y se escala hacia arriba. El desktop es la adaptación, no el punto de partida.</p>
+
+  <h3>2. Máximo dos taps</h3>
+  <p>Esta regla decide la arquitectura entera y hay que tomarla al pie de la letra: <strong>no existe una pantalla de tercer nivel</strong>. Home es el nivel 0; las cinco secciones son el tap 1; el detalle de cualquier ítem es el tap 2 y se resuelve <em>dentro</em> de la pantalla de sección, con acordeón o panel, no navegando a otra URL.</p>
+  <p>Consecuencia práctica: pantallas largas con scroll y anclas, en vez de árboles de páginas. Es lo correcto en móvil, y además es lo que hace que la regla se cumpla.</p>
+
+  <h3>3. Contexto de propiedad, siempre</h3>
+  <p>El Wi-Fi, el WhatsApp de recepción, los horarios y las instalaciones cambian según la propiedad. El QR de cada habitación lleva a la URL de su propiedad, así que el huésped nunca elige. El selector de propiedad solo aparece cuando alguien entra por el enlace genérico.</p>
+
+  <h3>4. Resolver antes de que pregunte</h3>
+  <p>Wi-Fi y WhatsApp de recepción son las dos consultas más repetidas de cualquier hotel. Van arriba de Guest Information, sin acordeón, visibles al abrir. La contraseña se copia con un tap.</p>
+
+  <h3>5. Menos texto, más claridad</h3>
+  <p>El copy del brief ya está escrito y es largo en las fichas de restaurantes y venues. En listados se muestra el <em>tagline</em> (ej. «Art. Sharing. Cocktails.») y el párrafo completo solo aparece al expandir.</p>
+
+  <h3>6. Inspirar descubrimiento</h3>
+  <p>Se cumple con jerarquía visual y fotografía, no con más secciones: fichas con imagen en Experiences y Wellness, y un bloque de descubrimiento en Home que rota contenido destacado.</p>
+
+  <hr class="rule">
+  <h4>Piso de calidad</h4>
+  <ul>
+    <li>Responsive desde 320&nbsp;px. Objetivos táctiles de 44&nbsp;px mínimo.</li>
+    <li>Foco de teclado visible; <code>prefers-reduced-motion</code> respetado.</li>
+    <li>Contraste AA sobre fotografía (usar velo o gradiente detrás del texto).</li>
+    <li>La página tiene que abrir con 3G lenta y una barra de señal: fotos servidas en AVIF/WebP con <em>lazy loading</em>, sin video en el <em>hero</em> de Fase 1.</li>
+    <li>Funciona en el navegador embebido de WhatsApp e Instagram, que es por donde va a entrar buena parte del tráfico.</li>
+  </ul>
+</section>
+
+<!-- ============================================================== 03 -->
+<section class="sheet" id="s03">
+  <span class="no">03</span>
+  <h2>Arquitectura de información</h2>
+  <p>Cinco secciones desde Home, más un CTA permanente que no es una sección sino una acción. Las líneas de cota marcan la profundidad de tap: nada queda más allá de la cota 2.</p>
+
+  <div class="map">
+  <svg viewBox="0 0 980 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de arquitectura de información">
+    <defs>
+      <style>
+        .bx{fill:#F4F4F0;stroke:#17262B;stroke-width:1.1}
+        .bx2{fill:#F4F4F0;stroke:#7E8C8E;stroke-width:.9}
+        .bx3{fill:#E6E8E0;stroke:#A9B2AC;stroke-width:.8}
+        .lb{font-family:Chivo,sans-serif;font-size:11.5px;font-weight:700;fill:#17262B}
+        .sb{font-family:'Azeret Mono',monospace;font-size:8px;fill:#6E7D7F;letter-spacing:.06em}
+        .it{font-family:'Source Serif 4',serif;font-size:10px;fill:#33454A}
+        .cn{stroke:#A9B2AC;stroke-width:.9;fill:none}
+        .dim{stroke:#1F6B6F;stroke-width:.8;fill:none}
+        .dimt{font-family:'Azeret Mono',monospace;font-size:8px;fill:#1F6B6F;letter-spacing:.14em}
+      </style>
+    </defs>
+
+    <!-- cotas -->
+    <line class="dim" x1="150" y1="26" x2="150" y2="540"/>
+    <line class="dim" x1="376" y1="26" x2="376" y2="540"/>
+    <line class="dim" x1="612" y1="26" x2="612" y2="540"/>
+    <text class="dimt" x="158" y="20">NIVEL 0 · ENTRADA</text>
+    <text class="dimt" x="384" y="20">TAP 1 · SECCIÓN</text>
+    <text class="dimt" x="620" y="20">TAP 2 · DETALLE (EN LA MISMA PANTALLA)</text>
+
+    <!-- entrada -->
+    <rect class="bx3" x="16" y="230" width="118" height="52" rx="2"/>
+    <text class="lb" x="30" y="252">QR habitación</text>
+    <text class="sb" x="30" y="268">/bahia · /playa · /estancia</text>
+    <rect class="bx3" x="16" y="296" width="118" height="52" rx="2"/>
+    <text class="lb" x="30" y="318">Enlace web</text>
+    <text class="sb" x="30" y="334">selector propiedad</text>
+
+    <!-- home -->
+    <rect class="bx" x="170" y="250" width="180" height="78" rx="2"/>
+    <text class="lb" x="186" y="278">HOME</text>
+    <text class="sb" x="186" y="294">/{property}</text>
+    <text class="it" x="186" y="312">Welcome · 5 accesos · CTA</text>
+    <line class="cn" x1="134" y1="256" x2="170" y2="278"/>
+    <line class="cn" x1="134" y1="322" x2="170" y2="300"/>
+
+    <!-- secciones -->
+    <g>
+      <rect class="bx2" x="396" y="40" width="170" height="46" rx="2"/>
+      <text class="lb" x="410" y="62">Guest Information</text>
+      <text class="sb" x="410" y="77">/{property}/info</text>
+
+      <rect class="bx2" x="396" y="126" width="170" height="46" rx="2"/>
+      <text class="lb" x="410" y="148">Dining</text>
+      <text class="sb" x="410" y="163">/dining</text>
+
+      <rect class="bx2" x="396" y="212" width="170" height="46" rx="2"/>
+      <text class="lb" x="410" y="234">Experiences</text>
+      <text class="sb" x="410" y="249">/experiences</text>
+
+      <rect class="bx2" x="396" y="298" width="170" height="46" rx="2"/>
+      <text class="lb" x="410" y="320">Wellness</text>
+      <text class="sb" x="410" y="335">/wellness</text>
+
+      <rect class="bx2" x="396" y="384" width="170" height="46" rx="2"/>
+      <text class="lb" x="410" y="406">Explore VIK</text>
+      <text class="sb" x="410" y="421">/explore</text>
+
+      <rect class="bx2" x="396" y="470" width="170" height="46" rx="2" stroke-dasharray="3 3"/>
+      <text class="lb" x="410" y="492">Journey Designer</text>
+      <text class="sb" x="410" y="507">wa.me — acción, no página</text>
+    </g>
+    <path class="cn" d="M350 280 C374 280 372 63 396 63"/>
+    <path class="cn" d="M350 283 C374 283 372 149 396 149"/>
+    <path class="cn" d="M350 289 C374 289 372 235 396 235"/>
+    <path class="cn" d="M350 295 C374 295 372 321 396 321"/>
+    <path class="cn" d="M350 300 C374 300 372 407 396 407"/>
+    <path class="cn" d="M350 306 C374 306 372 493 396 493"/>
+
+    <!-- detalle -->
+    <g>
+      <rect class="bx3" x="632" y="34" width="332" height="58" rx="2"/>
+      <text class="it" x="646" y="52">Acordeón ×6: Stay Connected · Dining Hours · Services ·</text>
+      <text class="it" x="646" y="66">Facilities · Before You Leave · Good to Know</text>
+      <text class="sb" x="646" y="83">contenido según propiedad activa</text>
+
+      <rect class="bx3" x="632" y="114" width="332" height="70" rx="2"/>
+      <text class="it" x="646" y="132">VIK Restaurants (5) · Culinary Experiences (4) ·</text>
+      <text class="it" x="646" y="146">Around José Ignacio (7 zonas, 40 lugares)</text>
+      <text class="sb" x="646" y="163">ficha expandible + menú PDF</text>
+      <text class="sb" x="646" y="176">pestañas o anclas, sin salir de /dining</text>
+
+      <rect class="bx3" x="632" y="204" width="332" height="62" rx="2"/>
+      <text class="it" x="646" y="222">Activities (20) · Day Tours (2)</text>
+      <text class="sb" x="646" y="239">ficha expandible: duración, precio, CTA</text>
+      <text class="sb" x="646" y="252">filtro por tipo (agua · caballos · campo · arte)</text>
+
+      <rect class="bx3" x="632" y="286" width="332" height="70" rx="2"/>
+      <text class="it" x="646" y="304">Move · Restore · Mind · Nature · Nourish · Sleep</text>
+      <text class="sb" x="646" y="321">seis pilares como secciones ancladas</text>
+      <text class="sb" x="646" y="334">CTA divide: Shack vs Journey Designer</text>
+      <text class="sb" x="646" y="347">Nourish y Sleep incompletos — ver 13</text>
+
+      <rect class="bx3" x="632" y="376" width="332" height="62" rx="2"/>
+      <text class="it" x="646" y="394">VIK World · 6 venues en José Ignacio</text>
+      <text class="sb" x="646" y="411">ficha: foto, texto, mapa</text>
+      <text class="sb" x="646" y="424">navegación por imagen — ver 15</text>
+    </g>
+    <line class="cn" x1="566" y1="63" x2="632" y2="63"/>
+    <line class="cn" x1="566" y1="149" x2="632" y2="149"/>
+    <line class="cn" x1="566" y1="235" x2="632" y2="235"/>
+    <line class="cn" x1="566" y1="321" x2="632" y2="321"/>
+    <line class="cn" x1="566" y1="407" x2="632" y2="407"/>
+  </svg>
+  </div>
+
+  <h4>URLs propuestas</h4>
+  <table class="compact">
+    <tr><th style="width:16rem">Ruta</th><th>Pantalla</th></tr>
+    <tr><td class="n">/</td><td>Selector de propiedad (solo entrada por enlace genérico)</td></tr>
+    <tr><td class="n">/bahia · /playa · /estancia</td><td>Home contextualizada. Destino de los QR.</td></tr>
+    <tr><td class="n">/{property}/info</td><td>Guest Information</td></tr>
+    <tr><td class="n">/dining</td><td>Dining — tres bloques en una pantalla</td></tr>
+    <tr><td class="n">/experiences</td><td>Experiences</td></tr>
+    <tr><td class="n">/wellness</td><td>Wellness — seis pilares anclados</td></tr>
+    <tr><td class="n">/explore</td><td>Explore VIK</td></tr>
+  </table>
+  <p>Dining, Experiences, Wellness y Explore son <strong>compartidos entre las tres propiedades</strong>: el contenido es el mismo. Solo cambia el contexto del CTA y el enlace de vuelta a Home. Guest Information es la única sección que se triplica.</p>
+</section>
+
+<!-- ============================================================== 04 -->
+<section class="sheet" id="s04">
+  <span class="no">04</span>
+  <h2>Modelo de contenido</h2>
+  <p>El hallazgo que más trabajo ahorra: de los ~20 bloques de Guest Information, <strong>13 son idénticos en las tres propiedades</strong>. Cargarlos tres veces significa mantenerlos tres veces y que se desincronicen en la primera actualización. Se modelan como bloques globales con sobreescritura por propiedad.</p>
+
+  <h4>Qué cambia y qué no, entre propiedades</h4>
+  <table>
+    <tr><th style="width:50%">Idéntico en las tres — bloque global</th><th>Propio de cada propiedad</th></tr>
+    <tr><td>Experience Concierge (mismo WhatsApp), Housekeeping, Turndown, Laundry, Packing &amp; Unpacking, Luggage, Babysitting, Additional Amenities, Check-Out, Late Check-Out, Breakfast To Go, Medical Assistance, ATMs, Lost &amp; Found, Smoking Policy, Playroom</td><td>Wi-Fi (red y clave), WhatsApp de recepción, restaurantes y horarios, instalaciones (piscinas, playa, wellness), hora de cierre de room service</td></tr>
+  </table>
+
+  <h4>Entidades</h4>
+  <table>
+    <tr><th style="width:8.5rem">Entidad</th><th style="width:4rem">N.º</th><th>Campos</th></tr>
+    <tr><td class="n">Property</td><td class="n">3</td><td><code>name</code> <code>slug</code> <code>wifiNetwork</code> <code>wifiPassword</code> <code>frontDeskWhatsApp</code> <code>roomServiceEnd</code> <code>restaurants[]</code> <code>facilities[]</code> <code>heroImage</code></td></tr>
+    <tr><td class="n">Restaurant</td><td class="n">5</td><td><code>name</code> <code>tagline</code> <code>property</code> <code>description</code> <code>hoursBreakfast</code> <code>hoursDining</code> <code>hoursBar</code> <code>menuPdf</code> <code>seasonal</code> <code>images[]</code></td></tr>
+    <tr><td class="n">Experience</td><td class="n">~26</td><td><code>name</code> <code>categories[]</code> <code>description</code> <code>duration</code> <code>priceAmount</code> <code>priceUnit</code> <code>priceNote</code> <code>location</code> <code>bookingChannel</code> <code>image</code></td></tr>
+    <tr><td class="n">WellnessItem</td><td class="n">~34</td><td><code>name</code> <code>pillar</code> <code>type</code> <code>description</code> <code>durations[]</code> <code>prices[]</code> <code>includedInStay</code> <code>bookingChannel</code></td></tr>
+    <tr><td class="n">LocalPlace</td><td class="n">~40</td><td><code>name</code> <code>zone</code> <code>type</code> <code>mapUrl</code></td></tr>
+    <tr><td class="n">VikVenue</td><td class="n">6</td><td><code>name</code> <code>description</code> <code>lat</code> <code>lng</code> <code>images[]</code></td></tr>
+    <tr><td class="n">SleepResource</td><td class="n">5</td><td><code>name</code> <code>type</code> <code>fileUrl</code></td></tr>
+  </table>
+
+  <h4>Reglas del modelo</h4>
+  <ul>
+    <li><strong>Un ítem, una ficha.</strong> «Farm-to-Table Cooking Class» aparece tres veces en el brief (Dining, Experiences, Wellness/Nourish) y «Art Exploration» dos. Son el mismo producto: una sola entrada con <code>categories[]</code> múltiple, que se muestra en los tres sitios.</li>
+    <li><strong>El precio es un objeto, no un texto.</strong> El brief mezcla «USD 120+TAX», «120 USD», «USD 90 per person», «USD 100 (up to 4 people)». Formato único de salida: <code>USD 000</code> + unidad + nota. Ver la inconsistencia en la sección 14.</li>
+    <li><strong><code>bookingChannel</code> decide el CTA.</strong> Dos valores: <code>journeyDesigner</code> y <code>shack</code>. Determina a qué número escribe el botón. Ver sección 12.</li>
+    <li><strong><code>includedInStay</code> es un booleano visible.</strong> Gym, sauna, piscinas, playa, Playroom, biking y el circuito sauna–cold plunge están incluidos. Marcarlos con una etiqueta «Included» evita la consulta a recepción, que es uno de los cuatro objetivos.</li>
+  </ul>
+</section>
+
+<!-- ============================================================== 05 -->
+<section class="sheet" id="s05">
+  <span class="no">05</span>
+  <h2>Componentes</h2>
+  <p>Todo el sitio se construye con nueve piezas. Si aparece una décima, conviene revisar si no es una variante de alguna de estas.</p>
+  <table>
+    <tr><th style="width:12rem">Componente</th><th>Uso y comportamiento</th></tr>
+    <tr><td class="n">SectionTile</td><td>Los cinco accesos de Home. Imagen, título, una línea de descripción. Ocupa el ancho completo en móvil.</td></tr>
+    <tr><td class="n">InfoAccordion</td><td>Guest Information. Seis bloques; el primero («Stay Connected») abierto por defecto.</td></tr>
+    <tr><td class="n">CopyField</td><td>Clave de Wi-Fi. Un tap copia y confirma en el momento. Es el detalle que más consultas ahorra.</td></tr>
+    <tr><td class="n">HoursList</td><td>Pares servicio / horario. Se reutiliza en Guest Information y en las fichas de restaurante.</td></tr>
+    <tr><td class="n">ItemCard</td><td>Experiencias, tratamientos, clases. Imagen, nombre, duración, precio, y un CTA. Expande a descripción completa sin cambiar de pantalla.</td></tr>
+    <tr><td class="n">VenueCard</td><td>Restaurantes VIK y venues de Explore. Imagen, tagline, texto largo al expandir, horarios, enlace a menú o mapa.</td></tr>
+    <tr><td class="n">PlaceList</td><td>Los ~40 lugares de «Around José Ignacio», agrupados por zona. Solo nombre y enlace a mapa.</td></tr>
+    <tr><td class="n">BookingCTA</td><td>Botón que arma el enlace de WhatsApp con mensaje precargado. Ver sección 12.</td></tr>
+    <tr><td class="n">StickyContact</td><td>Barra fija inferior, presente en toda la navegación: «Contact your Journey Designer».</td></tr>
+  </table>
+  <div class="flag"><span class="tag">A decidir</span><p>La barra fija inferior compite con la barra de navegación del navegador en iOS. Conviene probarla en Safari real antes de cerrar el diseño; la alternativa es un botón flotante circular en la esquina inferior derecha.</p></div>
+</section>
+
+<!-- ============================================================== 06 -->
+<section class="sheet" id="s06">
+  <span class="no">06</span>
+  <h2>Home</h2>
+  <p><code>/{property}</code> — la primera pantalla tras escanear el QR. Su único trabajo es que el huésped encuentre en un tap lo que vino a buscar, y que descubra algo que no venía buscando.</p>
+
+  <h4>Estructura</h4>
+  <ol>
+    <li>Saludo con el nombre de la propiedad activa.</li>
+    <li>Cinco <code>SectionTile</code>, en el orden de abajo. El orden importa: Guest Information primero porque es la consulta urgente.</li>
+    <li><code>StickyContact</code> fijo.</li>
+  </ol>
+
+  <div class="copy"><span class="tag">Copy huésped — inglés, no traducir</span>
+    <p><strong>Welcome to VIK Retreats José Ignacio</strong><br>Everything you need during your stay</p>
+    <p><strong>Guest Information</strong> — Wi-Fi, hotel services, contacts &amp; useful information.<br>
+    <strong>Dining</strong> — Restaurant menus, room service &amp; wine list.<br>
+    <strong>Experiences</strong> — Activities, excursions &amp; exclusive experiences.<br>
+    <strong>Wellness</strong> — Spa treatments, yoga &amp; fitness.<br>
+    <strong>Explore VIK</strong> — Discover our properties and the VIK universe.</p>
+    <p><strong>Contact your Experience Concierge</strong></p>
+  </div>
+
+  <div class="flag"><span class="tag">A confirmar</span><p>El brief titula la landing «Welcome to Vik retreats jose ignacio», genérico, pero el QR llega contextualizado a una propiedad. Propuesta: «Welcome to Bahía VIK» y, debajo, «Part of VIK Retreats, José Ignacio». Necesita el visto bueno de marca.</p></div>
+</section>
+
+<!-- ============================================================== 07 -->
+<section class="sheet" id="s07">
+  <span class="no">07</span>
+  <h2>Guest Information</h2>
+  <p><code>/{property}/info</code> — seis bloques en acordeón, misma estructura en las tres propiedades. Abajo, solo lo que cambia entre una y otra; todo lo demás sale del bloque global descrito en la sección 4.</p>
+
+  <h4>Datos propios de cada propiedad</h4>
+  <table>
+    <tr><th style="width:11rem">Campo</th><th>Bahía VIK</th><th>Playa VIK</th><th>Estancia VIK</th></tr>
+    <tr><td class="n">Wi-Fi red</td><td>Hotel Bahia Vik</td><td>Playa Vik</td><td>Estancia Vik</td></tr>
+    <tr><td class="n">Wi-Fi clave</td><td><code>hotelbahiavik</code></td><td><code>vikbeach</code></td><td><code>estanciavik</code></td></tr>
+    <tr><td class="n">Front Desk</td><td>+598 95 444 451</td><td>+598 93 704 866</td><td>+598 94 605 212</td></tr>
+    <tr><td class="n">Restaurante</td><td>Zodiaco + 360° Bar</td><td>CieloMar + Bar</td><td>El Asador</td></tr>
+    <tr><td class="n">Room service</td><td>12:30–22:30</td><td>12:30–22:30</td><td>12:30–23:00</td></tr>
+    <tr><td class="n">Wellness</td><td>The Shack, incluido</td><td>Gym y sauna + acceso a The Shack</td><td>Gym y sauna + acceso a The Shack</td></tr>
+    <tr><td class="n">Piscinas</td><td>Cuatro, temperatura natural</td><td>Infinity, climatizada</td><td>Una, temperatura natural</td></tr>
+    <tr><td class="n">Playa</td><td>Servicio de playa incluido</td><td>—</td><td>—</td></tr>
+  </table>
+
+  <h4>Los seis bloques</h4>
+  <table class="compact">
+    <tr><td class="n" style="width:12rem">1 · Stay Connected</td><td>Wi-Fi + Front Desk. Abierto por defecto, sin acordeón.</td></tr>
+    <tr><td class="n">2 · Dining Hours</td><td>Desayuno, restaurante, bar, room service, special dining. Enlace a Dining.</td></tr>
+    <tr><td class="n">3 · Services</td><td>Concierge, housekeeping, turndown, laundry, packing, luggage, babysitting, amenities.</td></tr>
+    <tr><td class="n">4 · Facilities</td><td>Wellness, piscinas, playa, Playroom.</td></tr>
+    <tr><td class="n">5 · Before You Leave</td><td>Check-out 12:00, late check-out, Breakfast To Go.</td></tr>
+    <tr><td class="n">6 · Good to Know</td><td>Asistencia médica, cajeros y cambio, objetos perdidos, política de fumadores.</td></tr>
+  </table>
+  <p>El copy íntegro de cada bloque está en el brief original y se maqueta sin cambios. Las tres versiones de «Laundry», «Lost &amp; Found» y «Smoking Policy» son idénticas palabra por palabra: cargar una sola vez.</p>
+</section>
+
+<!-- ============================================================== 08 -->
+<section class="sheet" id="s08">
+  <span class="no">08</span>
+  <h2>Dining</h2>
+  <p><code>/dining</code> — tres bloques en una sola pantalla, separados por pestañas o anclas.</p>
+
+  <h4>A · VIK Restaurants</h4>
+  <table>
+    <tr><th style="width:9rem">Restaurante</th><th style="width:12rem">Tagline</th><th style="width:8rem">Propiedad</th><th>Horario</th></tr>
+    <tr><td class="n">Zodiaco</td><td>Art. Sharing. Cocktails.</td><td>Bahía VIK</td><td>Desayuno 08–11 · Comidas 12:30–22:30 · Bar 11–23</td></tr>
+    <tr><td class="n">CieloMar</td><td>Art. Sunset. Small Plates.</td><td>Playa VIK</td><td>Desayuno 08–11 · Comidas 12:30–22:30 · Bar 11–23</td></tr>
+    <tr><td class="n">Beach Grill</td><td>Fire. Fresh Seafood. Ocean Views.</td><td>Playa VIK</td><td>12:30–19:30</td></tr>
+    <tr><td class="n">El Asador</td><td>Fire. Countryside. Sharing.</td><td>Estancia VIK</td><td>Desayuno 08–11 · Comidas 12:30–22:30 · Bar 11–23</td></tr>
+    <tr><td class="n">La Susana</td><td>Beach. Sunset. Cocktails.</td><td>José Ignacio</td><td>12:30–22:30 · <strong>Temporada dic–feb</strong></td></tr>
+  </table>
+  <p>La Susana necesita tratamiento distinto: es estacional. Fuera de temporada la ficha se muestra con una etiqueta «Seasonal — December to February», no se oculta.</p>
+
+  <h4>B · VIK Culinary Experiences</h4>
+  <table>
+    <tr><th style="width:12rem">Experiencia</th><th style="width:10rem">Cuándo</th><th style="width:8rem">Precio</th><th>Lugar</th></tr>
+    <tr><td class="n">Fish BBQ</td><td>Viernes, desde 19:30</td><td>USD 120 + tax</td><td>Beach Grill, Playa VIK</td></tr>
+    <tr><td class="n">Gran Asado Uruguayo</td><td>Sábados, desde 19:30</td><td>USD 120</td><td>El Asador, Estancia VIK</td></tr>
+    <tr><td class="n">Wine Tasting</td><td>A pedido</td><td>USD 90, mín. 2 pax</td><td>Restaurantes VIK</td></tr>
+    <tr><td class="n">Farm-to-Table Cooking Class</td><td>2–3 h</td><td>USD 200</td><td>Huerta orgánica</td></tr>
+  </table>
+
+  <h4>C · Dining Around José Ignacio</h4>
+  <p>Siete zonas, unos 40 lugares. Solo nombre y enlace a mapa: es una lista de recomendaciones, no un directorio con fichas.</p>
+  <table class="compact">
+    <tr><td class="n" style="width:12rem">Oceanfront Favorites</td><td>La Huella · El Chiringuito by Mallman · El Chiringuito</td></tr>
+    <tr><td class="n">Favorites in Town</td><td>Cruz del Sur · Tato Pescador · Solera · Destino Sushi · Marismo · Juana · La Olada · Tres · Bliss · Ritual · Minibā Izakaya</td></tr>
+    <tr><td class="n">Coffee &amp; Casual</td><td>Rizoma · La Panadería · Mostrador Santa Teresita</td></tr>
+    <tr><td class="n">Countryside</td><td>Mostrador Bodega Oceánica · Nur at Posada Luz · Las Cárcavas · Guayabo · Garzón by Mallman · Bodega Garzón · Carmen Café</td></tr>
+    <tr><td class="n">Punta del Este</td><td>I'marangatú · Posto 5 · Boulevard Las Palmeras · 481 Gourmet · Lo de Tere · Café Zunino · Café Vitaminas</td></tr>
+    <tr><td class="n">Manantiales &amp; La Barra</td><td>El Abrazo · O'Farrell · La Proveeduría · La Linda Café · Tierra · Harry's Table · Narbona · Fasano Las Piedras · Legua · Casa Blanca Beach Club · Salón N.º 3</td></tr>
+    <tr><td class="n">Uruguayan Wineries</td><td>Oceánica · Garzón · Las Espinas · Viña Edén · Altos de la Ballena · Sacromonte</td></tr>
+  </table>
+
+  <div class="flag"><span class="tag">Bloqueante</span><p>Los menús de los restaurantes no están en el brief y el propio documento los pide («agregar menús de los restaurantes»). Hasta que lleguen, la ficha muestra horarios y CTA sin enlace a menú. Definir si llegan como PDF (rápido, pobre en móvil) o como contenido web (mejor experiencia, más trabajo de carga y mantenimiento).</p></div>
+</section>
+
+<!-- ============================================================== 09 -->
+<section class="sheet" id="s09">
+  <span class="no">09</span>
+  <h2>Experiences</h2>
+  <p><code>/experiences</code> — 26 ítems. Es la lista más larga del sitio y sin filtro se vuelve un muro. Propuesta de filtro por tipo: <em>Water · Horses · Countryside · Art &amp; Culture · Day Tours</em>.</p>
+  <p>Todas se reservan por Journey Designer. El precio y la duración van visibles en la tarjeta cerrada, no dentro del texto: es lo que el huésped compara.</p>
+
+  <table class="compact">
+    <tr><th style="width:15rem">Experiencia</th><th style="width:8rem">Duración</th><th>Precio</th></tr>
+    <tr><td class="n">Horseback Riding</td><td>1 h / 2 h</td><td>USD 90 / USD 160</td></tr>
+    <tr><td class="n">Swimming with Horses</td><td>1,5 h</td><td>USD 150 (+ picnic USD 75)</td></tr>
+    <tr><td class="n">Polo Lesson</td><td>1 h</td><td>USD 160</td></tr>
+    <tr><td class="n">Polo Exhibition</td><td>30 min</td><td>USD 2.500</td></tr>
+    <tr><td class="n">Biking</td><td>—</td><td>Incluido</td></tr>
+    <tr><td class="n">Kayaking</td><td>1,5 h</td><td>USD 50</td></tr>
+    <tr><td class="n">Surfing</td><td>1 h</td><td>USD 55</td></tr>
+    <tr><td class="n">Kite Surfing</td><td>2 h</td><td>USD 310</td></tr>
+    <tr><td class="n">Paddle Boarding</td><td>1 h</td><td>USD 50</td></tr>
+    <tr><td class="n">VIK Safari</td><td>1 h</td><td>USD 50 p/p</td></tr>
+    <tr><td class="n">Fishing</td><td>1 h</td><td>USD 100 p/p</td></tr>
+    <tr><td class="n">Bird Watching</td><td>2–3 h</td><td>USD 350</td></tr>
+    <tr><td class="n">Padel</td><td>1,5 h</td><td>USD 100 (hasta 4)</td></tr>
+    <tr><td class="n">Tennis</td><td>—</td><td>USD 110 (1 o 2 personas)</td></tr>
+    <tr><td class="n">Golf — La Barra</td><td>—</td><td>Green fee USD 180 · carro 80 · palos 50 · bolas 10</td></tr>
+    <tr><td class="n">Uruguayan Nights</td><td>3–4 h</td><td>USD 210 · solo cena USD 150</td></tr>
+    <tr><td class="n">Full Moon Edition</td><td>3–4 h</td><td>USD 210 · solo cena USD 150</td></tr>
+    <tr><td class="n">Farm-to-Table Cooking Class</td><td>2–3 h</td><td>USD 200</td></tr>
+    <tr><td class="n">Garzón Bike Tour &amp; Bodega</td><td>4–6 h</td><td>USD 460 p/p (2 pax) · USD 235 p/p (4 pax)</td></tr>
+    <tr><td class="n">VIK Experience — Bodega Oceánica O'33</td><td>3–4 h</td><td>USD 180 p/p</td></tr>
+    <tr><td class="n">Art Exploration</td><td>3–4 h</td><td>USD 200 p/p</td></tr>
+    <tr><td class="n">Cabo Polonio <span class="pill">Day tour</span></td><td>6–8 h</td><td>Sin precio en el brief</td></tr>
+    <tr><td class="n">Punta del Este &amp; Punta Ballena <span class="pill">Day tour</span></td><td>Día completo</td><td>Sin precio en el brief</td></tr>
+  </table>
+  <div class="flag"><span class="tag">Bloqueante</span><p>Los dos day tours no tienen precio ni duración cerrada. La ficha de Punta Ballena además queda cortada a mitad de frase en el brief.</p></div>
+</section>
+
+<!-- ============================================================== 10 -->
+<section class="sheet" id="s10">
+  <span class="no">10</span>
+  <h2>Wellness</h2>
+  <p><code>/wellness</code> — la sección más rica y la más incompleta. Seis pilares con una intro propia. Cada pilar es una sección anclada dentro de la misma pantalla, no una página.</p>
+
+  <div class="copy"><span class="tag">Copy huésped — inglés, no traducir</span>
+    <p><strong>Feel Good at VIK</strong></p>
+    <p>At VIK, wellness is not a treatment, a class, or a place. It is a way of experiencing your stay.</p>
+    <p>Rooted in nature, art, movement, restoration, connection and mindful living, our wellness philosophy invites you to slow down, reconnect with yourself, others and the natural rhythms of José Ignacio.</p>
+    <p>We invite you to explore wellness in your own way, at your own pace.</p>
+  </div>
+
+  <h4>Los seis pilares</h4>
+  <table>
+    <tr><th style="width:7rem">Pilar</th><th style="width:16rem">Contenido</th><th>Estado</th></tr>
+    <tr><td class="n">Move</td><td>Yoga y Pilates (3 clases grupales + privadas), Strength Studio (3 niveles), Gym</td><td>Completo</td></tr>
+    <tr><td class="n">Restore</td><td>8 masajes y terapias, thermal journey, 6 signature treatments</td><td>Completo</td></tr>
+    <tr><td class="n">Mind</td><td>Breathwork, Sound Bath, meditación, Artist Encounters, Clay &amp; Wine, Art Exploration</td><td>Breathwork y meditación sin precio ni duración</td></tr>
+    <tr><td class="n">Nature</td><td>Mindful Horseback, Healing with Horses, caminatas, stargazing, 2 picnics</td><td>Varios sin precio</td></tr>
+    <tr><td class="n">Nourish</td><td>Intro + farm-to-table + tips por tipo de comida</td><td><span class="pill blk">Pendiente</span> — depende del menú</td></tr>
+    <tr><td class="n">Sleep</td><td>Evening Wind Down, Sleep Ritual, 5 recursos descargables</td><td>Texto listo, recursos faltan</td></tr>
+  </table>
+
+  <h4>Precios — Move</h4>
+  <table class="compact">
+    <tr><td class="n" style="width:16rem">Yoga grupal (Harmony · Flow · Reset)</td><td>USD 30 p/p</td></tr>
+    <tr><td class="n">Yoga o Pilates privado</td><td>60 min USD 140 · 90 min USD 185 (hasta 2, +USD 20 por persona extra)</td></tr>
+    <tr><td class="n">Strength Studio grupal</td><td>USD 65</td></tr>
+    <tr><td class="n">Strength Studio privado</td><td>USD 145</td></tr>
+    <tr><td class="n">Gym</td><td>Incluido</td></tr>
+  </table>
+
+  <h4>Precios — Restore</h4>
+  <table class="compact">
+    <tr><td class="n" style="width:16rem">Masajes y terapias (8 modalidades)</td><td>60 min USD 165 · 90 min USD 220 · incluye sauna y cold plunge</td></tr>
+    <tr><td class="n">Sauna + cold plunge</td><td>Incluido, por orden de llegada</td></tr>
+    <tr><td class="n">Rest &amp; Restore</td><td>60 min USD 75 (hasta 2)</td></tr>
+    <tr><td class="n">Welcome Ritual</td><td>USD 300</td></tr>
+    <tr><td class="n">Recharge Day</td><td>USD 300</td></tr>
+    <tr><td class="n">Private Sunset Ritual</td><td>USD 350 (2–4 personas)</td></tr>
+    <tr><td class="n">Jet Lag Recovery Ritual</td><td>USD 350</td></tr>
+    <tr><td class="n">Signature Retreat Day</td><td>USD 520 (dos variantes)</td></tr>
+    <tr><td class="n">Sound Bath Ceremony</td><td>USD 300 (60 min, hasta 4)</td></tr>
+  </table>
+
+  <h4>Regla de reserva</h4>
+  <p>El brief lo pide explícitamente y es la única bifurcación de CTA del sitio: <strong>lo que ocurre en The Shack se reserva con The Shack; el resto, con el Journey Designer.</strong></p>
+  <table class="compact">
+    <tr><td class="n" style="width:12rem">→ The Shack</td><td>Move y Restore completos, Sound Bath, breathwork, meditación</td></tr>
+    <tr><td class="n">→ Journey Designer</td><td>Nature, Artist Encounters, Clay &amp; Wine, Art Exploration, farm-to-table, picnics</td></tr>
+  </table>
+  <div class="flag"><span class="tag">Bloqueante</span><p>El número de WhatsApp de The Shack no está en el brief. Sin él, la mitad de los CTA de Wellness no se pueden construir.</p></div>
+</section>
+
+<!-- ============================================================== 11 -->
+<section class="sheet" id="s11">
+  <span class="no">11</span>
+  <h2>Explore VIK</h2>
+  <p><code>/explore</code> — dos capas: el universo VIK global, y los seis venues de José Ignacio.</p>
+
+  <div class="copy"><span class="tag">Copy huésped — inglés, no traducir</span>
+    <p><strong>Our VIK World</strong></p>
+    <p>Hospitality • Wine • Gastronomy • Wellness • Art • Culture • Lifestyle • Polo</p>
+    <p>VIK Retreats is a collection of award-winning luxury destinations founded by Alex and Carrie Vik, bringing together exceptional architecture, contemporary art, immersive experiences, gastronomy, wellness, and a deep connection to place.</p>
+    <p>Spanning destinations across Uruguay, Chile and Italy, with future expansion planned in Brazil.</p>
+  </div>
+
+  <p>Seis fichas, cada una con foto, texto y ubicación en mapa: <strong>Estancia VIK · Playa VIK · Bahía VIK · The Shack Wellness · La Susana · Pavilion VIK</strong>. El texto de cada una está en el brief y se usa sin cambios.</p>
+
+  <div class="flag"><span class="tag">Decisión pendiente</span><p>El brief plantea dos navegaciones alternativas: enlaces dentro del párrafo, o grilla de imágenes. <strong>Recomendación: grilla de imágenes.</strong> En móvil los enlaces embebidos en un párrafo largo son objetivos táctiles pequeños y poco visibles, y esta sección es la que más se apoya en fotografía. El párrafo se mantiene arriba como introducción, sin enlaces.</p></div>
+  <div class="flag"><span class="tag">A definir</span><p>Falta el título de la sección de venues. El brief duda entre «Our José Ignacio Outlets», «Our José Ignacio Locations» y «Properties». «Outlets» es vocabulario interno de operación y no significa nada para un huésped. Propuesta: <strong>«The VIK Collection at José Ignacio»</strong>, que ya aparece en el brief.</p></div>
+</section>
+
+<!-- ============================================================== 12 -->
+<section class="sheet" id="s12">
+  <span class="no">12</span>
+  <h2>Reservas y enlaces de WhatsApp</h2>
+  <p>No hay reserva en la web. Todo CTA abre WhatsApp con un mensaje ya escrito, para que el huésped solo tenga que pulsar enviar. El mensaje va en inglés, como el resto de la interfaz.</p>
+
+  <h4>Formato del enlace</h4>
+  <p><code>https://wa.me/{número}?text={mensaje codificado}</code></p>
+  <table class="compact">
+    <tr><th style="width:14rem">Destino</th><th>Número</th></tr>
+    <tr><td class="n">Journey Designer / Concierge</td><td><code>59895444451</code></td></tr>
+    <tr><td class="n">Front Desk Bahía VIK</td><td><code>59895444451</code></td></tr>
+    <tr><td class="n">Front Desk Playa VIK</td><td><code>59893704866</code></td></tr>
+    <tr><td class="n">Front Desk Estancia VIK</td><td><code>59894605212</code></td></tr>
+    <tr><td class="n">The Shack Wellness</td><td><span class="pill blk">Falta</span></td></tr>
+  </table>
+
+  <h4>Plantillas de mensaje</h4>
+  <table class="compact">
+    <tr><td class="n" style="width:10rem">Experiencia</td><td><em>Hi, I'm staying at {property}. I'd like to book: {item}. Preferred date and time: </em></td></tr>
+    <tr><td class="n">Restaurante</td><td><em>Hi, I'm staying at {property}. I'd like to book a table at {restaurant}. Date, time and number of guests: </em></td></tr>
+    <tr><td class="n">Wellness</td><td><em>Hi, I'm staying at {property}. I'd like to book: {item}. Preferred date and time: </em></td></tr>
+    <tr><td class="n">Genérico (barra fija)</td><td><em>Hi, I'm staying at {property}. I'd like to ask about </em></td></tr>
+  </table>
+  <p>El mensaje se corta a propósito con dos puntos y un espacio: deja el cursor en el sitio donde el huésped tiene que escribir, y le ahorra redactar. <code>{property}</code> sale del contexto activo; <code>{item}</code>, del nombre de la ficha.</p>
+  <p><strong>Detalle de implementación:</strong> el texto se codifica con <code>encodeURIComponent</code>. Los acentos y los apóstrofes de los nombres propios («Bahía», «I'marangatú») rompen el enlace si se concatenan en crudo.</p>
+</section>
+
+<!-- ============================================================== 13 -->
+<section class="sheet" id="s13">
+  <span class="no">13</span>
+  <h2>Contenido faltante</h2>
+  <p>Ordenado por lo que frena antes el trabajo de diseño.</p>
+  <table>
+    <tr><th style="width:16rem">Qué falta</th><th style="width:7rem">Frena</th><th>Nota</th></tr>
+    <tr><td class="n">Fotografía de todas las secciones</td><td><span class="pill blk">Diseño</span></td><td>Es lo primero. El sitio es visual y sin imágenes no hay maqueta que aprobar.</td></tr>
+    <tr><td class="n">WhatsApp de The Shack</td><td><span class="pill blk">Desarrollo</span></td><td>Sin él no se construye la mitad de los CTA de Wellness.</td></tr>
+    <tr><td class="n">Menús de restaurantes</td><td><span class="pill blk">Diseño</span></td><td>Define si la ficha lleva enlace a PDF o pantalla de menú propia.</td></tr>
+    <tr><td class="n">Sección Nourish</td><td>Contenido</td><td>Depende del menú. Marcada en el brief como pendiente con Pablo.</td></tr>
+    <tr><td class="n">Recursos de Sleep</td><td>Contenido</td><td>Cinco piezas: breathwork, infusiones, soundscapes, meditación, pillow menu. El brief los quiere enlazados a Drive; conviene alojarlos en el sitio.</td></tr>
+    <tr><td class="n">Video de bienvenida</td><td>Fase 2</td><td>El brief lo marca como «needs to be developed».</td></tr>
+    <tr><td class="n">Precios de los day tours</td><td>Contenido</td><td>Cabo Polonio y Punta del Este.</td></tr>
+    <tr><td class="n">Precios de Mind y Nature</td><td>Contenido</td><td>Breathwork, meditación, Artist Encounters, Clay &amp; Wine, Healing with Horses, stargazing, caminatas.</td></tr>
+    <tr><td class="n">Política de impuestos</td><td>Contenido</td><td>Solo Fish BBQ dice «+TAX». Hace falta una regla única y una línea legal.</td></tr>
+    <tr><td class="n">Coordenadas de los 6 venues</td><td>Desarrollo</td><td>Para los mapas de Explore VIK.</td></tr>
+  </table>
+</section>
+
+<!-- ============================================================== 14 -->
+<section class="sheet" id="s14">
+  <span class="no">14</span>
+  <h2>Inconsistencias a resolver</h2>
+  <p>Detectadas al reordenar el contenido. Ninguna frena el diseño, pero todas llegarían al huésped si se maquetan tal cual.</p>
+  <table>
+    <tr><th style="width:15rem">Dónde</th><th>Qué pasa</th></tr>
+    <tr><td class="n">Estancia VIK · Dining Hours</td><td>Lista «360° Bar at Zodiaco», pero Zodiaco está en Bahía VIK. Parece copiado. ¿Cuál es el bar de Estancia?</td></tr>
+    <tr><td class="n">Playa VIK · Dining Hours</td><td>No menciona Beach Grill, que está en Playa VIK y aparece en la sección Dining con horario propio (12:30–19:30).</td></tr>
+    <tr><td class="n">Estancia VIK · room service</td><td>Hasta las 23:00, mientras el restaurante cierra 22:30. En las otras dos ambos cierran 22:30. ¿Correcto o errata?</td></tr>
+    <tr><td class="n">La Brava Full Moonrise Picnic</td><td>La descripción es idéntica a La Mansa Sunset Picnic y habla de «watch the sunset» en una experiencia de luna llena.</td></tr>
+    <tr><td class="n">Caballos</td><td>Experiences: 2 h por USD 160. Wellness/Nature «Mindful Horseback Journey»: 2 h por USD 190. ¿Dos productos distintos o dos precios del mismo?</td></tr>
+    <tr><td class="n">Formato de precios</td><td>Conviven «USD 120+TAX», «120 USD», «USD 55 USD», «200 USD». Unificar a <code>USD 000</code>.</td></tr>
+    <tr><td class="n">Padel</td><td>Titulado «PADDLE» y descrito como «padel court». Son dos deportes distintos; por la cancha y las paletas, es <em>padel</em>.</td></tr>
+    <tr><td class="n">Farm-to-Table / Art Exploration</td><td>Repetidos en dos y tres secciones. Mismo producto, misma ficha (ver sección 4).</td></tr>
+    <tr><td class="n">Wi-Fi Bahía VIK</td><td>Red «Hotel Bahia Vik» sin tilde. Confirmar mayúsculas y espacios exactos: se copia y se pega tal cual.</td></tr>
+    <tr><td class="n">Bird Watching</td><td>USD 350 sin indicar si es por persona o por grupo.</td></tr>
+  </table>
+</section>
+
+<!-- ============================================================== 15 -->
+<section class="sheet" id="s15">
+  <span class="no">15</span>
+  <h2>Decisiones abiertas</h2>
+  <table>
+    <tr><th style="width:15rem">Decisión</th><th>Recomendación</th></tr>
+    <tr><td class="n">Idiomas</td><td>Inglés únicamente en Fase 1: todo el copy del huésped ya está escrito en inglés. Si se prevé castellano y portugués, el modelo de contenido debe nacer con campos por idioma aunque solo se cargue uno.</td></tr>
+    <tr><td class="n">Navegación de Explore VIK</td><td>Grilla de imágenes (ver sección 11).</td></tr>
+    <tr><td class="n">Título de la colección</td><td>«The VIK Collection at José Ignacio».</td></tr>
+    <tr><td class="n">Saludo de Home</td><td>Nombre de la propiedad activa, no genérico.</td></tr>
+    <tr><td class="n">CMS</td><td>Los horarios, precios y La Susana estacional cambian por temporada. Hace falta que el equipo de VIK pueda editarlos sin desarrollo.</td></tr>
+    <tr><td class="n">Un QR o tres</td><td>Tres, uno por propiedad. Un QR único obligaría a elegir propiedad y rompe la regla de dos taps.</td></tr>
+    <tr><td class="n">Recursos de Sleep en Drive</td><td>El brief pide enlazar a Drive. Un enlace de Drive en móvil pide permisos, abre otra app y a veces falla. Alojar los audios y PDF en el propio sitio.</td></tr>
+    <tr><td class="n">Métrica de éxito</td><td>Ninguno de los cuatro objetivos es medible hoy. Mínimo: taps en cada CTA de WhatsApp por sección, para saber si la web genera reservas o solo informa.</td></tr>
+  </table>
+</section>
+
+</main>
+</div>
+
+<footer class="end">VIK Digital Journey Designer · documento de entrega · 16 secciones</footer>
+
+<script>
+  (function(){
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.index a'));
+    var map = {};
+    links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          links.forEach(function(l){ l.classList.remove('on'); });
+          if(map[e.target.id]) map[e.target.id].classList.add('on');
+        }
+      });
+    }, { rootMargin: '-10% 0px -75% 0px' });
+    document.querySelectorAll('section.sheet').forEach(function(s){ obs.observe(s); });
+  })();
+</script>
+
+</body>
+</html>

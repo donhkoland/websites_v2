@@ -16,6 +16,7 @@ Open any page below to see the actual website. **José Ignacio is the first appr
 | Estancia VIK | [Open ↗](https://donhkoland.github.io/websites_v2/estancia-vik/index.html) |
 | Experiences | [Open ↗](https://donhkoland.github.io/websites_v2/experiences/index.html) |
 | Flujo | [Open ↗](https://donhkoland.github.io/websites_v2/flujo/index.html) |
+| Guest Guide v2 | [Open ↗](https://donhkoland.github.io/websites_v2/guest-guide/index.html) |
 | Guest Journey | [Open ↗](https://donhkoland.github.io/websites_v2/guest-journey/index.html) |
 | La Susana | [Open ↗](https://donhkoland.github.io/websites_v2/la-susana/index.html) |
 | Pavilion VIK | [Open ↗](https://donhkoland.github.io/websites_v2/pavilion-vik/index.html) |

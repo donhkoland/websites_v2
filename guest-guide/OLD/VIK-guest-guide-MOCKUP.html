@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VIK Guest Guide — mockup navegable</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200;0,6..72,300;0,6..72,400;1,6..72,300&family=Hanken+Grotesk:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0F1A1C;
+  --deep:#16302F;
+  --sea:#2E5F5C;
+  --sea-lo:#4A7D78;
+  --paper:#F5F6F2;
+  --mist:#E7EBE7;
+  --line:#D3D9D4;
+  --sand:#C6BCA8;
+  --text:#2A3A3B;
+  --mute:#768584;
+  --disp:"Newsreader",Georgia,serif;
+  --ui:"Hanken Grotesk",system-ui,sans-serif;
+  --mono:"DM Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#0B1315;font-family:var(--ui);-webkit-font-smoothing:antialiased}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ====================================================== escenario desktop */
+.stage{display:flex;gap:3rem;justify-content:center;align-items:flex-start;
+  padding:3rem 2rem;min-height:100vh}
+.notes{width:19rem;color:#93A3A2;font-size:.8rem;line-height:1.6;padding-top:1rem}
+.notes h1{font-family:var(--disp);font-weight:200;font-size:2rem;line-height:1.05;
+  color:#F0F3F0;margin:0 0 .3rem;letter-spacing:-.01em}
+.notes .sub{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--sea-lo);margin:0 0 1.8rem}
+.notes h2{font-family:var(--mono);font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;
+  color:#6E807F;margin:1.8rem 0 .6rem;border-bottom:1px solid #22302F;padding-bottom:.4rem}
+.notes p{margin:0 0 .7rem}
+.notes ul{margin:0;padding-left:1rem}
+.notes li{margin-bottom:.4rem}
+.switch{display:flex;flex-direction:column;gap:.35rem}
+.switch button{
+  font-family:var(--ui);font-size:.82rem;text-align:left;
+  background:transparent;color:#93A3A2;border:1px solid #22302F;
+  padding:.6rem .8rem;cursor:pointer;transition:.15s;border-radius:2px}
+.switch button:hover{border-color:var(--sea);color:#D6DEDB}
+.switch button[aria-pressed="true"]{background:var(--sea);border-color:var(--sea);color:#fff}
+.switch button:focus-visible{outline:2px solid var(--sea-lo);outline-offset:2px}
+.switch small{display:block;font-family:var(--mono);font-size:.58rem;letter-spacing:.1em;
+  opacity:.65;margin-top:.15rem}
+
+.device{width:390px;flex:none;background:#000;border-radius:46px;padding:11px;
+  box-shadow:0 40px 80px -20px rgba(0,0,0,.7),0 0 0 1px #23302F}
+.screen{width:100%;height:788px;border-radius:36px;overflow:hidden;position:relative;
+  background:var(--paper)}
+
+/* ============================================================== app shell */
+.app{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--paper)}
+.scroll{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.scroll::-webkit-scrollbar{width:0}
+
+/* topbar */
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:.7rem;
+  padding:.85rem 1.1rem;background:rgba(245,246,242,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);min-height:52px}
+.top.on-dark{background:transparent;border-bottom-color:transparent;position:absolute;
+  left:0;right:0;top:0}
+.back{background:none;border:0;padding:.3rem;margin-left:-.3rem;cursor:pointer;
+  color:var(--text);display:flex;align-items:center}
+.top.on-dark .back{color:#EDF1EE}
+.back:focus-visible{outline:2px solid var(--sea);outline-offset:2px;border-radius:2px}
+.top .label{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--mute)}
+.top.on-dark .label{color:rgba(237,241,238,.75)}
+
+/* ------------------------------------------------------------- horizonte */
+.horizon{position:relative;overflow:hidden}
+.horizon::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:rgba(255,255,255,.38)}
+.h-hero{background:linear-gradient(178deg,#1D3E48 0%,#2E5F5C 52%,#16302F 100%)}
+.h-info{background:linear-gradient(178deg,#C7D5D2 0%,#7E9A97 100%)}
+.h-dining{background:linear-gradient(178deg,#8A6A52 0%,#33261E 100%)}
+.h-exp{background:linear-gradient(178deg,#9FB08F 0%,#3E4F3B 100%)}
+.h-well{background:linear-gradient(178deg,#CFCBBF 0%,#87826F 100%)}
+.h-expl{background:linear-gradient(178deg,#7FA0AE 0%,#20384A 100%)}
+.sun{position:absolute;left:50%;transform:translateX(-50%);width:120px;height:120px;
+  border-radius:50%;background:radial-gradient(circle,rgba(255,240,214,.5),transparent 62%)}
+.slot{position:absolute;right:.6rem;bottom:.5rem;font-family:var(--mono);font-size:.5rem;
+  letter-spacing:.14em;color:rgba(255,255,255,.5);text-transform:uppercase}
+
+/* ------------------------------------------------------------------ hero */
+.hero{position:relative;height:310px;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:0 1.3rem 1.6rem;color:#F1F4F1}
+.hero .sun{top:76px}
+.hero .eyebrow{font-family:var(--mono);font-size:.58rem;letter-spacing:.24em;
+  text-transform:uppercase;color:rgba(241,244,241,.72);margin:0 0 .5rem;position:relative}
+.hero h1{font-family:var(--disp);font-weight:200;font-size:2.35rem;line-height:1.02;
+  letter-spacing:-.02em;margin:0 0 .5rem;position:relative}
+.hero h1 em{font-style:italic;font-weight:300}
+.hero p{margin:0;font-size:.84rem;color:rgba(241,244,241,.8);position:relative}
+
+/* --------------------------------------------------------------- tiles */
+.tiles{padding:1.1rem 1.1rem 0}
+.tile{display:block;width:100%;text-align:left;border:0;padding:0;margin:0 0 .6rem;
+  background:none;cursor:pointer;border-radius:3px;overflow:hidden;
+  transition:transform .18s ease}
+.tile:active{transform:scale(.985)}
+.tile:focus-visible{outline:2px solid var(--sea);outline-offset:3px}
+.tile .band{height:92px;position:relative;display:flex;align-items:flex-end;
+  padding:0 .95rem .7rem}
+.tile .band h2{font-family:var(--disp);font-weight:300;font-size:1.32rem;color:#fff;
+  margin:0;letter-spacing:-.005em;position:relative}
+.tile .desc{font-size:.76rem;color:var(--mute);padding:.5rem .95rem .1rem;line-height:1.45}
+
+/* ------------------------------------------------------------ secciones */
+.pagehead{position:relative;height:172px;display:flex;align-items:flex-end;
+  padding:0 1.3rem 1.15rem;color:#fff}
+.pagehead h1{font-family:var(--disp);font-weight:200;font-size:2rem;margin:0;
+  letter-spacing:-.02em;position:relative}
+.body{padding:1.2rem 1.1rem 6rem}
+.lede{font-family:var(--disp);font-weight:300;font-size:1.02rem;line-height:1.45;
+  color:var(--text);margin:0 0 1.3rem}
+.lede em{font-style:italic}
+
+h3.grp{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--sea);margin:1.9rem 0 .7rem;padding-bottom:.4rem;border-bottom:1px solid var(--line)}
+h3.grp:first-child{margin-top:0}
+
+/* tarjeta expandible */
+details.card{border-bottom:1px solid var(--line);background:none}
+details.card summary{list-style:none;cursor:pointer;padding:.85rem 0;display:flex;
+  gap:.8rem;align-items:baseline}
+details.card summary::-webkit-details-marker{display:none}
+details.card summary:focus-visible{outline:2px solid var(--sea);outline-offset:-2px}
+.card .nm{flex:1;font-size:.94rem;font-weight:500;color:var(--ink);line-height:1.3}
+.card .tag{font-family:var(--mono);font-size:.62rem;color:var(--mute);white-space:nowrap;
+  letter-spacing:.02em}
+.card .meta{font-family:var(--mono);font-size:.66rem;color:var(--sea);margin-top:.15rem;
+  letter-spacing:.02em}
+.card .inner{padding:0 0 1.1rem}
+.card .inner p{margin:0 0 .8rem;font-size:.83rem;line-height:1.58;color:var(--text)}
+details.card[open] summary .nm{color:var(--sea)}
+
+/* acordeón guest info */
+details.acc{border:1px solid var(--line);background:#fff;margin-bottom:.55rem;border-radius:3px}
+details.acc summary{list-style:none;cursor:pointer;padding:.9rem 1rem;display:flex;
+  justify-content:space-between;align-items:center;font-weight:500;font-size:.9rem;color:var(--ink)}
+details.acc summary::-webkit-details-marker{display:none}
+details.acc summary::after{content:"+";font-family:var(--mono);color:var(--sea);font-size:1rem}
+details.acc[open] summary::after{content:"–"}
+details.acc summary:focus-visible{outline:2px solid var(--sea);outline-offset:-2px}
+details.acc .inner{padding:0 1rem 1rem;border-top:1px solid var(--mist)}
+
+.row{display:flex;justify-content:space-between;gap:1rem;padding:.55rem 0;
+  border-bottom:1px solid var(--mist);font-size:.83rem}
+.row:last-child{border-bottom:0}
+.row .k{color:var(--text)}
+.row .v{font-family:var(--mono);font-size:.75rem;color:var(--ink);text-align:right;white-space:nowrap}
+.blk{padding:.7rem 0;border-bottom:1px solid var(--mist);font-size:.83rem;line-height:1.55}
+.blk:last-child{border-bottom:0}
+.blk b{display:block;color:var(--ink);font-weight:600;margin-bottom:.15rem;font-size:.85rem}
+
+/* wifi destacado */
+.wifi{background:var(--deep);color:#EAF0EE;border-radius:3px;padding:1rem;margin-bottom:.9rem}
+.wifi .ttl{font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--sea-lo);margin-bottom:.7rem}
+.wifi .f{display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.wifi .f:last-of-type{border-bottom:0}
+.wifi .f span{font-size:.74rem;color:rgba(234,240,238,.6)}
+.wifi .f code{font-family:var(--mono);font-size:.84rem;color:#fff}
+.copybtn{background:none;border:1px solid rgba(255,255,255,.3);color:#EAF0EE;
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;padding:.3rem .55rem;
+  border-radius:2px;cursor:pointer;text-transform:uppercase;transition:.15s}
+.copybtn:hover{background:rgba(255,255,255,.12)}
+.copybtn:focus-visible{outline:2px solid var(--sea-lo);outline-offset:2px}
+
+/* chips de filtro */
+.chips{display:flex;gap:.4rem;overflow-x:auto;padding:0 0 1rem;margin:0 -1.1rem 0;
+  padding-left:1.1rem;padding-right:1.1rem;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;font-family:var(--ui);font-size:.74rem;padding:.4rem .8rem;
+  border:1px solid var(--line);background:#fff;color:var(--text);border-radius:99px;
+  cursor:pointer;white-space:nowrap;transition:.15s}
+.chip[aria-pressed="true"]{background:var(--deep);border-color:var(--deep);color:#fff}
+.chip:focus-visible{outline:2px solid var(--sea);outline-offset:2px}
+
+/* píldoras */
+.inc{font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--sea);border:1px solid var(--sea-lo);padding:.1rem .35rem;border-radius:2px}
+.seas{font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--sand);border:1px solid var(--sand);padding:.1rem .35rem;border-radius:2px}
+
+/* botón reservar */
+.book{display:inline-flex;align-items:center;gap:.4rem;background:var(--sea);color:#fff;
+  text-decoration:none;font-size:.78rem;font-weight:500;padding:.55rem .9rem;
+  border-radius:2px;transition:.15s}
+.book:hover{background:var(--deep)}
+.book:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+/* lista de lugares */
+.zone{margin-bottom:1.3rem}
+.zone h4{font-size:.82rem;font-weight:600;color:var(--ink);margin:0 0 .4rem}
+.zone .ls{display:flex;flex-wrap:wrap;gap:.3rem}
+.zone a{font-size:.76rem;color:var(--text);text-decoration:none;border:1px solid var(--line);
+  background:#fff;padding:.28rem .55rem;border-radius:99px;transition:.15s}
+.zone a:hover{border-color:var(--sea);color:var(--sea)}
+
+/* venue grid */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:.55rem}
+.vcard{border:0;padding:0;background:none;cursor:pointer;text-align:left;border-radius:3px;
+  overflow:hidden}
+.vcard .band{height:104px;position:relative;display:flex;align-items:flex-end;padding:.6rem}
+.vcard .band span{font-family:var(--disp);font-weight:300;font-size:.95rem;color:#fff;
+  line-height:1.1;position:relative}
+.vcard:focus-visible{outline:2px solid var(--sea);outline-offset:3px}
+
+/* CTA fijo */
+.cta{position:absolute;left:0;right:0;bottom:0;z-index:30;padding:.7rem .9rem 1rem;
+  background:linear-gradient(180deg,rgba(245,246,242,0),rgba(245,246,242,.96) 34%)}
+.cta a{display:flex;align-items:center;justify-content:center;gap:.5rem;
+  background:var(--deep);color:#F1F4F1;text-decoration:none;padding:.85rem;
+  border-radius:3px;font-size:.85rem;font-weight:500;transition:.15s}
+.cta a:hover{background:var(--sea)}
+.cta a:focus-visible{outline:2px solid var(--sea-lo);outline-offset:2px}
+
+.foot{text-align:center;font-family:var(--mono);font-size:.55rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--mute);padding:1.6rem 0 .4rem}
+
+/* ============================================================== responsive */
+@media (max-width:940px){
+  body{background:var(--paper)}
+  .stage{display:block;padding:0}
+  .notes{display:none}
+  .device{width:100%;padding:0;border-radius:0;box-shadow:none;background:var(--paper)}
+  .screen{height:100vh;height:100dvh;border-radius:0}
+}
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <aside class="notes">
+    <h1>VIK Guest Guide</h1>
+    <p class="sub">Mockup navegable · Fase 1</p>
+    <p>Prototipo funcional de las seis pantallas especificadas. Toda la navegación responde.</p>
+
+    <h2>Propiedad activa</h2>
+    <p style="margin-bottom:.7rem">Cada QR de habitación abre el sitio ya contextualizado. Probá el cambio:</p>
+    <div class="switch" id="switch"></div>
+
+    <h2>Qué demuestra</h2>
+    <ul>
+      <li>Regla de dos taps: el detalle se abre dentro de la sección, nunca en otra pantalla.</li>
+      <li>Wi-Fi y recepción arriba de todo, con copiado de clave en un tap.</li>
+      <li>Bloques globales frente a datos propios de cada propiedad.</li>
+      <li>CTA de WhatsApp con mensaje precargado según la ficha y la propiedad.</li>
+    </ul>
+
+    <h2>Pendientes reflejados</h2>
+    <ul>
+      <li>Los degradados marcan los huecos de fotografía. No hay imágenes reales.</li>
+      <li>Los CTA de wellness apuntan al concierge: falta el WhatsApp de The Shack.</li>
+      <li>Las fichas de restaurante no enlazan menú.</li>
+      <li>Nourish y Sleep muestran solo lo que ya está escrito.</li>
+    </ul>
+  </aside>
+
+  <div class="device">
+    <div class="screen">
+      <div class="app">
+        <div class="scroll" id="scroll"></div>
+        <div class="cta" id="cta"></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================ contenido */
+const DATA = {
+  properties: {
+    bahia: {
+      name:"Bahía VIK", short:"Bahía",
+      wifi:{net:"Hotel Bahia Vik", pw:"hotelbahiavik"},
+      desk:"+598 95 444 451", deskNum:"59895444451",
+      dining:[["Breakfast","8:00 – 11:00"],["Zodiaco Restaurant","12:30 – 22:30"],
+              ["360° Bar at Zodiaco","11:00 – 23:00"],["In-Room Dining","12:30 – 22:30"]],
+      facilities:[
+        ["The Shack Wellness","Complimentary access to the gym, sauna and wet area throughout your stay. Spa treatments, massages, yoga, personal training and further wellness experiences are available on request.",true],
+        ["Swimming Pools","Four outdoor pools, open through the day with pool service. Kept at their natural temperature.",true],
+        ["Beach Service","Complimentary sunbeds, umbrellas and towels on the beach in front of Bahía VIK.",true],
+        ["Playroom","Open 24 hours. Table tennis, foosball, board games and a TV lounge.",true]]
+    },
+    playa: {
+      name:"Playa VIK", short:"Playa",
+      wifi:{net:"Playa Vik", pw:"vikbeach"},
+      desk:"+598 93 704 866", deskNum:"59893704866",
+      dining:[["Breakfast","8:00 – 11:00"],["CieloMar Restaurant","12:30 – 22:30"],
+              ["CieloMar Bar","11:00 – 23:00"],["Beach Grill","12:30 – 19:30"],
+              ["In-Room Dining","12:30 – 22:30"]],
+      facilities:[
+        ["Wellness","On-site gym and sauna throughout your stay. Massages can be arranged in our treatment room. Complimentary access to The Shack Wellness at Bahía VIK is also included.",true],
+        ["Infinity Pool","Heated infinity pool overlooking the Atlantic. Open through the day.",true],
+        ["Playroom","Open 24 hours. Table tennis, foosball, board games and a TV lounge.",true]]
+    },
+    estancia: {
+      name:"Estancia VIK", short:"Estancia",
+      wifi:{net:"Estancia Vik", pw:"estanciavik"},
+      desk:"+598 94 605 212", deskNum:"59894605212",
+      dining:[["Breakfast","8:00 – 11:00"],["El Asador Restaurant","12:30 – 22:30"],
+              ["Bar","11:00 – 23:00"],["In-Room Dining","12:30 – 23:00"]],
+      facilities:[
+        ["Wellness","On-site gym and sauna throughout your stay. Massages can be arranged in our treatment room. Complimentary access to The Shack Wellness at Bahía VIK is also included.",true],
+        ["Swimming Pool","Outdoor pool open through the day with pool service. Kept at its natural temperature.",true],
+        ["Playroom","Open 24 hours. Table tennis, foosball, board games and a TV lounge.",true]]
+    }
+  },
+
+  services:[
+    ["Experience Concierge","Restaurant reservations, local experiences, transportation and personalised recommendations."],
+    ["Housekeeping","Daily service between 9:00 AM and 5:00 PM."],
+    ["Turndown Service","Every evening, to prepare your room for a restful night."],
+    ["Laundry","A laundry bag and price list are in your wardrobe. Complete the form, leave the bag ready for collection during housekeeping, or contact the Front Desk."],
+    ["Packing & Unpacking","Available upon request."],
+    ["Luggage Assistance","Available on arrival and departure."],
+    ["Babysitting","Available upon request."],
+    ["Additional Amenities","Extra pillows, blankets, bathroom amenities and adapters upon request."]
+  ],
+  leaving:[
+    ["Check-Out","12:00 PM."],
+    ["Late Check-Out","Available upon request, subject to availability."],
+    ["Breakfast To Go","If you depart before breakfast service begins, we will prepare a complimentary Breakfast To Go for your journey."]
+  ],
+  know:[
+    ["Medical Assistance","A local clinic in José Ignacio covers minor needs during opening hours. For urgent assistance a doctor can visit the hotel, subject to availability. The nearest full-service hospital is in Punta del Este, about 30 km away."],
+    ["ATMs & Currency Exchange","Available at Varlix in José Ignacio."],
+    ["Lost & Found","Items claimed by guests are stored for up to two months. Unclaimed items are kept for six months before being donated or responsibly discarded."],
+    ["Smoking Policy","Smoking is prohibited inside guest rooms and all enclosed public areas. Designated outdoor areas are available."]
+  ],
+
+  restaurants:[
+    {n:"Zodiaco",t:"Art. Sharing. Cocktails.",p:"Bahía VIK",
+     d:"Zodiaco brings together contemporary art, Mediterranean-inspired cuisine, fresh local ingredients and a sharing concept, in a vibrant setting inspired by the relaxed spirit of José Ignacio. From ocean views to the intimate Patio de Moras and the signature 360° Bar, handcrafted cocktails and dishes designed for sharing invite guests to gather.",
+     h:[["Breakfast","8:00 – 11:00"],["Dining & Room Service","12:30 – 22:30"],["Bar","11:00 – 23:00"]]},
+    {n:"CieloMar",t:"Art. Sunset. Small Plates.",p:"Playa VIK",
+     d:"CieloMar brings together contemporary gastronomy, seasonal small plates, handcrafted cocktails and a fully gluten-free menu inspired by the flavours of the Uruguayan coast. Set on the iconic pool deck, surrounded by art, architecture and panoramic ocean views, it is designed for long afternoons that turn into unforgettable sunsets.",
+     h:[["Breakfast","8:00 – 11:00"],["Dining & Room Service","12:30 – 22:30"],["Bar","11:00 – 23:00"]]},
+    {n:"Beach Grill",t:"Fire. Fresh Seafood. Ocean Views.",p:"Playa VIK",
+     d:"An oceanfront experience built on open-fire cooking, the freshest local seafood and seasonal ingredients from the Uruguayan coast. Against uninterrupted Atlantic views, the menu celebrates simple, ingredient-driven cuisine for leisurely lunches and sunset dinners by the sea.",
+     h:[["Dining","12:30 – 19:30"]]},
+    {n:"El Asador",t:"Fire. Countryside. Sharing.",p:"Estancia VIK",
+     d:"El Asador brings together Uruguay's grilling traditions, carefully sourced local ingredients and the warmth of countryside hospitality. From premium meats to seasonal produce and generous dishes designed for sharing, it celebrates the authentic flavours of Uruguay where nature, tradition and the table define every meal.",
+     h:[["Breakfast","8:00 – 11:00"],["Dining & Room Service","12:30 – 22:30"],["Bar","11:00 – 23:00"]]},
+    {n:"La Susana",t:"Beach. Sunset. Cocktails.",p:"José Ignacio",seasonal:true,
+     d:"On José Ignacio's iconic beachfront, La Susana offers relaxed all-day dining, fresh seasonal cuisine, handcrafted cocktails and an extensive wine selection. From leisurely lunches to lively dinners, it captures coastal living with uninterrupted ocean views and a seasonal programme of DJs and live music.",
+     h:[["Dining","12:30 – 22:30"]]}
+  ],
+
+  culinary:[
+    {n:"Fish BBQ",w:"Fridays, from 7:30 PM",pr:"USD 120 + tax",
+     d:"At Playa VIK's Beach Grill, Fish BBQ begins at sunset around the fire pit with a glass of VIK wine, before a live open-fire experience celebrating the finest catch from the Uruguayan coast. Each course is paired with selected VIK Wines."},
+    {n:"Gran Asado Uruguayo",w:"Saturdays, from 7:30 PM",pr:"USD 120",
+     d:"At El Asador, Estancia VIK, this celebrates Uruguay's grilling traditions through premium grass-fed meats, seasonal produce and selected VIK Wines, surrounded by open landscapes and contemporary art."},
+    {n:"Wine Tasting",w:"On request",pr:"USD 90 · min. 2 guests",
+     d:"Born in Chile's Millahue Valley, VIK wines express an extraordinary terroir. The collection includes elegant rosés and internationally celebrated red blends. Selected labels are available for purchase."},
+    {n:"Farm-to-Table Cooking Class",w:"2–3 hours",pr:"USD 200",
+     d:"A guided visit to an organic vegetable garden. Harvest fresh seasonal ingredients, then join a private vegetarian cooking class to prepare and savour dishes inspired by local produce."}
+  ],
+
+  zones:[
+    ["Oceanfront Favorites",["La Huella","El Chiringuito by Mallman","El Chiringuito"]],
+    ["Favorites in Town",["Cruz del Sur","Tato Pescador","Solera","Destino Sushi","Marismo","Juana","La Olada","Tres","Bliss","Ritual","Minibā Izakaya"]],
+    ["Coffee & Casual",["Rizoma","La Panadería","Mostrador Santa Teresita"]],
+    ["Countryside",["Mostrador Bodega Oceánica","Nur at Posada Luz","Las Cárcavas","Guayabo","Garzón by Mallman","Bodega Garzón","Carmen Café"]],
+    ["Punta del Este",["I'marangatú","Posto 5","Boulevard Las Palmeras","481 Gourmet","Lo de Tere","Café Zunino","Café Vitaminas"]],
+    ["Manantiales & La Barra",["El Abrazo","O'Farrell","La Proveeduría","La Linda Café","Tierra","Harry's Table","Narbona","Fasano Las Piedras","Legua","Casa Blanca Beach Club","Salón N.º 3"]],
+    ["Uruguayan Wineries",["Bodega Oceánica","Bodega Garzón","Bodega Las Espinas","Bodega Viña Edén","Altos de la Ballena","Bodega Sacromonte"]]
+  ],
+
+  experiences:[
+    {n:"Horseback Riding",c:"horses",du:"1 h / 2 h",pr:"USD 90 / 160",d:"Explore the landscapes of Estancia VIK on horseback, riding through riverbanks, lagoons, native forests and open countryside."},
+    {n:"Swimming with Horses",c:"horses",du:"1.5 h",pr:"USD 150",d:"A horseback adventure through Estancia VIK's countryside, crossing the José Ignacio stream with the possibility of swimming alongside your horse. Recommended for experienced riders. A private picnic by the stream is available for USD 75."},
+    {n:"Polo Lesson",c:"horses",du:"1 h",pr:"USD 160",d:"Discover the fundamentals of polo and experience one of South America's most iconic sports at Estancia VIK."},
+    {n:"Polo Exhibition",c:"horses",du:"30 min",pr:"USD 2,500",d:"Witness professional polo players in action during a private exhibition at Estancia VIK's polo field."},
+    {n:"Biking",c:"country",du:"Flexible",pr:"Included",inc:true,d:"Discover José Ignacio and its surrounding landscapes by bicycle, exploring the region at your own pace."},
+    {n:"Kayaking",c:"water",du:"1.5 h",pr:"USD 50",d:"Explore the waters of Arroyo and Laguna José Ignacio while discovering the area's unique natural landscapes."},
+    {n:"Surfing",c:"water",du:"1 h",pr:"USD 55",d:"Experience the waves of José Ignacio, suitable for both beginners and experienced surfers."},
+    {n:"Kite Surfing",c:"water",du:"2 h",pr:"USD 310",d:"A private lesson with a specialised instructor, including equipment and privileged access to an exclusive setting. Designed to learn, improve your technique and enjoy the ocean in a unique way."},
+    {n:"Paddle Boarding",c:"water",du:"1 h",pr:"USD 50",d:"Explore the tranquil waters around José Ignacio and experience the coastline from a different perspective."},
+    {n:"VIK Safari",c:"country",du:"1 h",pr:"USD 50 p/p",d:"Explore the José Ignacio Lagoon on a 4x4 adventure through native forests, discovering local wildlife including native birds and traditional Criollo animals."},
+    {n:"Fishing",c:"water",du:"1 h",pr:"USD 100 p/p",d:"A fishing adventure either offshore or in a private lagoon, surrounded by the natural landscapes of José Ignacio."},
+    {n:"Bird Watching",c:"country",du:"2–3 h",pr:"USD 350",d:"Discover Uruguay's remarkable birdlife across diverse ecosystems, wetlands and coastal landscapes."},
+    {n:"Padel",c:"sport",du:"1.5 h",pr:"USD 100",d:"Outdoor padel court at La Esmeralda, José Ignacio. Available daily from 7 AM to 11 PM in 1.5-hour slots, rackets and balls included for up to four players."},
+    {n:"Tennis",c:"sport",du:"1 h",pr:"USD 110",d:"A lesson for one or two guests on a clay court at a countryside property ten minutes from Bahía VIK, with instructor Juan Pablo. The court is always booked as part of a lesson."},
+    {n:"Golf",c:"sport",du:"Half day",pr:"Green fee USD 180",d:"A round at the 18-hole La Barra Golf Club, 25 minutes from José Ignacio. Two-seater cart USD 80, club set USD 50, basket of 25 balls USD 10. Prices vary by season."},
+    {n:"Uruguayan Nights",c:"country",du:"3–4 h",pr:"USD 210",d:"Celebrate Uruguayan traditions through local cuisine, fine wines, live music and countryside hospitality. Dinner only, USD 150."},
+    {n:"Full Moon Edition",c:"country",du:"3–4 h",pr:"USD 210",d:"Uruguayan traditions under the light of the full moon, with local cuisine, fine wines and live music. An evening combining the magic of the countryside with the beauty of the night sky. Dinner only, USD 150."},
+    {n:"Farm-to-Table Cooking Class",c:"country",du:"2–3 h",pr:"USD 200",d:"A guided visit to an organic vegetable garden. Harvest seasonal ingredients and join a private vegetarian cooking class inspired by local produce."},
+    {n:"Garzón Bike Tour & Bodega",c:"country",du:"4–6 h",pr:"From USD 235 p/p",d:"Cycle through the historic village of Garzón before visiting Bodega Garzón, surrounded by vineyards. Includes guide, transfers, bike and the Reserva Tour. Lunch not included. Group of 2: USD 460 p/p. Group of 4: USD 235 p/p."},
+    {n:"VIK Experience — Bodega Oceánica O'33",c:"country",du:"3–4 h",pr:"USD 180 p/p",d:"Horseback riding, vineyards, wine, olive oil, art and local traditions, between Estancia VIK and Bodega Oceánica O'33."},
+    {n:"Art Exploration",c:"art",du:"3–4 h",pr:"USD 200 p/p",d:"Discover the art scene of José Ignacio through museums, galleries, cultural spaces and artist studios."},
+    {n:"Cabo Polonio",c:"tour",du:"6–8 h",pr:"On request",d:"A full-day experience travelling in iconic 4x4 vehicles across the sand dunes to this car-free village. Visit the lighthouse, observe the sea lion colony and enjoy free time to wander its streets."},
+    {n:"Punta del Este & Punta Ballena",c:"tour",du:"Full day",pr:"On request",d:"An exclusive full-day tour of the city's main attractions and coastline, ending at Casapueblo, the masterpiece of Carlos Páez Vilaró, where art, architecture and ocean views come together."}
+  ],
+
+  pillars:[
+    {k:"move",n:"Move",s:"Move your body. Awaken your energy.",shack:true,items:[
+      {n:"Shack Harmony",du:"Group class",pr:"USD 30 p/p",d:"Steady, all-levels mindful movement with breath awareness and guided meditation."},
+      {n:"Shack Flow",du:"Group class",pr:"USD 30 p/p",d:"Dynamic vinyasa flow for strength, mobility and energy, with creative transitions and modifications offered."},
+      {n:"Shack Reset",du:"Group class",pr:"USD 30 p/p",d:"Restorative practice with supported postures, breathwork and meditation to release tension and restore balance."},
+      {n:"Private Yoga or Pilates",du:"60 / 90 min",pr:"USD 140 / 185",d:"Up to two guests, plus USD 20 per additional person. Mat-based."},
+      {n:"Strength Studio — Control",du:"Level I",pr:"USD 65 group",d:"Foundation work: precise technique, posture and breathing at a slower pace with lighter loads. Ideal for beginners, those returning after a break, or anyone focused on injury prevention."},
+      {n:"Strength Studio — Dynamic",du:"Level II",pr:"USD 65 group",d:"Strength training at an elevated pace, combining multi-joint lifts, resistance work and functional exercises to build stamina."},
+      {n:"Strength Studio — Load",du:"Level III",pr:"USD 145 private",d:"For experienced lifters: progressive overload, lower reps and heavier weights, centred on compound lifts."},
+      {n:"Gym",du:"Anytime",pr:"Included",inc:true,d:"As a guest of any VIK property you are welcome to use the gym at your pleasure."}
+    ]},
+    {k:"restore",n:"Restore",s:"Recover, recharge and return to balance.",shack:true,items:[
+      {n:"Massages & Healing Arts",du:"60 / 90 min",pr:"USD 165 / 220",d:"Eight modalities: acupuncture, deep tissue, Swedish, lymphatic drainage, Thai, Kobido Japanese facial, shamanic energy healing and Lomi Lomi. Includes sauna and cold plunge access before or after treatment."},
+      {n:"Thermal Journey",du:"Anytime",pr:"Included",inc:true,d:"Dry sauna and cold plunge circuit, available on a first-come, first-served basis."},
+      {n:"Rest & Restore",du:"60 min",pr:"USD 75",d:"Infrared sauna with Clearlight technology, amethyst crystal Biomat and a mineral-infused bath, in a private room for up to two guests."},
+      {n:"Welcome Ritual",du:"90 min",pr:"USD 300",d:"Private yoga or meditation, infrared sauna, Biomat, a hot or cold beverage and full wellness access."},
+      {n:"Recharge Day",du:"Half day",pr:"USD 300",d:"One group class, a 60-minute massage, full wellness access and a hot or cold beverage."},
+      {n:"Private Sunset Ritual",du:"90 min",pr:"USD 350",d:"Golden hour private yoga and a sound bath, for two to four guests, with a hot or cold beverage."},
+      {n:"Jet Lag Recovery Ritual",du:"Half day",pr:"USD 350",d:"Restorative private yoga with breath reset, lymphatic drainage massage, infrared sauna, Biomat and salt bath."},
+      {n:"Signature Retreat Day",du:"Full day",pr:"USD 520",d:"Two options. Inner Strength: full-body evaluation, private strength training, sauna, Biomat, salt bath, 90-minute deep tissue massage and a sound or breath journey. Release & Restore: wellness consultation, private yoga, guided meditation, sauna, Biomat, salt bath and shamanic healing or sound bath."}
+    ]},
+    {k:"mind",n:"Mind",s:"Create space. Slow down. Reconnect.",shack:false,items:[
+      {n:"Sound Bath Ceremony",du:"60 min",pr:"USD 300",d:"For up to four guests."},
+      {n:"Breathwork",du:"On request",pr:"On request",d:"Guided sessions to slow down and reconnect."},
+      {n:"Meditation",du:"On request",pr:"On request",d:"Guided practice to create space and quiet the mind."},
+      {n:"Artist Encounters",du:"On request",pr:"On request",d:"A creative workshop led by artists from the VIK collection, offering an intimate hands-on experience inspired by their work and process."},
+      {n:"Clay & Wine Atelier",du:"On request",pr:"On request",d:"A hands-on ceramics experience paired with VIK wines, designed to inspire creativity, relaxation and connection."},
+      {n:"Art Exploration",du:"3–4 h",pr:"USD 200 p/p",d:"Discover the art scene of José Ignacio through museums, galleries, cultural spaces and artist studios."}
+    ]},
+    {k:"nature",n:"Nature",s:"Reconnect with the rhythms of the natural world.",shack:false,items:[
+      {n:"Mindful Horseback Journey",du:"1 h / 2 h",pr:"USD 90 / 190",d:"A guided horseback experience combining mindful awareness, breath and presence, inviting a deeper connection with yourself, the horses and the landscape."},
+      {n:"Healing with Horses",du:"On request",pr:"On request",d:"A guided equine-assisted family constellation experience fostering emotional awareness, inner balance and personal transformation."},
+      {n:"Recommended Nature Walks",du:"Flexible",pr:"Included",inc:true,d:"Ask your Journey Designer for directions and current conditions."},
+      {n:"Stargazing Experience",du:"Evening",pr:"On request",d:"A night under the Uruguayan sky, inviting you to slow down and discover the stars while enjoying a curated selection of wines."},
+      {n:"La Mansa Sunset Picnic",du:"Flexible",pr:"USD 75 p/p",d:"A curated picnic to take away and enjoy at a beautiful beach spot. A prepared basket with local bites and wine, for watching the sunset at your own pace."},
+      {n:"La Brava Full Moonrise Picnic",du:"Flexible",pr:"USD 75 p/p",d:"A curated picnic to take away and enjoy on the Brava coast under the rising full moon, with local bites and wine."}
+    ]},
+    {k:"nourish",n:"Nourish",s:"Eat well. Feel well. Savour every moment.",shack:false,items:[
+      {n:"Farm-to-Table Experience",du:"2–3 h",pr:"USD 200",d:"Harvest fresh seasonal vegetables from VIK's organic garden, then join our chefs for a hands-on cooking class using what you have just picked. Subject to availability and seasonal conditions."}
+    ]},
+    {k:"sleep",n:"Sleep",s:"Rest deeply. Wake restored.",shack:false,items:[
+      {n:"Evening Wind Down",du:"Ritual",pr:"Included",inc:true,d:"Enjoy the sunset outdoors. Dim the lights and limit screens for an hour before bed. Choose a calming herbal infusion. Take a warm bath or sauna. Breathe slowly and be still. Keep your room cool, dark and peaceful. Before closing your eyes, notice three things you are grateful for from your day at VIK."},
+      {n:"Sleep Ritual",du:"Ritual",pr:"Included",inc:true,d:"Arrive: lie comfortably and feel the weight of your body held by the bed. Scan: move your attention from the crown of your head to your toes, softening what feels tense. Release: set aside everything that belongs to tomorrow. Imagine: picture a place in nature where you feel completely at ease. Surrender: let your thoughts drift by. Rest: there is nowhere else to be. Good night."}
+    ]}
+  ],
+
+  venues:[
+    {n:"Estancia VIK",g:"h-exp",d:"Fifteen minutes from José Ignacio, surrounded by rolling landscapes, polo fields and native countryside, Estancia VIK combines contemporary art, equestrian culture, nature, gastronomy, wellness and authentic hospitality in a setting deeply connected to the traditions of Uruguay."},
+    {n:"Playa VIK",g:"h-expl",d:"A beachfront retreat designed by architect Carlos Ott, featuring an extraordinary contemporary art collection. Iconic architecture, nature, wellness, gastronomy, privacy and personalised hospitality in one of South America's most exclusive coastal destinations."},
+    {n:"Bahía VIK",g:"h-hero",d:"A collection of architecturally distinctive villas and suites combining contemporary art, design, nature, gastronomy, wellness and privacy, in a setting defined by the beauty of the Atlantic coastline."},
+    {n:"The Shack Wellness",g:"h-well",d:"VIK's dedicated wellbeing destination. Through yoga, strength training, movement, recovery, treatments, mindfulness and nature-based experiences, it offers a contemporary approach to wellness and longevity connected to the rhythm of José Ignacio."},
+    {n:"La Susana",g:"h-dining",d:"VIK's iconic beachfront dining and lifestyle destination. Exceptional gastronomy, oceanfront living, music and a vibrant social atmosphere, for long lunches and sunset celebrations."},
+    {n:"Pavilion VIK",g:"h-info",d:"The collection's oceanfront event venue. Set against the Atlantic and surrounded by contemporary art and striking architecture, Pavilion hosts celebrations, cultural programming and culinary experiences."}
+  ],
+
+  sections:[
+    {k:"info",n:"Guest Information",g:"h-info",d:"Wi-Fi, hotel services, contacts and useful information."},
+    {k:"dining",n:"Dining",g:"h-dining",d:"Restaurant menus, room service and wine list."},
+    {k:"experiences",n:"Experiences",g:"h-exp",d:"Activities, excursions and exclusive experiences."},
+    {k:"wellness",n:"Wellness",g:"h-well",d:"Spa treatments, yoga and fitness."},
+    {k:"explore",n:"Explore VIK",g:"h-expl",d:"Discover our properties and the VIK universe."}
+  ]
+};
+
+const CONCIERGE = "59895444451";
+const FILTERS = [["all","All"],["water","Water"],["horses","Horses"],["country","Countryside"],
+                 ["art","Art & Culture"],["sport","Sport"],["tour","Day Tours"]];
+
+let state = { property:"bahia", view:"home", filter:"all" };
+
+/* ================================================================ helpers */
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const prop = () => DATA.properties[state.property];
+
+function wa(item){
+  const msg = item
+    ? "Hi, I'm staying at " + prop().name + ". I'd like to book: " + item + ". Preferred date and time: "
+    : "Hi, I'm staying at " + prop().name + ". I'd like to ask about ";
+  // encodeURIComponent deja pasar ' ( ) ! * — se fuerzan para que ningún
+  // nombre propio ("I'marangatú", "O'Farrell") pueda romper el enlace
+  const safe = encodeURIComponent(msg).replace(/['()!*]/g,
+    c => "%" + c.charCodeAt(0).toString(16).toUpperCase());
+  return "https://wa.me/" + CONCIERGE + "?text=" + safe;
+}
+function bookBtn(item){
+  return '<a class="book" href="' + wa(item) + '" target="_blank" rel="noopener">Book via WhatsApp</a>';
+}
+function card(o){
+  const pill = o.inc ? ' <span class="inc">Included</span>' : '';
+  return '<details class="card"><summary>' +
+    '<div class="nm">' + esc(o.n) + pill + '<div class="meta">' + esc(o.du||'') +
+    (o.pr ? ' · ' + esc(o.pr) : '') + '</div></div>' +
+    '<span class="tag">+</span></summary>' +
+    '<div class="inner"><p>' + esc(o.d) + '</p>' + bookBtn(o.n) + '</div></details>';
+}
+function head(title, grad){
+  return '<div class="pagehead horizon ' + grad + '">' +
+    '<div class="sun" style="top:30px"></div><h1>' + esc(title) + '</h1>' +
+    '<span class="slot">Image slot</span></div>';
+}
+function topbar(dark){
+  return '<div class="top' + (dark ? ' on-dark' : '') + '">' +
+    '<button class="back" data-go="home" aria-label="Back to home">' +
+    '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">' +
+    '<path d="M15 18l-6-6 6-6"/></svg></button>' +
+    '<span class="label">' + esc(prop().name) + '</span></div>';
+}
+
+/* ================================================================== vistas */
+function viewHome(){
+  const p = prop();
+  let h = '<div class="hero horizon h-hero"><div class="sun"></div>' +
+    '<p class="eyebrow">VIK Retreats · José Ignacio</p>' +
+    '<h1>Welcome to<br><em>' + esc(p.name) + '</em></h1>' +
+    '<p>Everything you need during your stay</p>' +
+    '<span class="slot">Image slot — property hero</span></div><div class="tiles">';
+  DATA.sections.forEach(s => {
+    h += '<button class="tile" data-go="' + s.k + '">' +
+      '<div class="band horizon ' + s.g + '"><h2>' + esc(s.n) + '</h2></div>' +
+      '<div class="desc">' + esc(s.d) + '</div></button>';
+  });
+  h += '</div><div class="foot" style="padding-bottom:5rem">VIK Retreats · José Ignacio</div>';
+  return h;
+}
+
+function viewInfo(){
+  const p = prop();
+  let h = topbar(true) + head("Guest Information","h-info") + '<div class="body">';
+
+  h += '<div class="wifi"><div class="ttl">Stay connected</div>' +
+    '<div class="f"><span>Network</span><code>' + esc(p.wifi.net) + '</code></div>' +
+    '<div class="f"><span>Password</span><code id="pw">' + esc(p.wifi.pw) + '</code>' +
+    '<button class="copybtn" data-copy="' + esc(p.wifi.pw) + '">Copy</button></div>' +
+    '<div class="f" style="margin-top:.5rem"><span>Front Desk · 24 h</span>' +
+    '<a class="copybtn" style="text-decoration:none" href="https://wa.me/' + p.deskNum +
+    '" target="_blank" rel="noopener">WhatsApp</a></div></div>';
+
+  h += '<details class="acc"><summary>Dining Hours</summary><div class="inner">';
+  p.dining.forEach(r => h += '<div class="row"><span class="k">' + esc(r[0]) +
+    '</span><span class="v">' + esc(r[1]) + '</span></div>');
+  h += '<div class="blk" style="margin-top:.6rem"><b>Special Dining Experiences</b>' +
+    'Private dining, signature dinners and exclusive culinary experiences are available upon request.</div>' +
+    '</div></details>';
+
+  h += '<details class="acc"><summary>Services</summary><div class="inner">';
+  DATA.services.forEach(s => h += '<div class="blk"><b>' + esc(s[0]) + '</b>' + esc(s[1]) + '</div>');
+  h += '</div></details>';
+
+  h += '<details class="acc"><summary>Facilities</summary><div class="inner">';
+  p.facilities.forEach(f => h += '<div class="blk"><b>' + esc(f[0]) +
+    (f[2] ? ' <span class="inc">Included</span>' : '') + '</b>' + esc(f[1]) + '</div>');
+  h += '</div></details>';
+
+  h += '<details class="acc"><summary>Before You Leave</summary><div class="inner">';
+  DATA.leaving.forEach(s => h += '<div class="blk"><b>' + esc(s[0]) + '</b>' + esc(s[1]) + '</div>');
+  h += '</div></details>';
+
+  h += '<details class="acc"><summary>Good to Know</summary><div class="inner">';
+  DATA.know.forEach(s => h += '<div class="blk"><b>' + esc(s[0]) + '</b>' + esc(s[1]) + '</div>');
+  h += '</div></details>';
+
+  return h + '</div>';
+}
+
+function viewDining(){
+  let h = topbar(true) + head("Dining","h-dining") + '<div class="body">' +
+    '<p class="lede">Five restaurants across the collection, signature culinary evenings, and the places we send our own guests to in <em>José Ignacio</em>.</p>';
+
+  h += '<h3 class="grp">VIK Restaurants</h3>';
+  DATA.restaurants.forEach(r => {
+    let hours = '';
+    r.h.forEach(x => hours += '<div class="row"><span class="k">' + esc(x[0]) +
+      '</span><span class="v">' + esc(x[1]) + '</span></div>');
+    h += '<details class="card"><summary><div class="nm">' + esc(r.n) +
+      (r.seasonal ? ' <span class="seas">Seasonal</span>' : '') +
+      '<div class="meta">' + esc(r.t) + ' · ' + esc(r.p) + '</div></div>' +
+      '<span class="tag">+</span></summary><div class="inner"><p>' + esc(r.d) + '</p>' +
+      hours + '<div style="margin-top:.9rem">' + bookBtn("a table at " + r.n) + '</div></div></details>';
+  });
+
+  h += '<h3 class="grp">VIK Culinary Experiences</h3>';
+  DATA.culinary.forEach(c => h += card({n:c.n, du:c.w, pr:c.pr, d:c.d}));
+
+  h += '<h3 class="grp">Around José Ignacio</h3>';
+  DATA.zones.forEach(z => {
+    h += '<div class="zone"><h4>' + esc(z[0]) + '</h4><div class="ls">';
+    z[1].forEach(pl => h += '<a href="https://www.google.com/maps/search/' +
+      encodeURIComponent(pl + " José Ignacio Uruguay") + '" target="_blank" rel="noopener">' +
+      esc(pl) + '</a>');
+    h += '</div></div>';
+  });
+
+  return h + '</div>';
+}
+
+function viewExperiences(){
+  let h = topbar(true) + head("Experiences","h-exp") + '<div class="body">' +
+    '<p class="lede">From the polo field to the lagoon, the ocean and the vineyards beyond.</p>' +
+    '<div class="chips">';
+  FILTERS.forEach(f => h += '<button class="chip" data-filter="' + f[0] + '" aria-pressed="' +
+    (state.filter === f[0]) + '">' + esc(f[1]) + '</button>');
+  h += '</div>';
+
+  const list = DATA.experiences.filter(e => state.filter === "all" || e.c === state.filter);
+  list.forEach(e => h += card(e));
+  if(!list.length) h += '<p class="lede">Nothing in this category yet.</p>';
+
+  return h + '</div>';
+}
+
+function viewWellness(){
+  let h = topbar(true) + head("Wellness","h-well") + '<div class="body">' +
+    '<p class="lede">At VIK, wellness is not a treatment, a class, or a place. It is a way of <em>experiencing your stay</em>.</p>' +
+    '<p style="font-size:.83rem;line-height:1.6;color:var(--text);margin:0 0 1.4rem">' +
+    'Rooted in nature, art, movement, restoration and mindful living, our philosophy invites you to slow down and reconnect with the natural rhythms of José Ignacio. Explore it in your own way, at your own pace.</p>';
+
+  DATA.pillars.forEach(p => {
+    h += '<h3 class="grp">' + esc(p.n) + ' — ' + esc(p.s) + '</h3>';
+    p.items.forEach(i => h += card(i));
+    if(p.k === "nourish")
+      h += '<p style="font-size:.78rem;color:var(--mute);padding:.8rem 0">' +
+        'Seasonal menus, plant-based options and recovery meals — coming soon.</p>';
+    if(p.k === "sleep")
+      h += '<p style="font-size:.78rem;color:var(--mute);padding:.8rem 0">' +
+        'Breathwork audio, herbal teas, soundscapes, sleep meditation and our pillow menu — coming soon.</p>';
+  });
+
+  return h + '</div>';
+}
+
+function viewExplore(){
+  let h = topbar(true) + head("Explore VIK","h-expl") + '<div class="body">' +
+    '<p class="lede">Hospitality · Wine · Gastronomy · Wellness · Art · Culture · <em>Polo</em></p>' +
+    '<p style="font-size:.83rem;line-height:1.6;color:var(--text);margin:0 0 1.4rem">' +
+    'VIK Retreats is a collection of award-winning luxury destinations founded by Alex and Carrie Vik, bringing together exceptional architecture, contemporary art, immersive experiences, gastronomy, wellness and a deep connection to place. Spanning Uruguay, Chile and Italy, with future expansion planned in Brazil.</p>' +
+    '<h3 class="grp">The VIK Collection at José Ignacio</h3><div class="grid">';
+  DATA.venues.forEach((v,i) => h += '<button class="vcard" data-venue="' + i + '">' +
+    '<div class="band horizon ' + v.g + '"><span>' + esc(v.n) + '</span>' +
+    '<span class="slot" style="font-size:.44rem">Image</span></div></button>');
+  h += '</div><div id="venue" style="margin-top:1rem"></div>';
+  return h + '</div>';
+}
+
+/* ================================================================== render */
+const VIEWS = {home:viewHome, info:viewInfo, dining:viewDining,
+               experiences:viewExperiences, wellness:viewWellness, explore:viewExplore};
+
+function render(keepScroll){
+  const sc = document.getElementById("scroll");
+  const y = keepScroll ? sc.scrollTop : 0;
+  sc.innerHTML = VIEWS[state.view]();
+  sc.scrollTop = y;
+  document.getElementById("cta").innerHTML =
+    '<a href="' + wa(null) + '" target="_blank" rel="noopener">' +
+    '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">' +
+    '<path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2z" opacity=".9"/></svg>' +
+    'Contact your Journey Designer</a>';
+  renderSwitch();
+}
+
+function renderSwitch(){
+  const box = document.getElementById("switch");
+  if(!box) return;
+  box.innerHTML = Object.keys(DATA.properties).map(k =>
+    '<button data-prop="' + k + '" aria-pressed="' + (state.property === k) + '">' +
+    DATA.properties[k].name + '<small>/' + k + '</small></button>').join("");
+}
+
+/* ================================================================ eventos */
+document.addEventListener("click", e => {
+  const go = e.target.closest("[data-go]");
+  if(go){ state.view = go.dataset.go; if(state.view === "home") state.filter = "all"; render(); return; }
+
+  const pr = e.target.closest("[data-prop]");
+  if(pr){ state.property = pr.dataset.prop; render(); return; }
+
+  const fl = e.target.closest("[data-filter]");
+  if(fl){ state.filter = fl.dataset.filter; render(); return; }
+
+  const cp = e.target.closest("[data-copy]");
+  if(cp){
+    navigator.clipboard && navigator.clipboard.writeText(cp.dataset.copy);
+    const t = cp.textContent; cp.textContent = "Copied";
+    setTimeout(() => { cp.textContent = t; }, 1400);
+    return;
+  }
+
+  const vn = e.target.closest("[data-venue]");
+  if(vn){
+    const v = DATA.venues[+vn.dataset.venue];
+    const box = document.getElementById("venue");
+    box.innerHTML = '<div style="border-top:1px solid var(--line);padding-top:.9rem">' +
+      '<div style="font-family:var(--disp);font-weight:300;font-size:1.25rem;color:var(--ink);margin-bottom:.4rem">' +
+      esc(v.n) + '</div><p style="font-size:.83rem;line-height:1.6;color:var(--text);margin:0 0 .8rem">' +
+      esc(v.d) + '</p><a class="book" href="https://www.google.com/maps/search/' +
+      encodeURIComponent(v.n + " José Ignacio Uruguay") +
+      '" target="_blank" rel="noopener">View on map</a></div>';
+    box.scrollIntoView({behavior:"smooth", block:"nearest"});
+  }
+});
+
+/* tiles del home entran escalonadas, una sola vez por vista */
+render();
+</script>
+</body>
+</html>

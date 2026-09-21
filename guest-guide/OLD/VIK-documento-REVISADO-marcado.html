@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VIK Digital Journey Designer — documento revisado y marcado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Literata:opsz,wght@7..72,400;7..72,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F1F2F3; --sheet:#FCFCFB; --ink:#161A1D; --body:#2E353A; --mute:#77828A;
+  --line:#D8DCDE; --hair:#E7EAEB;
+  --inc:#C2352A; --dup:#7C4FA8; --fmt:#A9701A; --falta:#1B6C88; --nota:#5F7038; --dec:#25625F;
+  --d:"Archivo",system-ui,sans-serif; --t:"Literata",Georgia,serif; --m:"JetBrains Mono",monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--body);font-family:var(--t);
+  font-size:15.5px;line-height:1.66;-webkit-font-smoothing:antialiased}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+.wrap{max-width:54rem;margin:0 auto;padding:0 1.5rem}
+
+/* ------------------------------------------------------------- cabecera */
+header.top{background:var(--ink);color:#EDEFF0;padding:3.2rem 0 2.4rem;margin-bottom:0}
+header.top .wrap{max-width:54rem}
+.kicker{font-family:var(--m);font-size:.64rem;letter-spacing:.22em;text-transform:uppercase;
+  color:#8FA0A6;margin:0 0 1rem}
+header.top h1{font-family:var(--d);font-weight:700;font-size:clamp(1.7rem,4.4vw,2.6rem);
+  line-height:1.08;letter-spacing:-.02em;margin:0 0 .7rem;color:#fff}
+header.top p{margin:0;max-width:40rem;color:#AEBBC0;font-size:.94rem}
+
+.tally{display:grid;grid-template-columns:repeat(auto-fit,minmax(7.5rem,1fr));
+  gap:1px;background:#2C3438;border:1px solid #2C3438;margin-top:2rem}
+.tally div{background:var(--ink);padding:.75rem .85rem}
+.tally b{display:block;font-family:var(--d);font-size:1.5rem;font-weight:700;line-height:1;color:#fff}
+.tally span{font-family:var(--m);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;
+  color:#8FA0A6;display:block;margin-top:.35rem}
+
+/* ------------------------------------------------------------ controles */
+.bar{position:sticky;top:0;z-index:40;background:rgba(241,242,243,.96);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--line);padding:.7rem 0}
+.bar .wrap{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+.bar .lbl{font-family:var(--m);font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mute);margin-right:.3rem}
+.tg{font-family:var(--m);font-size:.62rem;letter-spacing:.08em;text-transform:uppercase;
+  border:1px solid var(--line);background:#fff;color:var(--mute);padding:.3rem .55rem;
+  cursor:pointer;border-radius:2px;transition:.12s}
+.tg:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.tg[aria-pressed="true"]{color:#fff}
+.tg[data-t="inc"][aria-pressed="true"]{background:var(--inc);border-color:var(--inc)}
+.tg[data-t="dup"][aria-pressed="true"]{background:var(--dup);border-color:var(--dup)}
+.tg[data-t="fmt"][aria-pressed="true"]{background:var(--fmt);border-color:var(--fmt)}
+.tg[data-t="falta"][aria-pressed="true"]{background:var(--falta);border-color:var(--falta)}
+.tg[data-t="nota"][aria-pressed="true"]{background:var(--nota);border-color:var(--nota)}
+.tg[data-t="dec"][aria-pressed="true"]{background:var(--dec);border-color:var(--dec)}
+.tg.plain[aria-pressed="true"]{background:var(--ink);border-color:var(--ink)}
+
+/* --------------------------------------------------------------- cuerpo */
+main{padding:2.2rem 0 5rem}
+section.doc{background:var(--sheet);border:1px solid var(--line);padding:2rem 2.2rem 2.2rem;
+  margin-bottom:1.4rem;scroll-margin-top:4rem}
+.secno{font-family:var(--m);font-size:.6rem;letter-spacing:.2em;color:var(--mute);
+  display:block;margin-bottom:.5rem}
+h2{font-family:var(--d);font-weight:700;font-size:1.5rem;letter-spacing:-.015em;
+  color:var(--ink);margin:0 0 1.1rem;line-height:1.14}
+h3{font-family:var(--d);font-weight:600;font-size:1.08rem;color:var(--ink);
+  margin:2rem 0 .55rem}
+h4{font-family:var(--d);font-weight:600;font-size:.92rem;color:var(--ink);margin:1.4rem 0 .4rem}
+h5{font-family:var(--m);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mute);margin:1.3rem 0 .45rem}
+p{margin:0 0 .8rem}
+ul{margin:0 0 .9rem;padding-left:1.15rem}
+li{margin-bottom:.28rem}
+hr{border:0;border-top:1px solid var(--hair);margin:1.8rem 0}
+strong{color:var(--ink);font-weight:600}
+
+table{width:100%;border-collapse:collapse;margin:.3rem 0 1rem;font-size:.86rem}
+th{font-family:var(--m);font-weight:500;font-size:.58rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--mute);text-align:left;padding:.4rem .6rem .4rem 0;
+  border-bottom:1px solid var(--line)}
+td{padding:.42rem .6rem .42rem 0;border-bottom:1px solid var(--hair);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.k{font-family:var(--d);font-weight:500;color:var(--ink);width:38%}
+td.v{font-family:var(--m);font-size:.78rem;white-space:nowrap}
+
+/* --------------------------------------------------------------- marcas */
+mark{background:none;padding:0;color:inherit;
+  box-shadow:inset 0 -.42em 0 rgba(0,0,0,.055);border-radius:1px}
+mark.inc{box-shadow:inset 0 -.42em 0 rgba(194,53,42,.16)}
+mark.dup{box-shadow:inset 0 -.42em 0 rgba(124,79,168,.16)}
+mark.fmt{box-shadow:inset 0 -.42em 0 rgba(169,112,26,.18)}
+mark.falta{box-shadow:inset 0 -.42em 0 rgba(27,108,136,.16)}
+mark.nota{box-shadow:inset 0 -.42em 0 rgba(95,112,56,.18)}
+mark.dec{box-shadow:inset 0 -.42em 0 rgba(37,98,95,.16)}
+sup.ref{font-family:var(--m);font-size:.56rem;font-weight:500;letter-spacing:.04em;
+  vertical-align:super;margin-left:.15em;white-space:nowrap}
+sup.ref.inc{color:var(--inc)} sup.ref.dup{color:var(--dup)} sup.ref.fmt{color:var(--fmt)}
+sup.ref.falta{color:var(--falta)} sup.ref.nota{color:var(--nota)} sup.ref.dec{color:var(--dec)}
+
+.note{border-left:2px solid var(--line);padding:.35rem 0 .35rem .85rem;margin:.5rem 0 1rem;
+  font-size:.83rem;line-height:1.55;color:#4A5560}
+.note .id{font-family:var(--m);font-size:.58rem;letter-spacing:.1em;display:block;margin-bottom:.15rem}
+.note.inc{border-color:var(--inc)} .note.inc .id{color:var(--inc)}
+.note.dup{border-color:var(--dup)} .note.dup .id{color:var(--dup)}
+.note.fmt{border-color:var(--fmt)} .note.fmt .id{color:var(--fmt)}
+.note.falta{border-color:var(--falta)} .note.falta .id{color:var(--falta)}
+.note.nota{border-color:var(--nota)} .note.nota .id{color:var(--nota)}
+.note.dec{border-color:var(--dec)} .note.dec .id{color:var(--dec)}
+
+/* texto original conservado tal cual */
+.orig{font-family:var(--m);font-size:.8rem;background:#EFF1F1;padding:.55rem .7rem;
+  border-radius:2px;margin:.3rem 0 .9rem;line-height:1.5;color:#3A444A}
+
+body.hide-inc .note.inc,body.hide-dup .note.dup,body.hide-fmt .note.fmt,
+body.hide-falta .note.falta,body.hide-nota .note.nota,body.hide-dec .note.dec{display:none}
+body.clean mark{box-shadow:none}
+body.clean sup.ref{display:none}
+body.clean .note{display:none}
+
+/* --------------------------------------------------------------- índice */
+.idx td.c{font-family:var(--m);font-size:.72rem;white-space:nowrap;width:5.2rem}
+.idx td.w{font-size:.83rem}
+.idx td.l{font-size:.78rem;color:var(--mute);width:11rem}
+
+@media (max-width:760px){
+  section.doc{padding:1.4rem 1.1rem 1.6rem}
+  .wrap{padding:0 1rem}
+  td.k{width:auto}
+  .idx td.l{display:none}
+}
+@media print{
+  body{background:#fff}
+  .bar{display:none}
+  header.top{background:#fff;color:#000;padding-top:0}
+  header.top h1,.tally b{color:#000}
+  .tally div{background:#fff}
+  section.doc{border:0;border-top:1px solid var(--line);page-break-inside:avoid}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <p class="kicker">Documento revisado · versión marcada</p>
+    <h1>VIK Digital Journey Designer<br>Estructura y contenido</h1>
+    <p>El documento original, reordenado con jerarquía consistente y con cada inconsistencia, duplicado, hueco y decisión pendiente señalado en el punto exacto donde aparece. El texto se conserva literal: nada se ha corregido en silencio.</p>
+    <div class="tally" id="tally"></div>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <span class="lbl">Ver</span>
+    <button class="tg" data-t="inc" aria-pressed="true">Inconsistencia</button>
+    <button class="tg" data-t="dup" aria-pressed="true">Duplicado</button>
+    <button class="tg" data-t="fmt" aria-pressed="true">Formato</button>
+    <button class="tg" data-t="falta" aria-pressed="true">Falta</button>
+    <button class="tg" data-t="nota" aria-pressed="true">Nota interna</button>
+    <button class="tg" data-t="dec" aria-pressed="true">Decisión</button>
+    <button class="tg plain" id="clean" aria-pressed="false">Texto limpio</button>
+  </div>
+</div>
+
+<main class="wrap">
+
+<!-- =========================================================== 1 -->
+<section class="doc" id="s1">
+  <span class="secno">01</span>
+  <h2>Objetivo y planteamiento</h2>
+
+  <h3>Objetivo</h3>
+  <p>Crear una plataforma digital mobile-first accesible mediante QR y enlace web, que funcione como guía integral para los huéspedes de VIK. Debe cumplir cuatro objetivos:</p>
+  <ul>
+    <li>Facilitar la orientación dentro de la propiedad.</li>
+    <li>Centralizar toda la información relevante de la estadía.</li>
+    <li>Incrementar la participación y reserva de experiencias, wellness y gastronomía.</li>
+    <li>Reducir consultas operativas a recepción y concierge.</li>
+  </ul>
+
+  <h3>Qué estamos construyendo</h3>
+  <p>Queremos crear un <mark class="dec">VIK Digital Journey Designer</mark><sup class="ref dec">DEC-01</sup>, una experiencia digital mobile-first que funcione como el centro de toda la estadía del huésped. Desde que llega hasta que se va, el huésped debe tener un único lugar donde encontrar todo lo que necesita, descubrir experiencias y conectarse con el mundo VIK. El objetivo es que piense: «Todo lo que necesito está acá».</p>
+  <div class="note dec"><span class="id">DEC-01 · Nombre del producto</span>El documento llama al producto «VIK Digital Journey Designer» en el título y «Guest Guide» en el apartado de arranque. Además, «Journey Designer» es también el nombre de un equipo de personas. Un mismo término designa el producto y al staff: hay que separarlos antes de escribir una sola pantalla.</div>
+
+  <h3>Filosofía de UX</h3>
+  <p>La experiencia debe sentirse intuitiva, simple, elegante y humana.</p>
+  <table>
+    <tr><td class="k">1 · Mobile first</td><td>La mayoría accede desde el teléfono. Se diseña primero para móvil y luego se adapta a escritorio.</td></tr>
+    <tr><td class="k">2 · Máximo 2 taps</td><td>Ninguna información importante debería estar a más de dos clics.</td></tr>
+    <tr><td class="k">3 · Anticiparse</td><td>La plataforma debe adelantarse a las preguntas frecuentes y mostrarlas de forma natural.</td></tr>
+    <tr><td class="k">4 · Menos texto, más claridad</td><td>Diseño limpio, información visual, jerarquías claras, experiencia premium.</td></tr>
+    <tr><td class="k">5 · Inspirar descubrimiento</td><td>Incentivar al huésped a descubrir actividades, wellness, gastronomía, arte y experiencias que quizá no sabía que existían.</td></tr>
+  </table>
+
+  <h3>Opción básica para arrancar</h3>
+  <p><mark class="nota">¿Qué información busca un huésped repetidamente durante su estadía y podemos resolver de forma simple? En ese caso la landing sería más una Guest Guide.</mark><sup class="ref nota">NOTA-01</sup></p>
+  <div class="note nota"><span class="id">NOTA-01 · Nota de trabajo dentro del brief</span>Es una reflexión interna, no una especificación. Convertirla en una decisión explícita de alcance («Fase 1 = Guest Guide») o sacarla del documento.</div>
+
+  <h4>Landing propuesta</h4>
+  <div class="orig">Welcome to Vik retreats jose ignacio<br>Everything you need during your stay</div>
+  <p><mark class="fmt">Capitalización y acentos</mark><sup class="ref fmt">FMT-06</sup> · <mark class="dec">saludo genérico</mark><sup class="ref dec">DEC-04</sup></p>
+  <div class="note fmt"><span class="id">FMT-06 · «VIK» / «Vik» / «vik»</span>La marca aparece en tres capitalizaciones a lo largo del documento, y «jose ignacio» va en minúscula y sin tilde. En el resto del texto es «José Ignacio». Fijar una regla: <strong>VIK</strong> siempre en versales, topónimos con tilde.</div>
+  <div class="note dec"><span class="id">DEC-04 · Saludo genérico o por propiedad</span>El QR de cada habitación llega ya contextualizado, así que el huésped sabe dónde está. «Welcome to Bahía VIK» es más cálido y confirma que el QR funcionó. Decisión de marca.</div>
+
+  <ul>
+    <li><strong>Guest information</strong> — Wi-Fi, hotel services, contacts &amp; useful information.</li>
+    <li><strong>Dining</strong> — Restaurant menus, room service &amp; wine list.</li>
+    <li><strong>Experiences</strong> — Activities, excursions &amp; exclusive experiences.</li>
+    <li><strong>Wellness</strong> — Spa treatments, yoga &amp; fitness.</li>
+    <li><strong>Explore VIK</strong> — Discover our properties and the VIK universe.</li>
+    <li><mark class="inc">Contact experience concierge team</mark><sup class="ref inc">INC-12</sup> <mark class="nota">(link que lleva al whatsapp)</mark><sup class="ref nota">NOTA-09</sup> — con botón directo: <mark class="inc">Experience Concierge</mark><sup class="ref inc">INC-12</sup></li>
+  </ul>
+  <div class="note inc"><span class="id">INC-12 · Cuatro nombres para el mismo equipo</span>A lo largo del documento conviven «Experience Concierge», «Journey Designer», «Concierge» y «reservas» para lo que parece ser la misma persona al otro lado del WhatsApp. En Guest Information el bloque se llama «Experience Concierge»; en Experiences, «Journey Designer»; en el pie, ambos. El huésped tiene que entender a quién escribe. Elegir uno.</div>
+  <div class="note nota"><span class="id">NOTA-09 · Instrucción técnica en línea de copy</span>«(link que lleva al whatsapp)» es una indicación al desarrollador metida dentro del texto del huésped.</div>
+</section>
+
+<!-- =========================================================== 2 -->
+<section class="doc" id="s2">
+  <span class="secno">02</span>
+  <h2>Guest Information<sup class="ref inc">INC-18</sup></h2>
+  <div class="note inc"><span class="id">INC-18 · Numeración incompleta</span>Las secciones del documento van «2. Dining», «3. Experiences», «4. Wellness», «5. Explore VIK», pero Guest Information —que es la primera— no lleva número. O se numera 1, o se quita la numeración de todas.</div>
+
+  <h3>Bahía VIK</h3>
+  <table>
+    <tr><th>Campo</th><th>Valor</th></tr>
+    <tr><td class="k">Wi-Fi · red</td><td class="v"><mark class="fmt">Hotel Bahia Vik</mark><sup class="ref fmt">FMT-07</sup></td></tr>
+    <tr><td class="k">Wi-Fi · clave</td><td class="v">hotelbahiavik</td></tr>
+    <tr><td class="k">Front Desk · 24 h</td><td class="v"><mark class="inc">+598 95 444 451</mark><sup class="ref inc">INC-11</sup></td></tr>
+  </table>
+  <div class="note fmt"><span class="id">FMT-07 · Acentos ausentes</span>«Bahia» sin tilde en el nombre de red. Se copia y se pega tal cual, así que hay que confirmar la grafía exacta, mayúsculas y espacios incluidos. El patrón de claves tampoco es consistente entre propiedades: «hotelbahiavik» y «estanciavik» siguen el nombre; «vikbeach» no.</div>
+  <div class="note inc"><span class="id">INC-11 · Recepción y concierge comparten número</span>El Front Desk de Bahía VIK y el Experience Concierge usan el mismo WhatsApp. En Playa y Estancia son números distintos. ¿Es el mismo equipo en Bahía, o es una errata? Cambia cuántos botones de contacto lleva la pantalla.</div>
+
+  <h5>Dining hours</h5>
+  <table>
+    <tr><td class="k">Breakfast</td><td class="v">8:00 AM – 11:00 AM</td></tr>
+    <tr><td class="k">Zodiaco Restaurant</td><td class="v">12:30 PM – 10:30 PM</td></tr>
+    <tr><td class="k">360° Bar at Zodiaco</td><td class="v">11:00 AM – 11:00 PM</td></tr>
+    <tr><td class="k">In-Room Dining</td><td class="v">12:30 PM – 10:30 PM</td></tr>
+  </table>
+  <p>Special Dining Experiences: private dining, signature dinners y experiencias culinarias exclusivas, bajo pedido.</p>
+
+  <h5>Services</h5>
+  <p><mark class="dup">Experience Concierge · Housekeeping · Turndown · Laundry · Packing &amp; Unpacking · Luggage Assistance · Babysitting · Additional Amenities</mark><sup class="ref dup">DUP-08</sup></p>
+  <div class="note dup"><span class="id">DUP-08 · Trece bloques idénticos en las tres propiedades</span>Laundry, Housekeeping, Turndown, Packing, Luggage, Babysitting, Check-Out, Late Check-Out, Breakfast To Go, Medical Assistance, ATMs, Lost &amp; Found y Smoking Policy están repetidos palabra por palabra en las tres fichas. Deben existir una sola vez, con sobreescritura por propiedad solo donde haga falta.</div>
+  <p>Dentro de esos bloques repetidos hay tres que <em>no</em> son idénticos, y la diferencia parece accidental:</p>
+  <div class="note dup"><span class="id">DUP-05 · «local experiences» vs «experiences»</span>El bloque Experience Concierge de Bahía dice «restaurant reservations, <strong>local</strong> experiences, transportation»; Playa y Estancia omiten «local». Mismo servicio, redacción distinta.</div>
+  <div class="note dup"><span class="id">DUP-04 · Orden distinto en Additional Amenities</span>Bahía: «pillows, blankets, bathroom amenities, adapters». Playa y Estancia: «pillows, blankets, adapters, bathroom amenities». Mismo contenido, orden invertido.</div>
+  <div class="note dup"><span class="id">DUP-06 · «Services available» vs «Services are available»</span>En el bloque ATMs &amp; Currency Exchange. Bahía además cierra con punto y las otras dos no.</div>
+
+  <h5>Facilities</h5>
+  <ul>
+    <li><strong>The Shack Wellness</strong> — acceso gratuito al gimnasio, sauna y zona húmeda durante la estadía.</li>
+    <li><strong>Swimming Pools</strong> — cuatro piscinas exteriores, a temperatura natural.</li>
+    <li><strong>Beach Service</strong> — hamacas, sombrillas y toallas frente a Bahía VIK.</li>
+    <li><strong>Playroom</strong> — <mark class="dup">abierto 24 h: ping-pong, futbolín, juegos de mesa y sala de TV</mark><sup class="ref dup">DUP-03</sup></li>
+  </ul>
+  <div class="note dup"><span class="id">DUP-03 · Playroom, mismo texto reescrito tres veces</span>Bahía: «the Playroom <strong>features</strong> table tennis… <strong>offering</strong> a welcoming space». Playa y Estancia: «the Playroom <strong>offers</strong> a welcoming space… <strong>featuring</strong> table tennis». Idéntico contenido, dos redacciones. Es un bloque global.</div>
+
+  <hr>
+  <h3>Playa VIK</h3>
+  <table>
+    <tr><td class="k">Wi-Fi · red</td><td class="v">Playa Vik</td></tr>
+    <tr><td class="k">Wi-Fi · clave</td><td class="v"><mark class="fmt">vikbeach</mark><sup class="ref fmt">FMT-07</sup></td></tr>
+    <tr><td class="k">Front Desk · 24 h</td><td class="v">+598 93 704 866</td></tr>
+  </table>
+
+  <h5>Dining hours</h5>
+  <table>
+    <tr><td class="k">Breakfast</td><td class="v">8:00 AM – 11:00 AM</td></tr>
+    <tr><td class="k"><mark class="fmt">Cielomar</mark><sup class="ref fmt">FMT-21</sup> Restaurant</td><td class="v">12:30 PM – 10:30 PM</td></tr>
+    <tr><td class="k">Cielomar Bar</td><td class="v">11:00 AM – 11:00 PM</td></tr>
+    <tr><td class="k">In-Room Dining</td><td class="v">12:30 PM – 10:30 PM</td></tr>
+    <tr><td class="k"><mark class="inc">Beach Grill — ausente</mark><sup class="ref inc">INC-03</sup></td><td class="v">—</td></tr>
+  </table>
+  <div class="note inc"><span class="id">INC-03 · Playa VIK no lista su propio Beach Grill</span>La sección Dining sitúa el Beach Grill en Playa VIK, con horario propio de 12:30 a 19:30. Los horarios de la ficha de Playa no lo mencionan. El huésped que consulte su Guest Information no sabrá que existe.</div>
+  <div class="note fmt"><span class="id">FMT-21 · «Cielomar» / «CIELOMAR» / «CieloMar»</span>Tres grafías del mismo restaurante en el mismo documento.</div>
+
+  <h5>Facilities</h5>
+  <ul>
+    <li><strong>Wellness</strong> — <mark class="dup">gimnasio y sauna propios, masajes en sala de tratamiento y acceso gratuito a The Shack Wellness en Bahía VIK</mark><sup class="ref dup">DUP-07</sup></li>
+    <li><strong>Infinity Pool</strong> — climatizada, con vistas al Atlántico.</li>
+    <li><strong>Playroom</strong> — abierto 24 h.</li>
+  </ul>
+  <div class="note dup"><span class="id">DUP-07 · Bloque Wellness idéntico en Playa y Estancia</span>Palabra por palabra. Es un bloque compartido por las dos propiedades que no son Bahía.</div>
+
+  <hr>
+  <h3>Estancia VIK</h3>
+  <table>
+    <tr><td class="k">Wi-Fi · red</td><td class="v">Estancia Vik</td></tr>
+    <tr><td class="k">Wi-Fi · clave</td><td class="v">estanciavik</td></tr>
+    <tr><td class="k">Front Desk · 24 h</td><td class="v">+598 94 605 212</td></tr>
+  </table>
+
+  <h5>Dining hours</h5>
+  <table>
+    <tr><td class="k">Breakfast</td><td class="v">8:00 AM – 11:00 AM</td></tr>
+    <tr><td class="k">El Asador Restaurant</td><td class="v">12:30 PM – 10:30 PM</td></tr>
+    <tr><td class="k"><mark class="inc">360° Bar at Zodiaco</mark><sup class="ref inc">INC-01</sup></td><td class="v">11:00 AM – 11:00 PM</td></tr>
+    <tr><td class="k">In-Room Dining</td><td class="v"><mark class="inc">12:30 PM – 11:00 PM</mark><sup class="ref inc">INC-02</sup></td></tr>
+  </table>
+  <div class="note inc"><span class="id">INC-01 · Zodiaco no está en Estancia VIK</span>La ficha de Estancia lista el «360° Bar at Zodiaco», pero Zodiaco es el restaurante de Bahía VIK, y así lo confirma la sección Dining. Parece copiado de la ficha de Bahía. La sección Dining sí atribuye un bar a El Asador con ese mismo horario, de modo que el dato correcto probablemente sea «Bar at El Asador». Hay que confirmarlo.</div>
+  <div class="note inc"><span class="id">INC-02 · Room service más tarde que la cocina</span>Estancia cierra el restaurante a las 22:30 y mantiene el room service hasta las 23:00. En Bahía y Playa ambos cierran a las 22:30. O es una ventaja real de Estancia y conviene destacarla, o es una errata.</div>
+
+  <h5>Facilities</h5>
+  <ul>
+    <li><strong>Wellness</strong> — bloque idéntico al de Playa VIK.<sup class="ref dup">DUP-07</sup></li>
+    <li><strong>Swimming Pool</strong> — <mark class="inc">«An outdoor swimming pool is available… The pools are maintained at their natural temperature.»</mark><sup class="ref inc">INC-04</sup></li>
+    <li><strong>Playroom</strong> — abierto 24 h.</li>
+  </ul>
+  <div class="note inc"><span class="id">INC-04 · Una piscina, «the pools»</span>El bloque anuncia una sola piscina en singular y continúa hablando de «las piscinas» en plural. Arrastre del texto de Bahía, que sí tiene cuatro.</div>
+
+  <hr>
+  <h5>Before You Leave · Good to Know</h5>
+  <p>Check-Out 12:00 PM, late check-out bajo disponibilidad y Breakfast To Go gratuito si la salida es anterior al desayuno. Asistencia médica, cajeros en Varlix, objetos perdidos y política de fumadores.<sup class="ref dup">DUP-08</sup></p>
+</section>
+
+<!-- =========================================================== 3 -->
+<section class="doc" id="s3">
+  <span class="secno">03</span>
+  <h2>Dining</h2>
+  <p><mark class="nota">Opción de clic a cada una de estas opciones. Y agregar menús de los restaurantes y horarios.</mark><sup class="ref nota">NOTA-02</sup></p>
+  <div class="note nota"><span class="id">NOTA-02 · Instrucción de producto dentro del contenido</span>Va al pliego de especificaciones, no al copy.</div>
+  <div class="note falta"><span class="id">FALTA-02 · Los menús no están</span>El propio documento los pide. Sin ellos no se puede decidir si la ficha de restaurante enlaza un PDF o abre una pantalla de menú, que es una diferencia grande de diseño y de mantenimiento.</div>
+
+  <h3>VIK Restaurants</h3>
+  <table>
+    <tr><th>Restaurante</th><th>Tagline</th><th>Sede</th><th>Horario</th></tr>
+    <tr><td class="k">Zodiaco</td><td>Art. Sharing. Cocktails.</td><td>Bahía VIK</td><td class="v"><mark class="fmt">08:00 am to 11:00 am · 12:30 pm to 10:30 pm · 11 am to 11 pm</mark><sup class="ref fmt">FMT-02</sup></td></tr>
+    <tr><td class="k">CieloMar</td><td>Art. Sunset. Small Plates.</td><td>Playa VIK</td><td class="v">ídem</td></tr>
+    <tr><td class="k">Beach Grill</td><td>Fire. Fresh Seafood. Ocean Views.</td><td>Playa VIK</td><td class="v"><mark class="inc">12:30 pm - 19:30 pm</mark><sup class="ref inc">INC-05</sup></td></tr>
+    <tr><td class="k">El Asador</td><td>Fire. Countryside. Sharing.</td><td>Estancia VIK</td><td class="v">ídem que Zodiaco</td></tr>
+    <tr><td class="k">La Susana</td><td>Beach. Sunset. Cocktails.</td><td><mark class="dec">José Ignacio</mark><sup class="ref dec">DEC-07</sup></td><td class="v">Dic–feb · 12:30 pm to 10:30 pm</td></tr>
+  </table>
+  <div class="note inc"><span class="id">INC-05 · «19:30 pm» no es una hora válida</span>Mezcla el reloj de 24 horas con el sufijo de 12 horas. Debe ser «7:30 PM» o «19:30».</div>
+  <div class="note fmt"><span class="id">FMT-02 · Cinco formatos de hora en el documento</span>«8:00 AM – 11:00 AM» (Guest Information), «08:00 am to 11:00 am» (Dining), «11 am to 11 pm» (bares), «12:30 pm - 19:30 pm» (Beach Grill) y «From 7:30 PM» (experiencias culinarias). Hay que fijar uno solo y aplicarlo a todo.</div>
+  <div class="note dec"><span class="id">DEC-07 · La Susana y Pavilion, ¿restaurante o venue?</span>La Susana figura como restaurante VIK en Dining y como venue en Explore VIK. Pavilion VIK solo aparece en Explore. Definir si un venue puede vivir en dos secciones o si Dining solo lista lo que tiene servicio de mesa.</div>
+
+  <h3>VIK Culinary Experiences</h3>
+  <table>
+    <tr><th>Experiencia</th><th>Cuándo</th><th>Precio</th></tr>
+    <tr><td class="k">Fish BBQ</td><td>Viernes, desde 19:30</td><td class="v"><mark class="inc">USD 120 + TAX</mark><sup class="ref inc">INC-10</sup></td></tr>
+    <tr><td class="k">Gran Asado Uruguayo</td><td>Sábados, desde 19:30</td><td class="v">USD 120</td></tr>
+    <tr><td class="k">Wine Tasting</td><td><mark class="falta">sin duración</mark><sup class="ref falta">FALTA-12</sup></td><td class="v">USD 90 · <mark class="fmt">Min 2 pax</mark><sup class="ref fmt">FMT-10</sup></td></tr>
+    <tr><td class="k"><mark class="dup">Farm-to-Table Cooking Class</mark><sup class="ref dup">DUP-01</sup></td><td>2–3 h</td><td class="v">200 USD</td></tr>
+  </table>
+  <div class="note inc"><span class="id">INC-10 · El impuesto solo se menciona una vez</span>Fish BBQ es el único precio del documento que dice «+TAX». Los otros cincuenta y tantos precios no aclaran si lo incluyen. O el Fish BBQ es una excepción real, o falta una regla general y una línea legal.</div>
+  <div class="note dup"><span class="id">DUP-01 · Farm-to-Table aparece tres veces</span>En Dining (200 USD), en Experiences (200 USD) y en Wellness / Nourish (sin precio). Mismo producto, tres fichas que se van a desincronizar.</div>
+  <div class="note fmt"><span class="id">FMT-10 · Jerga interna visible para el huésped</span>«pax» aquí, «PPL» en Wellness, «60m» en los rituales y «(non private)» en el circuito térmico. Son términos de operación, no de cliente.</div>
+  <div class="note falta"><span class="id">FALTA-12 · Duraciones ausentes</span>Wine Tasting, Biking, Tennis y Golf no indican duración, mientras que el resto del catálogo sí. En una ficha con tres datos, que falte uno se nota.</div>
+
+  <h3>Dining Around José Ignacio</h3>
+  <p>Siete zonas. La estructura del original no es homogénea: seis zonas son listas planas y «Manantiales &amp; La Barra» contiene dos sublistas.<sup class="ref fmt">FMT-14</sup></p>
+  <table>
+    <tr><td class="k">Oceanfront Favorites</td><td>La Huella · <mark class="inc">El Chiringuito by Mallman · El Chiringuito</mark><sup class="ref inc">INC-19</sup></td></tr>
+    <tr><td class="k"><mark class="fmt">Favorites in town</mark><sup class="ref fmt">FMT-14</sup></td><td>Cruz del Sur · Tato pescador · Solera · Destino Sushi · Marismo · Juana · La Olada · Tres · Bliss · Ritual · Minibā izakaya</td></tr>
+    <tr><td class="k">Coffee &amp; Casual</td><td>Rizoma · La Panaderia · Mostrador Santa Teresita</td></tr>
+    <tr><td class="k">Countryside</td><td><mark class="inc">Mostrador Bodega Oceanica</mark><sup class="ref inc">INC-20</sup> · Nur at Posada Luz · Las Carcavas · Guayabo · Garzon by Mallman · <mark class="inc">Bodega Garzon</mark><sup class="ref inc">INC-20</sup> · Carmen Cafe</td></tr>
+    <tr><td class="k"><mark class="fmt">Punta del este</mark><sup class="ref fmt">FMT-14</sup></td><td>I´marangatu · Posto 5 · Boulevard las palmeras · 481 gourmet · Lo de tere · Cafe Zunino · Cafe Vitaminas</td></tr>
+    <tr><td class="k">Manantiales &amp; La Barra</td><td><em>Manantiales:</em> El Abrazo · O'Farrell · La proveeduría · La Linda Café — <em>La Barra:</em> Tierra · Harry´s table · Narbona · Fasano Las Piedras · Legua · Casa Blanca beach club · <mark class="fmt">Salón Nº3</mark><sup class="ref fmt">FMT-16</sup></td></tr>
+    <tr><td class="k"><mark class="fmt">Uruguayian Wineries</mark><sup class="ref fmt">FMT-09</sup></td><td>Bodega Oceánica · Bodega Garzón · Bodega Las Espinas · Bodega Viña Edén · Altos de la Ballena · Bodega Sacromonte</td></tr>
+  </table>
+  <div class="note fmt"><span class="id">FMT-16 · «Nº3»</span>La abreviatura correcta en castellano es «N.º». Aparece en el nombre de un local, así que hay que confirmar cómo lo escribe el propio establecimiento antes de corregirlo.</div>
+  <div class="note inc"><span class="id">INC-19 · «El Chiringuito» dos veces</span>Aparece como «El Chiringuito by Mallman» y como «El Chiringuito» en la misma lista. ¿Son dos locales distintos o una entrada duplicada?</div>
+  <div class="note inc"><span class="id">INC-20 · Bodegas listadas dos veces</span>Bodega Oceánica y Bodega Garzón figuran en «Countryside» y otra vez en «Uruguayan Wineries», con acentuación distinta en cada aparición. Decidir si la zona es geográfica o temática: ahora es las dos cosas a la vez.</div>
+  <div class="note fmt"><span class="id">FMT-08 · Tres apóstrofos distintos</span>El documento mezcla el apóstrofo recto (O'Farrell, Uruguay's), el tipográfico (VIK’s, Chile’s) y el acento agudo usado como apóstrofo (Harry´s, I´marangatu). El tercero es un error de teclado y rompe la búsqueda del nombre en un mapa.</div>
+  <div class="note fmt"><span class="id">FMT-09 · «Uruguayian»</span>Errata. Es «Uruguayan».</div>
+  <div class="note fmt"><span class="id">FMT-14 · Capitalización y acentos en los nombres de lugar</span>Conviven «Favorites in town» y «Punta del este» en minúscula con el resto en capitales. Y faltan tildes en Garzón, Café, Oceánica, Cárcavas, I'marangatú, Panadería. Además se mezclan tres apóstrofos distintos.<sup class="ref fmt">FMT-08</sup> Son nombres propios de terceros: conviene verificarlos uno por uno antes de publicarlos.</div>
+</section>
+
+<!-- =========================================================== 4 -->
+<section class="doc" id="s4">
+  <span class="secno">04</span>
+  <h2>Experiences</h2>
+  <p>Veintitrés actividades más dos day tours. La ficha de cada una repite «To reserve, please contact your Journey Designer», unas veinte veces.<sup class="ref dup">DUP-11</sup></p>
+  <div class="note dup"><span class="id">DUP-11 · La llamada a reservar, repetida veinte veces</span>Es una regla global, no un dato de cada actividad. Se resuelve con un botón por ficha y una línea única en la cabecera de la sección.</div>
+
+  <table>
+    <tr><th>Actividad</th><th>Duración</th><th>Precio</th><th>Marca</th></tr>
+    <tr><td class="k">Horseback Riding</td><td class="v"><mark class="fmt">1 hours</mark> / 2 hours</td><td class="v">USD 90 / 160</td><td><sup class="ref fmt">FMT-04</sup><sup class="ref inc">INC-07</sup></td></tr>
+    <tr><td class="k">Swimming with Horses</td><td class="v"><mark class="fmt">1.5 hour</mark></td><td class="v">USD 150 + picnic 75</td><td><sup class="ref fmt">FMT-04</sup></td></tr>
+    <tr><td class="k">Polo Lesson</td><td class="v">1 hour</td><td class="v">USD 160</td><td></td></tr>
+    <tr><td class="k">Polo Exhibition</td><td class="v">30 minutes</td><td class="v"><mark class="fmt">USD 2500</mark></td><td><sup class="ref fmt">FMT-13</sup></td></tr>
+    <tr><td class="k">Biking</td><td class="v"><mark class="falta">—</mark></td><td class="v">Complimentary</td><td><sup class="ref falta">FALTA-12</sup></td></tr>
+    <tr><td class="k">Kayaking</td><td class="v">1.5 hours</td><td class="v">USD 50</td><td></td></tr>
+    <tr><td class="k">Surfing</td><td class="v">1 hour</td><td class="v"><mark class="fmt">USD 55 USD</mark></td><td><sup class="ref fmt">FMT-03</sup></td></tr>
+    <tr><td class="k">Kite Surfing</td><td class="v">2 hours</td><td class="v"><mark class="fmt">310 USD</mark></td><td><sup class="ref fmt">FMT-01</sup></td></tr>
+    <tr><td class="k">Paddle Boarding</td><td class="v">1 hour</td><td class="v">USD 50</td><td></td></tr>
+    <tr><td class="k">VIK Safari</td><td class="v">1 hour</td><td class="v">USD 50 per person</td><td></td></tr>
+    <tr><td class="k">Fishing</td><td class="v">1 hour</td><td class="v">USD 100 per person</td><td></td></tr>
+    <tr><td class="k">Bird Watching</td><td class="v">2–3 hours</td><td class="v"><mark class="falta">350 USD</mark></td><td><sup class="ref falta">FALTA-06</sup></td></tr>
+    <tr><td class="k"><mark class="inc">PADDLE</mark> / padel court</td><td class="v">1.5 h</td><td class="v">USD 100</td><td><sup class="ref inc">INC-17</sup></td></tr>
+    <tr><td class="k">Tennis</td><td class="v"><mark class="falta">—</mark></td><td class="v"><mark class="fmt">USD 110 one or two guest</mark></td><td><sup class="ref fmt">FMT-20</sup></td></tr>
+    <tr><td class="k">Golf</td><td class="v"><mark class="falta">—</mark></td><td class="v">Green Fee USD 180 + extras</td><td></td></tr>
+    <tr><td class="k">Uruguayan Nights</td><td class="v">3–4 hours</td><td class="v">210 USD · cena 150</td><td><sup class="ref dup">DUP-09</sup></td></tr>
+    <tr><td class="k">Full Moon Edition</td><td class="v">3–4 hours</td><td class="v">210 USD · cena 150</td><td><sup class="ref dup">DUP-09</sup></td></tr>
+    <tr><td class="k">Farm-to-Table Cooking Class</td><td class="v">2–3 hours</td><td class="v">200 USD</td><td><sup class="ref dup">DUP-01</sup></td></tr>
+    <tr><td class="k">Garzón Bike Tour &amp; Bodega</td><td class="v">4–6 hours</td><td class="v">460 / 235 USD p.p.</td><td></td></tr>
+    <tr><td class="k">VIK Experience — O'33</td><td class="v">3–4 hours</td><td class="v">USD 180 per person</td><td></td></tr>
+    <tr><td class="k">Art Exploration</td><td class="v">3–4 hours</td><td class="v">200 USD per person</td><td><sup class="ref dup">DUP-02</sup></td></tr>
+    <tr><td class="k">Cabo Polonio <em>(day tour)</em></td><td class="v">6/8 hours</td><td class="v"><mark class="falta">sin precio</mark></td><td><sup class="ref falta">FALTA-03</sup></td></tr>
+    <tr><td class="k">Punta del Este — Punta Ballena</td><td class="v"><mark class="falta">—</mark></td><td class="v"><mark class="falta">sin precio</mark></td><td><sup class="ref falta">FALTA-03</sup><sup class="ref falta">FALTA-04</sup></td></tr>
+  </table>
+
+  <div class="note inc"><span class="id">INC-07 · El mismo paseo a caballo, a dos precios</span>Aquí, dos horas cuestan USD 160. En Wellness / Nature, «Mindful Horseback Journey» cobra USD 190 por las mismas dos horas. Si son productos distintos, la diferencia no se explica en ninguna de las dos fichas; si es el mismo, uno de los dos precios está mal.</div>
+  <div class="note inc"><span class="id">INC-17 · Pádel y paddle son deportes distintos</span>El título dice «PADDLE» —que en inglés remite al paddle surf, ya presente en el catálogo como Paddle Boarding— y el cuerpo describe una «padel court» con paletas para cuatro jugadores. Es pádel. Tal como está, el huésped puede reservar el deporte equivocado.</div>
+  <div class="note dup"><span class="id">DUP-09 · Full Moon Edition duplica Uruguayan Nights</span>Misma duración, mismo precio, misma estructura, y la descripción solo añade la luna llena. Probablemente sea una variante de fecha del mismo producto, no un producto nuevo.</div>
+  <div class="note falta"><span class="id">FALTA-03 · Los dos day tours no tienen precio</span>Son las únicas experiencias del catálogo sin importe. Con «On request» se puede publicar, pero hay que decidirlo.</div>
+  <div class="note falta"><span class="id">FALTA-04 · La ficha de Punta Ballena está cortada</span>El texto original termina a mitad de frase, en «where art, architecture, and breathtaking ocean views come together in an unforgettable setting», sin punto y sin la línea de reserva que llevan todas las demás. Falta el final del párrafo.</div>
+  <div class="note falta"><span class="id">FALTA-06 · Bird Watching, ¿por persona o por grupo?</span>USD 350 sin unidad. Es el precio más alto del catálogo después del polo, así que la ambigüedad es cara.</div>
+  <div class="note fmt"><span class="id">FMT-01 · Cinco formatos de moneda</span>«USD 120», «120 USD», «$ 30 USD», «USD 55 USD» y «200 USD» conviven en el documento. Fijar uno.</div>
+  <div class="note fmt"><span class="id">FMT-03 · «USD 55 USD»</span>Moneda duplicada en Surfing.</div>
+  <div class="note fmt"><span class="id">FMT-04 · «1 hours», «1.5 hour»</span>Concordancia de número en Horseback Riding, Swimming with Horses y Mindful Horseback Journey.</div>
+  <div class="note fmt"><span class="id">FMT-05 · «Duration:» vs «Approximate Duration:» vs nada</span>Tres etiquetas para el mismo dato, y varias fichas sin ninguna.</div>
+  <div class="note fmt"><span class="id">FMT-13 · «USD 2500»</span>Sin separador de millar. Es el importe más alto del documento y conviene que se lea de un golpe: USD 2.500.</div>
+  <div class="note fmt"><span class="id">FMT-15 · Actividades en mayúsculas sostenidas</span>Todo el bloque de Experiences está titulado en caja alta mientras el resto del documento usa capitalización normal. Además dificulta la lectura en móvil.</div>
+  <div class="note fmt"><span class="id">FMT-20 · «one or two guest»</span>Falta el plural en Tennis.</div>
+</section>
+
+<!-- =========================================================== 5 -->
+<section class="doc" id="s5">
+  <span class="secno">05</span>
+  <h2>Wellness</h2>
+  <p><mark class="nota">Y que siga con las siguientes secciones, que apretas y te abre una página para cada una; también que haya un botón CTA que lleve para reservar estas experiencias en todos lados, en el de actividades del shack que te lleve al teléfono del shack y en las de actividades a concierge o reservas, pero que haya un lugar fácil para que el huésped reserve.</mark><sup class="ref nota">NOTA-03</sup></p>
+  <div class="note nota"><span class="id">NOTA-03 · El párrafo más importante del documento, en el sitio equivocado</span>Está escrito como una nota al margen, pero contiene la única regla de negocio que bifurca los CTA de todo el sitio: The Shack por un lado, concierge por otro. Debe subir a las reglas globales.</div>
+  <div class="note falta"><span class="id">FALTA-01 · Falta el WhatsApp de The Shack</span>La nota anterior exige que los CTA de wellness lleven «al teléfono del shack», pero ese número no aparece en ninguna parte del documento. Sin él, la mitad de los botones de la sección más rica no se pueden construir.</div>
+
+  <h3>Move</h3>
+  <table>
+    <tr><td class="k">Group Yoga · Harmony / Flow / Reset</td><td class="v"><mark class="fmt">$ 30 USD p/p</mark><sup class="ref fmt">FMT-12</sup></td></tr>
+    <tr><td class="k">Private Yoga &amp; Pilates</td><td class="v">60 min $ 140 · 90 min $ 185</td></tr>
+    <tr><td class="k">Strength Studio · Control / Dynamic / Load</td><td class="v">Grupal $ 65 · Privada $ 145</td></tr>
+    <tr><td class="k">Gym</td><td class="v">Incluido · <mark class="fmt">«any Vik Property»</mark><sup class="ref fmt">FMT-06</sup></td></tr>
+  </table>
+  <div class="note fmt"><span class="id">FMT-12 · «$ 30 USD»</span>Símbolo y código de moneda a la vez, con espacio tras el símbolo, y en la misma sección un encabezado «Rates (USD)» que lo repite por tercera vez.</div>
+
+  <h3>Restore</h3>
+  <p>Ocho modalidades de masaje: <mark class="fmt">ACUPUNCTURE-</mark><sup class="ref fmt">FMT-11</sup>, deep tissue, sueco, drenaje linfático, thai, kobido, sanación energética chamánica y <mark class="fmt">lomi lomi</mark><sup class="ref fmt">FMT-18</sup>. Tarifas: 60 min $ 165 · 90 min $ 220.</p>
+  <div class="note fmt"><span class="id">FMT-11 · Guiones sueltos al final del título</span>«ACUPUNCTURE-», «Breathwork-», «Meditation-». Restos de la edición del documento.</div>
+  <div class="note fmt"><span class="id">FMT-18 · Lomi Lomi está escrito en otro registro</span>Las siete modalidades restantes son frases nominales breves. Lomi Lomi son tres oraciones completas, con verbos conjugados y un nivel de detalle mayor. Se nota al leerlas seguidas.</div>
+
+  <h5>Signature Treatments</h5>
+  <table>
+    <tr><td class="k">Rest &amp; Restore</td><td class="v"><mark class="inc">60 min · $ 75 · «solo session» / «up to 2 people»</mark><sup class="ref inc">INC-06</sup></td></tr>
+    <tr><td class="k">Welcome Ritual</td><td class="v">$ 300 · <mark class="fmt">«60m» / «30m»</mark><sup class="ref fmt">FMT-10</sup></td></tr>
+    <tr><td class="k">Recharge Day</td><td class="v">$ 300</td></tr>
+    <tr><td class="k">Private Sunset Ritual</td><td class="v">$ 350 · <mark class="fmt">«(2 -4 PPL)»</mark><sup class="ref fmt">FMT-10</sup></td></tr>
+    <tr><td class="k">Jet Lag Recovery Ritual</td><td class="v">$ 350</td></tr>
+    <tr><td class="k">Signature Retreat Day</td><td class="v">$ 520 · dos opciones</td></tr>
+  </table>
+  <div class="note inc"><span class="id">INC-06 · «Sesión individual» para dos personas</span>Rest &amp; Restore se describe como «This <strong>solo</strong> session gives you exclusive use of a private room» y se tarifa como «1 session (<strong>up to 2 people</strong>)». Las dos cosas no pueden ser ciertas. Probablemente sea «uso privativo de la sala», no «sesión individual».</div>
+
+  <h3>Mind</h3>
+  <table>
+    <tr><td class="k">Sound Bath Ceremony</td><td class="v">$ 300 · 60 min · hasta 4</td></tr>
+    <tr><td class="k">Breathwork · Meditation</td><td class="v"><mark class="falta">sin precio ni duración</mark><sup class="ref falta">FALTA-05</sup></td></tr>
+    <tr><td class="k">Artist Encounters · Clay &amp; Wine Atelier</td><td class="v"><mark class="falta">sin precio ni duración</mark><sup class="ref falta">FALTA-05</sup></td></tr>
+    <tr><td class="k">Art Exploration</td><td class="v">USD 200 per person<sup class="ref dup">DUP-02</sup></td></tr>
+  </table>
+  <div class="note dup"><span class="id">DUP-02 · Art Exploration, en dos secciones</span>Idéntica en Experiences y en Wellness / Mind, con la moneda colocada al revés en cada una: «200 USD per person» y «USD 200 per person».</div>
+  <div class="note falta"><span class="id">FALTA-05 · Siete experiencias sin precio ni duración</span>Breathwork, Meditation, Artist Encounters, Clay &amp; Wine Atelier, Healing with Horses, Stargazing y Nature Walks. Son casi todo Mind y Nature: dos de los seis pilares quedarían sin datos en la ficha.</div>
+
+  <h3>Nature</h3>
+  <table>
+    <tr><td class="k">Mindful Horseback Journey</td><td class="v"><mark class="inc">1 h USD 90 / 2 h USD 190</mark><sup class="ref inc">INC-07</sup></td></tr>
+    <tr><td class="k">Healing with Horses</td><td class="v">sin precio<sup class="ref falta">FALTA-05</sup></td></tr>
+    <tr><td class="k">Recommended Nature Walks</td><td class="v"><mark class="fmt">«For indications please contact»</mark><sup class="ref fmt">FMT-17</sup></td></tr>
+    <tr><td class="k">Stargazing Experience</td><td class="v">sin precio<sup class="ref falta">FALTA-05</sup></td></tr>
+    <tr><td class="k">La Mansa Sunset Picnic</td><td class="v"><mark class="inc">75 USD · «along La Brava»</mark><sup class="ref inc">INC-08</sup></td></tr>
+    <tr><td class="k">La Brava Full Moonrise Picnic</td><td class="v"><mark class="inc">75 USD · texto idéntico</mark><sup class="ref inc">INC-09</sup></td></tr>
+  </table>
+  <div class="note inc"><span class="id">INC-08 · La Mansa ubicado en La Brava</span>El picnic se llama «La Mansa Sunset Picnic» y su descripción sitúa el lugar «along La Brava». Son las dos costas opuestas de José Ignacio: la mansa mira al río y la brava al océano. Una de las dos referencias está mal, y es justo el dato que el huésped necesita para llegar.</div>
+  <div class="note inc"><span class="id">INC-09 · Los dos picnics comparten descripción</span>«La Brava Full Moonrise Picnic» repite palabra por palabra el texto de «La Mansa Sunset Picnic», incluida la invitación a «watch the sunset» en una experiencia que se vende por la salida de la luna llena. Falta escribir la descripción propia del segundo.</div>
+  <div class="note fmt"><span class="id">FMT-17 · «For indications please contact»</span>Calco del castellano «indicaciones». En inglés se pide «directions».</div>
+
+  <h3>Nourish</h3>
+  <p><mark class="nota">(A DESARROLLAR CON PABLO)</mark><sup class="ref nota">NOTA-04</sup> — <mark class="nota">Tips (falta que definan el menú para poder agregar estos textos)</mark><sup class="ref nota">NOTA-05</sup> — <mark class="nota">(al lado de cada recomendación aclarar en qué restaurante se encuentra)</mark><sup class="ref nota">NOTA-08</sup></p>
+  <div class="note nota"><span class="id">NOTA-04 · NOTA-05 · NOTA-08 · Tres notas internas en un pilar de cara al huésped</span>Nourish es, hoy, una intro más una experiencia farm-to-table repetida de otra sección. Los cinco bloques de consejos (desayunos, almuerzos ligeros, opciones vegetales, comidas de recuperación, infusiones) están anunciados pero vacíos.</div>
+  <div class="note falta"><span class="id">FALTA-07 · Nourish sin desarrollar</span>Depende del menú, que tampoco está. Es la dependencia más larga del proyecto: menú → consejos → sección.</div>
+
+  <h3>Sleep</h3>
+  <p><mark class="fmt">«Rest deeply. Wake restored. - Rest is part of the journey.»</mark><sup class="ref fmt">FMT-19</sup> <mark class="nota">(que en cada una después sea un botón que te lleva a el recurso específico en un drive)</mark><sup class="ref nota">NOTA-06</sup></p>
+  <p>Contenido escrito y listo: <strong>Evening Wind Down</strong> (nueve rituales) y <strong>Sleep Ritual</strong> (seis pasos numerados). Recursos anunciados y vacíos: <mark class="falta">Relaxing Breathwork · Recommended herbal teas · Soundscapes · Sleep meditation · Pillow menu</mark><sup class="ref falta">FALTA-08</sup></p>
+  <div class="note fmt"><span class="id">FMT-19 · Dos claims unidos con guion</span>«Rest deeply. Wake restored.» y «Rest is part of the journey.» son dos titulares distintos pegados. Los otros cinco pilares tienen uno solo.</div>
+  <div class="note nota"><span class="id">NOTA-06 · Los recursos en Drive</span>Un enlace de Drive en el móvil de un huésped pide permisos, abre otra aplicación y a veces falla. Conviene alojar los audios y los PDF en el propio sitio.</div>
+  <div class="note falta"><span class="id">FALTA-08 · Cinco recursos anunciados sin contenido</span>Es la única parte del sitio donde el huésped esperaría descargar algo. Si no llegan, el pilar Sleep se queda en dos textos.</div>
+  <div class="note fmt"><span class="id">FMT-22 · Dos listas con tratamiento distinto</span>Evening Wind Down son nueve consejos sin numerar; Sleep Ritual son seis pasos numerados. La diferencia es correcta si una es secuencia y la otra no, pero conviene que sea deliberada.</div>
+</section>
+
+<!-- =========================================================== 6 -->
+<section class="doc" id="s6">
+  <span class="secno">06</span>
+  <h2>Explore VIK</h2>
+  <p><mark class="nota">Bienvenida al mundo VIK (contexto de vik en el mundo, y en José ignacio) · Text:</mark><sup class="ref nota">NOTA-07</sup></p>
+  <div class="note nota"><span class="id">NOTA-07 · Andamiaje de redacción sin retirar</span>La etiqueta «Text:» y el paréntesis de contexto son notas del redactor. Además, «vik» en minúscula y «José ignacio» con i minúscula.<sup class="ref fmt">FMT-06</sup></div>
+
+  <p>Hospitality • Wine • Gastronomy • Wellness • Art • Culture • Lifestyle • Polo</p>
+  <p>VIK Retreats is a collection of award-winning luxury destinations founded by Alex and Carrie Vik… <mark class="inc">The collection is united by a commitment to creating meaningful experiences that combine luxury, authenticity, creativity, and a strong sense of place.</mark><sup class="ref inc">INC-14</sup></p>
+  <p><mark class="inc">Across every destination, VIK Retreats is guided by a commitment to creating meaningful experiences that combine luxury, authenticity, creativity, and a strong sense of place.</mark><sup class="ref inc">INC-14</sup></p>
+  <div class="note inc"><span class="id">INC-14 · La misma frase, dos párrafos seguidos</span>Dos oraciones consecutivas dicen lo mismo con quince palabras idénticas: «a commitment to creating meaningful experiences that combine luxury, authenticity, creativity, and a strong sense of place». Una de las dos sobra.</div>
+
+  <div class="note falta"><span class="id">FALTA-09 · Welcome video</span>Marcado en el original como «needs to be developed».</div>
+
+  <h3><mark class="dec">The VIK Collection at José Ignacio</mark><sup class="ref dec">DEC-02</sup></h3>
+  <div class="note dec"><span class="id">DEC-02 · Título sin cerrar</span>El original duda entre «Our José Ignacio Outlets», «Our José Ignacio Locations» y «Properties». «Outlets» es vocabulario de operación y no significa nada para un huésped; además, The Shack y Pavilion no son propiedades. «The VIK Collection at José Ignacio», que ya aparece escrito, resuelve las dos objeciones.</div>
+  <div class="note dec"><span class="id">DEC-03 · Dos navegaciones alternativas</span>El documento plantea enlaces dentro del párrafo o grilla de imágenes, sin elegir. En móvil, los enlaces embebidos en un párrafo largo son objetivos táctiles pequeños; y esta es la sección que más se apoya en fotografía.</div>
+
+  <table>
+    <tr><th>Venue</th><th>Observación</th></tr>
+    <tr><td class="k">Estancia VIK</td><td>Cierra con «Blending adventure, relaxation, and outdoor living…»</td></tr>
+    <tr><td class="k">Playa VIK</td><td><mark class="inc">Sin frase de cierre</mark><sup class="ref inc">INC-16</sup></td></tr>
+    <tr><td class="k">Bahía VIK</td><td>Cierra con «Blending understated luxury…»</td></tr>
+    <tr><td class="k">The Shack Wellness</td><td>—</td></tr>
+    <tr><td class="k">La Susana</td><td>También listada como restaurante VIK<sup class="ref dec">DEC-07</sup></td></tr>
+    <tr><td class="k">Pavilion VIK</td><td><mark class="dup">Descrito dos veces</mark><sup class="ref dup">DUP-10</sup></td></tr>
+  </table>
+  <div class="note inc"><span class="id">INC-16 · Una de las tres propiedades no cierra igual</span>Estancia y Bahía terminan con una frase de síntesis que empieza por «Blending…». Playa VIK no la tiene. Puestas una al lado de la otra en una grilla, la asimetría se ve.</div>
+  <div class="note inc"><span class="id">INC-15 · Orden de las propiedades</span>Guest Information las presenta Bahía → Playa → Estancia. Explore VIK las presenta Estancia → Playa → Bahía. Y la introducción las nombra Playa → Bahía → Estancia. Tres órdenes en un mismo documento; conviene fijar uno, aunque sea arbitrario.</div>
+  <div class="note dup"><span class="id">DUP-10 · Pavilion VIK, dos descripciones</span>Una en el párrafo introductorio de la colección («the group's iconic oceanfront event venue») y otra en su ficha, casi con las mismas palabras.</div>
+</section>
+
+<!-- =========================================================== 7 -->
+<section class="doc" id="s7">
+  <span class="secno">07</span>
+  <h2>Pie fijo y contacto</h2>
+  <p>Footer fijo o botón flotante. <mark class="nota">Porque si no pueden reservar desde la web, el siguiente paso debe ser extremadamente fácil.</mark><sup class="ref nota">NOTA-10</sup></p>
+  <p>Etiqueta del botón: <mark class="inc">«Contact Your Journey Designer»</mark> y, tres líneas después, <mark class="inc">«Contact Journey Designer»</mark><sup class="ref inc">INC-13</sup></p>
+  <div class="note inc"><span class="id">INC-13 · Dos etiquetas para el mismo botón, en el mismo párrafo</span>Con y sin «Your». Es el único elemento presente en todas las pantallas del sitio, así que la inconsistencia se multiplica por seis.</div>
+  <div class="note nota"><span class="id">NOTA-10 · Justificación mezclada con especificación</span>El razonamiento es correcto y merece estar en el documento, pero como fundamento de la decisión, no dentro de la definición del componente.</div>
+  <div class="note falta"><span class="id">FALTA-10 · Fotografía</span>El documento no menciona imágenes en ningún punto, y sin embargo la propuesta descansa en «información visual» y «experiencia premium». Es lo primero que hace falta para maquetar.</div>
+  <div class="note falta"><span class="id">FALTA-11 · Política de impuestos y letra pequeña</span>No hay ninguna línea sobre impuestos, cancelaciones, condiciones o vigencia de precios. Un catálogo con cincuenta importes la necesita.</div>
+  <div class="note dec"><span class="id">DEC-05 · Idioma</span>Todo el copy del huésped está en inglés y todas las notas de trabajo en castellano, pero el documento no lo dice en ninguna parte. Si se prevé castellano o portugués, el modelo de contenido debe nacer con campos por idioma.</div>
+  <div class="note dec"><span class="id">DEC-06 · Métrica</span>Los cuatro objetivos —orientar, centralizar, aumentar reservas, reducir consultas— no llevan asociada ninguna forma de medirlos.</div>
+</section>
+
+<!-- =========================================================== índice -->
+<section class="doc" id="idx">
+  <span class="secno">08</span>
+  <h2>Índice de marcas</h2>
+  <p>Todas las marcas del documento, agrupadas por tipo. Los identificadores coinciden con los del texto.</p>
+  <table class="idx" id="idxtable"></table>
+</section>
+
+</main>
+
+<script>
+const MARKS = [
+  ["inc","INC-01","Estancia VIK lista el «360° Bar at Zodiaco», que está en Bahía VIK","Guest Information"],
+  ["inc","INC-02","Room service de Estancia hasta las 23:00 con la cocina cerrada a las 22:30","Guest Information"],
+  ["inc","INC-03","Playa VIK no lista el Beach Grill en sus horarios","Guest Information"],
+  ["inc","INC-04","«An outdoor swimming pool… The pools are maintained»","Guest Information"],
+  ["inc","INC-05","«12:30 pm - 19:30 pm» mezcla 12 y 24 horas","Dining"],
+  ["inc","INC-06","Rest & Restore: «solo session» con «up to 2 people»","Wellness"],
+  ["inc","INC-07","Dos horas a caballo: USD 160 en Experiences, USD 190 en Wellness","Experiences · Wellness"],
+  ["inc","INC-08","«La Mansa Sunset Picnic» ubicado «along La Brava»","Wellness"],
+  ["inc","INC-09","Los dos picnics comparten descripción; el de luna llena habla del atardecer","Wellness"],
+  ["inc","INC-10","Solo un precio de todo el documento menciona impuestos","Dining"],
+  ["inc","INC-11","Front Desk de Bahía y Experience Concierge comparten número","Guest Information"],
+  ["inc","INC-12","Cuatro nombres para el mismo equipo de contacto","Todo el documento"],
+  ["inc","INC-13","«Contact Your Journey Designer» y «Contact Journey Designer»","Pie fijo"],
+  ["inc","INC-14","Quince palabras repetidas en dos párrafos consecutivos","Explore VIK"],
+  ["inc","INC-15","Tres órdenes distintos de las tres propiedades","Todo el documento"],
+  ["inc","INC-16","Playa VIK es la única ficha sin frase de cierre","Explore VIK"],
+  ["inc","INC-17","«PADDLE» titula lo que el cuerpo describe como pádel","Experiences"],
+  ["inc","INC-18","La numeración de secciones empieza en 2","Todo el documento"],
+  ["inc","INC-19","«El Chiringuito» aparece dos veces en la misma lista","Dining"],
+  ["inc","INC-20","Bodega Oceánica y Bodega Garzón, en dos zonas cada una","Dining"],
+
+  ["dup","DUP-01","Farm-to-Table Cooking Class, en tres secciones","Dining · Experiences · Wellness"],
+  ["dup","DUP-02","Art Exploration, en dos secciones","Experiences · Wellness"],
+  ["dup","DUP-03","Playroom: mismo contenido, dos redacciones","Guest Information"],
+  ["dup","DUP-04","Additional Amenities: orden invertido entre propiedades","Guest Information"],
+  ["dup","DUP-05","«local experiences» solo en Bahía","Guest Information"],
+  ["dup","DUP-06","«Services available» / «Services are available»","Guest Information"],
+  ["dup","DUP-07","Bloque Wellness idéntico en Playa y Estancia","Guest Information"],
+  ["dup","DUP-08","Trece bloques repetidos en las tres propiedades","Guest Information"],
+  ["dup","DUP-09","Full Moon Edition duplica Uruguayan Nights","Experiences"],
+  ["dup","DUP-10","Pavilion VIK descrito dos veces","Explore VIK"],
+  ["dup","DUP-11","«To reserve, please contact…» repetido unas veinte veces","Experiences"],
+
+  ["fmt","FMT-01","Cinco formatos de moneda","Todo el documento"],
+  ["fmt","FMT-02","Cinco formatos de hora","Todo el documento"],
+  ["fmt","FMT-03","«USD 55 USD»","Experiences"],
+  ["fmt","FMT-04","«1 hours», «1.5 hour»","Experiences · Wellness"],
+  ["fmt","FMT-05","«Duration:» / «Approximate Duration:» / sin etiqueta","Experiences"],
+  ["fmt","FMT-06","«VIK» / «Vik» / «vik»","Todo el documento"],
+  ["fmt","FMT-07","Acentos ausentes en nombres propios","Todo el documento"],
+  ["fmt","FMT-08","Tres apóstrofos distintos: ' ’ ´","Todo el documento"],
+  ["fmt","FMT-09","«Uruguayian Wineries»","Dining"],
+  ["fmt","FMT-10","Jerga interna: «pax», «PPL», «60m», «non private»","Dining · Wellness"],
+  ["fmt","FMT-11","Guiones sueltos: «ACUPUNCTURE-», «Breathwork-»","Wellness"],
+  ["fmt","FMT-12","«$ 30 USD» y «Rates (USD)» a la vez","Wellness"],
+  ["fmt","FMT-13","«USD 2500» sin separador de millar","Experiences"],
+  ["fmt","FMT-14","Capitalización desigual en los nombres de zona","Dining"],
+  ["fmt","FMT-15","Actividades en mayúsculas sostenidas","Experiences"],
+  ["fmt","FMT-16","«Nº3» en lugar de «N.º 3»","Dining"],
+  ["fmt","FMT-17","«For indications», calco de «indicaciones»","Wellness"],
+  ["fmt","FMT-18","Lomi Lomi escrito en otro registro","Wellness"],
+  ["fmt","FMT-19","Dos titulares unidos con guion en Sleep","Wellness"],
+  ["fmt","FMT-20","«one or two guest»","Experiences"],
+  ["fmt","FMT-21","«Cielomar» / «CIELOMAR» / «CieloMar»","Guest Information · Dining"],
+  ["fmt","FMT-22","Dos listas con tratamiento distinto en Sleep","Wellness"],
+
+  ["falta","FALTA-01","WhatsApp de The Shack","Wellness"],
+  ["falta","FALTA-02","Menús de los restaurantes","Dining"],
+  ["falta","FALTA-03","Precio de los dos day tours","Experiences"],
+  ["falta","FALTA-04","La ficha de Punta Ballena está cortada a media frase","Experiences"],
+  ["falta","FALTA-05","Siete experiencias sin precio ni duración","Wellness"],
+  ["falta","FALTA-06","Bird Watching: USD 350 sin unidad","Experiences"],
+  ["falta","FALTA-07","Pilar Nourish sin desarrollar","Wellness"],
+  ["falta","FALTA-08","Cinco recursos de Sleep anunciados y vacíos","Wellness"],
+  ["falta","FALTA-09","Welcome video","Explore VIK"],
+  ["falta","FALTA-10","Fotografía, nunca mencionada","Todo el documento"],
+  ["falta","FALTA-11","Política de impuestos y condiciones","Todo el documento"],
+  ["falta","FALTA-12","Duración ausente en Wine Tasting, Biking, Tennis y Golf","Dining · Experiences"],
+
+  ["nota","NOTA-01","«Opción básica para arrancar»","Objetivo"],
+  ["nota","NOTA-02","«Agregar menús de los restaurantes y horarios»","Dining"],
+  ["nota","NOTA-03","La regla de bifurcación de CTA, escrita como nota al margen","Wellness"],
+  ["nota","NOTA-04","«(A DESARROLLAR CON PABLO)»","Wellness"],
+  ["nota","NOTA-05","«falta que definan el menú»","Wellness"],
+  ["nota","NOTA-06","«un botón que te lleva a el recurso específico en un drive»","Wellness"],
+  ["nota","NOTA-07","«Text:» y el paréntesis de contexto","Explore VIK"],
+  ["nota","NOTA-08","«aclarar en qué restaurante se encuentra»","Wellness"],
+  ["nota","NOTA-09","«(link que lleva al whatsapp)»","Landing"],
+  ["nota","NOTA-10","Justificación del botón dentro de su definición","Pie fijo"],
+
+  ["dec","DEC-01","El producto y el equipo se llaman igual","Objetivo"],
+  ["dec","DEC-02","Título de la sección de venues sin cerrar","Explore VIK"],
+  ["dec","DEC-03","Navegación de Explore VIK: texto o imágenes","Explore VIK"],
+  ["dec","DEC-04","Saludo genérico o por propiedad","Landing"],
+  ["dec","DEC-05","Idioma del sitio, nunca declarado","Todo el documento"],
+  ["dec","DEC-06","Ningún objetivo lleva métrica asociada","Objetivo"],
+  ["dec","DEC-07","La Susana y Pavilion, ¿restaurante o venue?","Dining · Explore VIK"]
+];
+
+const NAMES = {inc:"Inconsistencias",dup:"Duplicados",fmt:"Formato",
+               falta:"Contenido faltante",nota:"Notas internas",dec:"Decisiones abiertas"};
+const ORDER = ["inc","dup","fmt","falta","nota","dec"];
+
+/* recuento en la cabecera */
+document.getElementById("tally").innerHTML =
+  ORDER.map(t => '<div><b>' + MARKS.filter(m => m[0] === t).length +
+    '</b><span>' + NAMES[t] + '</span></div>').join("") +
+  '<div><b>' + MARKS.length + '</b><span>Total</span></div>';
+
+/* índice */
+let rows = "";
+ORDER.forEach(t => {
+  rows += '<tr><th colspan="3" style="padding-top:1.1rem">' + NAMES[t] + '</th></tr>';
+  MARKS.filter(m => m[0] === t).forEach(m => {
+    rows += '<tr class="r-' + t + '"><td class="c" style="color:var(--' + t + ')">' + m[1] +
+      '</td><td class="w">' + m[2] + '</td><td class="l">' + m[3] + '</td></tr>';
+  });
+});
+document.getElementById("idxtable").innerHTML = rows;
+
+/* filtros */
+document.querySelectorAll(".tg[data-t]").forEach(b => {
+  b.addEventListener("click", () => {
+    const on = b.getAttribute("aria-pressed") === "true";
+    b.setAttribute("aria-pressed", String(!on));
+    document.body.classList.toggle("hide-" + b.dataset.t, on);
+    document.querySelectorAll(".r-" + b.dataset.t).forEach(r => {
+      r.style.display = on ? "none" : "";
+    });
+  });
+});
+const clean = document.getElementById("clean");
+clean.addEventListener("click", () => {
+  const on = clean.getAttribute("aria-pressed") === "true";
+  clean.setAttribute("aria-pressed", String(!on));
+  document.body.classList.toggle("clean", !on);
+});
+</script>
+</body>
+</html>
