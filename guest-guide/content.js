@@ -10,6 +10,7 @@ const GUIDE_DATA = {
       },
       "desk": "+598 95 444 451",
       "deskNum": "59895444451",
+      "housekeeping": "Daily housekeeping service is provided between 9:00 AM and 5:00 PM.",
       "dining": [
         [
           "Breakfast",
@@ -61,22 +62,23 @@ const GUIDE_DATA = {
       },
       "desk": "+598 93 704 866",
       "deskNum": "59893704866",
+      "housekeeping": "Daily housekeeping service is provided between 9:00 AM and 5:00 PM.",
       "dining": [
         [
-          "Breakfast",
+          "Azur · Breakfast",
           "8:00 AM - 10:30 AM"
         ],
         [
-          "CieloMar Restaurant",
-          "7:30 PM - 10:30 PM"
+          "Azur · Lunch",
+          "12:30 PM - 3:30 PM"
         ],
         [
           "CieloMar Bar & Snack",
-          "11:00 AM - 11:00 PM"
+          "11:00 AM - 10:30 PM"
         ],
         [
-          "Azur Restaurant",
-          "12:30 PM - 3:30 PM"
+          "CieloMar · Dinner",
+          "6:30 PM - 10:30 PM"
         ],
         [
           "In-Room Dining",
@@ -111,6 +113,10 @@ const GUIDE_DATA = {
       },
       "desk": "+598 94 605 212",
       "deskNum": "59894605212",
+      "housekeeping": "Daily housekeeping service is provided between 8:00 AM and 10:00 PM.",
+      "lateCheckout": "Late check-out and early check-in are available upon request, subject to availability. Additional charges may apply.",
+      "breakfastToGo": "If your departure is scheduled before breakfast service begins, we will be pleased to prepare a complimentary Breakfast To Go for your journey. Please request it with our team the evening before your departure.",
+      "lostFound": "Personal belongings identified and claimed by guests will be stored for up to two months, allowing time to coordinate their return. Any shipping or delivery costs associated with returning items will be the responsibility of the guest. Unclaimed items will be kept for six months before being responsibly discarded or donated, in accordance with the hotel's Lost & Found Policy.",
       "dining": [
         [
           "Breakfast",
@@ -118,7 +124,19 @@ const GUIDE_DATA = {
         ],
         [
           "El Asador Restaurant",
+          "12:30 PM - 3:00 PM"
+        ],
+        [
+          "Dining Room",
+          "7:30 PM - 10:30 PM"
+        ],
+        [
+          "Snacks",
           "12:30 PM - 10:30 PM"
+        ],
+        [
+          "Cava · Wine Tasting",
+          "Upon request · reservation required"
         ],
         [
           "In-Room Dining",
@@ -128,7 +146,7 @@ const GUIDE_DATA = {
       "facilities": [
         [
           "Wellness",
-          "Enjoy the on-site gym and sauna throughout your stay. Massage treatments can be arranged in the dedicated treatment room upon request. Guests also enjoy complimentary access to The Shack Wellness at Bahía Vik.",
+          "Enjoy the on-site gym and sauna throughout your stay. Massage treatments can be arranged in your room upon request. Guests also enjoy complimentary access to The Shack Wellness at Bahía Vik.",
           true
         ],
         [
@@ -152,15 +170,15 @@ const GUIDE_DATA = {
     ],
     [
       "Housekeeping",
-      "Daily service between 9:00 AM and 5:00 PM."
+      "Daily housekeeping service is provided between 9:00 AM and 5:00 PM."
     ],
     [
       "Turndown Service",
-      "Every evening, to prepare your room for a restful night."
+      "Available every evening to prepare your room for a restful night's sleep."
     ],
     [
       "Laundry",
-      "A laundry bag and price list form are available in your wardrobe. Complete the form, place it in the bag with your garments and leave it ready for collection during housekeeping, or contact the Front Desk."
+      "A laundry bag and a price list form are available in your wardrobe. Complete the form, place it in the laundry bag together with your garments, and leave it ready for collection during housekeeping service or contact the Front Desk to arrange collection."
     ],
     [
       "Packing & Unpacking Services",
@@ -168,7 +186,7 @@ const GUIDE_DATA = {
     ],
     [
       "Luggage Assistance",
-      "Available on arrival and departure."
+      "Available upon arrival and departure."
     ],
     [
       "Babysitting",
@@ -190,13 +208,13 @@ const GUIDE_DATA = {
     ],
     [
       "Breakfast To Go",
-      "If you depart before breakfast service begins, we will prepare a complimentary Breakfast To Go for your journey."
+      "If your departure is scheduled before breakfast service begins, we will be pleased to prepare a complimentary Breakfast To Go for your journey."
     ]
   ],
   "know": [
     [
       "Medical Assistance",
-      "For minor medical needs, a local clinic is available in José Ignacio during regular opening hours. For urgent assistance or emergencies, a doctor can be arranged to visit the hotel, subject to availability. The nearest full-service hospital is in Punta del Este, approximately 30 km away."
+      "For minor medical needs, a local medical clinic is available in José Ignacio during its regular opening hours. For urgent assistance or emergencies, a doctor can be arranged to visit the hotel, subject to availability. The nearest full-service hospital and medical facilities are located in Punta del Este, approximately 30 km away."
     ],
     [
       "ATMs & Currency Exchange",
@@ -204,7 +222,7 @@ const GUIDE_DATA = {
     ],
     [
       "Lost & Found",
-      "Identified and claimed belongings are stored for up to two months while their return is coordinated. Unclaimed items are kept for six months before being responsibly discarded or donated, in accordance with the hotel Lost & Found Policy."
+      "Personal belongings identified and claimed by guests will be stored for up to two months, allowing time to coordinate their return. Unclaimed items will be kept for six months before being responsibly discarded or donated, in accordance with the hotel's Lost & Found Policy."
     ],
     [
       "Smoking Policy",
@@ -216,7 +234,7 @@ const GUIDE_DATA = {
       "n": "Zodiaco",
       "t": "Art. Sharing. Cocktails.",
       "p": "Bahía Vik",
-      "d": "Contemporary art, Mediterranean-inspired cuisine, fresh local ingredients and dishes designed for sharing. Choose ocean views, the intimate Patio de Moras or the signature 360° Bar for cocktails and a relaxed José Ignacio atmosphere.",
+      "d": "Located at Bahía Vik, Zodiaco brings together contemporary art, Mediterranean-inspired cuisine, fresh local ingredients and a sharing concept inspired by the relaxed spirit of José Ignacio. Ocean views, the intimate Patio de Moras and the signature 360° Bar invite guests to gather over handcrafted cocktails and creative dishes.",
       "h": [
         [
           "Breakfast",
@@ -236,19 +254,15 @@ const GUIDE_DATA = {
       "n": "CieloMar",
       "t": "Art. Sunset. Small Plates.",
       "p": "Playa Vik",
-      "d": "Contemporary gastronomy, seasonal small plates, handcrafted cocktails and a thoughtfully curated, 100% gluten-free menu on Playa Vik’s iconic pool deck. Art, architecture and panoramic ocean views carry long afternoons into unforgettable sunsets.",
+      "d": "Located at Playa Vik, CieloMar brings together contemporary gastronomy, seasonal small plates, handcrafted cocktails and a thoughtfully curated, 100% gluten-free menu. Set on the hotel's iconic pool deck, contemporary art, striking architecture and panoramic ocean views carry long afternoons into unforgettable sunsets.",
       "h": [
         [
-          "Breakfast",
-          "8:00 AM - 10:30 AM"
+          "Dinner",
+          "6:30 PM - 10:30 PM"
         ],
         [
-          "Dining & Room Service",
-          "12:30 PM - 10:30 PM"
-        ],
-        [
-          "Bar",
-          "11:00 AM - 11:00 PM"
+          "Bar & Snack",
+          "11:00 AM - 10:30 PM"
         ]
       ]
     },
@@ -256,10 +270,14 @@ const GUIDE_DATA = {
       "n": "Azur",
       "t": "Fire. Fresh Seafood. Ocean Views.",
       "p": "Playa Vik",
-      "d": "At Playa Vik, open-fire cooking, the freshest local seafood and seasonal ingredients meet uninterrupted Atlantic views. A relaxed yet elegant setting for leisurely lunches by the sea.",
+      "d": "Located at Playa Vik, this oceanfront dining experience brings together open-fire cooking, the freshest local seafood and seasonal ingredients inspired by the Uruguayan coast. Uninterrupted Atlantic views frame simple, ingredient-driven cuisine in a relaxed yet elegant setting.",
       "h": [
         [
-          "Dining",
+          "Breakfast",
+          "8:00 AM - 10:30 AM"
+        ],
+        [
+          "Lunch",
           "12:30 PM - 3:30 PM"
         ]
       ]
@@ -268,19 +286,19 @@ const GUIDE_DATA = {
       "n": "El Asador",
       "t": "Fire. Countryside. Sharing.",
       "p": "Estancia Vik",
-      "d": "Uruguay’s grilling traditions, carefully sourced local ingredients and countryside hospitality at Estancia Vik. Premium meats, seasonal produce and generous dishes designed for sharing celebrate gathering around the fire.",
+      "d": "Located at Estancia Vik, El Asador brings together Uruguay's grilling traditions, carefully sourced local ingredients and the warmth of countryside hospitality. Premium meats, seasonal produce and generous dishes designed for sharing celebrate the authentic flavours of Uruguay.",
       "h": [
         [
           "Breakfast",
           "8:00 AM - 11:00 AM"
         ],
         [
-          "Dining & Room Service",
-          "12:30 PM - 10:30 PM"
+          "Lunch",
+          "12:30 PM - 3:00 PM"
         ],
         [
-          "Bar",
-          "11:00 AM - 11:00 PM"
+          "Dining Room",
+          "7:30 PM - 10:30 PM"
         ]
       ]
     },
@@ -289,7 +307,7 @@ const GUIDE_DATA = {
       "t": "Beach. Sunset. Cocktails.",
       "p": "José Ignacio",
       "seasonal": true,
-      "d": "Relaxed all-day dining, fresh seasonal cuisine, handcrafted cocktails and an extensive wine selection on José Ignacio’s beachfront. Come for lunch, stay for sunset, DJs and live music.",
+      "d": "Located on José Ignacio's iconic beachfront, La Susana brings together relaxed all-day dining, fresh seasonal cuisine, handcrafted cocktails and an extensive wine selection. Long lunches transition into sunsets, lively dinners and a seasonal programme of DJs and live music.",
       "h": [
         [
           "Season",
@@ -307,19 +325,19 @@ const GUIDE_DATA = {
       "n": "Fish BBQ",
       "w": "Fridays · From 7:30 PM",
       "pr": "USD 120 + tax per person",
-      "d": "At Playa Vik's Beach Grill, Fish BBQ begins at sunset around the fire pit with a glass of VIK wine, before a live open-fire experience celebrating the finest catch from the Uruguayan coast. Each course is paired with selected VIK Wines."
+      "d": "Hosted at Playa Vik's Beach Grill, Fish BBQ begins at sunset around the fire pit with a glass of VIK wine. Guests then gather around a live open-fire experience celebrating the finest catch from the Uruguayan coast, complemented by fresh ingredients from the sea, the land and the estate's gardens. Each course is paired with selected VIK wines."
     },
     {
       "n": "Gran Asado Uruguayo",
       "w": "Saturdays · From 7:30 PM",
       "pr": "USD 120 + tax per person",
-      "d": "At El Asador, Estancia Vik, this celebrates Uruguay's grilling traditions through premium grass-fed meats, seasonal produce and selected VIK Wines, surrounded by open landscapes and contemporary art."
+      "d": "Hosted at El Asador, Estancia Vik, Gran Asado Uruguayo celebrates Uruguay's grilling traditions through premium grass-fed meats, seasonal produce and selected VIK wines. Surrounded by open landscapes and contemporary art, guests gather around the table for warm hospitality and the timeless ritual of sharing an authentic Uruguayan asado."
     },
     {
       "n": "Wine Tasting",
       "w": "1-2 hours · On request",
       "pr": "USD 90 + tax per person · min. 2 guests",
-      "d": "Born in Chile's Millahue Valley, VIK wines express an extraordinary terroir. The collection includes elegant rosés and internationally celebrated red blends. Selected labels are available for purchase."
+      "d": "Born in Chile's Millahue Valley, VIK wines express extraordinary terroir, innovation and a relentless pursuit of excellence. The collection includes elegant rosés and internationally celebrated red blends. Discover the wines throughout Vik's restaurants; selected labels are also available for purchase."
     },
     {
       "ref": "Farm-to-Table Cooking Class"
@@ -330,8 +348,8 @@ const GUIDE_DATA = {
       "Oceanfront Favorites",
       [
         "La Huella",
-        "El Chiringuito by Mallman",
-        "El Chiringuito"
+        "El Chiringo",
+        "El Chiringuito by Mallman"
       ]
     ],
     [
@@ -367,7 +385,7 @@ const GUIDE_DATA = {
         "Guayabo",
         "Garzón by Mallman",
         "Bodega Garzón",
-        "Carmen Café"
+        "Carmen Café, at Garzón"
       ]
     ],
     [
@@ -405,7 +423,7 @@ const GUIDE_DATA = {
         "Bodega Garzón",
         "Bodega Las Espinas",
         "Bodega Viña Edén",
-        "Altos de la Ballena",
+        "Bodega Altos de la Ballena",
         "Bodega Sacromonte"
       ]
     ]
@@ -580,6 +598,13 @@ const GUIDE_DATA = {
       "du": "4-5 h",
       "pr": "USD 200 p/p · based on 2 guests",
       "d": "An exclusive full-day tour of the city's main attractions and coastline, ending at Casapueblo, the masterpiece of Carlos Páez Vilaró, where art, architecture and ocean views come together."
+    },
+    {
+      "n": "Marimonte Summer Camp",
+      "c": "tour",
+      "du": "Seasonal",
+      "pr": "On request",
+      "d": "A summer nature programme for children ages 2 to 7, inspired by the Forest School approach. Based at Vik Retreats, Marimonte moves between native forest and sea, inviting children to explore, play, create and connect through movement, animals, natural materials and free play."
     }
   ],
   "pillars": [
@@ -856,8 +881,8 @@ const GUIDE_DATA = {
       "d": "Wi-Fi, hotel services, contacts and useful information."
     },
     {
-      "k": "dining",
-      "n": "Dining",
+      "k": "taste",
+      "n": "Taste",
       "d": "Restaurant menus, room service and wine list."
     },
     {
@@ -866,8 +891,8 @@ const GUIDE_DATA = {
       "d": "Activities, excursions and exclusive experiences."
     },
     {
-      "k": "wellness",
-      "n": "Wellness",
+      "k": "wellbeing",
+      "n": "Wellbeing",
       "d": "Spa treatments, yoga and fitness."
     },
     {
